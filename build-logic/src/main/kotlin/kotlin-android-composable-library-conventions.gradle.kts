@@ -9,6 +9,7 @@ android {
 
 dependencies {
     implementation(platform(libs.libAndroidxComposeBom))
+
     implementation(libs.libAndroidxComposeFoundation)
     implementation(libs.libAndroidxComposeCompiler)
     implementation(libs.libAndroidxComposeMaterial3)

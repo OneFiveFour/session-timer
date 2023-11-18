@@ -12,7 +12,3 @@ dependencies {
     implementation(libs.kotlin.gradlePlugin)
     implementation(libs.gradle)
 }
-
-tasks.test {
-    useJUnitPlatform()
-}

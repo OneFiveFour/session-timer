@@ -4,7 +4,7 @@ androidxCompose = "2023.10.01"
 androidxCoreKtx = "1.12.0"
 androidxConstraintLayout = "2.1.4"
 androidxNavigation = "2.7.5"
-androidxKotlinCompiler = "1.5.3"
+androidxKotlinCompiler = "1.5.4"
 androidxTest = "1.5.2"
 androidxExt = "1.1.3"
 coroutinesTest = "1.6.4"
@@ -14,7 +14,7 @@ kotlin = "1.9.0"
 kotlinKsp = "1.9.0-1.0.12"
 mockk = "1.13.5"
 googleMaterial = "1.10.0"
-gradle = "8.1.2"
+gradle = "8.1.4"
 
 [libraries]
 androidX-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidxAppCompat" }
