@@ -1,8 +1,8 @@
 plugins {
     id("com.android.application")
     kotlin("android")
-    id("kotlin-conventions")
-    id("test-conventions")
+    id("st.kotlin")
+    id("st.test")
 }
 
 android {

@@ -1,5 +1,5 @@
 plugins {
-    id("kotlin-android-library-conventions")
+    id("st.android-library")
 }
 
 android {
