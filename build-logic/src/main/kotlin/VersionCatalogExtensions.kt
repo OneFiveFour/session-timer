@@ -13,8 +13,6 @@ internal val Project.libs: VersionCatalog
 internal val VersionCatalog.versionKotlinCompiler: String
     get() = findVersionOrThrow("androidxKotlinCompiler")
 
-internal val VersionCatalog.libDesugar: Provider<MinimalExternalModuleDependency>
-    get() = findLibraryOrThrow("desugar")
 internal val VersionCatalog.libAndroidxComposeBom: Provider<MinimalExternalModuleDependency>
     get() = findLibraryOrThrow("androidX-compose-bom")
 internal val VersionCatalog.libAndroidxComposeCompiler: Provider<MinimalExternalModuleDependency>

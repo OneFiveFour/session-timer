@@ -19,7 +19,3 @@ android {
 
     buildFeatures.viewBinding = true
 }
-
-dependencies {
-    coreLibraryDesugaring(libs.libDesugar)
-}
