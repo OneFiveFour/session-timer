@@ -10,7 +10,7 @@ repositories {
 
 sqldelight {
     databases {
-        create("database") {
+        create("Database") {
             packageName.set("net.onefivefour.sessiontimer")
         }
     }

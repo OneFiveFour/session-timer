@@ -1,50 +1,33 @@
 [versions]
-activityCompose = "1.8.1"
-androidxAppCompat = "1.6.1"
-androidxCompose = "2023.10.01"
+androidxActivityCompose = "1.8.1"
+androidxComposeBom = "2023.10.01"
 androidxKotlinCompiler = "1.5.4"
-androidxConstraintLayout = "2.1.4"
-androidxCoreKtx = "1.12.0"
-androidxNavigation = "2.7.5"
-googleMaterial = "1.10.0"
+androidxActivity = "1.8.1"
+androidMaterial = "1.10.0"
 gradle = "8.1.4"
-jUnit = "5.9.1"
 kotlin = "1.9.20"
-lifecycleRuntimeKtx = "2.6.2"
-mockk = "1.13.5"
+sqldelight = "2.0.0"
 
 [libraries]
-androidX-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidxAppCompat" }
-androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+## Build Tools
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
-androidX-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidxCompose" }
-androidX-compose-foundation = { module = "androidx.compose.foundation:foundation" }
-androidX-compose-material = { module = "androidx.compose.material:material" }
+## Android
+androidX-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidxActivity" }
+androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivityCompose" }
+
+## Compose
+androidX-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidxComposeBom" }
+
+## UI
+android-material = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
 androidX-compose-material3 = { module = "androidx.compose.material3:material3" }
 androidX-compose-ui = { module = "androidx.compose.ui:ui" }
-androidX-compose-uiTooling = { module = "androidx.compose.ui:ui-tooling" }
-androidX-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
-androidX-compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview" }
-androidX-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
-androidX-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
-androidX-compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "androidxKotlinCompiler" }
+androidX-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 
-androidX-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidxConstraintLayout" }
-androidX-coreKtx = { module = "androidx.core:core-ktx", version.ref = "androidxCoreKtx" }
-
-androidX-navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidxNavigation" }
-androidX-navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidxNavigation" }
-
-google-material = { module = "com.google.android.material:material", version.ref = "googleMaterial" }
-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
-
-test-jUnit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "jUnit" }
-test-jUnit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "jUnit" }
-test-jUnit-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "jUnit" }
-test-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
-
-kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+## Database
+sqldelight = { module = "app.cash.sqldelight:android-driver" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "gradle" }

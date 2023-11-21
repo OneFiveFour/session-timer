@@ -2,7 +2,6 @@ plugins {
     id("com.android.application")
     kotlin("android")
     id("st.kotlin")
-    id("st.test")
 }
 
 android {
@@ -43,8 +42,7 @@ android {
         jvmTarget = "1.8"
     }
     composeOptions {
-        // TODO reference version of version catalog
-        kotlinCompilerExtensionVersion = "1.5.4"
+        kotlinCompilerExtensionVersion = libs.versions.androidxKotlinCompiler.get()
     }
     packaging {
         resources {
@@ -54,27 +52,13 @@ android {
 }
 
 dependencies {
-
-    implementation(libs.androidX.coreKtx)
-    implementation(libs.androidX.appCompat)
-    implementation(libs.androidX.constraintLayout)
-    implementation(libs.androidX.navigation.fragment)
-    implementation(libs.androidX.navigation.ui)
-
-    implementation(libs.google.material)
-
-    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.androidX.activity)
+    implementation(libs.androidX.activity.compose)
+    implementation(libs.android.material)
 
     implementation(platform(libs.androidX.compose.bom))
-    implementation(libs.androidX.activity.compose)
-    implementation(libs.androidX.compose.uiToolingPreview)
-    implementation(libs.androidX.compose.material3)
     implementation(libs.androidX.compose.ui)
-    implementation(libs.androidX.compose.ui.graphics)
+    implementation(libs.androidX.compose.ui.tooling.preview)
+    implementation(libs.androidX.compose.material3)
 
-    androidTestImplementation(platform(libs.androidX.compose.bom))
-    androidTestImplementation(libs.androidX.compose.ui.test.junit4)
-
-    debugImplementation(libs.androidX.compose.uiTooling)
-    debugImplementation(libs.androidX.compose.ui.test.manifest)
 }
