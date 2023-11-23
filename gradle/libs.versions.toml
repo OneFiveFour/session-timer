@@ -4,13 +4,15 @@ androidxComposeBom = "2023.10.01"
 androidxKotlinCompiler = "1.5.4"
 androidxActivity = "1.8.1"
 androidMaterial = "1.10.0"
+dagger="2.48.1"
 gradle = "8.1.4"
 kotlin = "1.9.20"
-sqldelight = "2.0.0"
+sqlDelight = "2.0.0"
+kspGradlePlugin = "1.9.20-1.0.14"
 
 [libraries]
 ## Build Tools
-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 ## Android
@@ -27,9 +29,20 @@ androidX-compose-ui = { module = "androidx.compose.ui:ui" }
 androidX-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 
 ## Database
-sqldelight = { module = "app.cash.sqldelight:android-driver" }
+sqlDelight = { module = "app.cash.sqldelight:android-driver", version.ref="sqlDelight" }
+
+# Dependency Injection
+hilt-android = { module = "com.google.dagger:hilt-android" , version.ref = "dagger" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler" , version.ref = "dagger" }
+
+
+[bundles]
+# hilt = ["groovy-core", "groovy-json", "groovy-nio"]
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "gradle" }
 androidLibrary = { id = "com.android.library", version.ref = "gradle" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
+dagger-hilt-android = { id = "com.google.dagger.hilt.android" , version.ref = "dagger" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "kspGradlePlugin" }

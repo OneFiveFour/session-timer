@@ -1,11 +1,7 @@
 plugins {
     id("st.kotlin-library")
-    id("app.cash.sqldelight") version "2.0.0"
-}
-
-repositories {
-    google()
-    mavenCentral()
+    kotlin("kapt")
+    alias(libs.plugins.sqlDelight)
 }
 
 sqldelight {
@@ -14,4 +10,10 @@ sqldelight {
             packageName.set("net.onefivefour.sessiontimer")
         }
     }
+}
+
+dependencies {
+    implementation(libs.sqlDelight)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 }

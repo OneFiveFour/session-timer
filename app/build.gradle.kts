@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
     id("st.kotlin")
 }
 
@@ -45,6 +46,7 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/*.kotlin_module"
         }
     }
 }
@@ -59,4 +61,6 @@ dependencies {
     implementation(libs.androidX.compose.ui.tooling.preview)
     implementation(libs.androidX.compose.material3)
 
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 }
