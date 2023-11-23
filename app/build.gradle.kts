@@ -3,6 +3,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("st.kotlin")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -52,6 +53,10 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":database"))
+    implementation(libs.sqlDelight.android)
+
     implementation(libs.androidX.activity)
     implementation(libs.androidX.activity.compose)
     implementation(libs.android.material)

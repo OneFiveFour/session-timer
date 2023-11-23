@@ -1,0 +1,16 @@
+CREATE TABLE session (
+  id INTEGER PRIMARY KEY NOT NULL,
+  title TEXT NOT NULL
+);
+
+getAll:
+SELECT * FROM session;
+
+getById:
+SELECT * FROM session WHERE id = :id;
+
+insert:
+INSERT OR REPLACE INTO session VALUES (?,?);
+
+deleteById:
+DELETE FROM session WHERE id = :id;

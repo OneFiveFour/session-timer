@@ -13,7 +13,14 @@ sqldelight {
 }
 
 dependencies {
-    implementation(libs.sqlDelight)
-    implementation(libs.hilt.android)
+
+    // Database
+    implementation(libs.sqlDelight.coroutines)
+
+    // Dependency Injection
+    implementation(libs.hilt.core)
     kapt(libs.hilt.android.compiler)
+
+    // Coroutines
+    implementation(libs.coroutines.core)
 }

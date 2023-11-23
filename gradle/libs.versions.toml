@@ -4,7 +4,8 @@ androidxComposeBom = "2023.10.01"
 androidxKotlinCompiler = "1.5.4"
 androidxActivity = "1.8.1"
 androidMaterial = "1.10.0"
-dagger="2.48.1"
+coroutines = "1.7.3"
+dagger = "2.48.1"
 gradle = "8.1.4"
 kotlin = "1.9.20"
 sqlDelight = "2.0.0"
@@ -19,6 +20,9 @@ kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", ve
 androidX-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidxActivity" }
 androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivityCompose" }
 
+## Coroutines
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+
 ## Compose
 androidX-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidxComposeBom" }
 
@@ -29,20 +33,18 @@ androidX-compose-ui = { module = "androidx.compose.ui:ui" }
 androidX-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 
 ## Database
-sqlDelight = { module = "app.cash.sqldelight:android-driver", version.ref="sqlDelight" }
+sqlDelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
+sqlDelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref="sqlDelight" }
 
 # Dependency Injection
-hilt-android = { module = "com.google.dagger:hilt-android" , version.ref = "dagger" }
-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler" , version.ref = "dagger" }
-
-
-[bundles]
-# hilt = ["groovy-core", "groovy-json", "groovy-nio"]
+hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "dagger" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "gradle" }
 androidLibrary = { id = "com.android.library", version.ref = "gradle" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
-dagger-hilt-android = { id = "com.google.dagger.hilt.android" , version.ref = "dagger" }
+dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspGradlePlugin" }
