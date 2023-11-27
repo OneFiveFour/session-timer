@@ -1,15 +1,15 @@
 [versions]
+androidMaterial = "1.10.0"
+androidxActivity = "1.8.1"
 androidxActivityCompose = "1.8.1"
 androidxComposeBom = "2023.10.01"
 androidxKotlinCompiler = "1.5.4"
-androidxActivity = "1.8.1"
-androidMaterial = "1.10.0"
 coroutines = "1.7.3"
 dagger = "2.48.1"
 gradle = "8.1.4"
 kotlin = "1.9.20"
-sqlDelight = "2.0.0"
 kspGradlePlugin = "1.9.20-1.0.14"
+sqlDelight = "2.0.0"
 
 [libraries]
 ## Build Tools

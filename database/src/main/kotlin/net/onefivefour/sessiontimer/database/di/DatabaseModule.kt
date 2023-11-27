@@ -5,7 +5,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import net.onefivefour.sessiontimer.Database
+import net.onefivefour.sessiontimer.SessionQueries
+import net.onefivefour.sessiontimer.database.Database
 import javax.inject.Singleton
 
 @Module
@@ -16,6 +17,12 @@ class DatabaseModule {
     @Singleton
     fun provideDatabase(driver: SqlDriver) : Database {
         return Database(driver)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSessionQueries(database: Database) : SessionQueries {
+        return database.sessionQueries
     }
 
 }
