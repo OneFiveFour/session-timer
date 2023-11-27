@@ -7,8 +7,10 @@ androidxKotlinCompiler = "1.5.4"
 coroutines = "1.7.3"
 dagger = "2.48.1"
 gradle = "8.1.4"
+junit = "5.10.1"
 kotlin = "1.9.20"
 kspGradlePlugin = "1.9.20-1.0.14"
+mockk = "1.13.8"
 sqlDelight = "2.0.0"
 
 [libraries]
@@ -40,6 +42,13 @@ sqlDelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", 
 hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "dagger" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger" }
+
+# Testing
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+sqlDelight-test = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqlDelight"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "gradle" }
