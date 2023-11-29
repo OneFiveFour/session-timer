@@ -9,7 +9,7 @@ dagger = "2.48.1"
 gradle = "8.1.4"
 junit = "5.10.1"
 kotlin = "1.9.20"
-kspGradlePlugin = "1.9.20-1.0.14"
+ktLint = "11.6.1"
 mockk = "1.13.8"
 sqlDelight = "2.0.0"
 
@@ -50,10 +50,14 @@ junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 sqlDelight-test = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqlDelight"}
 
+# Kt Lint
+ktLint-gradlePlugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktLint"}
+
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "gradle" }
 androidLibrary = { id = "com.android.library", version.ref = "gradle" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "kspGradlePlugin" }
+ktLint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }

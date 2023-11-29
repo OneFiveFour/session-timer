@@ -1,10 +1,10 @@
 plugins {
-    id("st.kotlin-library")
-    id("st.kotlin-test")
     kotlin("kapt")
     alias(libs.plugins.sqlDelight)
+    id("st.kotlin-library")
+    id("st.kotlin-test")
+    id("st.ktlint")
 }
-
 
 sqldelight {
     databases {
@@ -12,10 +12,6 @@ sqldelight {
             packageName.set("net.onefivefour.sessiontimer.database")
         }
     }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }
 
 dependencies {
@@ -33,3 +29,5 @@ dependencies {
     // Testing
     testImplementation(libs.sqlDelight.test)
 }
+
+

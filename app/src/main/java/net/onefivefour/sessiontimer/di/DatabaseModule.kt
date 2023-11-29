@@ -8,7 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import net.onefivefour.sessiontimer.Database
+import net.onefivefour.sessiontimer.database.Database
 import javax.inject.Singleton
 
 @Module

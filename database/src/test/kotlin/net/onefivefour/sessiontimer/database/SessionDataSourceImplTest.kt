@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class SessionDataSourceImplTest {
 
-    private val sessionQueries : SessionQueries = mockk()
+    private val sessionQueries: SessionQueries = mockk()
 
     private val testDispatcher = StandardTestDispatcher()
 
@@ -90,5 +90,4 @@ class SessionDataSourceImplTest {
 
         coVerify { sessionQueries.insert(sessionId, title) }
     }
-
 }
