@@ -27,7 +27,7 @@ class SessionDataSourceImpl @Inject constructor(
 
     override suspend fun deleteById(sessionId: Long) {
         withContext(dispatcher) {
-            queries.deleteById(sessionId)
+            queries.delete(sessionId)
         }
     }
 

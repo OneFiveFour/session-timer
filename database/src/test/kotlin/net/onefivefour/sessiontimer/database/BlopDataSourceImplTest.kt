@@ -10,20 +10,21 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import net.onefivefour.sessiontimer.SessionQueries
+import net.onefivefour.sessiontimer.BlopQueries
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.awt.Color
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SessionDataSourceImplTest {
+class BlopDataSourceImplTest {
 
-    private val sessionQueries: SessionQueries = mockk()
+    private val blopQueries: BlopQueries = mockk()
 
     private val testDispatcher = StandardTestDispatcher()
 
-    private val sut = SessionDataSourceImpl(
-        sessionQueries,
+    private val sut = BlopDataSourceImpl(
+        blopQueries,
         testDispatcher
     )
 
@@ -52,42 +53,35 @@ class SessionDataSourceImplTest {
     }
 
     @Test
-    fun `getBySessionId delegates to correct sessionQueries call`() = runTest {
-        coEvery { sessionQueries.getById(any()).executeAsOneOrNull() } returns null
+    fun `getAll delegates to correct blopQueries call`() = runTest {
+        coEvery { blopQueries.getAll(any()).executeAsOneOrNull() } returns null
 
         val sessionId = 123L
-        sut.getById(sessionId)
+        sut.getAll(sessionId)
 
-        coVerify { sessionQueries.getById(sessionId) }
+        coVerify { blopQueries.getAll(sessionId) }
     }
 
     @Test
-    fun `getAll delegates to correct sessionQueries call`() = runTest {
-        coEvery { sessionQueries.getAll() } returns mockk()
+    fun `delete delegates to correct blopQueries call`() = runTest {
+        coEvery { blopQueries.delete(any()) } returns mockk()
 
-        sut.getAll()
+        val blopId = 123L
+        sut.delete(blopId)
 
-        coVerify { sessionQueries.getAll() }
+        coVerify { blopQueries.delete(blopId) }
     }
 
     @Test
-    fun `delete delegates to correct sessionQueries call`() = runTest {
-        coEvery { sessionQueries.delete(any()) } returns mockk()
+    fun `insert delegates to correct blopQueries call`() = runTest {
+        coEvery { blopQueries.insert(any(), any(), any(), any()) } returns mockk()
 
-        val sessionId = 123L
-        sut.deleteById(sessionId)
-
-        coVerify { sessionQueries.delete(sessionId) }
-    }
-
-    @Test
-    fun `insert delegates to correct sessionQueries call`() = runTest {
-        coEvery { sessionQueries.insert(any(), any()) } returns mockk()
-
-        val sessionId = 123L
+        val blopId = 123L
         val title = "title"
-        sut.insert(sessionId, title)
+        val color = 0xFF0000.toLong()
+        val sessionId = 321L
+        sut.insert(blopId, title, color, sessionId)
 
-        coVerify { sessionQueries.insert(sessionId, title) }
+        coVerify { blopQueries.insert(blopId, title, color, sessionId) }
     }
 }

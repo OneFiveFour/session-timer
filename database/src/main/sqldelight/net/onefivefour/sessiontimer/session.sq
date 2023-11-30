@@ -7,10 +7,10 @@ getAll:
 SELECT * FROM session;
 
 getById:
-SELECT * FROM session WHERE id = :sessionId;
+SELECT * FROM session WHERE id = :id;
 
 insert:
 INSERT OR REPLACE INTO session VALUES (?,?);
 
-deleteById:
-DELETE FROM session WHERE id = :sessionId;
+delete:
+DELETE FROM session WHERE id = :id;
