@@ -80,8 +80,8 @@ class BlipDataSourceImplTest {
         val title = "title"
         val color = 0xFF0000.toLong()
         val blopId = 321L
-        sut.insert(blopId, title, color, blopId)
+        sut.insert(blipId, title, color, blopId)
 
-        coVerify { blopQueries.insert(blopId, title, color, blopId) }
+        coVerify { blopQueries.insert(blipId, title, color, blopId) }
     }
 }
