@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import net.onefivefour.sessiontimer.Session
 import net.onefivefour.sessiontimer.SessionQueries
 
-class SessionDataSourceImpl @Inject constructor(
+internal class SessionDataSourceImpl @Inject constructor(
     private val queries: SessionQueries,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : SessionDataSource {

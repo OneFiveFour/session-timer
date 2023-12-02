@@ -10,7 +10,7 @@ import net.onefivefour.sessiontimer.Blop
 import net.onefivefour.sessiontimer.BlopQueries
 import javax.inject.Inject
 
-class BlopDataSourceImpl @Inject constructor(
+internal class BlopDataSourceImpl @Inject constructor(
     private val queries: BlopQueries,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BlopDataSource {

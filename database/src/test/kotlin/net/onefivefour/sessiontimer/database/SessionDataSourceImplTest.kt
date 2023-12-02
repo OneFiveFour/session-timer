@@ -16,7 +16,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SessionDataSourceImplTest {
+internal class SessionDataSourceImplTest {
 
     private val sessionQueries: SessionQueries = mockk()
 

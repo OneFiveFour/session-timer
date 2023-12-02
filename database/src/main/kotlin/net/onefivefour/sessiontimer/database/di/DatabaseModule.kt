@@ -13,7 +13,7 @@ import net.onefivefour.sessiontimer.database.Database
 
 @Module
 @InstallIn(SingletonComponent::class)
-class DatabaseModule {
+internal class DatabaseModule {
 
     @Provides
     @Singleton

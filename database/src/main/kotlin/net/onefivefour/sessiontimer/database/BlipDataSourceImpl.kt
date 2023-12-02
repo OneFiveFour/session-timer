@@ -10,7 +10,7 @@ import net.onefivefour.sessiontimer.Blip
 import net.onefivefour.sessiontimer.BlipQueries
 import javax.inject.Inject
 
-class BlipDataSourceImpl @Inject constructor(
+internal class BlipDataSourceImpl @Inject constructor(
     private val queries: BlipQueries,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BlipDataSource {

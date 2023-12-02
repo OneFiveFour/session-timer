@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test
 import java.awt.Color
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class BlopDataSourceImplTest {
+internal class BlopDataSourceImplTest {
 
     private val blopQueries: BlopQueries = mockk()
 
