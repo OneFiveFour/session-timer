@@ -33,6 +33,7 @@ androidX-compose-bom = { module = "androidx.compose:compose-bom", version.ref = 
 android-material = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
 androidX-compose-material3 = { module = "androidx.compose.material3:material3" }
 androidX-compose-ui = { module = "androidx.compose.ui:ui" }
+androidX-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidX-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 
 ## Database
