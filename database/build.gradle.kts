@@ -1,10 +1,10 @@
 plugins {
     kotlin("kapt")
+    alias(libs.plugins.kover)
     alias(libs.plugins.sqlDelight)
     id("st.kotlin-library")
     id("st.kotlin-test")
     id("st.ktlint")
-    id("org.jetbrains.kotlinx.kover")
 }
 
 sqldelight {
@@ -16,7 +16,6 @@ sqldelight {
 }
 
 koverReport {
-    // filters for all report types of all build variants
     filters {
         excludes {
             classes(

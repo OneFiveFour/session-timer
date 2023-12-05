@@ -4,8 +4,8 @@ plugins {
     kotlin("kapt")
     id("st.kotlin")
     id("st.ktlint")
-    id("com.google.dagger.hilt.android")
-    id("org.jetbrains.kotlinx.kover")
+    alias(libs.plugins.kover)
+    alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
