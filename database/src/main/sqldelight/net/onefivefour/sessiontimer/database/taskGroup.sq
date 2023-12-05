@@ -1,0 +1,15 @@
+CREATE TABLE taskGroup (
+  id INTEGER PRIMARY KEY NOT NULL,
+  title TEXT NOT NULL,
+  color INTEGER NOT NULL,
+  sessionId INTEGER NOT NULL
+);
+
+getAll:
+SELECT * FROM taskGroup WHERE sessionId = :sessionId;
+
+insert:
+INSERT OR REPLACE INTO taskGroup VALUES (?,?,?,?);
+
+delete:
+DELETE FROM taskGroup WHERE id = :id;

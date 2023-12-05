@@ -1,0 +1,14 @@
+CREATE TABLE task (
+  id INTEGER PRIMARY KEY NOT NULL,
+  title TEXT NOT NULL,
+  taskGroupId INTEGER NOT NULL
+);
+
+getAll:
+SELECT * FROM task WHERE taskGroupId = :taskGroupId;
+
+insert:
+INSERT OR REPLACE INTO task VALUES (?,?,?);
+
+delete:
+DELETE FROM task WHERE id = :id;

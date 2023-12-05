@@ -4,10 +4,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import net.onefivefour.sessiontimer.database.BlipDataSource
-import net.onefivefour.sessiontimer.database.BlipDataSourceImpl
-import net.onefivefour.sessiontimer.database.BlopDataSource
-import net.onefivefour.sessiontimer.database.BlopDataSourceImpl
+import net.onefivefour.sessiontimer.database.TaskDataSource
+import net.onefivefour.sessiontimer.database.TaskDataSourceImpl
+import net.onefivefour.sessiontimer.database.TaskGroupDataSource
+import net.onefivefour.sessiontimer.database.TaskGroupDataSourceImpl
 import net.onefivefour.sessiontimer.database.SessionDataSource
 import net.onefivefour.sessiontimer.database.SessionDataSourceImpl
 
@@ -15,10 +15,10 @@ import net.onefivefour.sessiontimer.database.SessionDataSourceImpl
 @InstallIn(SingletonComponent::class)
 internal interface DataSourceModule {
     @Binds
-    fun bindsBlipDataSource(blipDataSource: BlipDataSourceImpl) : BlipDataSource
+    fun bindsTaskDataSource(taskDataSource: TaskDataSourceImpl) : TaskDataSource
 
     @Binds
-    fun bindsBlopDataSource(blopDataSource: BlopDataSourceImpl) : BlopDataSource
+    fun bindsTaskGroupDataSource(taskGroupDataSource: TaskGroupDataSourceImpl) : TaskGroupDataSource
 
     @Binds
     fun bindsSessionDataSource(sessionDataSource: SessionDataSourceImpl) : SessionDataSource

@@ -10,20 +10,20 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import net.onefivefour.sessiontimer.BlipQueries
+import net.onefivefour.sessiontimer.database.TaskQueries
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class BlipDataSourceImplTest {
+internal class TaskDataSourceImplTest {
 
-    private val blipQueries: BlipQueries = mockk()
+    private val taskQueries: TaskQueries = mockk()
 
     private val testDispatcher = StandardTestDispatcher()
 
-    private val sut = BlipDataSourceImpl(
-        blipQueries,
+    private val sut = TaskDataSourceImpl(
+        taskQueries,
         testDispatcher
     )
 
@@ -52,34 +52,34 @@ internal class BlipDataSourceImplTest {
     }
 
     @Test
-    fun `getAll delegates to correct blipQueries call`() = runTest {
-        coEvery { blipQueries.getAll(any()).executeAsOneOrNull() } returns null
+    fun `getAll delegates to correct taskQueries call`() = runTest {
+        coEvery { taskQueries.getAll(any()).executeAsOneOrNull() } returns null
 
         val sessionId = 123L
         sut.getAll(sessionId)
 
-        coVerify { blipQueries.getAll(sessionId) }
+        coVerify { taskQueries.getAll(sessionId) }
     }
 
     @Test
-    fun `delete delegates to correct blipQueries call`() = runTest {
-        coEvery { blipQueries.delete(any()) } returns mockk()
+    fun `delete delegates to correct taskQueries call`() = runTest {
+        coEvery { taskQueries.delete(any()) } returns mockk()
 
-        val blipId = 123L
-        sut.delete(blipId)
+        val taskId = 123L
+        sut.delete(taskId)
 
-        coVerify { blipQueries.delete(blipId) }
+        coVerify { taskQueries.delete(taskId) }
     }
 
     @Test
-    fun `insert delegates to correct blipQueries call`() = runTest {
-        coEvery { blipQueries.insert(any(), any(), any()) } returns mockk()
+    fun `insert delegates to correct taskQueries call`() = runTest {
+        coEvery { taskQueries.insert(any(), any(), any()) } returns mockk()
 
-        val blipId = 123L
+        val taskId = 123L
         val title = "title"
         val color = 0xFF0000.toLong()
-        sut.insert(blipId, title, color)
+        sut.insert(taskId, title, color)
 
-        coVerify { blipQueries.insert(blipId, title, color) }
+        coVerify { taskQueries.insert(taskId, title, color) }
     }
 }

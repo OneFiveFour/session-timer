@@ -1,7 +1,6 @@
 package net.onefivefour.sessiontimer.database
 
 import kotlinx.coroutines.flow.Flow
-import net.onefivefour.sessiontimer.Session
 
 interface SessionDataSource {
 

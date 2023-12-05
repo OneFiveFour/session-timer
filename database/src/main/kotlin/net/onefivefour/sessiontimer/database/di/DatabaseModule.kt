@@ -5,11 +5,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import net.onefivefour.sessiontimer.BlipQueries
-import net.onefivefour.sessiontimer.BlopQueries
-import javax.inject.Singleton
-import net.onefivefour.sessiontimer.SessionQueries
 import net.onefivefour.sessiontimer.database.Database
+import net.onefivefour.sessiontimer.database.SessionQueries
+import net.onefivefour.sessiontimer.database.TaskGroupQueries
+import net.onefivefour.sessiontimer.database.TaskQueries
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -29,13 +29,13 @@ internal class DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideBlopQueries(database: Database): BlopQueries {
-        return database.blopQueries
+    fun provideTaskGroupQueries(database: Database): TaskGroupQueries {
+        return database.taskGroupQueries
     }
 
     @Provides
     @Singleton
-    fun provideBlipQueries(database: Database): BlipQueries {
-        return database.blipQueries
+    fun provideTaskQueries(database: Database): TaskQueries {
+        return database.taskQueries
     }
 }

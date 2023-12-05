@@ -25,12 +25,12 @@ koverReport {
                 "net.onefivefour.sessiontimer.database.Database*",
                 "net.onefivefour.sessiontimer.database.database.DatabaseImpl*",
                 "net.onefivefour.sessiontimer.database.database.DatabaseImplKt*",
-                "net.onefivefour.sessiontimer.Blip",
-                "net.onefivefour.sessiontimer.Blop",
-                "net.onefivefour.sessiontimer.Session",
-                "net.onefivefour.sessiontimer.BlipQueries*",
-                "net.onefivefour.sessiontimer.BlopQueries*",
-                "net.onefivefour.sessiontimer.SessionQueries*",
+                "net.onefivefour.sessiontimer.database.Task",
+                "net.onefivefour.sessiontimer.database.TaskGroup",
+                "net.onefivefour.sessiontimer.database.Session",
+                "net.onefivefour.sessiontimer.database.TaskQueries*",
+                "net.onefivefour.sessiontimer.database.TaskGroupQueries*",
+                "net.onefivefour.sessiontimer.database.SessionQueries*",
 
             )
             packages("*.di")

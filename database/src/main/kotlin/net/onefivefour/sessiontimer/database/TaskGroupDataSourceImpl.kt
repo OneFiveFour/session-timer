@@ -6,32 +6,30 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import net.onefivefour.sessiontimer.Blop
-import net.onefivefour.sessiontimer.BlopQueries
+import net.onefivefour.sessiontimer.database.TaskGroup
+import net.onefivefour.sessiontimer.database.TaskGroupQueries
 import javax.inject.Inject
 
-internal class BlopDataSourceImpl @Inject constructor(
-    private val queries: BlopQueries,
+internal class TaskGroupDataSourceImpl @Inject constructor(
+    private val queries: TaskGroupQueries,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-) : BlopDataSource {
+) : TaskGroupDataSource {
 
-
-
-    override suspend fun getAll(sessionId: Long): Flow<List<Blop>> {
+    override suspend fun getAll(sessionId: Long): Flow<List<TaskGroup>> {
         return withContext(dispatcher) {
             queries.getAll(sessionId).asFlow().mapToList(dispatcher)
         }
     }
 
-    override suspend fun insert(blopId: Long?, title: String, color: Long, sessionId: Long) {
+    override suspend fun insert(taskGroupId: Long?, title: String, color: Long, sessionId: Long) {
         withContext(dispatcher) {
-            queries.insert(blopId, title, color, sessionId)
+            queries.insert(taskGroupId, title, color, sessionId)
         }
     }
 
-    override suspend fun delete(blopId: Long) {
+    override suspend fun delete(taskGroupId: Long) {
         withContext(dispatcher) {
-            queries.delete(blopId)
+            queries.delete(taskGroupId)
         }
     }
 }

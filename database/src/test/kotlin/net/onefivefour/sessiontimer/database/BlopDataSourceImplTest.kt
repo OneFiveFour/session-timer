@@ -10,20 +10,20 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import net.onefivefour.sessiontimer.BlopQueries
+import net.onefivefour.sessiontimer.database.TaskGroupQueries
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class BlopDataSourceImplTest {
+internal class TaskGroupDataSourceImplTest {
 
-    private val blopQueries: BlopQueries = mockk()
+    private val taskGroupQueries: TaskGroupQueries = mockk()
 
     private val testDispatcher = StandardTestDispatcher()
 
-    private val sut = BlopDataSourceImpl(
-        blopQueries,
+    private val sut = TaskGroupDataSourceImpl(
+        taskGroupQueries,
         testDispatcher
     )
 
@@ -52,35 +52,35 @@ internal class BlopDataSourceImplTest {
     }
 
     @Test
-    fun `getAll delegates to correct blopQueries call`() = runTest {
-        coEvery { blopQueries.getAll(any()).executeAsOneOrNull() } returns null
+    fun `getAll delegates to correct taskGroupQueries call`() = runTest {
+        coEvery { taskGroupQueries.getAll(any()).executeAsOneOrNull() } returns null
 
         val sessionId = 123L
         sut.getAll(sessionId)
 
-        coVerify { blopQueries.getAll(sessionId) }
+        coVerify { taskGroupQueries.getAll(sessionId) }
     }
 
     @Test
-    fun `delete delegates to correct blopQueries call`() = runTest {
-        coEvery { blopQueries.delete(any()) } returns mockk()
+    fun `delete delegates to correct taskGroupQueries call`() = runTest {
+        coEvery { taskGroupQueries.delete(any()) } returns mockk()
 
-        val blopId = 123L
-        sut.delete(blopId)
+        val taskGroupId = 123L
+        sut.delete(taskGroupId)
 
-        coVerify { blopQueries.delete(blopId) }
+        coVerify { taskGroupQueries.delete(taskGroupId) }
     }
 
     @Test
-    fun `insert delegates to correct blopQueries call`() = runTest {
-        coEvery { blopQueries.insert(any(), any(), any(), any()) } returns mockk()
+    fun `insert delegates to correct taskGroupQueries call`() = runTest {
+        coEvery { taskGroupQueries.insert(any(), any(), any(), any()) } returns mockk()
 
-        val blopId = 123L
+        val taskGroupId = 123L
         val title = "title"
         val color = 0xFF0000.toLong()
         val sessionId = 321L
-        sut.insert(blopId, title, color, sessionId)
+        sut.insert(taskGroupId, title, color, sessionId)
 
-        coVerify { blopQueries.insert(blopId, title, color, sessionId) }
+        coVerify { taskGroupQueries.insert(taskGroupId, title, color, sessionId) }
     }
 }

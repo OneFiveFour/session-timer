@@ -7,8 +7,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import net.onefivefour.sessiontimer.Session
-import net.onefivefour.sessiontimer.SessionQueries
+import net.onefivefour.sessiontimer.database.Session
+import net.onefivefour.sessiontimer.database.SessionQueries
 
 internal class SessionDataSourceImpl @Inject constructor(
     private val queries: SessionQueries,
