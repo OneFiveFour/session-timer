@@ -20,3 +20,4 @@ rootProject.name = "session-timer"
 
 include(":app")
 include(":database")
+include(":session-editor")

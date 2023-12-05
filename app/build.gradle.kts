@@ -57,6 +57,7 @@ android {
 dependencies {
 
     implementation(project(":database"))
+    implementation(project(":session-editor"))
     implementation(libs.sqlDelight.android)
 
     implementation(libs.androidX.activity)
