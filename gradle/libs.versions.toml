@@ -1,6 +1,7 @@
 [versions]
 androidMaterial = "1.10.0"
 androidxActivity = "1.8.1"
+androidxCore = "1.12.0"
 androidxActivityCompose = "1.8.1"
 androidxComposeBom = "2023.10.01"
 androidxKotlinCompiler = "1.5.5"
@@ -22,6 +23,7 @@ kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", ve
 ## Android
 androidX-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidxActivity" }
 androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivityCompose" }
+androidX-core = { module = "androidx.core:core-ktx", version.ref="androidxCore" }
 
 ## Coroutines
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
