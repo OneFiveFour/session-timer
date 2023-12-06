@@ -8,6 +8,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":theme"))
+
     implementation(platform(libs.androidX.compose.bom))
     implementation(libs.androidX.compose.ui)
     debugImplementation(libs.androidX.compose.ui.tooling)

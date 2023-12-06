@@ -19,5 +19,6 @@ dependencyResolutionManagement {
 rootProject.name = "session-timer"
 
 include(":app")
+include(":theme")
 include(":database")
 include(":session-editor")
