@@ -1,7 +1,7 @@
 plugins {
-    kotlin("kapt")
     alias(libs.plugins.kover)
     alias(libs.plugins.sqlDelight)
+    alias(libs.plugins.ksp)
     id("st.kotlin-library")
     id("st.kotlin-test")
     id("st.ktlint")
@@ -39,15 +39,20 @@ koverReport {
 
 dependencies {
 
+    implementation(project(":core"))
+
     // Database
     implementation(libs.sqlDelight.coroutines)
 
     // Dependency Injection
     implementation(libs.hilt.core)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     // Coroutines
     implementation(libs.coroutines.core)
+
+    // Date Time
+    implementation(libs.kotlinx.datetime)
 
     // Testing
     testImplementation(libs.sqlDelight.test)

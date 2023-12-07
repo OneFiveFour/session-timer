@@ -3,14 +3,18 @@ androidMaterial = "1.10.0"
 androidxActivity = "1.8.1"
 androidxCore = "1.12.0"
 androidxActivityCompose = "1.8.1"
+androidxLifecycle="2.6.2"
 androidxComposeBom = "2023.10.01"
-androidxKotlinCompiler = "1.5.5"
+androidxKotlinCompiler = "1.5.6"
 coroutines = "1.7.3"
 dagger = "2.48.1"
 gradle = "8.1.4"
+hiltNavigation = "1.1.0"
 junit = "5.10.1"
-kotlin = "1.9.20"
+kotlin = "1.9.21"
+kotlinxDatetime = "0.5.0"
 kover = "0.7.5"
+ksp = "1.9.21-1.0.15"
 ktLint = "11.6.1"
 mockk = "1.13.8"
 sqlDelight = "2.0.0"
@@ -20,16 +24,24 @@ sqlDelight = "2.0.0"
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
-## Android
+## Android Basics
 androidX-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidxActivity" }
 androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivityCompose" }
-androidX-core = { module = "androidx.core:core-ktx", version.ref="androidxCore" }
+androidX-core = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
 
-## Coroutines
+## Android Compose
+androidX-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidxComposeBom" }
+
+## Android Lifecycle
+androidX-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
+androidX-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
+androidX-lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+
+## Kotlin Coroutines
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 
-## Compose
-androidX-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidxComposeBom" }
+## Date Time
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 
 ## UI
 android-material = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
@@ -40,7 +52,7 @@ androidX-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling
 
 ## Database
 sqlDelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
-sqlDelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref="sqlDelight" }
+sqlDelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 
 # Dependency Injection
 hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "dagger" }
@@ -52,11 +64,10 @@ coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", ve
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
-sqlDelight-test = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqlDelight"}
+sqlDelight-test = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
 
 # Kt Lint
-ktLint-gradlePlugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktLint"}
-
+ktLint-gradlePlugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktLint" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "gradle" }
@@ -66,3 +77,4 @@ kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 ktLint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

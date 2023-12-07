@@ -9,6 +9,7 @@ android {
 
 dependencies {
     implementation(project(":theme"))
+    implementation(project(":database"))
 
     implementation(platform(libs.androidX.compose.bom))
     implementation(libs.androidX.compose.ui)

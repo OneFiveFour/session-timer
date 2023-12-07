@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.database
+package net.onefivefour.sessiontimer.database.data
 
 import kotlinx.coroutines.flow.Flow
 import net.onefivefour.sessiontimer.database.TaskGroup

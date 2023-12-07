@@ -1,11 +1,11 @@
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin("kapt")
     id("st.kotlin")
     id("st.ktlint")
     alias(libs.plugins.kover)
     alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -59,6 +59,8 @@ dependencies {
     implementation(project(":theme"))
     implementation(project(":database"))
     implementation(project(":session-editor"))
+    implementation(project(":session-overview"))
+
     implementation(libs.sqlDelight.android)
 
     implementation(libs.androidX.activity)
@@ -71,5 +73,5 @@ dependencies {
     implementation(libs.androidX.compose.material3)
 
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 }

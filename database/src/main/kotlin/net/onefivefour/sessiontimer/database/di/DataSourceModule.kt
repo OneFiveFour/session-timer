@@ -4,12 +4,12 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import net.onefivefour.sessiontimer.database.TaskDataSource
-import net.onefivefour.sessiontimer.database.TaskDataSourceImpl
-import net.onefivefour.sessiontimer.database.TaskGroupDataSource
-import net.onefivefour.sessiontimer.database.TaskGroupDataSourceImpl
-import net.onefivefour.sessiontimer.database.SessionDataSource
-import net.onefivefour.sessiontimer.database.SessionDataSourceImpl
+import net.onefivefour.sessiontimer.database.data.TaskDataSource
+import net.onefivefour.sessiontimer.database.data.TaskDataSourceImpl
+import net.onefivefour.sessiontimer.database.data.TaskGroupDataSource
+import net.onefivefour.sessiontimer.database.data.TaskGroupDataSourceImpl
+import net.onefivefour.sessiontimer.database.data.SessionDataSource
+import net.onefivefour.sessiontimer.database.data.SessionDataSourceImpl
 
 @Module
 @InstallIn(SingletonComponent::class)

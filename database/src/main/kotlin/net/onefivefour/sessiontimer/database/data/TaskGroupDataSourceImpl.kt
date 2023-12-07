@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.database
+package net.onefivefour.sessiontimer.database.data
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
