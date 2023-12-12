@@ -1,6 +1,8 @@
 plugins {
     id("st.android-library")
     id("st.ktlint")
+    id("st.kotlin-test")
+    id("st.android-test")
     alias(libs.plugins.ksp)
 }
 
@@ -24,4 +26,7 @@ dependencies {
     implementation(libs.androidX.lifecycle.viewmodel)
     implementation(libs.androidX.lifecycle.viewmodel.compose)
     implementation(libs.androidX.lifecycle.compose)
+
+
+
 }
