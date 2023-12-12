@@ -29,11 +29,13 @@ internal class TaskDataSourceImplTest {
 
     @BeforeEach
     fun setup() {
+        setTestDispatcher()
         useJvmDatabaseDriver()
     }
 
     @AfterEach
     fun teardown() {
+        unsetTestDispatcher()
     }
 
     private fun useJvmDatabaseDriver() {

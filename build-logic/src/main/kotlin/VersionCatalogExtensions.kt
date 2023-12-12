@@ -25,6 +25,10 @@ internal val VersionCatalog.libCoroutinesTest: Provider<MinimalExternalModuleDep
     get() = findLibraryOrThrow("coroutines-test")
 internal val VersionCatalog.libMockk: Provider<MinimalExternalModuleDependency>
     get() = findLibraryOrThrow("mockk")
+internal val VersionCatalog.libTruth: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("truth")
+internal val VersionCatalog.libAndroidXArchCoreTesting: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("androidX-arch-core-testing")
 
 private fun VersionCatalog.findLibraryOrThrow(name: String) =
     findLibrary(name)

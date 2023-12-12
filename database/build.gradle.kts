@@ -32,7 +32,11 @@ koverReport {
                 "net.onefivefour.sessiontimer.database.SessionQueries*",
 
             )
-            packages("*.di")
+            packages(
+                "*.di",
+                "net.onefivefour.sessiontimer.database.domain.*",
+                "net.onefivefour.sessiontimer.database.domain.model.*"
+            )
         }
     }
 }

@@ -24,7 +24,6 @@ class SessionOverviewViewModel @Inject constructor(
         viewModelScope.launch {
             sessionRepository.getAll().collectLatest { sessions ->
                 _uiState.update { it.copy(sessions = sessions) }
-
             }
         }
     }
