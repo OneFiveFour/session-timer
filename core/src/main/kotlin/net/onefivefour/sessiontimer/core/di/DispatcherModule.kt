@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.core
+package net.onefivefour.sessiontimer.core.di
 
 import dagger.Module
 import dagger.Provides

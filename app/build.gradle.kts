@@ -1,11 +1,10 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    id("st.kotlin")
-    id("st.ktlint")
-    alias(libs.plugins.kover)
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.ksp)
+    id("com.android.application")
+    id("st.kotlin")
+    id("st.ktlint")
+    kotlin("android")
 }
 
 android {
@@ -56,6 +55,19 @@ android {
 
 dependencies {
 
+    val koverExcludes = listOf(
+        "core",
+        "database",
+        "theme",
+        "build-logic"
+    )
+    rootProject.subprojects.forEach { project ->
+        if (project.name !in koverExcludes) {
+            kover(project(project.path))
+        }
+    }
+
+    // TODO also use loop over list
     implementation(project(":theme"))
     implementation(project(":database"))
     implementation(project(":session-editor"))

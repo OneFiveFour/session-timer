@@ -13,6 +13,7 @@ fun SessionEditor(
 ) {
 
     Text(
+        modifier = modifier,
         color = MaterialTheme.colorScheme.onBackground,
         text = "TESTI",
         style = typography.titleLarge

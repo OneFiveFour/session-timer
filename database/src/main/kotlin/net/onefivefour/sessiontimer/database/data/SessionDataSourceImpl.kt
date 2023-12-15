@@ -4,10 +4,9 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import net.onefivefour.sessiontimer.core.IoDispatcher
+import net.onefivefour.sessiontimer.core.di.IoDispatcher
 import net.onefivefour.sessiontimer.database.Session
 import net.onefivefour.sessiontimer.database.SessionQueries
 
