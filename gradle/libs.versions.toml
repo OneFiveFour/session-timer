@@ -1,12 +1,12 @@
 [versions]
 androidMaterial = "1.10.0"
 androidxActivity = "1.8.1"
-androidxCore = "1.12.0"
-androidXArchCoreTesting = "2.2.0"
 androidxActivityCompose = "1.8.1"
-androidxLifecycle="2.6.2"
+androidXArchCoreTesting = "2.2.0"
 androidxComposeBom = "2023.10.01"
+androidxCore = "1.12.0"
 androidxKotlinCompiler = "1.5.6"
+androidxLifecycle="2.6.2"
 coroutines = "1.7.3"
 dagger = "2.48.1"
 gradle = "8.1.4"
@@ -70,15 +70,16 @@ sqlDelight-test = { module = "app.cash.sqldelight:sqlite-driver", version.ref = 
 truth = { module = "com.google.truth:truth", version.ref = "truth"}
 androidX-arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidXArchCoreTesting"}
 
-# Kt Lint
+# Lint and Code Coverage
 ktLint-gradlePlugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktLint" }
+kover-gradlePlugin = { module = "org.jetbrains.kotlinx.kover:org.jetbrains.kotlinx.kover.gradle.plugin", version.ref = "kover" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "gradle" }
 androidLibrary = { id = "com.android.library", version.ref = "gradle" }
+dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
-ktLint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+ktLint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
+sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }

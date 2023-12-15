@@ -1,10 +1,10 @@
 plugins {
-    alias(libs.plugins.kover)
     alias(libs.plugins.sqlDelight)
     alias(libs.plugins.ksp)
     id("st.kotlin-library")
     id("st.kotlin-test")
     id("st.ktlint")
+    id("st.code-coverage")
 }
 
 sqldelight {
@@ -19,8 +19,6 @@ koverReport {
     filters {
         excludes {
             classes(
-                "*_Factory",
-                "hilt_aggregated_deps.*Module",
                 "net.onefivefour.sessiontimer.database.Database*",
                 "net.onefivefour.sessiontimer.database.database.DatabaseImpl*",
                 "net.onefivefour.sessiontimer.database.database.DatabaseImplKt*",
@@ -33,9 +31,7 @@ koverReport {
 
             )
             packages(
-                "*.di",
-                "net.onefivefour.sessiontimer.database.domain.*",
-                "net.onefivefour.sessiontimer.database.domain.model.*"
+                "net.onefivefour.sessiontimer.database.domain.model*"
             )
         }
     }

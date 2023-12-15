@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.database
+package net.onefivefour.sessiontimer.database.data
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import io.mockk.coEvery
@@ -10,7 +10,8 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import net.onefivefour.sessiontimer.database.data.TaskDataSourceImpl
+import net.onefivefour.sessiontimer.database.Database
+import net.onefivefour.sessiontimer.database.TaskQueries
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

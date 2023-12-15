@@ -1,5 +1,4 @@
 plugins {
-    alias(libs.plugins.kover)
     alias(libs.plugins.ksp)
     id("st.android-library")
     id("st.ktlint")
@@ -9,22 +8,6 @@ plugins {
 
 android {
     namespace = AppConfig.applicationId + ".sessionoverview"
-}
-
-koverReport {
-    filters {
-        excludes {
-            classes(
-                "*BuildConfig",
-                "*_Factory",
-                "*_HiltModules*",
-                "hilt_aggregated_deps.*Module"
-            )
-            packages(
-                "*.di"
-            )
-        }
-    }
 }
 
 dependencies {
