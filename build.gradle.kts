@@ -22,10 +22,16 @@ subprojects {
                 }
             }
         }
-        pluginManager.withPlugin("java-library") {
 
+        pluginManager.withPlugin(rootProject.libs.plugins.androidApplication.get().pluginId) {
+            koverReport {
+                defaults {
+                    mergeWith("debug")
+                }
+            }
         }
     }
+
 }
 
 tasks.register("clean", Delete::class) {
