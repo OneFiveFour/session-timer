@@ -54,20 +54,7 @@ android {
 }
 
 dependencies {
-
-    val koverExcludes = listOf(
-        "core",
-        "database",
-        "theme",
-        "build-logic"
-    )
-    rootProject.subprojects.forEach { project ->
-        if (project.name !in koverExcludes) {
-            kover(project(project.path))
-        }
-    }
-
-    // TODO also use loop over list
+    // TODO use loop over list
     implementation(project(":theme"))
     implementation(project(":database"))
     implementation(project(":session-editor"))
