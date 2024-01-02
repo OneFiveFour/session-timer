@@ -10,17 +10,42 @@ subprojects {
 
     pluginManager.withPlugin("com.android.library") {
         koverAndroidMerge("debug")
-        koverAndroidFilter()
     }
     pluginManager.withPlugin("com.android.application") {
         koverAndroidMerge("debug")
     }
-    pluginManager.withPlugin("st.kotlin-library") {
-        println("Found a module with kotlin lib ${project.name}")
-        koverKotlinFilter()
-    }
 
     rootProject.dependencies.add("kover", this)
+}
+
+koverReport {
+    filters {
+        excludes {
+            classes(
+                // common
+                "*ComposableSingletons*",
+                "*Hilt_*",
+                "*_HiltModules*",
+                "*BuildConfig",
+                "*_Factory",
+
+                // database
+                "net.onefivefour.sessiontimer.database.Database",
+                "net.onefivefour.sessiontimer.database.database.*",
+                "net.onefivefour.sessiontimer.database.domain.model.*",
+                "net.onefivefour.sessiontimer.database.Task*",
+                "net.onefivefour.sessiontimer.database.TaskGroup*",
+                "net.onefivefour.sessiontimer.database.Session*"
+            )
+            packages(
+                // common
+                "hilt_aggregated_deps",
+                "dagger.hilt.internal.aggregatedroot.codegen",
+                "net.onefivefour.sessiontimer.theme",
+                "*.di"
+            )
+        }
+    }
 }
 
 fun Project.koverAndroidMerge(buildVariant: String) {
@@ -31,26 +56,4 @@ fun Project.koverAndroidMerge(buildVariant: String) {
     }
 }
 
-fun Project.koverAndroidFilter() {
-    koverReport {
-        androidReports("debug") {
 
-        }
-    }
-}
-
-fun Project.koverKotlinFilter() {
-    koverReport {
-        filters {
-            excludes {
-                classes(
-                    "*_Factory"
-                )
-                packages(
-                    "*di",
-                    "hilt_aggregated_deps"
-                )
-            }
-        }
-    }
-}
