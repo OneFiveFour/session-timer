@@ -12,7 +12,7 @@ import net.onefivefour.sessiontimer.theme.typography
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun SessionOverview(
+fun SessionOverviewScreen(
     modifier: Modifier = Modifier,
     viewModel: SessionOverviewViewModel = viewModel()
 ) {
@@ -34,6 +34,6 @@ fun SessionOverview(
 
 @Preview
 @Composable
-fun SessionOverviewPreview() {
-    SessionOverview()
+fun SessionOverviewScreenPreview() {
+    SessionOverviewScreen()
 }

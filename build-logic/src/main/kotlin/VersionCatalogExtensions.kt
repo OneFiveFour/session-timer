@@ -14,7 +14,7 @@ internal val Project.libs: VersionCatalog
 
 // Android Library
 internal val VersionCatalog.versionComposeCompiler: VersionConstraint
-    get() = findVersionOrThrow("androidxKotlinCompiler")
+    get() = findVersionOrThrow("androidXKotlinCompiler")
 
 // Kotlin Test
 internal val VersionCatalog.libJunitBom: Provider<MinimalExternalModuleDependency>

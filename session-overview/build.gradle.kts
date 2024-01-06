@@ -13,6 +13,9 @@ android {
 dependencies {
     implementation(project(":theme"))
     implementation(project(":database"))
+    implementation(project(":session-overview-api"))
+
+    api(libs.androidX.navigation)
 
     implementation(platform(libs.androidX.compose.bom))
     implementation(libs.androidX.compose.ui)

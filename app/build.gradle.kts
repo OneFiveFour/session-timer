@@ -43,7 +43,7 @@ android {
         jvmTarget = "1.8"
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidxKotlinCompiler.get()
+        kotlinCompilerExtensionVersion = libs.versions.androidXKotlinCompiler.get()
     }
     packaging {
         resources {
@@ -54,11 +54,18 @@ android {
 }
 
 dependencies {
-    // TODO use loop over list
-    implementation(project(":theme"))
-    implementation(project(":database"))
-    implementation(project(":session-editor"))
-    implementation(project(":session-overview"))
+
+    val modules = listOf(
+        ":theme",
+        ":database",
+        ":session-editor",
+        ":session-editor-api",
+        ":session-overview",
+        ":session-overview-api"
+    )
+    for (module in modules) {
+        implementation(project(module))
+    }
 
     implementation(libs.sqlDelight.android)
 

@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import net.onefivefour.sessiontimer.theme.typography
 
 @Composable
-fun SessionEditor(
+fun SessionEditorScreen(
     modifier: Modifier = Modifier
 ) {
 
@@ -24,6 +24,6 @@ fun SessionEditor(
 
 @Preview
 @Composable
-fun SessionEditorPreview() {
-    SessionEditor()
+fun SessionEditorScreenPreview() {
+    SessionEditorScreen()
 }

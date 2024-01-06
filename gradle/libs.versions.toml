@@ -1,15 +1,16 @@
 [versions]
-androidMaterial = "1.10.0"
-androidxActivity = "1.8.1"
-androidxActivityCompose = "1.8.1"
+androidMaterial = "1.11.0"
+androidXActivity = "1.8.2"
+androidXActivityCompose = "1.8.2"
 androidXArchCoreTesting = "2.2.0"
-androidxComposeBom = "2023.10.01"
-androidxCore = "1.12.0"
-androidxKotlinCompiler = "1.5.6"
-androidxLifecycle="2.6.2"
+androidXComposeBom = "2023.10.01"
+androidXCore = "1.12.0"
+androidXKotlinCompiler = "1.5.6"
+androidXLifecycle="2.6.2"
+androidXNavigation = "2.7.6"
 coroutines = "1.7.3"
 dagger = "2.48.1"
-gradle = "8.1.4"
+gradle = "8.2.1"
 hiltNavigation = "1.1.0"
 junit = "5.10.1"
 kotlin = "1.9.21"
@@ -27,17 +28,17 @@ android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref 
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 ## Android Basics
-androidX-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidxActivity" }
-androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivityCompose" }
-androidX-core = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
+androidX-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidXActivity" }
+androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidXActivityCompose" }
+androidX-core = { module = "androidx.core:core-ktx", version.ref = "androidXCore" }
 
 ## Android Compose
-androidX-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidxComposeBom" }
+androidX-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidXComposeBom" }
 
 ## Android Lifecycle
-androidX-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
-androidX-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
-androidX-lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+androidX-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidXLifecycle" }
+androidX-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidXLifecycle" }
+androidX-lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidXLifecycle" }
 
 ## Kotlin Coroutines
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -60,6 +61,9 @@ sqlDelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", 
 hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "dagger" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger" }
+
+# Navigation
+androidX-navigation = { module = "androidx.navigation:navigation-compose", version.ref ="androidXNavigation" }
 
 # Testing
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }

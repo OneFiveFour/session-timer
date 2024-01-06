@@ -8,8 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
-import net.onefivefour.sessiontimer.sessioneditor.SessionEditor
-import net.onefivefour.sessiontimer.sessionoverview.SessionOverview
+import net.onefivefour.sessiontimer.sessionoverview.SessionOverviewScreen
 import net.onefivefour.sessiontimer.theme.SessionTimerTheme
 
 @AndroidEntryPoint
@@ -22,7 +21,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SessionOverview()
+                    SessionOverviewScreen()
                 }
             }
         }

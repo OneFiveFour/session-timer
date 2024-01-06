@@ -18,6 +18,6 @@ object DispatcherModule {
 
 }
 
-@Retention(AnnotationRetention.BINARY)
+@Retention(AnnotationRetention.RUNTIME)
 @Qualifier
 annotation class IoDispatcher
