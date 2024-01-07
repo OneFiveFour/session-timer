@@ -9,13 +9,12 @@ import net.onefivefour.sessiontimer.theme.typography
 
 @Composable
 fun SessionEditorScreen(
-    modifier: Modifier = Modifier
+    sessionId: Long
 ) {
 
     Text(
-        modifier = modifier,
         color = MaterialTheme.colorScheme.onBackground,
-        text = "TESTI",
+        text = "TESTI $sessionId",
         style = typography.titleLarge
 
     )
@@ -25,5 +24,5 @@ fun SessionEditorScreen(
 @Preview
 @Composable
 fun SessionEditorScreenPreview() {
-    SessionEditorScreen()
+    SessionEditorScreen(1L)
 }

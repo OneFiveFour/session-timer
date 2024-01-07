@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.ksp)
     id("st.android-library")
     id("st.ktlint")
 }
@@ -13,6 +14,9 @@ dependencies {
     implementation(project(":session-editor-api"))
 
     api(libs.androidX.navigation)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 
     implementation(platform(libs.androidX.compose.bom))
     implementation(libs.androidX.compose.ui)
