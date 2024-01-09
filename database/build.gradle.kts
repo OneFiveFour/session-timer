@@ -6,7 +6,6 @@ plugins {
     id("st.ktlint")
 }
 
-
 android {
     namespace = AppConfig.applicationId + ".database"
 }
@@ -39,5 +38,3 @@ dependencies {
     // Testing
     testImplementation(libs.sqlDelight.test)
 }
-
-

@@ -20,7 +20,7 @@ fun AppNavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = sessionOverview.route
+        startDestination = sessionOverview.baseRoute
     ) {
         register(
             navigationApi = sessionOverview,

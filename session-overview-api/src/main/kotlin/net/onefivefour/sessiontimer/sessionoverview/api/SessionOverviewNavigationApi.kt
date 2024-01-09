@@ -3,5 +3,5 @@ package net.onefivefour.sessiontimer.sessionoverview.api
 import net.onefivefour.sessiontimer.core.navigation.NavigationApi
 
 interface SessionOverviewNavigationApi : NavigationApi {
-    val route : String
+    val baseRoute : String
 }

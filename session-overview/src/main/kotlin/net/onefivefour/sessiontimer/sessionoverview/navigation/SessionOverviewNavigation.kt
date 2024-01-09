@@ -15,13 +15,13 @@ class SessionOverviewNavigation @Inject constructor(
     private val sessionEditorNavigation: SessionEditorNavigationApi
 ) : SessionOverviewNavigationApi {
 
-    override val route = "session-overview"
+    override val baseRoute = "session-overview"
 
     override fun registerGraph(
         navGraphBuilder: NavGraphBuilder,
         navController: NavController
     ) {
-        navGraphBuilder.composable(route) {
+        navGraphBuilder.composable(baseRoute) {
 
             val viewModel: SessionOverviewViewModel = hiltViewModel()
             val sessionOverviewState = viewModel.uiState.collectAsStateWithLifecycle()

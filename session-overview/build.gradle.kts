@@ -31,6 +31,4 @@ dependencies {
     implementation(libs.androidX.lifecycle.viewmodel)
     implementation(libs.androidX.lifecycle.viewmodel.compose)
     implementation(libs.androidX.lifecycle.compose)
-
-
 }

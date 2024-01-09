@@ -9,5 +9,4 @@ android {
 
 dependencies {
     api(project(":core"))
-
 }
