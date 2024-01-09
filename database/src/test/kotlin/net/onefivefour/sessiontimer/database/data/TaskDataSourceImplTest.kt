@@ -56,10 +56,10 @@ internal class TaskDataSourceImplTest {
     fun `getAll delegates to correct taskQueries call`() = runTest {
         coEvery { taskQueries.getAll(any()).executeAsOneOrNull() } returns null
 
-        val sessionId = 123L
-        sut.getAll(sessionId)
+        val taskGroupIds = listOf(1L, 2L, 3L)
+        sut.getAll(taskGroupIds)
 
-        coVerify { taskQueries.getAll(sessionId) }
+        coVerify { taskQueries.getAll(taskGroupIds) }
     }
 
     @Test
@@ -74,13 +74,14 @@ internal class TaskDataSourceImplTest {
 
     @Test
     fun `insert delegates to correct taskQueries call`() = runTest {
-        coEvery { taskQueries.insert(any(), any(), any()) } returns mockk()
+        coEvery { taskQueries.insert(any(), any(), any(), any()) } returns mockk()
 
         val taskId = 123L
         val title = "title"
         val color = 0xFF0000.toLong()
-        sut.insert(taskId, title, color)
+        val duration = 3L
+        sut.insert(taskId, title, duration, color)
 
-        coVerify { taskQueries.insert(taskId, title, color) }
+        coVerify { taskQueries.insert(taskId, title, duration, color) }
     }
 }

@@ -6,24 +6,25 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import net.onefivefour.sessiontimer.core.di.IoDispatcher
 import net.onefivefour.sessiontimer.database.Task
 import net.onefivefour.sessiontimer.database.TaskQueries
 import javax.inject.Inject
 
 internal class TaskDataSourceImpl @Inject constructor(
     private val queries: TaskQueries,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : TaskDataSource {
 
-    override suspend fun getAll(taskGroupId: Long): Flow<List<Task>> {
+    override suspend fun getAll(taskGroupIds: List<Long>): Flow<List<Task>> {
         return withContext(dispatcher) {
-            queries.getAll(taskGroupId).asFlow().mapToList(dispatcher)
+            queries.getAll(taskGroupIds).asFlow().mapToList(dispatcher)
         }
     }
 
-    override suspend fun insert(taskId: Long?, title: String, taskGroupId: Long) {
+    override suspend fun insert(taskId: Long?, title: String, durationInSeconds: Long, taskGroupId: Long) {
         withContext(dispatcher) {
-            queries.insert(taskId, title, taskGroupId)
+            queries.insert(taskId, title, durationInSeconds, taskGroupId)
         }
     }
 

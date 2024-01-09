@@ -3,7 +3,6 @@ package net.onefivefour.sessiontimer.sessioneditor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import net.onefivefour.sessiontimer.theme.typography
 
@@ -18,7 +17,7 @@ fun SessionEditorScreen(
     session.taskGroups.forEach { taskGroup ->
         text += "\n--------------\n  TASK GROUP: ${taskGroup.title}"
         taskGroup.tasks.forEach { task ->
-            text += "\n  TASK: ${task.title} (${task.duration.inWholeSeconds} seconds)"
+            text += "\n  TASK: ${task.title} (${task.durationInSeconds.inWholeSeconds} seconds)"
         }
     }
 

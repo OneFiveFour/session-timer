@@ -6,13 +6,14 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import net.onefivefour.sessiontimer.core.di.IoDispatcher
 import net.onefivefour.sessiontimer.database.TaskGroup
 import net.onefivefour.sessiontimer.database.TaskGroupQueries
 import javax.inject.Inject
 
 internal class TaskGroupDataSourceImpl @Inject constructor(
     private val queries: TaskGroupQueries,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : TaskGroupDataSource {
 
     override suspend fun getAll(sessionId: Long): Flow<List<TaskGroup>> {

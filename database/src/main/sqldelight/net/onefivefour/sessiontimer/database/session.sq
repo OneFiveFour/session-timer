@@ -5,11 +5,11 @@ CREATE TABLE session (
 
 INSERT INTO session (id, title)
 VALUES
-(1,"Title1"),
-(2,"Title2"),
-(3,"Title3"),
-(4,"Title4"),
-(5,"Title5")
+(1,"Session 1"),
+(2,"Session 2"),
+(3,"Session 3"),
+(4,"Session 4"),
+(5,"Session 5")
 ;
 
 getAll:

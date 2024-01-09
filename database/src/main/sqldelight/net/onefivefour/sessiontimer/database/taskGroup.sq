@@ -5,6 +5,17 @@ CREATE TABLE taskGroup (
   sessionId INTEGER NOT NULL
 );
 
+INSERT INTO taskGroup (
+    id,
+    title,
+    color,
+    sessionId
+)
+VALUES
+(1,"TaskGroup 1", 16711680, 1),
+(2,"TaskGroup 2", 65280, 1)
+;
+
 getAll:
 SELECT * FROM taskGroup WHERE sessionId = :sessionId;
 
