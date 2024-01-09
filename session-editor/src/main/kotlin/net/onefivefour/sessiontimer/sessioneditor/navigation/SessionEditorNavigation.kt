@@ -1,11 +1,14 @@
 package net.onefivefour.sessiontimer.sessioneditor.navigation
 
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import net.onefivefour.sessiontimer.sessioneditor.SessionEditorScreen
+import net.onefivefour.sessiontimer.sessioneditor.SessionEditorViewModel
 import net.onefivefour.sessiontimer.sessioneditor.api.SessionEditorNavigationApi
 
 class SessionEditorNavigation : SessionEditorNavigationApi {
@@ -13,7 +16,7 @@ class SessionEditorNavigation : SessionEditorNavigationApi {
     override val baseRoute = "session-editor"
 
     companion object {
-        private const val KEY_SESSION_ID = "KEY_SESSION_ID"
+        const val KEY_SESSION_ID = "KEY_SESSION_ID"
     }
 
     override fun registerGraph(
@@ -25,13 +28,13 @@ class SessionEditorNavigation : SessionEditorNavigationApi {
             arguments = listOf(
                 navArgument(KEY_SESSION_ID) { type = NavType.LongType }
             )
-        ) { backStackEntry ->
+        ) {
 
-            val arguments = requireNotNull(backStackEntry.arguments)
-            val sessionId = arguments.getLong(KEY_SESSION_ID)
+            val viewModel: SessionEditorViewModel = hiltViewModel()
+            val sessionEditorState = viewModel.uiState.collectAsStateWithLifecycle()
 
             SessionEditorScreen(
-                sessionId = sessionId
+                uiState = sessionEditorState.value
             )
         }
     }

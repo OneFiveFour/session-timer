@@ -9,12 +9,22 @@ import net.onefivefour.sessiontimer.theme.typography
 
 @Composable
 fun SessionEditorScreen(
-    sessionId: Long
+    uiState: UiState
 ) {
+
+    val session = uiState.session ?: return
+
+    var text = "ID: ${session.id} | TITLE: ${session.title}"
+    session.taskGroups.forEach { taskGroup ->
+        text += "\n--------------\n  TASK GROUP: ${taskGroup.title}"
+        taskGroup.tasks.forEach { task ->
+            text += "\n  TASK: ${task.title} (${task.duration.inWholeSeconds} seconds)"
+        }
+    }
 
     Text(
         color = MaterialTheme.colorScheme.onBackground,
-        text = "TESTI $sessionId",
+        text = text,
         style = typography.titleLarge
 
     )
@@ -24,5 +34,5 @@ fun SessionEditorScreen(
 @Preview
 @Composable
 fun SessionEditorScreenPreview() {
-    SessionEditorScreen(1L)
+    SessionEditorScreen(UiState())
 }

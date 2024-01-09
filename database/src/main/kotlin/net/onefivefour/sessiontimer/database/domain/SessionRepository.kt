@@ -13,14 +13,23 @@ class SessionRepository @Inject constructor(
     fun getAll() = sessionDataSource
         .getAll()
         .map(List<DatabaseSession>::toDomainSession)
+
+    suspend fun getById(sessionId: Long) = sessionDataSource
+        .getById(sessionId)
+        ?.toDomainSession()
+
 }
 
 private fun List<DatabaseSession>.toDomainSession(): List<DomainSession> {
     return map { databaseSession ->
-        DomainSession(
-            databaseSession.id,
-            databaseSession.title,
-            emptyList()
-        )
+        databaseSession.toDomainSession()
     }
+}
+
+private fun DatabaseSession.toDomainSession(): DomainSession {
+    return DomainSession(
+        this.id,
+        this.title,
+        emptyList()
+    )
 }
