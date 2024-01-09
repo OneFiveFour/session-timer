@@ -1,11 +1,10 @@
 package net.onefivefour.sessiontimer.sessionoverview.navigation
 
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import dagger.hilt.processor.internal.definecomponent.codegen._dagger_hilt_android_internal_builders_ViewModelComponentBuilder
 import net.onefivefour.sessiontimer.sessioneditor.api.SessionEditorNavigationApi
 import net.onefivefour.sessiontimer.sessionoverview.SessionOverviewScreen
 import net.onefivefour.sessiontimer.sessionoverview.SessionOverviewViewModel
@@ -24,13 +23,13 @@ class SessionOverviewNavigation @Inject constructor(
     ) {
         navGraphBuilder.composable(route) {
 
-            val viewModel: SessionOverviewViewModel = viewModel()
+            val viewModel: SessionOverviewViewModel = hiltViewModel()
             val sessionOverviewState = viewModel.uiState.collectAsStateWithLifecycle()
 
             SessionOverviewScreen(
                 sessionOverviewState.value
             ) { sessionId ->
-                val sessionEditorRoute = sessionEditorNavigation.route
+                val sessionEditorRoute = sessionEditorNavigation.baseRoute
                 navController.navigate(
                     route = "$sessionEditorRoute/$sessionId",
 

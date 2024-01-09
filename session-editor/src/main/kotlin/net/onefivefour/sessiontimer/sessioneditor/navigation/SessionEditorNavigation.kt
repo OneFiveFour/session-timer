@@ -10,7 +10,7 @@ import net.onefivefour.sessiontimer.sessioneditor.api.SessionEditorNavigationApi
 
 class SessionEditorNavigation : SessionEditorNavigationApi {
 
-    override val route = "session-editor/{$KEY_SESSION_ID}"
+    override val baseRoute = "session-editor"
 
     companion object {
         private const val KEY_SESSION_ID = "KEY_SESSION_ID"
@@ -21,7 +21,7 @@ class SessionEditorNavigation : SessionEditorNavigationApi {
         navController: NavController
     ) {
         navGraphBuilder.composable(
-            route = route,
+            route = "$baseRoute/{${KEY_SESSION_ID}}",
             arguments = listOf(
                 navArgument(KEY_SESSION_ID) { type = NavType.LongType }
             )

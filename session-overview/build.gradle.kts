@@ -25,6 +25,7 @@ dependencies {
     debugImplementation(libs.androidX.compose.ui.tooling)
 
     implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation)
     ksp(libs.hilt.android.compiler)
 
     implementation(libs.androidX.lifecycle.viewmodel)

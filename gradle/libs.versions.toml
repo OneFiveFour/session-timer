@@ -61,6 +61,7 @@ sqlDelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", 
 hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "dagger" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger" }
+hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref ="hiltNavigation" }
 
 # Navigation
 androidX-navigation = { module = "androidx.navigation:navigation-compose", version.ref ="androidXNavigation" }
