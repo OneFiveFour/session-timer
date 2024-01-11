@@ -6,10 +6,12 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.database.TaskGroup as DatabaseTaskGroup
+import net.onefivefour.sessiontimer.database.domain.model.TaskGroup as DomainTaskGroup
 import net.onefivefour.sessiontimer.database.data.TaskGroupDataSource
 import org.junit.jupiter.api.Test
 
@@ -24,6 +26,8 @@ class TaskGroupRepositoryTest {
 
     @Test
     fun `getAll fetches data from taskGroupDataSource`() = runTest {
+        mockkStatic(Color::class)
+        every { Color.toArgb(any()) } returns 0xFF0000
         val testTaskGroup = DatabaseTaskGroup(78L, "Title 1", 123L, 1L)
         coEvery { taskGroupDataSource.getAll(any()) } returns flowOf(listOf(testTaskGroup))
 
@@ -35,6 +39,8 @@ class TaskGroupRepositoryTest {
 
     @Test
     fun `getAll returns domain model taskGroup`() = runTest {
+        mockkStatic(Color::class)
+        every { Color.toArgb(any()) } returns 0xFF0000
         val testTaskGroup = DatabaseTaskGroup(78L, "Title 1", 123L, 1L)
         coEvery { taskGroupDataSource.getAll(any()) } returns flowOf(listOf(testTaskGroup))
 
@@ -43,10 +49,10 @@ class TaskGroupRepositoryTest {
 
         assertThat(taskGroups.size).isEqualTo(1)
         val taskGroup = taskGroups.first()
-        assertThat(taskGroup).isInstanceOf(DatabaseTaskGroup::class.java)
+        assertThat(taskGroup).isInstanceOf(DomainTaskGroup::class.java)
         assertThat(taskGroup.id).isEqualTo(78L)
         assertThat(taskGroup.title).isEqualTo("Title 1")
-        assertThat(taskGroup.color).isEqualTo(123L)
+        assertThat(taskGroup.color).isEqualTo(0xFF0000)
         assertThat(taskGroup.sessionId).isEqualTo(1L)
     }
 
