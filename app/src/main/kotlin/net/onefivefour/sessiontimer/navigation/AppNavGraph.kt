@@ -1,35 +1,39 @@
 package net.onefivefour.sessiontimer.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import net.onefivefour.sessiontimer.core.navigation.register
-import net.onefivefour.sessiontimer.sessioneditor.navigation.SessionEditorNavigation
-import net.onefivefour.sessiontimer.sessionoverview.navigation.SessionOverviewNavigation
+import de.onecode.navigator.api.Destination
+import de.onecode.navigator.api.Home
+import de.onecode.navigator.api.Navigation
+import de.onecode.navigator.api.Parameter
+import io.redandroid.navigator.Navigator
+import net.onefivefour.sessiontimer.sessioneditor.SessionEditorScreen
+import net.onefivefour.sessiontimer.sessionoverview.SessionOverviewScreen
 
+@Destination
+@Parameter(name = "sessionId", type = Long::class)
+object SessionEditor
+
+@Destination
+@Home
+@Navigation(to = SessionEditor::class)
+object SessionOverview
 
 @Composable
-fun AppNavGraph(
-    navController: NavHostController
-) {
+fun AppNavGraph() {
 
-    val sessionEditor = SessionEditorNavigation()
-    val sessionOverview = SessionOverviewNavigation(
-        sessionEditor
-    )
+    Navigator {
 
-    NavHost(
-        navController = navController,
-        startDestination = sessionOverview.baseRoute
-    ) {
-        register(
-            navigationApi = sessionOverview,
-            navController = navController
-        )
+        sessionOverviewScreen {
+            SessionOverviewScreen(
+                onEditSession = { 
+                    sessionId -> navigateToSessionEditor(sessionId) 
+                }
+            )
+        }
+        
+        sessionEditorScreen { 
+            SessionEditorScreen(sessionId = sessionId)
+        }
 
-        register(
-            navigationApi = sessionEditor,
-            navController = navController
-        )
     }
 }

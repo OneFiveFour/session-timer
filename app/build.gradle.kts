@@ -63,9 +63,7 @@ dependencies {
         ":theme",
         ":database",
         ":session-editor",
-        ":session-editor-api",
         ":session-overview",
-        ":session-overview-api"
     )
     for (module in modules) {
         implementation(project(module))
@@ -81,6 +79,10 @@ dependencies {
     implementation(libs.androidX.compose.ui)
     implementation(libs.androidX.compose.ui.tooling.preview)
     implementation(libs.androidX.compose.material3)
+
+    implementation(libs.compose.navigator.api)
+    implementation(libs.compose.navigator.runtime)
+    ksp(libs.compose.navigator.ksp)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

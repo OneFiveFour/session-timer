@@ -12,7 +12,6 @@ android {
 dependencies {
     implementation(project(":theme"))
     implementation(project(":database"))
-    implementation(project(":session-editor-api"))
 
     api(libs.androidX.navigation)
 

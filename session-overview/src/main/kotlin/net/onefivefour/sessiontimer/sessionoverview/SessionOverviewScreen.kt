@@ -7,17 +7,30 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import net.onefivefour.sessiontimer.theme.typography
 
 @Composable
 fun SessionOverviewScreen(
-    uiState: UiState,
     onEditSession: (Long) -> Unit
 ) {
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    val viewModel: SessionOverviewViewModel = hiltViewModel()
+    val sessionOverviewState = viewModel.uiState.collectAsStateWithLifecycle().value
 
+    SessionOverview(
+        uiState = sessionOverviewState,
+        onEditSession = onEditSession
+    )
+}
+
+@Composable
+fun SessionOverview(
+    uiState: UiState,
+    onEditSession: (Long) -> Unit
+) {
+    Column(modifier = Modifier.fillMaxSize()) {
         for (session in uiState.sessions) {
             Text(
                 modifier = Modifier.clickable { onEditSession(session.id) },
@@ -27,13 +40,4 @@ fun SessionOverviewScreen(
             )
         }
     }
-
-}
-
-@Preview
-@Composable
-fun SessionOverviewScreenPreview() {
-    SessionOverviewScreen(
-        uiState = UiState()
-    ) {}
 }

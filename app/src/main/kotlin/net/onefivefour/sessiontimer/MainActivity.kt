@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import net.onefivefour.sessiontimer.navigation.AppNavGraph
-import net.onefivefour.sessiontimer.sessionoverview.SessionOverviewScreen
 import net.onefivefour.sessiontimer.theme.SessionTimerTheme
 
 @AndroidEntryPoint
@@ -26,9 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavGraph(
-                        navController = navController
-                    )
+                    AppNavGraph()
                 }
             }
         }

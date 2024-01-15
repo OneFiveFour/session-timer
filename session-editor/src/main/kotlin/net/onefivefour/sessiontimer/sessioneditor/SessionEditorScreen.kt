@@ -4,14 +4,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import net.onefivefour.sessiontimer.theme.typography
 
 @Composable
 fun SessionEditorScreen(
-    uiState: UiState
+    sessionId: Long
 ) {
 
-    val session = uiState.session ?: return
+    val viewModel: SessionEditorViewModel = hiltViewModel()
+    val sessionEditorState = viewModel.uiState.collectAsStateWithLifecycle().value
+
+    val session = sessionEditorState.session ?: return
 
     var text = "ID: ${session.id} | TITLE: ${session.title}"
     session.taskGroups.forEach { taskGroup ->
@@ -33,5 +38,5 @@ fun SessionEditorScreen(
 @Preview
 @Composable
 fun SessionEditorScreenPreview() {
-    SessionEditorScreen(UiState())
+    SessionEditorScreen(1L)
 }
