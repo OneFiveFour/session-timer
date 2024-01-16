@@ -51,7 +51,6 @@ class GetFullSessionUseCaseTest {
         )
 
         val fullSession = sut.execute(sessionId)
-
         checkNotNull(fullSession)
         assertThat(fullSession.id).isEqualTo(sessionId)
         assertThat(fullSession.title).isEqualTo("Session 1")

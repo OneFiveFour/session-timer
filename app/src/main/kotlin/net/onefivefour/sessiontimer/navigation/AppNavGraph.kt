@@ -32,7 +32,7 @@ fun AppNavGraph() {
         }
         
         sessionEditorScreen { 
-            SessionEditorScreen(sessionId = sessionId)
+            SessionEditorScreen()
         }
 
     }

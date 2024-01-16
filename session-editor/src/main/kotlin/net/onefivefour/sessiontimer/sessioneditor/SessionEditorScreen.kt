@@ -9,14 +9,20 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import net.onefivefour.sessiontimer.theme.typography
 
 @Composable
-fun SessionEditorScreen(
-    sessionId: Long
-) {
+fun SessionEditorScreen() {
 
     val viewModel: SessionEditorViewModel = hiltViewModel()
     val sessionEditorState = viewModel.uiState.collectAsStateWithLifecycle().value
 
-    val session = sessionEditorState.session ?: return
+    SessionEditor(uiState = sessionEditorState)
+}
+
+
+@Composable
+fun SessionEditor(
+    uiState: UiState
+) {
+    val session = uiState.session ?: return
 
     var text = "ID: ${session.id} | TITLE: ${session.title}"
     session.taskGroups.forEach { taskGroup ->
@@ -32,11 +38,4 @@ fun SessionEditorScreen(
         style = typography.titleLarge
 
     )
-
-}
-
-@Preview
-@Composable
-fun SessionEditorScreenPreview() {
-    SessionEditorScreen(1L)
 }

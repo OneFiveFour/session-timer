@@ -42,7 +42,8 @@ koverReport {
                 "hilt_aggregated_deps",
                 "dagger.hilt.internal.aggregatedroot.codegen",
                 "net.onefivefour.sessiontimer.theme",
-                "*.di"
+                "*.di",
+                "io.redandroid.navigator"
             )
         }
     }
