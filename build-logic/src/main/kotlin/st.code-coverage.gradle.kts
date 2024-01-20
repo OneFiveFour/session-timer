@@ -43,7 +43,7 @@ koverReport {
                 "dagger.hilt.internal.aggregatedroot.codegen",
                 "net.onefivefour.sessiontimer.theme",
                 "*.di",
-                "io.redandroid.navigator"
+                "de.onecode.navigator"
             )
         }
     }

@@ -1,11 +1,11 @@
 package net.onefivefour.sessiontimer.navigation
 
 import androidx.compose.runtime.Composable
+import de.onecode.navigator.Navigator
 import de.onecode.navigator.api.Destination
 import de.onecode.navigator.api.Home
 import de.onecode.navigator.api.Navigation
 import de.onecode.navigator.api.Parameter
-import io.redandroid.navigator.Navigator
 import net.onefivefour.sessiontimer.sessioneditor.SessionEditorScreen
 import net.onefivefour.sessiontimer.sessionoverview.SessionOverviewScreen
 
