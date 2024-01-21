@@ -38,4 +38,10 @@ internal class TaskDataSourceImpl @Inject constructor(
             queries.delete(taskId)
         }
     }
+
+    override suspend fun deleteByTaskGroup(taskGroupId: Long) {
+        withContext(dispatcher) {
+            queries.deleteByTaskGroup(taskGroupId)
+        }
+    }
 }

@@ -24,3 +24,6 @@ INSERT INTO taskGroup VALUES (?,?,?,?);
 
 delete:
 DELETE FROM taskGroup WHERE id = :id;
+
+getLastInsertRowId:
+SELECT last_insert_rowid();

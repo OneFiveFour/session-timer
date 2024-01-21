@@ -17,10 +17,17 @@ class TaskGroupRepository @Inject constructor(
             taskGroups.toDomainTaskGroup()
         }
 
-    suspend fun new(sessionId: Long) = taskGroupDataSource.insert(
-        taskGroupId = null,
-        sessionId = sessionId
-    )
+    suspend fun new(sessionId: Long) = taskGroupDataSource
+        .insert(
+            taskGroupId = null,
+            sessionId = sessionId
+        )
+
+    suspend fun delete(taskGroupId: Long) = taskGroupDataSource
+        .delete(taskGroupId)
+
+    fun getLastInsertId() = taskGroupDataSource
+        .getLastInsertId()
 
 }
 

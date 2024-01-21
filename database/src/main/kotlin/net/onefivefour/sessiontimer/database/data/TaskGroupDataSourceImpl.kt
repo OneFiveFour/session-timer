@@ -38,4 +38,8 @@ internal class TaskGroupDataSourceImpl @Inject constructor(
             queries.delete(taskGroupId)
         }
     }
+
+    override fun getLastInsertId(): Long {
+        return queries.getLastInsertRowId().executeAsOne()
+    }
 }

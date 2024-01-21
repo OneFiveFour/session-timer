@@ -26,3 +26,6 @@ INSERT INTO task VALUES (?,?,?,?);
 
 delete:
 DELETE FROM task WHERE id = :id;
+
+deleteByTaskGroup:
+DELETE FROM task WHERE taskGroupId = :taskGroupId;

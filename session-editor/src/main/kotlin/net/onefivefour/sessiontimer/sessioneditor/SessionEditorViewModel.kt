@@ -17,7 +17,9 @@ class SessionEditorViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getFullSessionUseCase: GetFullSessionUseCase,
     private val newTaskGroupUseCase: NewTaskGroupUseCase,
-    private val newTaskUseCase: NewTaskUseCase
+    private val newTaskUseCase: NewTaskUseCase,
+    private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val deleteTaskGroupUseCase: DeleteTaskGroupUseCase
 ) : ViewModel() {
 
     private val sessionId = checkNotNull(savedStateHandle.get<String>("sessionId")).toLong()
@@ -41,9 +43,21 @@ class SessionEditorViewModel @Inject constructor(
         }
     }
 
+    fun deleteTaskGroup(taskGroupId: Long) {
+        viewModelScope.launch {
+            deleteTaskGroupUseCase.execute(taskGroupId)
+        }
+    }
+
     fun newTask(taskGroupId: Long) {
         viewModelScope.launch {
             newTaskUseCase.execute(taskGroupId)
+        }
+    }
+    
+    fun deleteTask(taskId: Long) {
+        viewModelScope.launch {
+            deleteTaskUseCase.execute(taskId)
         }
     }
 }

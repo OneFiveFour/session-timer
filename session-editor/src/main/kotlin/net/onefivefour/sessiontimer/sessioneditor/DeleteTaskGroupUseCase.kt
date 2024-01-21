@@ -4,15 +4,14 @@ import net.onefivefour.sessiontimer.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.database.domain.TaskRepository
 import javax.inject.Inject
 
-class NewTaskGroupUseCase @Inject constructor(
+class DeleteTaskGroupUseCase @Inject constructor(
     private val taskGroupRepository: TaskGroupRepository,
     private val taskRepository: TaskRepository
 ){
 
-    suspend fun execute(sessionId: Long) {
-        taskGroupRepository.new(sessionId)
-        val taskGroupId = taskGroupRepository.getLastInsertId()
-        taskRepository.new(taskGroupId)
+    suspend fun execute(taskGroupId: Long) {
+        taskGroupRepository.delete(taskGroupId)
+        taskRepository.deleteByTaskGroup(taskGroupId)
     }
 
 }

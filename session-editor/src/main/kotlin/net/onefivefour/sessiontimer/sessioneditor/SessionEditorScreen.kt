@@ -1,7 +1,10 @@
 package net.onefivefour.sessiontimer.sessioneditor
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,7 +27,9 @@ fun SessionEditorScreen() {
     SessionEditor(
         uiState = sessionEditorState,
         onNewTaskGroup = { viewModel.newTaskGroup() },
-        onNewTask = { taskGroupId -> viewModel.newTask(taskGroupId) }
+        onNewTask = { taskGroupId -> viewModel.newTask(taskGroupId) },
+        onDeleteTask = { taskId -> viewModel.deleteTask(taskId) },
+        onDeleteTaskGroup = { taskGroupId -> viewModel.deleteTaskGroup(taskGroupId) }
     )
 }
 
@@ -33,7 +38,9 @@ fun SessionEditorScreen() {
 fun SessionEditor(
     uiState: UiState,
     onNewTaskGroup: () -> Unit,
-    onNewTask: (Long) -> Unit
+    onNewTask: (Long) -> Unit,
+    onDeleteTask: (Long) -> Unit,
+    onDeleteTaskGroup: (Long) -> Unit
 ) {
     val session = uiState.session ?: return
 
@@ -58,11 +65,21 @@ fun SessionEditor(
 
         items(session.taskGroups) { taskGroup ->
 
-            Text(
-                color = MaterialTheme.colorScheme.onBackground,
-                text = "\n  TASK GROUP: ${taskGroup.id}",
-                style = typography.titleLarge
-            )
+            Column {
+
+                Text(
+                    color = MaterialTheme.colorScheme.onBackground,
+                    text = "\n  TASK GROUP: ${taskGroup.id}",
+                    style = typography.titleLarge
+                )
+
+                Button(
+                    modifier = Modifier.wrapContentSize(),
+                    onClick = { onDeleteTaskGroup(taskGroup.id) }
+                ) {
+                    Text(text = "Delete")
+                }
+            }
 
             Button(
                 modifier = Modifier.wrapContentSize(),
@@ -72,11 +89,23 @@ fun SessionEditor(
             }
 
             taskGroup.tasks.forEach { task ->
-                Text(
-                    color = MaterialTheme.colorScheme.onBackground,
-                    text = "\n    TASK ${task.id}",
-                    style = typography.titleLarge
-                )
+
+                Column(modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
+
+                    Text(
+                        color = MaterialTheme.colorScheme.onBackground,
+                        text = "\n    TASK ${task.id}",
+                        style = typography.titleLarge
+                    )
+
+                    Button(
+                        modifier = Modifier.wrapContentSize(),
+                        onClick = { onDeleteTask(task.id) }
+                    ) {
+                        Text(text = "Delete")
+                    }
+                }
+
             }
         }
     }

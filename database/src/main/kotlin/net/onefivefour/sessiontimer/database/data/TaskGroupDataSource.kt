@@ -10,4 +10,6 @@ interface TaskGroupDataSource {
     suspend fun delete(taskGroupId: Long)
 
     suspend fun insert(taskGroupId: Long?, sessionId: Long)
+
+    fun getLastInsertId(): Long
 }
