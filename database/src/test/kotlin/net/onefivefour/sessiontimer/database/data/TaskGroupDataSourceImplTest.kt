@@ -77,11 +77,9 @@ internal class TaskGroupDataSourceImplTest {
         coEvery { taskGroupQueries.insert(any(), any(), any(), any()) } returns mockk()
 
         val taskGroupId = 123L
-        val title = "title"
-        val color = 0xFF0000.toLong()
         val sessionId = 321L
-        sut.insert(taskGroupId, title, color, sessionId)
+        sut.insert(taskGroupId, sessionId)
 
-        coVerify { taskGroupQueries.insert(taskGroupId, title, color, sessionId) }
+        coVerify { taskGroupQueries.insert(taskGroupId, null, null, sessionId) }
     }
 }

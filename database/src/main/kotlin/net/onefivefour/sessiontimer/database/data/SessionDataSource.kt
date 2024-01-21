@@ -5,7 +5,7 @@ import net.onefivefour.sessiontimer.database.Session
 
 interface SessionDataSource {
 
-    suspend fun getById(sessionId: Long): Session?
+    suspend fun getById(sessionId: Long): Flow<Session?>
 
     fun getAll(): Flow<List<Session>>
 

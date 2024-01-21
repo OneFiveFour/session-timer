@@ -1,8 +1,11 @@
 package net.onefivefour.sessiontimer.sessioneditor
 
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -14,17 +17,29 @@ fun SessionEditorScreen() {
     val viewModel: SessionEditorViewModel = hiltViewModel()
     val sessionEditorState = viewModel.uiState.collectAsStateWithLifecycle().value
 
-    SessionEditor(uiState = sessionEditorState)
+    SessionEditor(
+        uiState = sessionEditorState,
+        onNewTaskGroup = { viewModel.newTaskGroup() }
+        )
 }
 
 
 @Composable
 fun SessionEditor(
-    uiState: UiState
+    uiState: UiState,
+    onNewTaskGroup: () -> Unit
 ) {
     val session = uiState.session ?: return
 
     var text = "ID: ${session.id} | TITLE: ${session.title}"
+
+    Button(
+        modifier = Modifier.wrapContentSize(),
+        onClick = { onNewTaskGroup() }
+    ) {
+        Text(text = "Create new TaskGroup")
+    }
+
     session.taskGroups.forEach { taskGroup ->
         text += "\n--------------\n  TASK GROUP: ${taskGroup.title}"
         taskGroup.tasks.forEach { task ->

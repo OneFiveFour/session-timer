@@ -28,6 +28,8 @@ class SessionEditorViewModelTest {
 
     private val getFullSessionUseCaseMock: GetFullSessionUseCase = mockk()
 
+    private val newTaskGroupUseCaseMock: NewTaskGroupUseCase = mockk()
+
     @BeforeEach
     fun setup() {
         setTestDispatcher()
@@ -53,7 +55,8 @@ class SessionEditorViewModelTest {
 
         val sut = SessionEditorViewModel(
             savedStateHandleFake,
-            getFullSessionUseCaseMock
+            getFullSessionUseCaseMock,
+            newTaskGroupUseCaseMock
         )
 
         assertThat(sut.uiState.value.session).isNull()
@@ -68,7 +71,8 @@ class SessionEditorViewModelTest {
 
         val sut = SessionEditorViewModel(
             savedStateHandleFake,
-            getFullSessionUseCaseMock
+            getFullSessionUseCaseMock,
+            newTaskGroupUseCaseMock
         )
 
         advanceUntilIdle()

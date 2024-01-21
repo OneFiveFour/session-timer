@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import net.onefivefour.sessiontimer.database.domain.model.Session
@@ -14,20 +15,28 @@ import javax.inject.Inject
 @HiltViewModel
 class SessionEditorViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getFullSessionUseCase: GetFullSessionUseCase
+    private val getFullSessionUseCase: GetFullSessionUseCase,
+    private val newTaskGroupUseCase: NewTaskGroupUseCase
 ) : ViewModel() {
 
-    private val sessionId = checkNotNull(savedStateHandle.get<Long>("sessionId"))
+    private val sessionId = checkNotNull(savedStateHandle.get<String>("sessionId")).toLong()
 
     private var _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            val fullSession = getFullSessionUseCase.execute(sessionId)
-            _uiState.update {
-                it.copy(session = fullSession)
+            getFullSessionUseCase.execute(sessionId).collectLatest { fullSession ->
+                _uiState.update {
+                    it.copy(session = fullSession)
+                }
             }
+        }
+    }
+
+    fun newTaskGroup() {
+        viewModelScope.launch {
+            newTaskGroupUseCase.execute(sessionId)
         }
     }
 }

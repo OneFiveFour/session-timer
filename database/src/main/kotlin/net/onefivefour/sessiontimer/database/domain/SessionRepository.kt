@@ -16,7 +16,12 @@ class SessionRepository @Inject constructor(
 
     suspend fun getById(sessionId: Long) = sessionDataSource
         .getById(sessionId)
-        ?.toDomainSession()
+        .map { session ->
+            if (session == null) {
+                return@map null
+            }
+            session.toDomainSession()
+        }
 
 }
 

@@ -9,5 +9,5 @@ interface TaskGroupDataSource {
 
     suspend fun delete(taskGroupId: Long)
 
-    suspend fun insert(taskGroupId: Long?, title: String, color: Long, sessionId: Long)
+    suspend fun insert(taskGroupId: Long?, sessionId: Long)
 }

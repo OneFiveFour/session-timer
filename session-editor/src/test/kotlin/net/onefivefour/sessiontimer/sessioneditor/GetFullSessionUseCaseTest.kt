@@ -71,5 +71,30 @@ class GetFullSessionUseCaseTest {
 
     }
 
+    @Test
+    fun `an empty taskGroup must be part of the full session object`() = runTest {
+
+        val sessionId = 1L
+        val taskGroupId = 2L
+
+        coEvery { sessionRepositoryMock.getById(any()) } returns Session(
+            sessionId,
+            "Session 1",
+            emptyList()
+        )
+        coEvery { taskGroupRepositoryMock.getAll(any()) } returns flowOf(
+            listOf(
+                TaskGroup(taskGroupId, "TaskGroup 1", 0xFF0000, emptyList(), sessionId)
+            )
+        )
+        coEvery { taskRepositoryMock.getAll(any()) } returns flowOf(
+            emptyList()
+        )
+
+        val fullSession = sut.execute(sessionId)
+        checkNotNull(fullSession)
+        assertThat(fullSession.taskGroups.size).isEqualTo(1)
+    }
+
 
 }
