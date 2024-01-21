@@ -16,7 +16,8 @@ import javax.inject.Inject
 class SessionEditorViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getFullSessionUseCase: GetFullSessionUseCase,
-    private val newTaskGroupUseCase: NewTaskGroupUseCase
+    private val newTaskGroupUseCase: NewTaskGroupUseCase,
+    private val newTaskUseCase: NewTaskUseCase
 ) : ViewModel() {
 
     private val sessionId = checkNotNull(savedStateHandle.get<String>("sessionId")).toLong()
@@ -37,6 +38,12 @@ class SessionEditorViewModel @Inject constructor(
     fun newTaskGroup() {
         viewModelScope.launch {
             newTaskGroupUseCase.execute(sessionId)
+        }
+    }
+
+    fun newTask(taskGroupId: Long) {
+        viewModelScope.launch {
+            newTaskUseCase.execute(taskGroupId)
         }
     }
 }

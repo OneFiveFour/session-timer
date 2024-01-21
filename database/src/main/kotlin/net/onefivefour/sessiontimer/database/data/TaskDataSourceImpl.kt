@@ -22,9 +22,14 @@ internal class TaskDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun insert(taskId: Long?, title: String, durationInSeconds: Long, taskGroupId: Long) {
+    override suspend fun insert(taskId: Long?, taskGroupId: Long) {
         withContext(dispatcher) {
-            queries.insert(taskId, title, durationInSeconds, taskGroupId)
+            queries.insert(
+                id = taskId,
+                title = null,
+                durationInSeconds = null,
+                taskGroupId = taskGroupId
+            )
         }
     }
 

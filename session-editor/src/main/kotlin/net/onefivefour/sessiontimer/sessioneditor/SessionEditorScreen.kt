@@ -1,6 +1,10 @@
 package net.onefivefour.sessiontimer.sessioneditor
 
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,38 +23,61 @@ fun SessionEditorScreen() {
 
     SessionEditor(
         uiState = sessionEditorState,
-        onNewTaskGroup = { viewModel.newTaskGroup() }
-        )
+        onNewTaskGroup = { viewModel.newTaskGroup() },
+        onNewTask = { taskGroupId -> viewModel.newTask(taskGroupId) }
+    )
 }
 
 
 @Composable
 fun SessionEditor(
     uiState: UiState,
-    onNewTaskGroup: () -> Unit
+    onNewTaskGroup: () -> Unit,
+    onNewTask: (Long) -> Unit
 ) {
     val session = uiState.session ?: return
 
-    var text = "ID: ${session.id} | TITLE: ${session.title}"
+    LazyColumn(modifier = Modifier.fillMaxHeight()) {
 
-    Button(
-        modifier = Modifier.wrapContentSize(),
-        onClick = { onNewTaskGroup() }
-    ) {
-        Text(text = "Create new TaskGroup")
-    }
+        item {
+            Text(
+                color = MaterialTheme.colorScheme.onBackground,
+                text = "ID: ${session.id} | TITLE: ${session.title}",
+                style = typography.titleLarge
+            )
+        }
 
-    session.taskGroups.forEach { taskGroup ->
-        text += "\n--------------\n  TASK GROUP: ${taskGroup.title}"
-        taskGroup.tasks.forEach { task ->
-            text += "\n  TASK: ${task.title} (${task.durationInSeconds.inWholeSeconds} seconds)"
+        item {
+            Button(
+                modifier = Modifier.wrapContentSize(),
+                onClick = { onNewTaskGroup() }
+            ) {
+                Text(text = "Create new TaskGroup")
+            }
+        }
+
+        items(session.taskGroups) { taskGroup ->
+
+            Text(
+                color = MaterialTheme.colorScheme.onBackground,
+                text = "\n  TASK GROUP: ${taskGroup.id}",
+                style = typography.titleLarge
+            )
+
+            Button(
+                modifier = Modifier.wrapContentSize(),
+                onClick = { onNewTask(taskGroup.id) }
+            ) {
+                Text(text = "Create new Task")
+            }
+
+            taskGroup.tasks.forEach { task ->
+                Text(
+                    color = MaterialTheme.colorScheme.onBackground,
+                    text = "\n    TASK ${task.id}",
+                    style = typography.titleLarge
+                )
+            }
         }
     }
-
-    Text(
-        color = MaterialTheme.colorScheme.onBackground,
-        text = text,
-        style = typography.titleLarge
-
-    )
 }
