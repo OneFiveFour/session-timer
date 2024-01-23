@@ -16,7 +16,21 @@ getAll:
 SELECT * FROM session;
 
 getById:
-SELECT * FROM session WHERE id = :id;
+SELECT
+    S.id AS sessionId,
+    S.title AS sessionTitle,
+    TG.id AS taskGroupId,
+    TG.title AS taskGroupTitle,
+    TG.color AS taskGroupColor,
+    T.id AS taskId,
+    T.taskGroupId AS taskTaskGroupId,
+    T.title AS taskTitle,
+    T.durationInSeconds AS taskDuration
+FROM session S
+LEFT JOIN taskGroup TG ON TG.sessionId = S.id
+LEFT JOIN task T ON T.taskGroupId = TG.id
+WHERE S.id = :id
+;
 
 insert:
 INSERT OR REPLACE INTO session VALUES (?,?);

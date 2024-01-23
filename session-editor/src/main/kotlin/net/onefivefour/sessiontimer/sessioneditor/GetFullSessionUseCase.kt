@@ -21,30 +21,30 @@ class GetFullSessionUseCase @Inject constructor(
 
     suspend fun execute(sessionId: Long) : Flow<Session?> {
 
-        val sessionFlow = sessionRepository.getById(sessionId)
+        return sessionRepository.getById(sessionId)
 
-        val taskGroupsFlow = taskGroupRepository.getAll(sessionId)
-
-        val taskGroupIds = taskGroupsFlow.map { taskGroups ->
-            taskGroups.map { taskGroup -> taskGroup.id }
-        }.first()
-
-        val tasksFlow = taskRepository.getAll(taskGroupIds)
-
-        return combine(
-            sessionFlow,
-            taskGroupsFlow,
-            tasksFlow
-        ) { session, taskGroups, tasks ->
-
-            if (session == null) {
-                return@combine null
-            }
-
-            mapToFullSession(
-                session, taskGroups, tasks
-            )
-        }
+//        val taskGroupsFlow = taskGroupRepository.getAll(sessionId)
+//
+//        val taskGroupIds = taskGroupsFlow.map { taskGroups ->
+//            taskGroups.map { taskGroup -> taskGroup.id }
+//        }.first()
+//
+//        val tasksFlow = taskRepository.getAll(taskGroupIds)
+//
+//        return combine(
+//            sessionFlow,
+//            taskGroupsFlow,
+//            tasksFlow
+//        ) { session, taskGroups, tasks ->
+//
+//            if (session == null) {
+//                return@combine null
+//            }
+//
+//            mapToFullSession(
+//                session, taskGroups, tasks
+//            )
+//        }
     }
 
     private fun mapToFullSession(
