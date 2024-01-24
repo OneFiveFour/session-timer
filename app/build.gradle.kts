@@ -64,6 +64,7 @@ dependencies {
         ":database",
         ":session-editor",
         ":session-overview",
+        ":taskgroup-editor",
     )
     for (module in modules) {
         implementation(project(module))

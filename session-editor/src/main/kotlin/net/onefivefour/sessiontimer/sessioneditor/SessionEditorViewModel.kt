@@ -13,7 +13,7 @@ import net.onefivefour.sessiontimer.database.domain.model.Session
 import javax.inject.Inject
 
 @HiltViewModel
-class SessionEditorViewModel @Inject constructor(
+internal class SessionEditorViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getFullSessionUseCase: GetFullSessionUseCase,
     private val newTaskGroupUseCase: NewTaskGroupUseCase,
@@ -22,7 +22,7 @@ class SessionEditorViewModel @Inject constructor(
     private val deleteTaskGroupUseCase: DeleteTaskGroupUseCase
 ) : ViewModel() {
 
-    private val sessionId = checkNotNull(savedStateHandle.get<Long>("sessionId"))
+    private val sessionId = checkNotNull(savedStateHandle.get<String>("sessionId")).toLong()
 
     private var _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()
@@ -62,6 +62,9 @@ class SessionEditorViewModel @Inject constructor(
     }
 }
 
-data class UiState(
+// TODO check all classes if they can be internal
+
+// TODO create sealed interface with initial and success state
+internal data class UiState(
     val session: Session? = null
 )

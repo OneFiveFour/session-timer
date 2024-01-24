@@ -8,15 +8,23 @@ import de.onecode.navigator.api.Navigation
 import de.onecode.navigator.api.Parameter
 import net.onefivefour.sessiontimer.sessioneditor.SessionEditorScreen
 import net.onefivefour.sessiontimer.sessionoverview.SessionOverviewScreen
+import net.onefivefour.sessiontimer.taskgroupeditor.TaskGroupEditorScreen
 
 @Destination
 @Parameter(name = "sessionId", type = Long::class)
+@Navigation(to = TaskGroupEditor::class)
 object SessionEditor
 
 @Destination
 @Home
 @Navigation(to = SessionEditor::class)
 object SessionOverview
+
+// TODO create constants for param names in each module
+@Destination
+@Parameter(name = "taskGroupId", type = Long::class)
+object TaskGroupEditor
+
 
 @Composable
 fun AppNavGraph() {
@@ -25,15 +33,20 @@ fun AppNavGraph() {
 
         sessionOverviewScreen {
             SessionOverviewScreen(
-                onEditSession = { 
-                    sessionId -> navigateToSessionEditor(sessionId) 
+                onEditSession = { sessionId ->
+                    navigateToSessionEditor(sessionId)
                 }
             )
         }
-        
-        sessionEditorScreen { 
-            SessionEditorScreen()
+
+        sessionEditorScreen {
+            SessionEditorScreen { taskGroupId ->
+                navigateToTaskGroupEditor(taskGroupId)
+            }
         }
 
+        taskGroupEditorScreen {
+            TaskGroupEditorScreen()
+        }
     }
 }

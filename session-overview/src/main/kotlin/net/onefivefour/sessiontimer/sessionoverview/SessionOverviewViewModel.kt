@@ -13,7 +13,7 @@ import net.onefivefour.sessiontimer.database.domain.model.Session
 import javax.inject.Inject
 
 @HiltViewModel
-class SessionOverviewViewModel @Inject constructor(
+internal class SessionOverviewViewModel @Inject constructor(
     private val sessionRepository: SessionRepository
 ): ViewModel() {
 
@@ -30,6 +30,6 @@ class SessionOverviewViewModel @Inject constructor(
 
 }
 
-data class UiState(
+internal data class UiState(
     val sessions: List<Session> = emptyList()
 )

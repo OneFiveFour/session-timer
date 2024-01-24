@@ -13,13 +13,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import net.onefivefour.sessiontimer.theme.typography
 
 @Composable
-fun SessionEditorScreen() {
+fun SessionEditorScreen(onEditTaskGroup: (Long) -> Unit) {
 
     val viewModel: SessionEditorViewModel = hiltViewModel()
     val sessionEditorState = viewModel.uiState.collectAsStateWithLifecycle().value
@@ -29,18 +28,20 @@ fun SessionEditorScreen() {
         onNewTaskGroup = { viewModel.newTaskGroup() },
         onNewTask = { taskGroupId -> viewModel.newTask(taskGroupId) },
         onDeleteTask = { taskId -> viewModel.deleteTask(taskId) },
-        onDeleteTaskGroup = { taskGroupId -> viewModel.deleteTaskGroup(taskGroupId) }
+        onDeleteTaskGroup = { taskGroupId -> viewModel.deleteTaskGroup(taskGroupId) },
+        onEditTaskGroup = onEditTaskGroup
     )
 }
 
 
 @Composable
-fun SessionEditor(
+internal fun SessionEditor(
     uiState: UiState,
     onNewTaskGroup: () -> Unit,
     onNewTask: (Long) -> Unit,
     onDeleteTask: (Long) -> Unit,
-    onDeleteTaskGroup: (Long) -> Unit
+    onDeleteTaskGroup: (Long) -> Unit,
+    onEditTaskGroup: (Long) -> Unit
 ) {
     val session = uiState.session ?: return
 
@@ -65,13 +66,20 @@ fun SessionEditor(
 
         items(session.taskGroups) { taskGroup ->
 
-            Column {
+            Row {
 
                 Text(
                     color = MaterialTheme.colorScheme.onBackground,
                     text = "\n  TASK GROUP: ${taskGroup.id}",
                     style = typography.titleLarge
                 )
+
+                Button(
+                    modifier = Modifier.wrapContentSize(),
+                    onClick = { onEditTaskGroup(taskGroup.id) }
+                ) {
+                    Text(text = "Edit")
+                }
 
                 Button(
                     modifier = Modifier.wrapContentSize(),
@@ -90,7 +98,9 @@ fun SessionEditor(
 
             taskGroup.tasks.forEach { task ->
 
-                Column(modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()) {
 
                     Text(
                         color = MaterialTheme.colorScheme.onBackground,

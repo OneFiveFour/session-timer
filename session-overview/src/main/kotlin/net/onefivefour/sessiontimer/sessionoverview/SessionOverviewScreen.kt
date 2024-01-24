@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -17,7 +18,7 @@ fun SessionOverviewScreen(
 ) {
 
     val viewModel: SessionOverviewViewModel = hiltViewModel()
-    val sessionOverviewState = viewModel.uiState.collectAsStateWithLifecycle().value
+    val sessionOverviewState by viewModel.uiState.collectAsStateWithLifecycle()
 
     SessionOverview(
         uiState = sessionOverviewState,
@@ -26,7 +27,7 @@ fun SessionOverviewScreen(
 }
 
 @Composable
-fun SessionOverview(
+internal fun SessionOverview(
     uiState: UiState,
     onEditSession: (Long) -> Unit
 ) {
