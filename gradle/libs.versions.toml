@@ -10,18 +10,19 @@ androidXLifecycle="2.7.0"
 androidXNavigation = "2.7.6"
 composeNavigator="1.0.1"
 coroutines = "1.7.3"
-dagger = "2.48.1"
+dagger = "2.50"
 gradle = "8.2.1"
 hiltNavigation = "1.1.0"
 junit = "5.10.1"
 kotlin = "1.9.21"
 kotlinxDatetime = "0.5.0"
 kover = "0.7.5"
-ksp = "1.9.21-1.0.15"
+ksp = "1.9.21-1.0.16"
 ktLint = "11.6.1"
 mockk = "1.13.8"
 sqlDelight = "2.0.0"
-truth="1.1.4"
+turbine="1.0.0"
+truth="1.1.5"
 
 [libraries]
 ## Build Tools
@@ -79,6 +80,7 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 sqlDelight-test = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
 truth = { module = "com.google.truth:truth", version.ref = "truth"}
 androidX-arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidXArchCoreTesting"}
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 # Lint and Code Coverage
 ktLint-gradlePlugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktLint" }

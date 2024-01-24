@@ -29,6 +29,8 @@ internal val VersionCatalog.libTruth: Provider<MinimalExternalModuleDependency>
     get() = findLibraryOrThrow("truth")
 internal val VersionCatalog.libAndroidXArchCoreTesting: Provider<MinimalExternalModuleDependency>
     get() = findLibraryOrThrow("androidX-arch-core-testing")
+internal val VersionCatalog.libTurbine: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("turbine")
 
 private fun VersionCatalog.findLibraryOrThrow(name: String) =
     findLibrary(name)

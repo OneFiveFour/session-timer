@@ -35,7 +35,12 @@ class TaskRepositoryTest {
 
     @Test
     fun `getAll returns domain model task`() = runTest {
-        val testTask = DatabaseTask(78L, "Title 1", 3L, 1L)
+        val testTask = DatabaseTask(
+            id = 78L,
+            title = "Title 1",
+            durationInSeconds = 3L,
+            taskGroupId = 1L
+        )
         coEvery { taskDataSourceMock.getAll(any()) } returns flowOf(listOf(testTask))
 
         val tasks = sut.getAll(listOf(1L)).first()

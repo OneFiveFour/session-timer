@@ -73,6 +73,16 @@ internal class TaskDataSourceImplTest {
     }
 
     @Test
+    fun `deleteByTaskGroup delegates to correct taskQueries call`() = runTest {
+        coEvery { taskQueries.deleteByTaskGroup(any()) } returns mockk()
+
+        val taskId = 123L
+        sut.deleteByTaskGroup(taskId)
+
+        coVerify { taskQueries.deleteByTaskGroup(taskId) }
+    }
+
+    @Test
     fun `insert delegates to correct taskQueries call`() = runTest {
         coEvery { taskQueries.insert(any(), any(), any(), any()) } returns mockk()
 

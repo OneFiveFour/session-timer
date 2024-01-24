@@ -11,6 +11,8 @@ class NewTaskGroupUseCase @Inject constructor(
 
     suspend fun execute(sessionId: Long) {
         taskGroupRepository.new(sessionId)
+        val taskGroupId = taskGroupRepository.getLastInsertId()
+        taskRepository.new(taskGroupId)
     }
 
 }

@@ -54,12 +54,12 @@ internal class SessionDataSourceImplTest {
 
     @Test
     fun `getBySessionId delegates to correct sessionQueries call`() = runTest {
-        coEvery { sessionQueries.getById(any()).executeAsOneOrNull() } returns null
+        coEvery { sessionQueries.fullSession(any()).executeAsOneOrNull() } returns null
 
         val sessionId = 123L
-        sut.getById(sessionId)
+        sut.getFullSession(sessionId)
 
-        coVerify { sessionQueries.getById(sessionId) }
+        coVerify { sessionQueries.fullSession(sessionId) }
     }
 
     @Test

@@ -22,7 +22,7 @@ class SessionEditorViewModel @Inject constructor(
     private val deleteTaskGroupUseCase: DeleteTaskGroupUseCase
 ) : ViewModel() {
 
-    private val sessionId = checkNotNull(savedStateHandle.get<String>("sessionId")).toLong()
+    private val sessionId = checkNotNull(savedStateHandle.get<Long>("sessionId"))
 
     private var _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()

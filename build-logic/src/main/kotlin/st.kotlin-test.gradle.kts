@@ -5,6 +5,7 @@ dependencies {
     testImplementation(libs.libCoroutinesTest)
     testImplementation(libs.libMockk)
     testImplementation(libs.libTruth)
+    testImplementation(libs.libTurbine)
 }
 
 tasks.withType<Test> {

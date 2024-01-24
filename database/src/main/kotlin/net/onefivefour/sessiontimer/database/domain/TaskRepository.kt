@@ -3,6 +3,7 @@ package net.onefivefour.sessiontimer.database.domain
 import kotlinx.coroutines.flow.map
 import net.onefivefour.sessiontimer.database.data.TaskDataSource
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 import net.onefivefour.sessiontimer.database.Task as DatabaseTask
 import net.onefivefour.sessiontimer.database.domain.model.Task as DomainTask
 
@@ -39,8 +40,8 @@ private fun List<DatabaseTask>.toDomainTask(): List<DomainTask> {
 private fun DatabaseTask.toDomainTask(): DomainTask {
     return DomainTask(
         id = this.id,
-        title = null,
-        durationInSeconds = null,
+        title = this.title,
+        durationInSeconds = this.durationInSeconds?.seconds,
         taskGroupId = this.taskGroupId
     )
 }
