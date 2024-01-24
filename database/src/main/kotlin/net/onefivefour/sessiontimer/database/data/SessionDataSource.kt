@@ -1,12 +1,12 @@
 package net.onefivefour.sessiontimer.database.data
 
 import kotlinx.coroutines.flow.Flow
-import net.onefivefour.sessiontimer.database.GetById
+import net.onefivefour.sessiontimer.database.FullSession
 import net.onefivefour.sessiontimer.database.Session
 
 interface SessionDataSource {
 
-    suspend fun getById(sessionId: Long): Flow<List<GetById>>
+    suspend fun getFullSession(sessionId: Long): Flow<List<FullSession>>
 
     fun getAll(): Flow<List<Session>>
 

@@ -7,7 +7,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import net.onefivefour.sessiontimer.core.di.IoDispatcher
-import net.onefivefour.sessiontimer.database.GetById
+import net.onefivefour.sessiontimer.database.FullSession
 import net.onefivefour.sessiontimer.database.Session
 import net.onefivefour.sessiontimer.database.SessionQueries
 import javax.inject.Inject
@@ -17,8 +17,8 @@ internal class SessionDataSourceImpl @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : SessionDataSource {
 
-    override suspend fun getById(sessionId: Long): Flow<List<GetById>> {
-        return queries.getById(sessionId).asFlow().mapToList(dispatcher)
+    override suspend fun getFullSession(sessionId: Long): Flow<List<FullSession>> {
+        return queries.fullSession(sessionId).asFlow().mapToList(dispatcher)
     }
 
     override fun getAll(): Flow<List<Session>> {

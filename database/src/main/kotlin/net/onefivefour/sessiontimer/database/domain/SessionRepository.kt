@@ -2,7 +2,7 @@ package net.onefivefour.sessiontimer.database.domain
 
 import androidx.core.graphics.toColorInt
 import kotlinx.coroutines.flow.map
-import net.onefivefour.sessiontimer.database.GetById
+import net.onefivefour.sessiontimer.database.FullSession
 import net.onefivefour.sessiontimer.database.data.SessionDataSource
 import net.onefivefour.sessiontimer.database.domain.model.Task
 import net.onefivefour.sessiontimer.database.domain.model.TaskGroup
@@ -19,47 +19,52 @@ class SessionRepository @Inject constructor(
         .getAll()
         .map(List<DatabaseSession>::toDomainSession)
 
-    suspend fun getById(sessionId: Long) = sessionDataSource
-        .getById(sessionId)
-        .map { getById ->
-            getById.toDomainSession()
+    suspend fun getFullSession(sessionId: Long) = sessionDataSource
+        .getFullSession(sessionId)
+        .map { fullSession ->
+            fullSession.toDomainSession()
         }
 
 }
 
-private fun List<GetById>.toDomainSession(): DomainSession? {
+private fun List<FullSession>.toDomainSession(): DomainSession? {
 
-    val sessionId = this.firstOrNull()?.sessionId ?: return null
-    val sessionTitle = this.firstOrNull()?.sessionTitle ?: ""
+    val firstSession = this.firstOrNull() ?: return null
+
+    val sessionId = firstSession.sessionId
+    val sessionTitle = firstSession.sessionTitle
 
     val taskGroups = this
         .groupBy { it.taskGroupId }
-        .mapNotNull taskGroupMap@{ (taskGroupId, getById) ->
+        .mapNotNull { (taskGroupId, fullSessions) ->
 
-            if (taskGroupId == null) return@taskGroupMap  null
+            taskGroupId?.let {
 
-            val taskGroupTitle = getById.firstOrNull()?.taskGroupTitle ?: ""
-            val taskGroupColor = getById.firstOrNull()?.taskGroupColor ?: 0xFFFF00
+                val fullSession = fullSessions.firstOrNull() ?: return null
+                val taskGroupTitle = fullSession.taskGroupTitle ?: ""
+                val taskGroupColor = fullSession.taskGroupColor ?: 0xFFFF00
 
-            val tasks = getById.mapNotNull taskMap@{ taskRow ->
+                val tasks = fullSessions.mapNotNull { taskRow ->
 
-                if (taskRow.taskId == null) return@taskMap null
+                    taskRow.taskId?.let {
+                        Task(
+                            id = taskRow.taskId,
+                            title = taskRow.taskTitle,
+                            durationInSeconds = taskRow.taskDuration?.seconds,
+                            taskGroupId = taskGroupId
+                        )
+                    }
 
-                Task(
-                    taskRow.taskId,
-                    taskRow.taskTitle,
-                    taskRow.taskDuration?.seconds,
-                    taskGroupId
+                }
+
+                TaskGroup(
+                    taskGroupId,
+                    taskGroupTitle,
+                    taskGroupColor.toColorInt(),
+                    tasks,
+                    sessionId
                 )
             }
-
-            TaskGroup(
-                taskGroupId,
-                taskGroupTitle,
-                taskGroupColor.toColorInt(),
-                tasks,
-                sessionId
-            )
         }
 
     return DomainSession(

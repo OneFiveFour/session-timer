@@ -15,7 +15,7 @@ VALUES
 getAll:
 SELECT * FROM session;
 
-getById:
+fullSession:
 SELECT
     S.id AS sessionId,
     S.title AS sessionTitle,
