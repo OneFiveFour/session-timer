@@ -1,8 +1,10 @@
 package net.onefivefour.sessiontimer.database.domain
 
 import androidx.core.graphics.toColorInt
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import net.onefivefour.sessiontimer.database.data.TaskGroupDataSource
+import net.onefivefour.sessiontimer.database.domain.model.TaskGroup
 import javax.inject.Inject
 import net.onefivefour.sessiontimer.database.TaskGroup as DatabaseTaskGroup
 import net.onefivefour.sessiontimer.database.domain.model.TaskGroup as DomainTaskGroup
@@ -26,8 +28,13 @@ class TaskGroupRepository @Inject constructor(
     suspend fun delete(taskGroupId: Long) = taskGroupDataSource
         .delete(taskGroupId)
 
+    suspend fun get(taskGroupId: Long) = taskGroupDataSource
+        .get(taskGroupId)
+        .map { it.toDomainTaskGroup() }
+
     fun getLastInsertId() = taskGroupDataSource
         .getLastInsertId()
+
 
 }
 

@@ -2,6 +2,7 @@ package net.onefivefour.sessiontimer.database.data
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import app.cash.sqldelight.coroutines.mapToOne
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -19,6 +20,12 @@ internal class TaskGroupDataSourceImpl @Inject constructor(
     override suspend fun getAll(sessionId: Long): Flow<List<TaskGroup>> {
         return withContext(dispatcher) {
             queries.getAll(sessionId).asFlow().mapToList(dispatcher)
+        }
+    }
+
+    override suspend fun get(taskGroupId: Long): Flow<TaskGroup> {
+        return withContext(dispatcher) {
+            queries.get(taskGroupId).asFlow().mapToOne(dispatcher)
         }
     }
 

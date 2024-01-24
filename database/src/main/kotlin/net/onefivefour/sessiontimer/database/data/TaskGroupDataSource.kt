@@ -7,6 +7,8 @@ interface TaskGroupDataSource {
 
     suspend fun getAll(sessionId: Long): Flow<List<TaskGroup>>
 
+    suspend fun get(taskGroupId: Long): Flow<TaskGroup>
+
     suspend fun delete(taskGroupId: Long)
 
     suspend fun insert(taskGroupId: Long?, sessionId: Long)

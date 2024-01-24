@@ -19,6 +19,9 @@ VALUES
 getAll:
 SELECT * FROM taskGroup WHERE sessionId = :sessionId;
 
+get:
+SELECT * FROM taskGroup WHERE id = :taskGroupId;
+
 insert:
 INSERT INTO taskGroup VALUES (?,?,?,?);
 
