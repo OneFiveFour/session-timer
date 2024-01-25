@@ -24,14 +24,17 @@ internal class SessionEditorViewModel @Inject constructor(
 
     private val sessionId = checkNotNull(savedStateHandle.get<String>("sessionId")).toLong()
 
-    private var _uiState = MutableStateFlow(UiState())
+    private var _uiState = MutableStateFlow<UiState>(UiState.Initial)
     val uiState = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
             getFullSessionUseCase.execute(sessionId).collectLatest { fullSession ->
                 _uiState.update {
-                    it.copy(session = fullSession)
+                    when (fullSession) {
+                        null -> UiState.Error("Could not find a session with id $sessionId")
+                        else -> UiState.Success(session = fullSession)
+                    }
                 }
             }
         }
@@ -64,7 +67,8 @@ internal class SessionEditorViewModel @Inject constructor(
 
 // TODO check all classes if they can be internal
 
-// TODO create sealed interface with initial and success state
-internal data class UiState(
-    val session: Session? = null
-)
+internal sealed interface UiState {
+    data object Initial : UiState
+    data class Success(val session: Session) : UiState
+    data class Error(val message: String) : UiState
+}

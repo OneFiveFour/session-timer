@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -21,7 +22,7 @@ import net.onefivefour.sessiontimer.theme.typography
 fun SessionEditorScreen(onEditTaskGroup: (Long) -> Unit) {
 
     val viewModel: SessionEditorViewModel = hiltViewModel()
-    val sessionEditorState = viewModel.uiState.collectAsStateWithLifecycle().value
+    val sessionEditorState by viewModel.uiState.collectAsStateWithLifecycle()
 
     SessionEditor(
         uiState = sessionEditorState,
@@ -33,6 +34,17 @@ fun SessionEditorScreen(onEditTaskGroup: (Long) -> Unit) {
     )
 }
 
+@Composable
+fun SessionEditorInitial() {
+    Text(text = "Session Editor Initial")
+}
+
+@Composable
+fun SessionEditorError(
+    errorMessage: String
+) {
+    Text(text = errorMessage)
+}
 
 @Composable
 internal fun SessionEditor(
@@ -43,7 +55,22 @@ internal fun SessionEditor(
     onDeleteTaskGroup: (Long) -> Unit,
     onEditTaskGroup: (Long) -> Unit
 ) {
-    val session = uiState.session ?: return
+
+    when (uiState) {
+        UiState.Initial -> {
+            SessionEditorInitial()
+            return
+        }
+        is UiState.Error -> {
+            SessionEditorError(uiState.message)
+            return
+        }
+        is UiState.Success -> {
+            checkNotNull(uiState.session)
+        }
+    }
+
+    val session = uiState.session
 
     LazyColumn(modifier = Modifier.fillMaxHeight()) {
 

@@ -13,7 +13,7 @@ import net.onefivefour.sessiontimer.database.domain.model.Task
 import net.onefivefour.sessiontimer.database.domain.model.TaskGroup
 import javax.inject.Inject
 
-class GetFullSessionUseCase @Inject constructor(
+internal class GetFullSessionUseCase @Inject constructor(
     private val sessionRepository: SessionRepository
 ){
     suspend fun execute(sessionId: Long) : Flow<Session?> {

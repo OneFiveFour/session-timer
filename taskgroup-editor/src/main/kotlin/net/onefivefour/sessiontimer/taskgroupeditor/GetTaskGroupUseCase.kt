@@ -5,7 +5,7 @@ import net.onefivefour.sessiontimer.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.database.domain.model.TaskGroup
 import javax.inject.Inject
 
-class GetTaskGroupUseCase @Inject constructor(
+internal class GetTaskGroupUseCase @Inject constructor(
     private val taskGroupRepository: TaskGroupRepository
 ) {
 

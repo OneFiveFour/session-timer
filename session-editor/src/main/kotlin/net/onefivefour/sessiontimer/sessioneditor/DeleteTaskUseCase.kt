@@ -3,7 +3,7 @@ package net.onefivefour.sessiontimer.sessioneditor
 import net.onefivefour.sessiontimer.database.domain.TaskRepository
 import javax.inject.Inject
 
-class DeleteTaskUseCase @Inject constructor(
+internal class DeleteTaskUseCase @Inject constructor(
     private val taskRepository: TaskRepository
 ){
 
