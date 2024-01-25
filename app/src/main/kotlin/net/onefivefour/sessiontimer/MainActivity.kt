@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import net.onefivefour.sessiontimer.navigation.AppNavGraph
-import net.onefivefour.sessiontimer.theme.SessionTimerTheme
+import net.onefivefour.sessiontimer.core.theme.SessionTimerTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

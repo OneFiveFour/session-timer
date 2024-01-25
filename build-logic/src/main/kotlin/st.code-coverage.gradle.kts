@@ -30,18 +30,18 @@ koverReport {
                 "*_Factory",
 
                 // database
-                "net.onefivefour.sessiontimer.database.Database",
-                "net.onefivefour.sessiontimer.database.database.*",
-                "net.onefivefour.sessiontimer.database.domain.model.*",
-                "net.onefivefour.sessiontimer.database.Task*",
-                "net.onefivefour.sessiontimer.database.TaskGroup*",
-                "net.onefivefour.sessiontimer.database.Session*"
+                "net.onefivefour.sessiontimer.core.database.Database",
+                "net.onefivefour.sessiontimer.core.database.database.*",
+                "net.onefivefour.sessiontimer.core.database.domain.model.*",
+                "net.onefivefour.sessiontimer.core.database.Task*",
+                "net.onefivefour.sessiontimer.core.database.TaskGroup*",
+                "net.onefivefour.sessiontimer.core.database.Session*"
             )
             packages(
                 // common
                 "hilt_aggregated_deps",
                 "dagger.hilt.internal.aggregatedroot.codegen",
-                "net.onefivefour.sessiontimer.theme",
+                "net.onefivefour.sessiontimer.core.theme",
                 "*.di",
                 "de.onecode.navigator"
             )

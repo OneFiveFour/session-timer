@@ -6,8 +6,8 @@ import de.onecode.navigator.api.Destination
 import de.onecode.navigator.api.Home
 import de.onecode.navigator.api.Navigation
 import de.onecode.navigator.api.Parameter
-import net.onefivefour.sessiontimer.sessioneditor.SessionEditorScreen
-import net.onefivefour.sessiontimer.sessionoverview.SessionOverviewScreen
+import net.onefivefour.sessiontimer.feature.sessioneditor.SessionEditorScreen
+import net.onefivefour.sessiontimer.feature.sessionoverview.SessionOverviewScreen
 import net.onefivefour.sessiontimer.taskgroupeditor.TaskGroupEditorScreen
 
 @Destination

@@ -19,9 +19,9 @@ dependencyResolutionManagement {
 rootProject.name = "session-timer"
 
 include(":app")
-include(":core")
-include(":database")
-include(":session-editor")
-include(":session-overview")
-include(":taskgroup-editor")
-include(":theme")
+include(":core:di")
+include(":core:theme")
+include(":core:database")
+include(":feature:session-editor")
+include(":feature:session-overview")
+include(":feature:taskgroup-editor")
