@@ -14,22 +14,33 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class SessionOverviewViewModel @Inject constructor(
-    private val sessionRepository: SessionRepository
-): ViewModel() {
+    private val getAllSessionsUseCase: GetAllSessionsUseCase,
+    private val newSessionUseCase: NewSessionUseCase
+) : ViewModel() {
 
-    private var _uiState = MutableStateFlow(UiState())
+    private var _uiState = MutableStateFlow<UiState>(UiState.Initial)
     val uiState = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            sessionRepository.getAll().collectLatest { sessions ->
-                _uiState.update { it.copy(sessions = sessions) }
+            getAllSessionsUseCase.execute().collectLatest { sessions ->
+                _uiState.update {
+                    UiState.Success(sessions)
+                }
             }
+        }
+    }
+
+    fun newSession() {
+        viewModelScope.launch {
+            newSessionUseCase.execute()
         }
     }
 
 }
 
-internal data class UiState(
-    val sessions: List<Session> = emptyList()
-)
+internal sealed interface UiState {
+    data object Initial : UiState
+    data class Success(val sessions: List<Session>) : UiState
+    data class Error(val message: String) : UiState
+}

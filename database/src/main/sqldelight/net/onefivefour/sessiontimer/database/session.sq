@@ -1,6 +1,6 @@
 CREATE TABLE session (
   id INTEGER PRIMARY KEY NOT NULL,
-  title TEXT NOT NULL
+  title TEXT
 );
 
 INSERT INTO session (id, title)

@@ -31,9 +31,9 @@ internal class SessionDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun insert(sessionId: Long?, title: String) {
+    override suspend fun insert() {
         withContext(dispatcher) {
-            queries.insert(sessionId, title)
+            queries.insert(null, null)
         }
     }
 }

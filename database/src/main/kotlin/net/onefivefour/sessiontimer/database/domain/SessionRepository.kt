@@ -25,6 +25,8 @@ class SessionRepository @Inject constructor(
             fullSession.toDomainSession()
         }
 
+    suspend fun new() = sessionDataSource
+        .insert()
 }
 
 private fun List<FullSession>.toDomainSession(): DomainSession? {
@@ -32,7 +34,7 @@ private fun List<FullSession>.toDomainSession(): DomainSession? {
     val firstSession = this.firstOrNull() ?: return null
 
     val sessionId = firstSession.sessionId
-    val sessionTitle = firstSession.sessionTitle
+    val sessionTitle = firstSession.sessionTitle ?: ""
 
     val taskGroups = this
         .groupBy { it.taskGroupId }
@@ -83,7 +85,7 @@ private fun List<DatabaseSession>.toDomainSession(): List<DomainSession> {
 private fun DatabaseSession.toDomainSession(): DomainSession {
     return DomainSession(
         this.id,
-        this.title,
+        this.title ?: "",
         emptyList()
     )
 }

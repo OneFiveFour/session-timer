@@ -21,7 +21,6 @@ class TaskGroupRepository @Inject constructor(
 
     suspend fun new(sessionId: Long) = taskGroupDataSource
         .insert(
-            taskGroupId = null,
             sessionId = sessionId
         )
 

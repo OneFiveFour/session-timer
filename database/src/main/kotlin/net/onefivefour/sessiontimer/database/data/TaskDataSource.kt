@@ -11,5 +11,5 @@ interface TaskDataSource {
 
     suspend fun deleteByTaskGroup(taskGroupId: Long)
 
-    suspend fun insert(taskId: Long?, taskGroupId: Long)
+    suspend fun insert(taskGroupId: Long)
 }
