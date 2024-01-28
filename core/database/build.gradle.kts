@@ -1,13 +1,9 @@
 plugins {
     alias(libs.plugins.sqlDelight)
     alias(libs.plugins.ksp)
-    id("st.android-library")
+    id("st.kotlin-library")
     id("st.kotlin-test")
     id("st.ktlint")
-}
-
-android {
-    namespace = AppConfig.applicationId + ".core.database"
 }
 
 sqldelight {
@@ -27,7 +23,7 @@ dependencies {
 
     // Dependency Injection
     implementation(libs.hilt.core)
-    ksp(libs.hilt.android.compiler)
+    ksp(libs.hilt.compiler)
 
     // Coroutines
     implementation(libs.coroutines.core)

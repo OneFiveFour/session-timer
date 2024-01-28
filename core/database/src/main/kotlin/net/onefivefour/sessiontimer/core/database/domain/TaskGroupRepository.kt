@@ -1,10 +1,7 @@
 package net.onefivefour.sessiontimer.core.database.domain
 
-import androidx.core.graphics.toColorInt
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import net.onefivefour.sessiontimer.core.database.data.TaskGroupDataSource
-import net.onefivefour.sessiontimer.core.database.domain.model.TaskGroup
 import javax.inject.Inject
 import net.onefivefour.sessiontimer.core.database.TaskGroup as DatabaseTaskGroup
 import net.onefivefour.sessiontimer.core.database.domain.model.TaskGroup as DomainTaskGroup
@@ -46,12 +43,12 @@ private fun List<DatabaseTaskGroup>.toDomainTaskGroup(): List<DomainTaskGroup> {
 private fun DatabaseTaskGroup.toDomainTaskGroup(): DomainTaskGroup {
 
     val title = this.title ?: ""
-    val color = this.color ?: 0xFF0000
+    val color = this.color?.toInt() ?: 0xFF0000
 
     return DomainTaskGroup(
         this.id,
         title,
-        color.toColorInt(),
+        color,
         emptyList(),
         this.sessionId
     )

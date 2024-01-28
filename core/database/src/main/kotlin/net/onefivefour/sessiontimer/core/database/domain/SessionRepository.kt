@@ -1,6 +1,5 @@
 package net.onefivefour.sessiontimer.core.database.domain
 
-import androidx.core.graphics.toColorInt
 import kotlinx.coroutines.flow.map
 import net.onefivefour.sessiontimer.core.database.FullSession
 import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
@@ -44,7 +43,7 @@ private fun List<FullSession>.toDomainSession(): DomainSession? {
 
                 val fullSession = fullSessions.firstOrNull() ?: return null
                 val taskGroupTitle = fullSession.taskGroupTitle ?: ""
-                val taskGroupColor = fullSession.taskGroupColor ?: 0xFFFF00
+                val taskGroupColor = fullSession.taskGroupColor?.toInt() ?: 0xFFFF00
 
                 val tasks = fullSessions.mapNotNull { taskRow ->
 
@@ -62,7 +61,7 @@ private fun List<FullSession>.toDomainSession(): DomainSession? {
                 TaskGroup(
                     taskGroupId,
                     taskGroupTitle,
-                    taskGroupColor.toColorInt(),
+                    taskGroupColor,
                     tasks,
                     sessionId
                 )
