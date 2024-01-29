@@ -12,5 +12,5 @@ interface SessionDataSource {
 
     suspend fun deleteById(sessionId: Long)
 
-    suspend fun insert()
+    suspend fun insert(defaultTitle: String)
 }

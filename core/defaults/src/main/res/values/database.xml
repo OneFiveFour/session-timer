@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="default_session_title">New session</string>
+    <string name="default_taskgroup_title">New task group</string>
+    <string name="default_task_title">New task</string>
+
+</resources>
