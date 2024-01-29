@@ -8,8 +8,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import net.onefivefour.sessiontimer.core.database.domain.model.Session
+import net.onefivefour.sessiontimer.core.usecases.GetAllSessionsUseCase
+import net.onefivefour.sessiontimer.core.usecases.NewSessionUseCase
 import javax.inject.Inject
 
 @HiltViewModel

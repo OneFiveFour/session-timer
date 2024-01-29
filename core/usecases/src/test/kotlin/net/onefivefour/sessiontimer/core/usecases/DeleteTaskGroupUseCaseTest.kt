@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.feature.sessioneditor
+package net.onefivefour.sessiontimer.core.usecases
 
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -13,7 +13,7 @@ class DeleteTaskGroupUseCaseTest {
     private val taskGroupRepositoryMock: TaskGroupRepository = mockk()
     private val taskRepositoryMock: TaskRepository = mockk()
 
-    private val sut = DeleteTaskGroupUseCase(
+    private val sut = net.onefivefour.sessiontimer.core.usecases.DeleteTaskGroupUseCase(
         taskGroupRepositoryMock,
         taskRepositoryMock
     )

@@ -11,6 +11,7 @@ android {
 
 dependencies {
     implementation(project(":core:database"))
+    implementation(project(":core:usecases"))
 
     // Compose
     implementation(platform(libs.androidX.compose.bom))

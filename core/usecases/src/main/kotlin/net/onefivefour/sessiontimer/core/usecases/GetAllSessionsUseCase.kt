@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.feature.sessionoverview
+package net.onefivefour.sessiontimer.core.usecases
 
 import kotlinx.coroutines.flow.Flow
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository

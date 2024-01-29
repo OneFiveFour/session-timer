@@ -1,9 +1,9 @@
-package net.onefivefour.sessiontimer.feature.sessioneditor
+package net.onefivefour.sessiontimer.core.usecases
 
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import javax.inject.Inject
 
-internal class NewTaskUseCase @Inject constructor(
+class NewTaskUseCase @Inject constructor(
     private val taskRepository: TaskRepository
 ){
 

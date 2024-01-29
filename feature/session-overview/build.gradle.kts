@@ -13,7 +13,7 @@ android {
 dependencies {
     implementation(project(":core:theme"))
     implementation(project(":core:database"))
-    implementation(project(":core:defaults"))
+    implementation(project(":core:usecases"))
 
     api(libs.androidX.navigation)
 

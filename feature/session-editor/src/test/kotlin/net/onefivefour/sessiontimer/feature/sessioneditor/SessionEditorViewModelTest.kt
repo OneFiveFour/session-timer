@@ -19,7 +19,6 @@ import net.onefivefour.sessiontimer.sessioneditor.DeleteTaskUseCase
 import net.onefivefour.sessiontimer.sessioneditor.GetFullSessionUseCase
 import net.onefivefour.sessiontimer.sessioneditor.NewTaskGroupUseCase
 import net.onefivefour.sessiontimer.sessioneditor.NewTaskUseCase
-import net.onefivefour.sessiontimer.sessioneditor.SessionEditorViewModel
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -32,11 +31,11 @@ class SessionEditorViewModelTest {
 
     private val savedStateHandleFake = SavedStateHandle()
 
-    private val getFullSessionUseCaseMock: GetFullSessionUseCase = mockk()
-    private val newTaskGroupUseCaseMock: NewTaskGroupUseCase = mockk()
-    private val newTaskUseCaseMock : NewTaskUseCase = mockk()
-    private val deleteTaskUseCaseMock : DeleteTaskUseCase = mockk()
-    private val deleteTaskGroupUseCaseMock : DeleteTaskGroupUseCase = mockk()
+    private val getFullSessionUseCaseMock: net.onefivefour.sessiontimer.core.usecases.GetFullSessionUseCase = mockk()
+    private val newTaskGroupUseCaseMock: net.onefivefour.sessiontimer.core.usecases.NewTaskGroupUseCase = mockk()
+    private val newTaskUseCaseMock : net.onefivefour.sessiontimer.core.usecases.NewTaskUseCase = mockk()
+    private val deleteTaskUseCaseMock : net.onefivefour.sessiontimer.core.usecases.DeleteTaskUseCase = mockk()
+    private val deleteTaskGroupUseCaseMock : net.onefivefour.sessiontimer.core.usecases.DeleteTaskGroupUseCase = mockk()
 
     @BeforeEach
     fun setup() {

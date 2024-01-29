@@ -1,10 +1,9 @@
-package net.onefivefour.sessiontimer.feature.sessioneditor
+package net.onefivefour.sessiontimer.core.usecases
 
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import net.onefivefour.sessiontimer.sessioneditor.DeleteTaskUseCase
 import org.junit.jupiter.api.Test
@@ -13,7 +12,7 @@ class DeleteTaskUseCaseTest {
 
     private val taskRepositoryMock: TaskRepository = mockk()
 
-    private val sut = DeleteTaskUseCase(
+    private val sut = net.onefivefour.sessiontimer.core.usecases.DeleteTaskUseCase(
         taskRepositoryMock
     )
 

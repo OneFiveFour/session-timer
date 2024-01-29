@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.feature.sessioneditor
+package net.onefivefour.sessiontimer.core.usecases
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -13,7 +13,7 @@ import net.onefivefour.sessiontimer.core.database.domain.model.Task
 import net.onefivefour.sessiontimer.core.database.domain.model.TaskGroup
 import javax.inject.Inject
 
-internal class GetFullSessionUseCase @Inject constructor(
+class GetFullSessionUseCase @Inject constructor(
     private val sessionRepository: SessionRepository
 ){
     suspend fun execute(sessionId: Long) : Flow<Session?> {

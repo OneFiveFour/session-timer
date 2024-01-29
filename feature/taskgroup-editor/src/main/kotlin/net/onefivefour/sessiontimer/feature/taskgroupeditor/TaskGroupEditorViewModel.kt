@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.taskgroupeditor
+package net.onefivefour.sessiontimer.feature.taskgroupeditor
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import net.onefivefour.sessiontimer.core.database.domain.model.TaskGroup
+import net.onefivefour.sessiontimer.core.usecases.GetTaskGroupUseCase
 import javax.inject.Inject
 
 @HiltViewModel

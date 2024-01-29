@@ -1,10 +1,10 @@
-package net.onefivefour.sessiontimer.feature.sessioneditor
+package net.onefivefour.sessiontimer.core.usecases
 
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import javax.inject.Inject
 
-internal class DeleteTaskGroupUseCase @Inject constructor(
+class DeleteTaskGroupUseCase @Inject constructor(
     private val taskGroupRepository: TaskGroupRepository,
     private val taskRepository: TaskRepository
 ){

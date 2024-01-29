@@ -1,16 +1,12 @@
-package net.onefivefour.sessiontimer.feature.sessioneditor
+package net.onefivefour.sessiontimer.core.usecases
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import net.onefivefour.sessiontimer.core.database.FullSession
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
-import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
-import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import net.onefivefour.sessiontimer.core.database.domain.model.Session
 import net.onefivefour.sessiontimer.core.database.domain.model.Task
 import net.onefivefour.sessiontimer.core.database.domain.model.TaskGroup
@@ -23,7 +19,7 @@ class GetFullSessionUseCaseTest {
 
     private val sessionRepositoryMock: SessionRepository = mockk()
 
-    private val sut = GetFullSessionUseCase(
+    private val sut = net.onefivefour.sessiontimer.core.usecases.GetFullSessionUseCase(
         sessionRepositoryMock
     )
 
