@@ -1,6 +1,5 @@
 package net.onefivefour.sessiontimer.core.database.domain
 
-import android.graphics.Color
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -26,8 +25,6 @@ class TaskGroupRepositoryTest {
 
     @Test
     fun `getAll fetches data from taskGroupDataSource`() = runTest {
-        mockkStatic(Color::class)
-        every { Color.toArgb(any()) } returns 0xFF0000
         val testTaskGroup = DatabaseTaskGroup(78L, "Title 1", 123L, 1L)
         coEvery { taskGroupDataSource.getAll(any()) } returns flowOf(listOf(testTaskGroup))
 
@@ -39,8 +36,6 @@ class TaskGroupRepositoryTest {
 
     @Test
     fun `getAll returns domain model taskGroup`() = runTest {
-        mockkStatic(Color::class)
-        every { Color.toArgb(any()) } returns 0xFF0000
         val testTaskGroup = DatabaseTaskGroup(78L, "Title 1", 123L, 1L)
         coEvery { taskGroupDataSource.getAll(any()) } returns flowOf(listOf(testTaskGroup))
 

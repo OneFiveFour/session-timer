@@ -14,6 +14,8 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import net.onefivefour.sessiontimer.core.database.domain.model.Session
+import net.onefivefour.sessiontimer.core.usecases.GetAllSessionsUseCase
+import net.onefivefour.sessiontimer.core.usecases.NewSessionUseCase
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -21,11 +23,16 @@ import org.junit.jupiter.api.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class SessionOverviewViewModelTest {
 
-    private val sessionRepository: SessionRepository = mockk()
+    private val getAllSessionsUseCase: GetAllSessionsUseCase = mockk()
+
+    private val newSessionUseCase: NewSessionUseCase = mockk()
 
     private val testDispatcher = StandardTestDispatcher()
 
-    private fun sut() = SessionOverviewViewModel(sessionRepository)
+    private fun sut() = SessionOverviewViewModel(
+        getAllSessionsUseCase,
+        newSessionUseCase
+    )
 
     @BeforeEach
     fun setup() {
@@ -49,17 +56,17 @@ class SessionOverviewViewModelTest {
     fun `uiState has correct initial value`() {
         val sut = sut()
 
-        assertThat(sut.uiState.value).isEqualTo(UiState())
+        assertThat(sut.uiState.value).isEqualTo(UiState.Initial)
     }
 
     @Test
     fun `sessionRepository is called on init`() = runTest {
-        coEvery { sessionRepository.getAll() } returns flowOf(emptyList())
+        coEvery { getAllSessionsUseCase.execute() } returns flowOf(emptyList())
 
         sut()
         advanceTimeBy(1)
 
-        coVerify(exactly = 1) { sessionRepository.getAll() }
+        coVerify(exactly = 1) { getAllSessionsUseCase.execute() }
     }
 
     @Test
@@ -68,12 +75,12 @@ class SessionOverviewViewModelTest {
             Session(id = 1, title = "Session 1", emptyList()),
             Session(id = 2, title = "Session 2", emptyList())
         )
-        coEvery { sessionRepository.getAll() } returns flowOf(sessions)
+        coEvery { getAllSessionsUseCase.execute() } returns flowOf(sessions)
 
         val sut = sut()
         advanceTimeBy(1)
 
-        val expectedUiState = UiState(sessions = sessions)
+        val expectedUiState = UiState.Success(sessions = sessions)
         assertThat(sut.uiState.value).isEqualTo(expectedUiState)
     }
 }

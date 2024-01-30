@@ -6,7 +6,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
-import net.onefivefour.sessiontimer.sessioneditor.NewTaskGroupUseCase
 import org.junit.jupiter.api.Test
 
 class NewTaskGroupUseCaseTest {

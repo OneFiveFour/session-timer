@@ -78,7 +78,7 @@ internal class TaskGroupDataSourceImplTest {
 
         val taskGroupId = 123L
         val sessionId = 321L
-        sut.insert(taskGroupId, sessionId)
+        sut.insert(sessionId)
 
         coVerify { taskGroupQueries.insert(taskGroupId, null, null, sessionId) }
     }

@@ -1,6 +1,7 @@
 package net.onefivefour.sessiontimer.feature.sessioneditor
 
 import androidx.lifecycle.SavedStateHandle
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -14,11 +15,11 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.database.domain.model.Session
-import net.onefivefour.sessiontimer.sessioneditor.DeleteTaskGroupUseCase
-import net.onefivefour.sessiontimer.sessioneditor.DeleteTaskUseCase
-import net.onefivefour.sessiontimer.sessioneditor.GetFullSessionUseCase
-import net.onefivefour.sessiontimer.sessioneditor.NewTaskGroupUseCase
-import net.onefivefour.sessiontimer.sessioneditor.NewTaskUseCase
+import net.onefivefour.sessiontimer.core.usecases.DeleteTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.DeleteTaskUseCase
+import net.onefivefour.sessiontimer.core.usecases.GetFullSessionUseCase
+import net.onefivefour.sessiontimer.core.usecases.NewTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.NewTaskUseCase
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -31,11 +32,11 @@ class SessionEditorViewModelTest {
 
     private val savedStateHandleFake = SavedStateHandle()
 
-    private val getFullSessionUseCaseMock: net.onefivefour.sessiontimer.core.usecases.GetFullSessionUseCase = mockk()
-    private val newTaskGroupUseCaseMock: net.onefivefour.sessiontimer.core.usecases.NewTaskGroupUseCase = mockk()
-    private val newTaskUseCaseMock : net.onefivefour.sessiontimer.core.usecases.NewTaskUseCase = mockk()
-    private val deleteTaskUseCaseMock : net.onefivefour.sessiontimer.core.usecases.DeleteTaskUseCase = mockk()
-    private val deleteTaskGroupUseCaseMock : net.onefivefour.sessiontimer.core.usecases.DeleteTaskGroupUseCase = mockk()
+    private val getFullSessionUseCaseMock: GetFullSessionUseCase = mockk()
+    private val newTaskGroupUseCaseMock: NewTaskGroupUseCase = mockk()
+    private val newTaskUseCaseMock : NewTaskUseCase = mockk()
+    private val deleteTaskUseCaseMock : DeleteTaskUseCase = mockk()
+    private val deleteTaskGroupUseCaseMock : DeleteTaskGroupUseCase = mockk()
 
     @BeforeEach
     fun setup() {
@@ -56,7 +57,7 @@ class SessionEditorViewModelTest {
     }
 
     @Test
-    fun `initial session is null`() =  runTest {
+    fun `initial state is correct`() =  runTest {
         coEvery { getFullSessionUseCaseMock.execute(any()) } returns flowOf(
             Session(1L, "Session 1", emptyList())
         )
@@ -64,7 +65,10 @@ class SessionEditorViewModelTest {
 
         val sut = createSut()
 
-        assertThat(sut.uiState.value.session).isNull()
+        sut.uiState.test {
+            val uiState = awaitItem()
+            assertThat(uiState is UiState.Initial).isTrue()
+        }
 
     }
 
@@ -82,11 +86,14 @@ class SessionEditorViewModelTest {
 
         coVerify(exactly = 1) { getFullSessionUseCaseMock.execute(sessionId) }
 
-        val session = sut.uiState.value.session
-        checkNotNull(session)
-        assertThat(session.id).isEqualTo(sessionId)
-        assertThat(session.title).isEqualTo("Session 1")
-        assertThat(session.taskGroups).isEmpty()
+        sut.uiState.test {
+            val uiState = awaitItem()
+            check(uiState is UiState.Success)
+            val session = uiState.session
+            assertThat(session.id).isEqualTo(sessionId)
+            assertThat(session.title).isEqualTo("Session 1")
+            assertThat(session.taskGroups).isEmpty()
+        }
 
     }
 

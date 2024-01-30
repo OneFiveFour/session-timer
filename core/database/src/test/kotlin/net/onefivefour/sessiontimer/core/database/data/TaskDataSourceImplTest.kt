@@ -86,12 +86,11 @@ internal class TaskDataSourceImplTest {
     fun `insert delegates to correct taskQueries call`() = runTest {
         coEvery { taskQueries.insert(any(), any(), any(), any()) } returns mockk()
 
-        val taskId = 123L
         val taskGroupId = 321L
-        sut.insert(taskId, taskGroupId)
+        sut.insert(taskGroupId)
 
         coVerify { taskQueries.insert(
-            id = taskId,
+            id = null,
             title = null,
             durationInSeconds = null,
             taskGroupId = taskGroupId

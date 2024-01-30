@@ -87,7 +87,7 @@ internal class SessionDataSourceImplTest {
 
         val sessionId = 123L
         val title = "title"
-        sut.insert(sessionId, title)
+        sut.insert(title)
 
         coVerify { sessionQueries.insert(sessionId, title) }
     }

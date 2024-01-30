@@ -1,7 +1,6 @@
 package net.onefivefour.sessiontimer.core.database.domain
 
 import kotlinx.coroutines.flow.map
-import net.onefivefour.sessiontimer.core.database.FullSession
 import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
 import net.onefivefour.sessiontimer.core.database.domain.model.Task
 import net.onefivefour.sessiontimer.core.database.domain.model.TaskGroup
@@ -16,7 +15,7 @@ class SessionRepository @Inject constructor(
 
     fun getAll() = sessionDataSource
         .getAll()
-        .map(List<DatabaseSession>::toDomainSession)
+        .map(List<FullSession>::toDomainSession)
 
     suspend fun getFullSession(sessionId: Long) = sessionDataSource
         .getFullSession(sessionId)

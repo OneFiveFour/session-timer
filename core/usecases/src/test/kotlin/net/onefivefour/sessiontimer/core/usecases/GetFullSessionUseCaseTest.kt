@@ -10,7 +10,6 @@ import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import net.onefivefour.sessiontimer.core.database.domain.model.Session
 import net.onefivefour.sessiontimer.core.database.domain.model.Task
 import net.onefivefour.sessiontimer.core.database.domain.model.TaskGroup
-import net.onefivefour.sessiontimer.sessioneditor.GetFullSessionUseCase
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.seconds
 
@@ -19,7 +18,7 @@ class GetFullSessionUseCaseTest {
 
     private val sessionRepositoryMock: SessionRepository = mockk()
 
-    private val sut = net.onefivefour.sessiontimer.core.usecases.GetFullSessionUseCase(
+    private val sut = GetFullSessionUseCase(
         sessionRepositoryMock
     )
 
@@ -92,9 +91,12 @@ class GetFullSessionUseCaseTest {
             )
         )
 
-        val fullSession = sut.execute(sessionId)
-//        checkNotNull(fullSession)
-//        assertThat(fullSession.taskGroups.size).isEqualTo(1)
+        sut.execute(sessionId).test {
+            val session = this.awaitItem()
+            checkNotNull(session)
+            assertThat(session.taskGroups.size).isEqualTo(1)
+        }
+
     }
 
 
