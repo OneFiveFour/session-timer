@@ -1,8 +1,8 @@
 package net.onefivefour.sessiontimer.core.usecases
 
 import kotlinx.coroutines.flow.Flow
+import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
-import net.onefivefour.sessiontimer.core.database.domain.model.Session
 import javax.inject.Inject
 
 class GetAllSessionsUseCase @Inject constructor(

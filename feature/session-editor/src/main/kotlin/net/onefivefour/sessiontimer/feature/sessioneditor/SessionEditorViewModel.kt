@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import net.onefivefour.sessiontimer.core.database.domain.model.Session
+import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.usecases.DeleteTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.DeleteTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.GetFullSessionUseCase

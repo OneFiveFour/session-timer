@@ -16,6 +16,7 @@ dependencies {
 
     implementation(project(":core:database"))
     implementation(project(":core:defaults"))
+    implementation(project(":core:common"))
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

@@ -5,7 +5,7 @@ import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.flow.map
 import net.onefivefour.sessiontimer.core.database.Task as DatabaseTask
 import net.onefivefour.sessiontimer.core.database.data.TaskDataSource
-import net.onefivefour.sessiontimer.core.database.domain.model.Task as DomainTask
+import net.onefivefour.sessiontimer.core.common.domain.model.Task as DomainTask
 
 class TaskRepository @Inject constructor(
     private val taskDataSource: TaskDataSource

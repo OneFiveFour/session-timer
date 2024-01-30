@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.map
 import net.onefivefour.sessiontimer.core.database.FullSession
 import net.onefivefour.sessiontimer.core.database.Session as DatabaseSession
 import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
-import net.onefivefour.sessiontimer.core.database.domain.model.Session as DomainSession
-import net.onefivefour.sessiontimer.core.database.domain.model.Task
-import net.onefivefour.sessiontimer.core.database.domain.model.TaskGroup
+import net.onefivefour.sessiontimer.core.common.domain.model.Session as DomainSession
+import net.onefivefour.sessiontimer.core.common.domain.model.Task
+import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 
 class SessionRepository @Inject constructor(
     private val sessionDataSource: SessionDataSource

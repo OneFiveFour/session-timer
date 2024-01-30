@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.core.database.domain.model
+package net.onefivefour.sessiontimer.core.common.domain.model
 
 data class Session(
     val id: Long,

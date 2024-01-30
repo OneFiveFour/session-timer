@@ -59,9 +59,11 @@ android {
 dependencies {
 
     val modules = listOf(
+        ":core:common",
+        ":core:database",
         ":core:di",
         ":core:theme",
-        ":core:database",
+        ":core:usecases",
         ":feature:session-editor",
         ":feature:session-overview",
         ":feature:taskgroup-editor"

@@ -16,6 +16,7 @@ sqldelight {
 
 dependencies {
 
+    implementation(project(":core:common"))
     implementation(project(":core:di"))
 
     // Database
