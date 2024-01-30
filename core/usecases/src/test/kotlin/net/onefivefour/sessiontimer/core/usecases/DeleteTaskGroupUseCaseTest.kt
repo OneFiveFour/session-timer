@@ -20,7 +20,7 @@ class DeleteTaskGroupUseCaseTest {
 
     @Test
     fun `executing the use case deletes the task group and all of its tasks`() = runTest {
-        coEvery { taskGroupRepositoryMock.delete(any()) } returns Unit
+        coEvery { taskGroupRepositoryMock.deleteById(any()) } returns Unit
         coEvery { taskRepositoryMock.deleteByTaskGroup(any()) } returns Unit
 
         val taskGroupId = 1L
@@ -28,7 +28,7 @@ class DeleteTaskGroupUseCaseTest {
         sut.execute(taskGroupId)
 
         coVerify(exactly = 1) {
-            taskGroupRepositoryMock.delete(taskGroupId)
+            taskGroupRepositoryMock.deleteById(taskGroupId)
             taskRepositoryMock.deleteByTaskGroup(taskGroupId)
         }
     }

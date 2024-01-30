@@ -37,3 +37,6 @@ INSERT OR REPLACE INTO session VALUES (?,?);
 
 delete:
 DELETE FROM session WHERE id = :id;
+
+getLastInsertRowId:
+SELECT last_insert_rowid();

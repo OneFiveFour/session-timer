@@ -57,7 +57,7 @@ internal class TaskGroupDataSourceImplTest {
         coEvery { taskGroupQueries.getAll(any()).executeAsOneOrNull() } returns null
 
         val sessionId = 123L
-        sut.getAll(sessionId)
+        sut.getBySessionId(sessionId)
 
         coVerify { taskGroupQueries.getAll(sessionId) }
     }
@@ -67,7 +67,7 @@ internal class TaskGroupDataSourceImplTest {
         coEvery { taskGroupQueries.delete(any()) } returns mockk()
 
         val taskGroupId = 123L
-        sut.delete(taskGroupId)
+        sut.deleteById(taskGroupId)
 
         coVerify { taskGroupQueries.delete(taskGroupId) }
     }

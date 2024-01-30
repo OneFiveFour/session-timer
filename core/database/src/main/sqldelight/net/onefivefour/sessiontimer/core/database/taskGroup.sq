@@ -16,7 +16,7 @@ VALUES
 (2,"TaskGroup 2", 65280, 1)
 ;
 
-getAll:
+getBySessionId:
 SELECT * FROM taskGroup WHERE sessionId = :sessionId;
 
 get:
@@ -25,8 +25,11 @@ SELECT * FROM taskGroup WHERE id = :taskGroupId;
 insert:
 INSERT INTO taskGroup VALUES (?,?,?,?);
 
-delete:
+deleteById:
 DELETE FROM taskGroup WHERE id = :id;
+
+deleteBySessionId:
+SELECT * FROM taskGroup WHERE sessionId = :sessionId;
 
 getLastInsertRowId:
 SELECT last_insert_rowid();

@@ -17,16 +17,21 @@ class TaskRepository @Inject constructor(
             tasks.toDomainTask()
         }
 
-    suspend fun new(taskGroupId: Long) = taskDataSource
+    suspend fun new(title: String, taskGroupId: Long) = taskDataSource
         .insert(
+            title = title,
             taskGroupId = taskGroupId
         )
 
     suspend fun delete(taskId: Long) = taskDataSource
-        .delete(taskId)
+        .deleteById(taskId)
 
     suspend fun deleteByTaskGroup(taskGroupId: Long) = taskDataSource
         .deleteByTaskGroup(taskGroupId)
+
+    suspend fun deleteByIds(taskIds: List<Long>) = taskDataSource
+        .deleteByIds(taskIds)
+
 }
 
 private fun List<DatabaseTask>.toDomainTask(): List<DomainTask> {

@@ -24,8 +24,11 @@ SELECT * FROM task WHERE taskGroupId IN ?;
 insert:
 INSERT INTO task VALUES (?,?,?,?);
 
-delete:
+deleteById:
 DELETE FROM task WHERE id = :id;
+
+deleteByIds:
+DELETE FROM task WHERE id IN ?;
 
 deleteByTaskGroup:
 DELETE FROM task WHERE taskGroupId = :taskGroupId;

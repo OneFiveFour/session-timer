@@ -67,7 +67,7 @@ internal class TaskDataSourceImplTest {
         coEvery { taskQueries.delete(any()) } returns mockk()
 
         val taskId = 123L
-        sut.delete(taskId)
+        sut.deleteById(taskId)
 
         coVerify { taskQueries.delete(taskId) }
     }

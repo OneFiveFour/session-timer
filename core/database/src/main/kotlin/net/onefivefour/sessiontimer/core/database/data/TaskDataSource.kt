@@ -7,9 +7,11 @@ interface TaskDataSource {
 
     suspend fun getAll(taskGroupIds: List<Long>): Flow<List<Task>>
 
-    suspend fun delete(taskId: Long)
+    suspend fun deleteById(taskId: Long)
 
     suspend fun deleteByTaskGroup(taskGroupId: Long)
 
-    suspend fun insert(taskGroupId: Long)
+    suspend fun deleteByIds(taskIds: List<Long>)
+
+    suspend fun insert(title: String, taskGroupId: Long)
 }

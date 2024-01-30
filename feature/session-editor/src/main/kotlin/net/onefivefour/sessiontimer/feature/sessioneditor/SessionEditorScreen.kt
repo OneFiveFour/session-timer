@@ -97,7 +97,7 @@ internal fun SessionEditor(
 
                 Text(
                     color = MaterialTheme.colorScheme.onBackground,
-                    text = "\n  TASK GROUP: ${taskGroup.id}",
+                    text = "\n  ${taskGroup.title}",
                     style = typography.titleLarge
                 )
 
@@ -131,7 +131,7 @@ internal fun SessionEditor(
 
                     Text(
                         color = MaterialTheme.colorScheme.onBackground,
-                        text = "\n    TASK ${task.id}",
+                        text = "\n    ${task.title}",
                         style = typography.titleLarge
                     )
 

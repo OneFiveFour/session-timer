@@ -16,9 +16,9 @@ internal class TaskGroupDataSourceImpl @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : TaskGroupDataSource {
 
-    override suspend fun getAll(sessionId: Long): Flow<List<TaskGroup>> {
+    override suspend fun getBySessionId(sessionId: Long): Flow<List<TaskGroup>> {
         return withContext(dispatcher) {
-            queries.getAll(sessionId).asFlow().mapToList(dispatcher)
+            queries.getBySessionId(sessionId).asFlow().mapToList(dispatcher)
         }
     }
 
@@ -28,20 +28,26 @@ internal class TaskGroupDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun insert(sessionId: Long) {
+    override suspend fun insert(title: String, sessionId: Long) {
         withContext(dispatcher) {
             queries.insert(
                 id = null,
-                title = null,
+                title = title,
                 color = null,
                 sessionId = sessionId
             )
         }
     }
 
-    override suspend fun delete(taskGroupId: Long) {
+    override suspend fun deleteById(taskGroupId: Long) {
         withContext(dispatcher) {
-            queries.delete(taskGroupId)
+            queries.deleteById(taskGroupId)
+        }
+    }
+
+    override suspend fun deleteBySessionId(sessionId: Long) {
+        withContext(dispatcher) {
+            queries.deleteBySessionId(sessionId)
         }
     }
 

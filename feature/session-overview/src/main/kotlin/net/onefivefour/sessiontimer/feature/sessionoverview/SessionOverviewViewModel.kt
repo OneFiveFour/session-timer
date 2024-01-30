@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
+import net.onefivefour.sessiontimer.core.usecases.DeleteSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.GetAllSessionsUseCase
 import net.onefivefour.sessiontimer.core.usecases.NewSessionUseCase
 import javax.inject.Inject
@@ -16,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 internal class SessionOverviewViewModel @Inject constructor(
     private val getAllSessionsUseCase: GetAllSessionsUseCase,
-    private val newSessionUseCase: NewSessionUseCase
+    private val newSessionUseCase: NewSessionUseCase,
+    private val deleteSessionUseCase: DeleteSessionUseCase
 ) : ViewModel() {
 
     private var _uiState = MutableStateFlow<UiState>(UiState.Initial)
@@ -35,6 +37,12 @@ internal class SessionOverviewViewModel @Inject constructor(
     fun newSession() {
         viewModelScope.launch {
             newSessionUseCase.execute()
+        }
+    }
+
+    fun deleteSession(sessionId: Long) {
+        viewModelScope.launch {
+            deleteSessionUseCase.execute(sessionId)
         }
     }
 

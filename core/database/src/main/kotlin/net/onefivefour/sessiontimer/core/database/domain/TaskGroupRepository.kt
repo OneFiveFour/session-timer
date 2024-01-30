@@ -11,25 +11,35 @@ class TaskGroupRepository @Inject constructor(
 ) {
 
     suspend fun getAll(sessionId: Long) = taskGroupDataSource
-        .getAll(sessionId)
+        .getBySessionId(sessionId)
         .map { taskGroups ->
             taskGroups.toDomainTaskGroup()
         }
 
-    suspend fun new(sessionId: Long) = taskGroupDataSource
+    suspend fun new(title: String, sessionId: Long) = taskGroupDataSource
         .insert(
+            title = title,
             sessionId = sessionId
         )
 
-    suspend fun delete(taskGroupId: Long) = taskGroupDataSource
-        .delete(taskGroupId)
+    suspend fun deleteById(taskGroupId: Long) = taskGroupDataSource
+        .deleteById(taskGroupId)
 
     suspend fun get(taskGroupId: Long) = taskGroupDataSource
         .get(taskGroupId)
         .map { it.toDomainTaskGroup() }
 
+    suspend fun getBySessionId(sessionId: Long) = taskGroupDataSource
+        .getBySessionId(sessionId)
+        .map { taskGroups ->
+            taskGroups.toDomainTaskGroup()
+        }
+
     fun getLastInsertId() = taskGroupDataSource
         .getLastInsertId()
+
+    suspend fun deleteBySessionId(sessionId: Long) = taskGroupDataSource
+        .deleteBySessionId(sessionId)
 }
 
 private fun List<DatabaseTaskGroup>.toDomainTaskGroup(): List<DomainTaskGroup> {

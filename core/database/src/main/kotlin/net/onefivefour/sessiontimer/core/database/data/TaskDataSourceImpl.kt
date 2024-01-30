@@ -21,26 +21,32 @@ internal class TaskDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun insert(taskGroupId: Long) {
+    override suspend fun insert(title: String, taskGroupId: Long) {
         withContext(dispatcher) {
             queries.insert(
                 id = null,
-                title = null,
+                title = title,
                 durationInSeconds = null,
                 taskGroupId = taskGroupId
             )
         }
     }
 
-    override suspend fun delete(taskId: Long) {
+    override suspend fun deleteById(taskId: Long) {
         withContext(dispatcher) {
-            queries.delete(taskId)
+            queries.deleteById(taskId)
         }
     }
 
     override suspend fun deleteByTaskGroup(taskGroupId: Long) {
         withContext(dispatcher) {
             queries.deleteByTaskGroup(taskGroupId)
+        }
+    }
+
+    override suspend fun deleteByIds(taskIds: List<Long>) {
+        withContext(dispatcher) {
+            queries.deleteByIds(taskIds)
         }
     }
 }

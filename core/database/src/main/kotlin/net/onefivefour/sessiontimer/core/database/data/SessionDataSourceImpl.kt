@@ -30,9 +30,13 @@ internal class SessionDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun insert(defaultTitle: String) {
+    override suspend fun insert(title: String) {
         withContext(dispatcher) {
-            queries.insert(null, defaultTitle)
+            queries.insert(null, title)
         }
+    }
+
+    override fun getLastInsertId(): Long {
+        return queries.getLastInsertRowId().executeAsOne()
     }
 }

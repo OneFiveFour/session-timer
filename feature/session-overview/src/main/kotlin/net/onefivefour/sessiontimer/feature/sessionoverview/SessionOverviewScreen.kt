@@ -2,6 +2,7 @@ package net.onefivefour.sessiontimer.feature.sessionoverview
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -24,7 +25,8 @@ fun SessionOverviewScreen(
     SessionOverview(
         uiState = sessionOverviewState,
         onEditSession = onEditSession,
-        onNewSession = { viewModel.newSession() }
+        onNewSession = { viewModel.newSession() },
+        onDeleteSession = { sessionId -> viewModel.deleteSession(sessionId) }
     )
 }
 
@@ -44,7 +46,8 @@ fun SessionOverviewError(
 internal fun SessionOverview(
     uiState: UiState,
     onEditSession: (Long) -> Unit,
-    onNewSession: () -> Unit
+    onNewSession: () -> Unit,
+    onDeleteSession: (Long) -> Unit
 ) {
 
     when (uiState) {
@@ -52,11 +55,13 @@ internal fun SessionOverview(
             SessionOverviewInitial()
             return
         }
+
         is UiState.Error -> {
             SessionOverviewError(uiState.message)
             return
         }
-        is UiState.Success -> { }
+
+        is UiState.Success -> {}
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -66,12 +71,20 @@ internal fun SessionOverview(
         }
 
         for (session in uiState.sessions) {
-            Text(
-                modifier = Modifier.clickable { onEditSession(session.id) },
-                color = MaterialTheme.colorScheme.onBackground,
-                text = session.title,
-                style = typography.titleLarge
-            )
+
+            Row {
+
+                Text(
+                    modifier = Modifier.clickable { onEditSession(session.id) },
+                    color = MaterialTheme.colorScheme.onBackground,
+                    text = session.title,
+                    style = typography.titleLarge
+                )
+
+                Button(onClick = { onDeleteSession(session.id) }) {
+                    Text(text = "Delete")
+                }
+            }
         }
     }
 }

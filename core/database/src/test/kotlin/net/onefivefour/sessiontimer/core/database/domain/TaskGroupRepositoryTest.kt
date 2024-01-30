@@ -23,18 +23,18 @@ class TaskGroupRepositoryTest {
     @Test
     fun `getAll fetches data from taskGroupDataSource`() = runTest {
         val testTaskGroup = DatabaseTaskGroup(78L, "Title 1", 123L, 1L)
-        coEvery { taskGroupDataSource.getAll(any()) } returns flowOf(listOf(testTaskGroup))
+        coEvery { taskGroupDataSource.getBySessionId(any()) } returns flowOf(listOf(testTaskGroup))
 
         val sessionId = 1L
         sut.getAll(sessionId).first()
 
-        coVerify(exactly = 1) { taskGroupDataSource.getAll(sessionId) }
+        coVerify(exactly = 1) { taskGroupDataSource.getBySessionId(sessionId) }
     }
 
     @Test
     fun `getAll returns domain model taskGroup`() = runTest {
         val testTaskGroup = DatabaseTaskGroup(78L, "Title 1", 0xFF0000, 1L)
-        coEvery { taskGroupDataSource.getAll(any()) } returns flowOf(listOf(testTaskGroup))
+        coEvery { taskGroupDataSource.getBySessionId(any()) } returns flowOf(listOf(testTaskGroup))
 
         val sessionId = 1L
         val taskGroups = sut.getAll(sessionId).first()
