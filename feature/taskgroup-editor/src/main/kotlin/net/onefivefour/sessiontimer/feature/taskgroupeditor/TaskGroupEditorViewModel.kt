@@ -19,7 +19,7 @@ internal class TaskGroupEditorViewModel @Inject constructor(
     getTaskGroupUseCase: GetTaskGroupUseCase
 ) : ViewModel() {
 
-    private val taskGroupId = checkNotNull(savedStateHandle.get<String>("taskGroupId")).toLong()
+    private val taskGroupId = checkNotNull(savedStateHandle.get<Long>("taskGroupId"))
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Initial)
     val uiState = _uiState.asStateFlow()

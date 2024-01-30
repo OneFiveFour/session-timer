@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.Task as DatabaseTask
 import net.onefivefour.sessiontimer.core.database.data.TaskDataSource
-import net.onefivefour.sessiontimer.core.database.domain.model.Task as DomainTask
+import net.onefivefour.sessiontimer.core.common.domain.model.Task as DomainTask
 import org.junit.jupiter.api.Test
 
 class TaskRepositoryTest {

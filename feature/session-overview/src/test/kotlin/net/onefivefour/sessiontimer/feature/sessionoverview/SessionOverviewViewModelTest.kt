@@ -9,11 +9,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
-import net.onefivefour.sessiontimer.core.database.domain.model.Session
+import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.usecases.GetAllSessionsUseCase
 import net.onefivefour.sessiontimer.core.usecases.NewSessionUseCase
 import org.junit.jupiter.api.AfterEach
@@ -60,7 +60,7 @@ class SessionOverviewViewModelTest {
     }
 
     @Test
-    fun `sessionRepository is called on init`() = runTest {
+    fun `GetAllSessionsUseCase is called on init`() = runTest {
         coEvery { getAllSessionsUseCase.execute() } returns flowOf(emptyList())
 
         sut()
@@ -82,5 +82,20 @@ class SessionOverviewViewModelTest {
 
         val expectedUiState = UiState.Success(sessions = sessions)
         assertThat(sut.uiState.value).isEqualTo(expectedUiState)
+    }
+
+    @Test
+    fun `newSession delegates to NewSessionUseCase`() = runTest {
+        coEvery { getAllSessionsUseCase.execute() } returns flowOf(emptyList())
+        coEvery { newSessionUseCase.execute() } returns Unit
+
+        val sut = sut()
+        sut.newSession()
+
+        advanceUntilIdle()
+
+        coVerify(exactly = 1) {
+            newSessionUseCase.execute()
+        }
     }
 }

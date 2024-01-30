@@ -14,7 +14,7 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import net.onefivefour.sessiontimer.core.database.domain.model.Session
+import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.usecases.DeleteTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.DeleteTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.GetFullSessionUseCase
@@ -32,7 +32,7 @@ class SessionEditorViewModelTest {
 
     private val savedStateHandleFake = SavedStateHandle()
 
-    private val getFullSessionUseCaseMock: GetFullSessionUseCase = mockk()
+    private val getFullSessionUseCase: GetFullSessionUseCase = mockk()
     private val newTaskGroupUseCaseMock: NewTaskGroupUseCase = mockk()
     private val newTaskUseCaseMock : NewTaskUseCase = mockk()
     private val deleteTaskUseCaseMock : DeleteTaskUseCase = mockk()
@@ -58,12 +58,12 @@ class SessionEditorViewModelTest {
 
     @Test
     fun `initial state is correct`() =  runTest {
-        coEvery { getFullSessionUseCaseMock.execute(any()) } returns flowOf(
+        coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(1L, "Session 1", emptyList())
         )
         savedStateHandleFake["sessionId"] = 1L
 
-        val sut = createSut()
+        val sut = sut()
 
         sut.uiState.test {
             val uiState = awaitItem()
@@ -75,16 +75,16 @@ class SessionEditorViewModelTest {
     @Test
     fun `useCase is executed on init`() =  runTest {
         val sessionId = 1L
-        coEvery { getFullSessionUseCaseMock.execute(any()) } returns flowOf(
+        coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(sessionId, "Session 1", emptyList())
         )
         savedStateHandleFake["sessionId"] = sessionId
 
-        val sut = createSut()
+        val sut = sut()
 
         advanceUntilIdle()
 
-        coVerify(exactly = 1) { getFullSessionUseCaseMock.execute(sessionId) }
+        coVerify(exactly = 1) { getFullSessionUseCase.execute(sessionId) }
 
         sut.uiState.test {
             val uiState = awaitItem()
@@ -100,14 +100,14 @@ class SessionEditorViewModelTest {
     @Test
     fun `newTaskGroup executes NewTaskGroupUseCase`() = runTest {
         val sessionId = 1L
-        coEvery { getFullSessionUseCaseMock.execute(any()) } returns flowOf(
+        coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(sessionId, "Session 1", emptyList())
         )
         coEvery { newTaskGroupUseCaseMock.execute(any()) } returns Unit
 
         savedStateHandleFake["sessionId"] = sessionId
 
-        val sut = createSut()
+        val sut = sut()
 
         sut.newTaskGroup()
 
@@ -122,14 +122,14 @@ class SessionEditorViewModelTest {
     fun `deleteTaskGroup executes DeleteTaskGroupUseCase`() = runTest {
         val sessionId = 1L
         val taskGroupId = 2L
-        coEvery { getFullSessionUseCaseMock.execute(any()) } returns flowOf(
+        coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(sessionId, "Session 1", emptyList())
         )
         coEvery { deleteTaskGroupUseCaseMock.execute(any()) } returns Unit
 
         savedStateHandleFake["sessionId"] = sessionId
 
-        val sut = createSut()
+        val sut = sut()
 
         sut.deleteTaskGroup(taskGroupId)
 
@@ -144,14 +144,14 @@ class SessionEditorViewModelTest {
     fun `newTask executes NewTaskUseCase`() = runTest {
         val sessionId = 1L
         val taskGroupId = 2L
-        coEvery { getFullSessionUseCaseMock.execute(any()) } returns flowOf(
+        coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(sessionId, "Session 1", emptyList())
         )
         coEvery { newTaskUseCaseMock.execute(any()) } returns Unit
 
         savedStateHandleFake["sessionId"] = sessionId
 
-        val sut = createSut()
+        val sut = sut()
 
         sut.newTask(taskGroupId)
 
@@ -166,14 +166,14 @@ class SessionEditorViewModelTest {
     fun `deleteTask executes DeleteTaskUseCase`() = runTest {
         val sessionId = 1L
         val taskId = 2L
-        coEvery { getFullSessionUseCaseMock.execute(any()) } returns flowOf(
+        coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(sessionId, "Session 1", emptyList())
         )
         coEvery { deleteTaskUseCaseMock.execute(any()) } returns Unit
 
         savedStateHandleFake["sessionId"] = sessionId
 
-        val sut = createSut()
+        val sut = sut()
 
         sut.deleteTask(taskId)
 
@@ -184,9 +184,9 @@ class SessionEditorViewModelTest {
         }
     }
 
-    private fun createSut() = SessionEditorViewModel(
+    private fun sut() = SessionEditorViewModel(
         savedStateHandleFake,
-        getFullSessionUseCaseMock,
+        getFullSessionUseCase,
         newTaskGroupUseCaseMock,
         newTaskUseCaseMock,
         deleteTaskUseCaseMock,
