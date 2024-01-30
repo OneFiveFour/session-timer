@@ -85,10 +85,9 @@ internal class SessionDataSourceImplTest {
     fun `insert delegates to correct sessionQueries call`() = runTest {
         coEvery { sessionQueries.insert(any(), any()) } returns mockk()
 
-        val sessionId = 123L
         val title = "title"
         sut.insert(title)
 
-        coVerify { sessionQueries.insert(sessionId, title) }
+        coVerify { sessionQueries.insert(null, title) }
     }
 }

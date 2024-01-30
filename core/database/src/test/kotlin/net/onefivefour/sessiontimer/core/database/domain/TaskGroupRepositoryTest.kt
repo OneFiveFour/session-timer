@@ -33,7 +33,7 @@ class TaskGroupRepositoryTest {
 
     @Test
     fun `getAll returns domain model taskGroup`() = runTest {
-        val testTaskGroup = DatabaseTaskGroup(78L, "Title 1", 123L, 1L)
+        val testTaskGroup = DatabaseTaskGroup(78L, "Title 1", 0xFF0000, 1L)
         coEvery { taskGroupDataSource.getAll(any()) } returns flowOf(listOf(testTaskGroup))
 
         val sessionId = 1L

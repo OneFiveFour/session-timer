@@ -76,10 +76,9 @@ internal class TaskGroupDataSourceImplTest {
     fun `insert delegates to correct taskGroupQueries call`() = runTest {
         coEvery { taskGroupQueries.insert(any(), any(), any(), any()) } returns mockk()
 
-        val taskGroupId = 123L
         val sessionId = 321L
         sut.insert(sessionId)
 
-        coVerify { taskGroupQueries.insert(taskGroupId, null, null, sessionId) }
+        coVerify { taskGroupQueries.insert(null, null, null, sessionId) }
     }
 }

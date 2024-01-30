@@ -91,9 +91,11 @@ class GetFullSessionUseCaseTest {
         )
 
         sut.execute(sessionId).test {
-            val session = this.awaitItem()
+            val session = awaitItem()
             checkNotNull(session)
-            assertThat(session.taskGroups.size).isEqualTo(1)
+            assertThat(session.taskGroups).isEmpty()
+
+            awaitComplete()
         }
 
     }
