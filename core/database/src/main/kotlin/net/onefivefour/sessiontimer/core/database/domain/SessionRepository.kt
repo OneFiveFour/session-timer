@@ -1,13 +1,14 @@
 package net.onefivefour.sessiontimer.core.database.domain
 
-import kotlinx.coroutines.flow.map
-import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
-import net.onefivefour.sessiontimer.core.database.domain.model.Task
-import net.onefivefour.sessiontimer.core.database.domain.model.TaskGroup
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.flow.map
+import net.onefivefour.sessiontimer.core.database.FullSession
 import net.onefivefour.sessiontimer.core.database.Session as DatabaseSession
+import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
 import net.onefivefour.sessiontimer.core.database.domain.model.Session as DomainSession
+import net.onefivefour.sessiontimer.core.database.domain.model.Task
+import net.onefivefour.sessiontimer.core.database.domain.model.TaskGroup
 
 class SessionRepository @Inject constructor(
     private val sessionDataSource: SessionDataSource
@@ -15,7 +16,7 @@ class SessionRepository @Inject constructor(
 
     fun getAll() = sessionDataSource
         .getAll()
-        .map(List<FullSession>::toDomainSession)
+        .map(List<DatabaseSession>::toDomainSession)
 
     suspend fun getFullSession(sessionId: Long) = sessionDataSource
         .getFullSession(sessionId)
@@ -28,7 +29,6 @@ class SessionRepository @Inject constructor(
 }
 
 private fun List<FullSession>.toDomainSession(): DomainSession? {
-
     val firstSession = this.firstOrNull() ?: return null
 
     val sessionId = firstSession.sessionId
@@ -39,7 +39,6 @@ private fun List<FullSession>.toDomainSession(): DomainSession? {
         .mapNotNull { (taskGroupId, fullSessions) ->
 
             taskGroupId?.let {
-
                 val fullSession = fullSessions.firstOrNull() ?: return null
                 val taskGroupTitle = fullSession.taskGroupTitle ?: ""
                 val taskGroupColor = fullSession.taskGroupColor?.toInt() ?: 0xFFFF00
@@ -54,7 +53,6 @@ private fun List<FullSession>.toDomainSession(): DomainSession? {
                             taskGroupId = taskGroupId
                         )
                     }
-
                 }
 
                 TaskGroup(

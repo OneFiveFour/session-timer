@@ -4,16 +4,15 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.Task as DatabaseTask
-import net.onefivefour.sessiontimer.core.database.domain.model.Task as DomainTask
 import net.onefivefour.sessiontimer.core.database.data.TaskDataSource
+import net.onefivefour.sessiontimer.core.database.domain.model.Task as DomainTask
 import org.junit.jupiter.api.Test
-import kotlin.time.Duration.Companion.seconds
-
 
 class TaskRepositoryTest {
 
@@ -53,5 +52,4 @@ class TaskRepositoryTest {
         assertThat(task.durationInSeconds).isEqualTo(3.seconds)
         assertThat(task.taskGroupId).isEqualTo(1L)
     }
-
 }

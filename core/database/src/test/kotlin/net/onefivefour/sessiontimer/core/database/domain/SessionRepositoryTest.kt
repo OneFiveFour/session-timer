@@ -12,10 +12,9 @@ import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
 import net.onefivefour.sessiontimer.core.database.domain.model.Session as DomainSession
 import org.junit.jupiter.api.Test
 
-
 class SessionRepositoryTest {
 
-    private val sessionDataSourceMock :SessionDataSource = mockk()
+    private val sessionDataSourceMock: SessionDataSource = mockk()
 
     private val sut = SessionRepository(
         sessionDataSourceMock
@@ -45,5 +44,4 @@ class SessionRepositoryTest {
         assertThat(session.title).isEqualTo("Title 1")
         assertThat(session.taskGroups).isEmpty()
     }
-
 }

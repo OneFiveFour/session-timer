@@ -64,7 +64,7 @@ dependencies {
         ":core:database",
         ":feature:session-editor",
         ":feature:session-overview",
-		":feature:taskgroup-editor"
+        ":feature:taskgroup-editor"
     )
     for (module in modules) {
         implementation(project(module))

@@ -1,10 +1,10 @@
 package net.onefivefour.sessiontimer.core.database.domain
 
-import kotlinx.coroutines.flow.map
-import net.onefivefour.sessiontimer.core.database.data.TaskDataSource
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.flow.map
 import net.onefivefour.sessiontimer.core.database.Task as DatabaseTask
+import net.onefivefour.sessiontimer.core.database.data.TaskDataSource
 import net.onefivefour.sessiontimer.core.database.domain.model.Task as DomainTask
 
 class TaskRepository @Inject constructor(
@@ -27,7 +27,6 @@ class TaskRepository @Inject constructor(
 
     suspend fun deleteByTaskGroup(taskGroupId: Long) = taskDataSource
         .deleteByTaskGroup(taskGroupId)
-
 }
 
 private fun List<DatabaseTask>.toDomainTask(): List<DomainTask> {

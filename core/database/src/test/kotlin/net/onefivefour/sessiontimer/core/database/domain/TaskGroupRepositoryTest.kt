@@ -3,17 +3,14 @@ package net.onefivefour.sessiontimer.core.database.domain
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkStatic
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.TaskGroup as DatabaseTaskGroup
-import net.onefivefour.sessiontimer.core.database.domain.model.TaskGroup as DomainTaskGroup
 import net.onefivefour.sessiontimer.core.database.data.TaskGroupDataSource
+import net.onefivefour.sessiontimer.core.database.domain.model.TaskGroup as DomainTaskGroup
 import org.junit.jupiter.api.Test
-
 
 class TaskGroupRepositoryTest {
 
@@ -50,5 +47,4 @@ class TaskGroupRepositoryTest {
         assertThat(taskGroup.color).isEqualTo(0xFF0000)
         assertThat(taskGroup.sessionId).isEqualTo(1L)
     }
-
 }

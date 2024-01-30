@@ -1,9 +1,9 @@
 package net.onefivefour.sessiontimer.core.database.domain
 
-import kotlinx.coroutines.flow.map
-import net.onefivefour.sessiontimer.core.database.data.TaskGroupDataSource
 import javax.inject.Inject
+import kotlinx.coroutines.flow.map
 import net.onefivefour.sessiontimer.core.database.TaskGroup as DatabaseTaskGroup
+import net.onefivefour.sessiontimer.core.database.data.TaskGroupDataSource
 import net.onefivefour.sessiontimer.core.database.domain.model.TaskGroup as DomainTaskGroup
 
 class TaskGroupRepository @Inject constructor(
@@ -30,8 +30,6 @@ class TaskGroupRepository @Inject constructor(
 
     fun getLastInsertId() = taskGroupDataSource
         .getLastInsertId()
-
-
 }
 
 private fun List<DatabaseTaskGroup>.toDomainTaskGroup(): List<DomainTaskGroup> {
@@ -41,7 +39,6 @@ private fun List<DatabaseTaskGroup>.toDomainTaskGroup(): List<DomainTaskGroup> {
 }
 
 private fun DatabaseTaskGroup.toDomainTaskGroup(): DomainTaskGroup {
-
     val title = this.title ?: ""
     val color = this.color?.toInt() ?: 0xFF0000
 

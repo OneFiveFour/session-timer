@@ -89,11 +89,13 @@ internal class TaskDataSourceImplTest {
         val taskGroupId = 321L
         sut.insert(taskGroupId)
 
-        coVerify { taskQueries.insert(
-            id = null,
-            title = null,
-            durationInSeconds = null,
-            taskGroupId = taskGroupId
-        ) }
+        coVerify {
+            taskQueries.insert(
+                id = null,
+                title = null,
+                durationInSeconds = null,
+                taskGroupId = taskGroupId
+            )
+        }
     }
 }

@@ -25,6 +25,6 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation)
     ksp(libs.hilt.android.compiler)
-    
+
     implementation(libs.androidX.lifecycle.compose)
 }
