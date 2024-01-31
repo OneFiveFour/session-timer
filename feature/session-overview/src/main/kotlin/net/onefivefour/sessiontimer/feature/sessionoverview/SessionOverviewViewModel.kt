@@ -12,13 +12,15 @@ import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.usecases.DeleteSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.GetAllSessionsUseCase
 import net.onefivefour.sessiontimer.core.usecases.NewSessionUseCase
+import net.onefivefour.sessiontimer.core.usecases.SetSessionTitleUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 internal class SessionOverviewViewModel @Inject constructor(
     private val getAllSessionsUseCase: GetAllSessionsUseCase,
     private val newSessionUseCase: NewSessionUseCase,
-    private val deleteSessionUseCase: DeleteSessionUseCase
+    private val deleteSessionUseCase: DeleteSessionUseCase,
+    private val setSessionTitleUseCase: SetSessionTitleUseCase
 ) : ViewModel() {
 
     private var _uiState = MutableStateFlow<UiState>(UiState.Initial)
@@ -43,6 +45,12 @@ internal class SessionOverviewViewModel @Inject constructor(
     fun deleteSession(sessionId: Long) {
         viewModelScope.launch {
             deleteSessionUseCase.execute(sessionId)
+        }
+    }
+
+    fun setSessionTitle(sessionId: Long, title: String) {
+        viewModelScope.launch {
+            setSessionTitleUseCase.execute(sessionId, title)
         }
     }
 

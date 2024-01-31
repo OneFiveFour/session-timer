@@ -14,5 +14,7 @@ interface SessionDataSource {
 
     suspend fun insert(title: String)
 
+    suspend fun setTitle(sessionId: Long, title: String)
+
     fun getLastInsertId(): Long
 }

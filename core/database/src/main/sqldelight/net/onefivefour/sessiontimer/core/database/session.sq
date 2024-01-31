@@ -35,6 +35,9 @@ WHERE S.id = :id
 insert:
 INSERT OR REPLACE INTO session VALUES (?,?);
 
+setTitle:
+UPDATE session SET title = :title WHERE id = :sessionId;
+
 delete:
 DELETE FROM session WHERE id = :id;
 

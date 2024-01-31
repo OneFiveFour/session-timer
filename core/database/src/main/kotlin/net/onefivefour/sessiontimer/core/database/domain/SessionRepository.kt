@@ -32,6 +32,9 @@ class SessionRepository @Inject constructor(
 
     fun getLastInsertId() = sessionDataSource
         .getLastInsertId()
+
+    suspend fun setTitle(sessionId: Long, title: String) = sessionDataSource
+        .setTitle(sessionId, title)
 }
 
 private fun List<FullSession>.toDomainSession(): DomainSession? {
