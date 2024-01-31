@@ -62,7 +62,15 @@ internal fun SessionOverview(
 ) {
 
     var editSessionId by remember { mutableStateOf<Long?>(null) }
-    var editSessionTitle by remember { mutableStateOf(TextFieldValue(text = "")) }
+    var sessionTitle by remember { mutableStateOf("") }
+    var editSessionTitle by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = sessionTitle,
+                selection = TextRange(sessionTitle.length)
+            )
+        )
+    }
 
     when (uiState) {
         UiState.Initial -> {
@@ -92,7 +100,7 @@ internal fun SessionOverview(
 
                     Row {
                         TextField(
-                            value = TextFieldValue(session.title, TextRange(session.title.lastIndex)),
+                            value = editSessionTitle,
                             onValueChange = { editSessionTitle = it },
                             label = { Text("Title") }
                         )
@@ -108,7 +116,10 @@ internal fun SessionOverview(
                     Text(
                         modifier = Modifier.combinedClickable(
                             onClick = { onEditSession(session.id) },
-                            onLongClick = { editSessionId = session.id }
+                            onLongClick = {
+                                sessionTitle = session.title
+                                editSessionId = session.id
+                            }
                         ),
                         color = MaterialTheme.colorScheme.onBackground,
                         text = session.title,
