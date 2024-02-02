@@ -11,11 +11,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -61,29 +64,18 @@ internal fun SessionOverview(
     onSetSessionTitle: (Long, String) -> Unit
 ) {
 
-    var editSessionId by remember { mutableStateOf<Long?>(null) }
-    var sessionTitle by remember { mutableStateOf("") }
-    var editSessionTitle by remember {
-        mutableStateOf(
-            TextFieldValue(
-                text = sessionTitle,
-                selection = TextRange(sessionTitle.length)
-            )
-        )
+    if (uiState == UiState.Initial) {
+        SessionOverviewInitial()
+        return
     }
 
-    when (uiState) {
-        UiState.Initial -> {
-            SessionOverviewInitial()
-            return
-        }
+    if (uiState is UiState.Error) {
+        SessionOverviewError(uiState.message)
+        return
+    }
 
-        is UiState.Error -> {
-            SessionOverviewError(uiState.message)
-            return
-        }
-
-        is UiState.Success -> {}
+    if (uiState !is UiState.Success) {
+        return
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -92,32 +84,52 @@ internal fun SessionOverview(
             Text(text = "New Session")
         }
 
+
+
+        var editSessionId by remember { mutableStateOf<Long?>(null) }
+
         for (session in uiState.sessions) {
 
             Row {
 
                 if (session.id == editSessionId) {
 
-                    Row {
-                        TextField(
-                            value = editSessionTitle,
-                            onValueChange = { editSessionTitle = it },
-                            label = { Text("Title") }
-                        )
+                    var currentText by remember { mutableStateOf(session.title) }
 
-                        Button(onClick = {
-                            onSetSessionTitle(editSessionId!!, editSessionTitle.text)
-                            editSessionId = null
-                        }) {
-                            Text(text = "OK")
-                        }
+                    // Display a TextField in edit mode
+                    var textFieldValue by remember { mutableStateOf(
+                        TextFieldValue(currentText, TextRange(currentText.length))
+                    ) }
+
+                    val focusRequester = remember { FocusRequester() }
+
+                    LaunchedEffect(Unit) {
+                        focusRequester.requestFocus()
                     }
+
+                    TextField(
+                        modifier = Modifier.focusRequester(focusRequester),
+                        value = textFieldValue,
+                        onValueChange = {
+                            textFieldValue = it
+                        }
+                    )
+
+                    Button(onClick = {
+                        // Confirm the edited text when the button is pressed
+                        editSessionId = null
+                        currentText = textFieldValue.text
+                        onSetSessionTitle(session.id, currentText)
+                    }) {
+                        Text(text = "OK")
+                    }
+
                 } else {
+
                     Text(
                         modifier = Modifier.combinedClickable(
                             onClick = { onEditSession(session.id) },
                             onLongClick = {
-                                sessionTitle = session.title
                                 editSessionId = session.id
                             }
                         ),
@@ -125,6 +137,7 @@ internal fun SessionOverview(
                         text = session.title,
                         style = typography.titleLarge
                     )
+
                 }
 
 
