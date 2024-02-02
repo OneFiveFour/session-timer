@@ -32,6 +32,12 @@ class TaskRepository @Inject constructor(
     suspend fun deleteByIds(taskIds: List<Long>) = taskDataSource
         .deleteByIds(taskIds)
 
+    suspend fun setDuration(durationInSeconds: Long, taskId: Long) = taskDataSource
+        .setDuration(durationInSeconds, taskId)
+
+    suspend fun setTitle(title: String, taskId: Long) = taskDataSource
+        .setTitle(title, taskId)
+
 }
 
 private fun List<DatabaseTask>.toDomainTask(): List<DomainTask> {
@@ -44,7 +50,7 @@ private fun DatabaseTask.toDomainTask(): DomainTask {
     return DomainTask(
         id = this.id,
         title = this.title,
-        durationInSeconds = this.durationInSeconds?.seconds,
+        duration = this.durationInSeconds?.seconds,
         taskGroupId = this.taskGroupId
     )
 }

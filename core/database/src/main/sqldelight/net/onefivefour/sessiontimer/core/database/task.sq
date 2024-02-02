@@ -19,7 +19,7 @@ VALUES
 ;
 
 getAll:
-SELECT * FROM task WHERE taskGroupId IN ?;
+SELECT * FROM task WHERE taskGroupId IN ? ORDER BY id;
 
 insert:
 INSERT INTO task VALUES (?,?,?,?);
@@ -32,3 +32,9 @@ DELETE FROM task WHERE id IN ?;
 
 deleteByTaskGroup:
 DELETE FROM task WHERE taskGroupId = :taskGroupId;
+
+setDuration:
+UPDATE task SET durationInSeconds = :durationInSeconds WHERE id = :id;
+
+setTitle:
+UPDATE task SET title = :title WHERE id = :id;

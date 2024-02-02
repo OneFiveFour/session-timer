@@ -14,4 +14,8 @@ interface TaskDataSource {
     suspend fun deleteByIds(taskIds: List<Long>)
 
     suspend fun insert(title: String, taskGroupId: Long)
+
+    suspend fun setDuration(durationInSeconds: Long, taskId: Long)
+
+    suspend fun setTitle(title: String, taskId: Long)
 }

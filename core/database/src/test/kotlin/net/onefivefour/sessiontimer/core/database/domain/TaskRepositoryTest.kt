@@ -49,7 +49,7 @@ class TaskRepositoryTest {
         assertThat(task).isInstanceOf(DomainTask::class.java)
         assertThat(task.id).isEqualTo(78L)
         assertThat(task.title).isEqualTo("Title 1")
-        assertThat(task.durationInSeconds).isEqualTo(3.seconds)
+        assertThat(task.duration).isEqualTo(3.seconds)
         assertThat(task.taskGroupId).isEqualTo(1L)
     }
 }

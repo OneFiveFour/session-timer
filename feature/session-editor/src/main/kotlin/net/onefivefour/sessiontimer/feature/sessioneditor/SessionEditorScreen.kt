@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,12 +12,19 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import net.onefivefour.sessiontimer.core.theme.typography
+import kotlin.time.Duration
 
 @Composable
 fun SessionEditorScreen(onEditTaskGroup: (Long) -> Unit) {
@@ -30,7 +38,9 @@ fun SessionEditorScreen(onEditTaskGroup: (Long) -> Unit) {
         onNewTask = { taskGroupId -> viewModel.newTask(taskGroupId) },
         onDeleteTask = { taskId -> viewModel.deleteTask(taskId) },
         onDeleteTaskGroup = { taskGroupId -> viewModel.deleteTaskGroup(taskGroupId) },
-        onEditTaskGroup = onEditTaskGroup
+        onEditTaskGroup = onEditTaskGroup,
+        onSetTaskDuration = { durationInSeconds, taskId -> viewModel.setTaskDuration(durationInSeconds, taskId) },
+        onSetTaskTitle = { taskTitle, taskId -> viewModel.setTaskTitle(taskTitle, taskId) }
     )
 }
 
@@ -53,7 +63,9 @@ internal fun SessionEditor(
     onNewTask: (Long) -> Unit,
     onDeleteTask: (Long) -> Unit,
     onDeleteTaskGroup: (Long) -> Unit,
-    onEditTaskGroup: (Long) -> Unit
+    onEditTaskGroup: (Long) -> Unit,
+    onSetTaskDuration: (Long, Long) -> Unit,
+    onSetTaskTitle: (String, Long) -> Unit
 ) {
 
     when (uiState) {
@@ -61,10 +73,12 @@ internal fun SessionEditor(
             SessionEditorInitial()
             return
         }
+
         is UiState.Error -> {
             SessionEditorError(uiState.message)
             return
         }
+
         is UiState.Success -> {
             checkNotNull(uiState.session)
         }
@@ -123,17 +137,15 @@ internal fun SessionEditor(
                 Text(text = "Create new Task")
             }
 
-            taskGroup.tasks.forEach { task ->
-
-                Column(modifier = Modifier
+            Column(
+                modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight()) {
+                    .wrapContentHeight()
+            ) {
 
-                    Text(
-                        color = MaterialTheme.colorScheme.onBackground,
-                        text = "\n    ${task.title}",
-                        style = typography.titleLarge
-                    )
+                taskGroup.tasks.forEach { task ->
+
+                    TaskItem(task.title, task.duration)
 
                     Button(
                         modifier = Modifier.wrapContentSize(),
@@ -141,9 +153,36 @@ internal fun SessionEditor(
                     ) {
                         Text(text = "Delete")
                     }
+
                 }
 
             }
         }
     }
+}
+
+@Composable
+fun TaskItem(
+    title: String?,
+    duration: Duration?
+) {
+
+    var taskDuration by remember {
+        mutableStateOf(duration?.inWholeSeconds.toString())
+    }
+    var taskTitle by remember {
+        mutableStateOf(title.toString())
+    }
+
+    TextField(
+        modifier = Modifier.width(40.dp),
+        value = taskTitle,
+        onValueChange = { taskTitle = it }
+    )
+    TextField(
+        
+        value = taskDuration,
+        onValueChange = { taskDuration = it }
+    )
+
 }

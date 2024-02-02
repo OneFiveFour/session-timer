@@ -58,7 +58,7 @@ private fun List<FullSession>.toDomainSession(): DomainSession? {
                         Task(
                             id = taskRow.taskId,
                             title = taskRow.taskTitle,
-                            durationInSeconds = taskRow.taskDuration?.seconds,
+                            duration = taskRow.taskDuration?.seconds,
                             taskGroupId = taskGroupId
                         )
                     }

@@ -15,6 +15,8 @@ import net.onefivefour.sessiontimer.core.usecases.DeleteTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.GetFullSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.NewTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.NewTaskUseCase
+import net.onefivefour.sessiontimer.core.usecases.SetTaskDurationUseCase
+import net.onefivefour.sessiontimer.core.usecases.SetTaskTitleUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,7 +26,9 @@ internal class SessionEditorViewModel @Inject constructor(
     private val newTaskGroupUseCase: NewTaskGroupUseCase,
     private val newTaskUseCase: NewTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
-    private val deleteTaskGroupUseCase: DeleteTaskGroupUseCase
+    private val deleteTaskGroupUseCase: DeleteTaskGroupUseCase,
+    private val setTaskDurationUseCase: SetTaskDurationUseCase,
+    private val setTaskTitleUseCase: SetTaskTitleUseCase
 ) : ViewModel() {
 
     private val sessionId = checkNotNull(savedStateHandle.get<String>("sessionId")).toLong()
@@ -66,6 +70,18 @@ internal class SessionEditorViewModel @Inject constructor(
     fun deleteTask(taskId: Long) {
         viewModelScope.launch {
             deleteTaskUseCase.execute(taskId)
+        }
+    }
+
+    fun setTaskDuration(durationInSeconds: Long, taskId: Long) {
+        viewModelScope.launch {
+            setTaskDurationUseCase.execute(durationInSeconds, taskId)
+        }
+    }
+
+    fun setTaskTitle(title: String, taskId: Long) {
+        viewModelScope.launch {
+            setTaskTitleUseCase.execute(title, taskId)
         }
     }
 }

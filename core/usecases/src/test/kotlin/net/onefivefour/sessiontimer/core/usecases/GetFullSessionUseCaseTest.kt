@@ -69,7 +69,7 @@ class GetFullSessionUseCaseTest {
             val task = taskGroup.tasks.first()
             assertThat(task.id).isEqualTo(3L)
             assertThat(task.title).isEqualTo("Task 1")
-            assertThat(task.durationInSeconds).isEqualTo(3.seconds)
+            assertThat(task.duration).isEqualTo(3.seconds)
             assertThat(task.taskGroupId).isEqualTo(taskGroup.id)
 
             awaitComplete()

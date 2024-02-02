@@ -49,4 +49,16 @@ internal class TaskDataSourceImpl @Inject constructor(
             queries.deleteByIds(taskIds)
         }
     }
+
+    override suspend fun setDuration(durationInSeconds: Long, taskId: Long) {
+        withContext(dispatcher) {
+            queries.setDuration(durationInSeconds, taskId)
+        }
+    }
+
+    override suspend fun setTitle(title: String, taskId: Long) {
+        withContext(dispatcher) {
+            queries.setTitle(title, taskId)
+        }
+    }
 }
