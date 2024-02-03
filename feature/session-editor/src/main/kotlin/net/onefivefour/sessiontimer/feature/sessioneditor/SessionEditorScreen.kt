@@ -1,14 +1,18 @@
 package net.onefivefour.sessiontimer.feature.sessioneditor
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,10 +23,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalMapOf
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.theme.typography
 import kotlin.time.Duration
 
@@ -86,7 +93,7 @@ internal fun SessionEditor(
 
     val session = uiState.session
 
-    LazyColumn(modifier = Modifier.fillMaxHeight()) {
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
 
         item {
             Text(
@@ -137,25 +144,29 @@ internal fun SessionEditor(
                 Text(text = "Create new Task")
             }
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
+
+            // We want to animate item placement which is only possible out of the box
+            // with a LazyColumn. Nested scrollables are not allowed in Jetpack Compose
+            // due to single layout pass requirements, however if we have a specified
+            // height for the LazyCol it is allowed. So we must compute the expected
+            // height ahead of time.
+            val tasksHeightSum = 64.dp * taskGroup.tasks.size
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                userScrollEnabled = false,
+                modifier = Modifier.height(tasksHeightSum)
             ) {
-
-                taskGroup.tasks.forEach { task ->
-
-                    TaskItem(task.title, task.duration)
-
-                    Button(
-                        modifier = Modifier.wrapContentSize(),
-                        onClick = { onDeleteTask(task.id) }
-                    ) {
-                        Text(text = "Delete")
-                    }
-
+                items(
+                    count = taskGroup.tasks.size,
+                    key = { index -> taskGroup.tasks[index].id },
+                ) { index ->
+                    val task = taskGroup.tasks[index]
+                    TaskItem(
+                        task,
+                        { taskId, duration -> onSetTaskDuration(taskId, duration) },
+                        { taskId -> onDeleteTask(taskId) }
+                    )
                 }
-
             }
         }
     }
@@ -163,26 +174,43 @@ internal fun SessionEditor(
 
 @Composable
 fun TaskItem(
-    title: String?,
-    duration: Duration?
+    task: Task,
+    onSetTaskDuration: (Long, Long) -> Unit,
+    onDeleteTask: (Long) -> Unit
 ) {
 
     var taskDuration by remember {
-        mutableStateOf(duration?.inWholeSeconds.toString())
+        mutableStateOf(task.duration?.inWholeSeconds?.toString() ?: "0")
     }
     var taskTitle by remember {
-        mutableStateOf(title.toString())
+        mutableStateOf(task.title.toString())
     }
 
-    TextField(
-        modifier = Modifier.width(40.dp),
-        value = taskTitle,
-        onValueChange = { taskTitle = it }
-    )
-    TextField(
-        
-        value = taskDuration,
-        onValueChange = { taskDuration = it }
-    )
+    Row(modifier = Modifier.height(56.dp)) {
+        TextField(
+            modifier = Modifier.fillMaxWidth(0.5f),
+            value = taskTitle,
+            onValueChange = { taskTitle = it }
+        )
+        TextField(
+            modifier = Modifier.fillMaxWidth(0.3f),
+            value = taskDuration,
+            onValueChange = { taskDuration = it },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            )
+        )
+        Button(
+            onClick = { onDeleteTask(task.id) }
+        ) {
+            Text(text = "Delete")
+        }
+        Button(
+            onClick = { onSetTaskDuration(taskDuration.toLong(), task.id) }
+        ) {
+            Text(text = "OK")
+        }
+    }
+
 
 }
