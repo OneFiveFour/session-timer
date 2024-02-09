@@ -54,4 +54,16 @@ internal class TaskGroupDataSourceImpl @Inject constructor(
     override fun getLastInsertId(): Long {
         return queries.getLastInsertRowId().executeAsOne()
     }
+
+    override suspend fun setTitle(taskGroupId: Long, title: String) {
+        withContext(dispatcher) {
+            queries.setTitle(title, taskGroupId)
+        }
+    }
+
+    override suspend fun setColor(taskGroupId: Long, color: Long) {
+        withContext(dispatcher) {
+            queries.setColor(color, taskGroupId)
+        }
+    }
 }

@@ -7,9 +7,9 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
+import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup as DomainTaskGroup
 import net.onefivefour.sessiontimer.core.database.TaskGroup as DatabaseTaskGroup
 import net.onefivefour.sessiontimer.core.database.data.TaskGroupDataSource
-import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup as DomainTaskGroup
 import org.junit.jupiter.api.Test
 
 class TaskGroupRepositoryTest {

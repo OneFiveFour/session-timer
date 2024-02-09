@@ -11,12 +11,16 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.usecases.GetTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.SetTaskGroupColorUseCase
+import net.onefivefour.sessiontimer.core.usecases.SetTaskGroupTitleUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 internal class TaskGroupEditorViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    getTaskGroupUseCase: GetTaskGroupUseCase
+    getTaskGroupUseCase: GetTaskGroupUseCase,
+    private val setTaskGroupTitleUseCase: SetTaskGroupTitleUseCase,
+    private val setTaskGroupColorUseCase: SetTaskGroupColorUseCase,
 ) : ViewModel() {
 
     private val taskGroupId = checkNotNull(savedStateHandle.get<String>("taskGroupId")).toLong()
@@ -31,6 +35,19 @@ internal class TaskGroupEditorViewModel @Inject constructor(
                     UiState.Success(taskGroup)
                 }
             }
+        }
+    }
+
+
+    fun setTaskGroupTitle(taskId: Long, title: String) {
+        viewModelScope.launch {
+            setTaskGroupTitleUseCase.execute(taskId, title)
+        }
+    }
+
+    fun setTaskGroupColor(taskId: Long, color: Int) {
+        viewModelScope.launch {
+            setTaskGroupColorUseCase.execute(taskId, color)
         }
     }
 

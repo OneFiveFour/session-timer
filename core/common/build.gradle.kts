@@ -3,4 +3,3 @@ plugins {
     id("st.kotlin-library")
     id("st.ktlint")
 }
-

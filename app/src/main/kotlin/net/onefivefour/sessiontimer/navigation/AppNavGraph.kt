@@ -8,7 +8,7 @@ import de.onecode.navigator.api.Navigation
 import de.onecode.navigator.api.Parameter
 import net.onefivefour.sessiontimer.feature.sessioneditor.SessionEditorScreen
 import net.onefivefour.sessiontimer.feature.sessionoverview.SessionOverviewScreen
-import net.onefivefour.sessiontimer.taskgroupeditor.TaskGroupEditorScreen
+import net.onefivefour.sessiontimer.feature.taskgroupeditor.TaskGroupEditorScreen
 
 @Destination
 @Parameter(name = "sessionId", type = Long::class)

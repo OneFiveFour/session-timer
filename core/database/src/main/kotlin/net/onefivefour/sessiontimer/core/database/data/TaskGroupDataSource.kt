@@ -15,5 +15,9 @@ interface TaskGroupDataSource {
 
     suspend fun insert(title: String, sessionId: Long)
 
+    suspend fun setTitle(taskGroupId: Long, title: String)
+
+    suspend fun setColor(taskGroupId: Long, color: Long)
+
     fun getLastInsertId(): Long
 }

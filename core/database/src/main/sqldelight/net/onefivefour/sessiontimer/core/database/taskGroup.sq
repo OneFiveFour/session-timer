@@ -31,5 +31,11 @@ DELETE FROM taskGroup WHERE id = :id;
 deleteBySessionId:
 SELECT * FROM taskGroup WHERE sessionId = :sessionId;
 
+setTitle:
+UPDATE taskGroup SET title = :title WHERE id = :id;
+
+setColor:
+UPDATE taskGroup SET color = :color WHERE id = :id;
+
 getLastInsertRowId:
 SELECT last_insert_rowid();
