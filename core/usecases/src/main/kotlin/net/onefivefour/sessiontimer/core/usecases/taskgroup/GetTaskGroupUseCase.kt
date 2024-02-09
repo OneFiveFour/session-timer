@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.core.usecases
+package net.onefivefour.sessiontimer.core.usecases.taskgroup
 
 import kotlinx.coroutines.flow.Flow
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository

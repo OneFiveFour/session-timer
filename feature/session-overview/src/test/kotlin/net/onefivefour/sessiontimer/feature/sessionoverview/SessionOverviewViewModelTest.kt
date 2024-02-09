@@ -14,8 +14,8 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
-import net.onefivefour.sessiontimer.core.usecases.GetAllSessionsUseCase
-import net.onefivefour.sessiontimer.core.usecases.NewSessionUseCase
+import net.onefivefour.sessiontimer.core.usecases.session.GetAllSessionsUseCase
+import net.onefivefour.sessiontimer.core.usecases.session.NewSessionUseCase
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

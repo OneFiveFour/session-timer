@@ -16,7 +16,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
-import net.onefivefour.sessiontimer.core.usecases.GetTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.taskgroup.GetTaskGroupUseCase
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

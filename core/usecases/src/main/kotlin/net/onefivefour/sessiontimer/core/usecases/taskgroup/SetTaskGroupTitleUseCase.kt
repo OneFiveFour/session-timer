@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.core.usecases
+package net.onefivefour.sessiontimer.core.usecases.taskgroup
 
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import javax.inject.Inject

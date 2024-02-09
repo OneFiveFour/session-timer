@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.core.usecases
+package net.onefivefour.sessiontimer.core.usecases.taskgroup
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
+import net.onefivefour.sessiontimer.core.usecases.taskgroup.GetTaskGroupUseCase
 import org.junit.jupiter.api.Test
 
 

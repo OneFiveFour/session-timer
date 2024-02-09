@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.core.usecases
+package net.onefivefour.sessiontimer.core.usecases.task
 
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import net.onefivefour.sessiontimer.core.defaults.DatabaseDefaultValuesProvider

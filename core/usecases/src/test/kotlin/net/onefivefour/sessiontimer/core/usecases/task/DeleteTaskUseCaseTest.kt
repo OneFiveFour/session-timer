@@ -1,10 +1,11 @@
-package net.onefivefour.sessiontimer.core.usecases
+package net.onefivefour.sessiontimer.core.usecases.task
 
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
+import net.onefivefour.sessiontimer.core.usecases.task.DeleteTaskUseCase
 import org.junit.jupiter.api.Test
 
 class DeleteTaskUseCaseTest {

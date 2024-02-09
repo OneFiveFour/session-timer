@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
-import net.onefivefour.sessiontimer.core.usecases.GetTaskGroupUseCase
-import net.onefivefour.sessiontimer.core.usecases.SetTaskGroupColorUseCase
-import net.onefivefour.sessiontimer.core.usecases.SetTaskGroupTitleUseCase
+import net.onefivefour.sessiontimer.core.usecases.taskgroup.GetTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.taskgroup.SetTaskGroupColorUseCase
+import net.onefivefour.sessiontimer.core.usecases.taskgroup.SetTaskGroupTitleUseCase
 import javax.inject.Inject
 
 @HiltViewModel

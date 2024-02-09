@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.core.usecases
+package net.onefivefour.sessiontimer.core.usecases.taskgroup
 
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -6,6 +6,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
+import net.onefivefour.sessiontimer.core.usecases.taskgroup.DeleteTaskGroupUseCase
 import org.junit.jupiter.api.Test
 
 class DeleteTaskGroupUseCaseTest {
@@ -13,7 +14,7 @@ class DeleteTaskGroupUseCaseTest {
     private val taskGroupRepositoryMock: TaskGroupRepository = mockk()
     private val taskRepositoryMock: TaskRepository = mockk()
 
-    private val sut = net.onefivefour.sessiontimer.core.usecases.DeleteTaskGroupUseCase(
+    private val sut = DeleteTaskGroupUseCase(
         taskGroupRepositoryMock,
         taskRepositoryMock
     )

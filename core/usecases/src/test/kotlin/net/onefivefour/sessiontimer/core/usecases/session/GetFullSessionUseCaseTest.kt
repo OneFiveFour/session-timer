@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.core.usecases
+package net.onefivefour.sessiontimer.core.usecases.session
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat

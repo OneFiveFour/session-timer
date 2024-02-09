@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
-import net.onefivefour.sessiontimer.core.usecases.DeleteSessionUseCase
-import net.onefivefour.sessiontimer.core.usecases.GetAllSessionsUseCase
-import net.onefivefour.sessiontimer.core.usecases.NewSessionUseCase
-import net.onefivefour.sessiontimer.core.usecases.SetSessionTitleUseCase
+import net.onefivefour.sessiontimer.core.usecases.session.DeleteSessionUseCase
+import net.onefivefour.sessiontimer.core.usecases.session.GetAllSessionsUseCase
+import net.onefivefour.sessiontimer.core.usecases.session.NewSessionUseCase
+import net.onefivefour.sessiontimer.core.usecases.session.SetSessionTitleUseCase
 import javax.inject.Inject
 
 @HiltViewModel
