@@ -1,7 +1,7 @@
 package net.onefivefour.sessiontimer.feature.sessioneditor
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.theme.typography
 
@@ -27,7 +28,9 @@ fun TaskGroupItem(
 ) {
     Row {
 
+        val taskGroupColor = Color(taskGroup.color)
         Text(
+            modifier = Modifier.background(taskGroupColor),
             color = MaterialTheme.colorScheme.onBackground,
             text = "\n  ${taskGroup.title}",
             style = typography.titleLarge
