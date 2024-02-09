@@ -14,8 +14,10 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
+import net.onefivefour.sessiontimer.core.usecases.session.DeleteSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.session.GetAllSessionsUseCase
 import net.onefivefour.sessiontimer.core.usecases.session.NewSessionUseCase
+import net.onefivefour.sessiontimer.core.usecases.session.SetSessionTitleUseCase
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -26,12 +28,16 @@ class SessionOverviewViewModelTest {
     private val getAllSessionsUseCase: GetAllSessionsUseCase = mockk()
 
     private val newSessionUseCase: NewSessionUseCase = mockk()
+    private val deleteSessionUseCase: DeleteSessionUseCase = mockk()
+    private val setSessionTitleUseCase: SetSessionTitleUseCase = mockk()
 
     private val testDispatcher = StandardTestDispatcher()
 
     private fun sut() = SessionOverviewViewModel(
         getAllSessionsUseCase,
-        newSessionUseCase
+        newSessionUseCase,
+        deleteSessionUseCase,
+        setSessionTitleUseCase
     )
 
     @BeforeEach
@@ -96,6 +102,39 @@ class SessionOverviewViewModelTest {
 
         coVerify(exactly = 1) {
             newSessionUseCase.execute()
+        }
+    }
+
+    @Test
+    fun `deleteSession delegates to DeleteSessionUseCase`() = runTest {
+        coEvery { getAllSessionsUseCase.execute() } returns flowOf(emptyList())
+        coEvery { deleteSessionUseCase.execute(any()) } returns Unit
+        val sessionId = 1L
+
+        val sut = sut()
+        sut.deleteSession(sessionId)
+
+        advanceUntilIdle()
+
+        coVerify(exactly = 1) {
+            deleteSessionUseCase.execute(sessionId)
+        }
+    }
+
+    @Test
+    fun `setSessionTitle delegates to SetSessionTitleUseCase`() = runTest {
+        coEvery { getAllSessionsUseCase.execute() } returns flowOf(emptyList())
+        coEvery { setSessionTitleUseCase.execute(any(), any()) } returns Unit
+        val sessionId = 1L
+        val title = "Test Session Title"
+
+        val sut = sut()
+        sut.setSessionTitle(sessionId, title)
+
+        advanceUntilIdle()
+
+        coVerify(exactly = 1) {
+            setSessionTitleUseCase.execute(sessionId, title)
         }
     }
 }

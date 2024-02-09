@@ -66,6 +66,7 @@ dependencies {
         ":core:usecases",
         ":feature:session-editor",
         ":feature:session-overview",
+        ":feature:session-player",
         ":feature:taskgroup-editor"
     )
     for (module in modules) {

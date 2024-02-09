@@ -7,6 +7,7 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -17,6 +18,8 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.GetTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.taskgroup.SetTaskGroupColorUseCase
+import net.onefivefour.sessiontimer.core.usecases.taskgroup.SetTaskGroupTitleUseCase
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -27,12 +30,16 @@ class TaskGroupEditorViewModelTest {
     private val savedStateHandle = SavedStateHandle()
 
     private val getTaskGroupUseCase : GetTaskGroupUseCase = mockk()
+    private val setTaskGroupColorUseCase : SetTaskGroupColorUseCase = mockk()
+    private val setTaskGroupTitleUseCase : SetTaskGroupTitleUseCase = mockk()
 
     private val testDispatcher = StandardTestDispatcher()
 
     private fun sut() = TaskGroupEditorViewModel(
         savedStateHandle,
-        getTaskGroupUseCase
+        getTaskGroupUseCase,
+        setTaskGroupTitleUseCase,
+        setTaskGroupColorUseCase
     )
 
     @BeforeEach
@@ -86,11 +93,63 @@ class TaskGroupEditorViewModelTest {
             val uiState = awaitItem()
             check(uiState is UiState.Success)
             val taskGroup = uiState.taskGroup
-            Truth.assertThat(taskGroup.id).isEqualTo(taskGroupId)
-            Truth.assertThat(taskGroup.title).isEqualTo("TaskGroup 1")
-            Truth.assertThat(taskGroup.color).isEqualTo(0xFF0000)
-            Truth.assertThat(taskGroup.tasks).isEmpty()
-            Truth.assertThat(taskGroup.sessionId).isEqualTo(2L)
+            assertThat(taskGroup.id).isEqualTo(taskGroupId)
+            assertThat(taskGroup.title).isEqualTo("TaskGroup 1")
+            assertThat(taskGroup.color).isEqualTo(0xFF0000)
+            assertThat(taskGroup.tasks).isEmpty()
+            assertThat(taskGroup.sessionId).isEqualTo(2L)
+        }
+    }
+
+    @Test
+    fun `setTaskGroupTitle delegates to SetTaskGroupTitleUseCase`() = runTest {
+        val taskGroupId = 1L
+        savedStateHandle["taskGroupId"] = taskGroupId
+        coEvery { getTaskGroupUseCase.execute(taskGroupId) } returns flowOf(
+            TaskGroup(
+                taskGroupId,
+                "TaskGroup 1",
+                0xFF0000,
+                emptyList(),
+                2L
+            )
+        )
+        val title = "Test TaskGroup Title"
+        coEvery { setTaskGroupTitleUseCase.execute(any(), any()) } returns Unit
+
+        val sut = sut()
+        sut.setTaskGroupTitle(taskGroupId, title)
+
+        advanceUntilIdle()
+
+        coVerify {
+            setTaskGroupTitleUseCase.execute(taskGroupId, title)
+        }
+    }
+
+    @Test
+    fun `setTaskGroupColor delegates to SetTaskGroupColorUseCase`() = runTest {
+        val taskGroupId = 1L
+        savedStateHandle["taskGroupId"] = taskGroupId
+        coEvery { getTaskGroupUseCase.execute(taskGroupId) } returns flowOf(
+            TaskGroup(
+                taskGroupId,
+                "TaskGroup 1",
+                0xFF0000,
+                emptyList(),
+                2L
+            )
+        )
+        val color = 0xABCDEF
+        coEvery { setTaskGroupColorUseCase.execute(any(), any()) } returns Unit
+
+        val sut = sut()
+        sut.setTaskGroupColor(taskGroupId, color)
+
+        advanceUntilIdle()
+
+        coVerify {
+            setTaskGroupColorUseCase.execute(taskGroupId, color)
         }
     }
 

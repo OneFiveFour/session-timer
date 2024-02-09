@@ -54,22 +54,22 @@ internal class TaskGroupDataSourceImplTest {
 
     @Test
     fun `getAll delegates to correct taskGroupQueries call`() = runTest {
-        coEvery { taskGroupQueries.getAll(any()).executeAsOneOrNull() } returns null
+        coEvery { taskGroupQueries.getBySessionId(any()).executeAsOneOrNull() } returns null
 
         val sessionId = 123L
         sut.getBySessionId(sessionId)
 
-        coVerify { taskGroupQueries.getAll(sessionId) }
+        coVerify { taskGroupQueries.getBySessionId(sessionId) }
     }
 
     @Test
     fun `delete delegates to correct taskGroupQueries call`() = runTest {
-        coEvery { taskGroupQueries.delete(any()) } returns mockk()
+        coEvery { taskGroupQueries.deleteById(any()) } returns mockk()
 
         val taskGroupId = 123L
         sut.deleteById(taskGroupId)
 
-        coVerify { taskGroupQueries.delete(taskGroupId) }
+        coVerify { taskGroupQueries.deleteById(taskGroupId) }
     }
 
     @Test
@@ -77,8 +77,9 @@ internal class TaskGroupDataSourceImplTest {
         coEvery { taskGroupQueries.insert(any(), any(), any(), any()) } returns mockk()
 
         val sessionId = 321L
-        sut.insert(sessionId)
+        val taskGroupTitle = "Test TaskGroup Title"
+        sut.insert(taskGroupTitle, sessionId)
 
-        coVerify { taskGroupQueries.insert(null, null, null, sessionId) }
+        coVerify { taskGroupQueries.insert(null, taskGroupTitle, null, sessionId) }
     }
 }

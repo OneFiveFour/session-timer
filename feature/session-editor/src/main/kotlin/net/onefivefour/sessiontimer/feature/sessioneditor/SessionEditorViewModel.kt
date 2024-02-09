@@ -31,7 +31,7 @@ internal class SessionEditorViewModel @Inject constructor(
     private val setTaskTitleUseCase: SetTaskTitleUseCase
 ) : ViewModel() {
 
-    private val sessionId = checkNotNull(savedStateHandle.get<String>("sessionId")).toLong()
+    private val sessionId = checkNotNull(savedStateHandle.get<Long>("sessionId"))
 
     private var _uiState = MutableStateFlow<UiState>(UiState.Initial)
     val uiState = _uiState.asStateFlow()

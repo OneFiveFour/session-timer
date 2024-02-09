@@ -20,6 +20,8 @@ import net.onefivefour.sessiontimer.core.usecases.task.DeleteTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.session.GetFullSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.NewTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.NewTaskUseCase
+import net.onefivefour.sessiontimer.core.usecases.task.SetTaskDurationUseCase
+import net.onefivefour.sessiontimer.core.usecases.task.SetTaskTitleUseCase
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -33,10 +35,23 @@ class SessionEditorViewModelTest {
     private val savedStateHandleFake = SavedStateHandle()
 
     private val getFullSessionUseCase: GetFullSessionUseCase = mockk()
-    private val newTaskGroupUseCaseMock: NewTaskGroupUseCase = mockk()
-    private val newTaskUseCaseMock : NewTaskUseCase = mockk()
-    private val deleteTaskUseCaseMock : DeleteTaskUseCase = mockk()
-    private val deleteTaskGroupUseCaseMock : DeleteTaskGroupUseCase = mockk()
+    private val newTaskGroupUseCase: NewTaskGroupUseCase = mockk()
+    private val newTaskUseCase: NewTaskUseCase = mockk()
+    private val deleteTaskUseCase: DeleteTaskUseCase = mockk()
+    private val deleteTaskGroupUseCase: DeleteTaskGroupUseCase = mockk()
+    private val setTaskDurationUseCase: SetTaskDurationUseCase = mockk()
+    private val setTaskTitleUseCase: SetTaskTitleUseCase = mockk()
+
+    private fun sut() = SessionEditorViewModel(
+        savedStateHandleFake,
+        getFullSessionUseCase,
+        newTaskGroupUseCase,
+        newTaskUseCase,
+        deleteTaskUseCase,
+        deleteTaskGroupUseCase,
+        setTaskDurationUseCase,
+        setTaskTitleUseCase
+    )
 
     @BeforeEach
     fun setup() {
@@ -57,7 +72,7 @@ class SessionEditorViewModelTest {
     }
 
     @Test
-    fun `initial state is correct`() =  runTest {
+    fun `initial state is correct`() = runTest {
         coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(1L, "Session 1", emptyList())
         )
@@ -73,7 +88,7 @@ class SessionEditorViewModelTest {
     }
 
     @Test
-    fun `useCase is executed on init`() =  runTest {
+    fun `useCase is executed on init`() = runTest {
         val sessionId = 1L
         coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(sessionId, "Session 1", emptyList())
@@ -103,7 +118,7 @@ class SessionEditorViewModelTest {
         coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(sessionId, "Session 1", emptyList())
         )
-        coEvery { newTaskGroupUseCaseMock.execute(any()) } returns Unit
+        coEvery { newTaskGroupUseCase.execute(any()) } returns Unit
 
         savedStateHandleFake["sessionId"] = sessionId
 
@@ -114,7 +129,7 @@ class SessionEditorViewModelTest {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            newTaskGroupUseCaseMock.execute(sessionId)
+            newTaskGroupUseCase.execute(sessionId)
         }
     }
 
@@ -125,7 +140,7 @@ class SessionEditorViewModelTest {
         coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(sessionId, "Session 1", emptyList())
         )
-        coEvery { deleteTaskGroupUseCaseMock.execute(any()) } returns Unit
+        coEvery { deleteTaskGroupUseCase.execute(any()) } returns Unit
 
         savedStateHandleFake["sessionId"] = sessionId
 
@@ -136,7 +151,7 @@ class SessionEditorViewModelTest {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            deleteTaskGroupUseCaseMock.execute(taskGroupId)
+            deleteTaskGroupUseCase.execute(taskGroupId)
         }
     }
 
@@ -147,7 +162,7 @@ class SessionEditorViewModelTest {
         coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(sessionId, "Session 1", emptyList())
         )
-        coEvery { newTaskUseCaseMock.execute(any()) } returns Unit
+        coEvery { newTaskUseCase.execute(any()) } returns Unit
 
         savedStateHandleFake["sessionId"] = sessionId
 
@@ -158,7 +173,7 @@ class SessionEditorViewModelTest {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            newTaskUseCaseMock.execute(taskGroupId)
+            newTaskUseCase.execute(taskGroupId)
         }
     }
 
@@ -169,7 +184,7 @@ class SessionEditorViewModelTest {
         coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(sessionId, "Session 1", emptyList())
         )
-        coEvery { deleteTaskUseCaseMock.execute(any()) } returns Unit
+        coEvery { deleteTaskUseCase.execute(any()) } returns Unit
 
         savedStateHandleFake["sessionId"] = sessionId
 
@@ -180,16 +195,51 @@ class SessionEditorViewModelTest {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            deleteTaskUseCaseMock.execute(taskId)
+            deleteTaskUseCase.execute(taskId)
         }
     }
 
-    private fun sut() = SessionEditorViewModel(
-        savedStateHandleFake,
-        getFullSessionUseCase,
-        newTaskGroupUseCaseMock,
-        newTaskUseCaseMock,
-        deleteTaskUseCaseMock,
-        deleteTaskGroupUseCaseMock
-    )
+    @Test
+    fun `setTaskDuration executes setTaskDurationUseCase`() = runTest {
+        val sessionId = 1L
+        val duration = 3L
+        val taskId = 1L
+        coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
+            Session(sessionId, "Session 1", emptyList())
+        )
+        coEvery { setTaskDurationUseCase.execute(any(), any()) } returns Unit
+
+        savedStateHandleFake["sessionId"] = sessionId
+
+        val sut = sut()
+        sut.setTaskDuration(taskId, duration)
+
+        advanceUntilIdle()
+
+        coVerify(exactly = 1) {
+            setTaskDurationUseCase.execute(taskId, duration)
+        }
+    }
+
+    @Test
+    fun `setTaskTitle executes setTaskTitleUseCase`() = runTest {
+        val sessionId = 1L
+        val title = "Test Task Title"
+        val taskId = 1L
+        coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
+            Session(sessionId, "Session 1", emptyList())
+        )
+        coEvery { setTaskTitleUseCase.execute(any(), any()) } returns Unit
+
+        savedStateHandleFake["sessionId"] = sessionId
+
+        val sut = sut()
+        sut.setTaskTitle(taskId, title)
+
+        advanceUntilIdle()
+
+        coVerify(exactly = 1) {
+            setTaskTitleUseCase.execute(taskId, title)
+        }
+    }
 }

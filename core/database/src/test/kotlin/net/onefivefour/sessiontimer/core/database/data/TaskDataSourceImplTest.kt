@@ -64,12 +64,12 @@ internal class TaskDataSourceImplTest {
 
     @Test
     fun `delete delegates to correct taskQueries call`() = runTest {
-        coEvery { taskQueries.delete(any()) } returns mockk()
+        coEvery { taskQueries.deleteById(any()) } returns mockk()
 
         val taskId = 123L
         sut.deleteById(taskId)
 
-        coVerify { taskQueries.delete(taskId) }
+        coVerify { taskQueries.deleteById(taskId) }
     }
 
     @Test
@@ -87,12 +87,13 @@ internal class TaskDataSourceImplTest {
         coEvery { taskQueries.insert(any(), any(), any(), any()) } returns mockk()
 
         val taskGroupId = 321L
-        sut.insert(taskGroupId)
+        val taskTitle = "Test Task Title"
+        sut.insert(taskTitle, taskGroupId)
 
         coVerify {
             taskQueries.insert(
                 id = null,
-                title = null,
+                title = taskTitle,
                 durationInSeconds = null,
                 taskGroupId = taskGroupId
             )
