@@ -50,13 +50,13 @@ internal class TaskDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun setDuration(durationInSeconds: Long, taskId: Long) {
+    override suspend fun setDuration(taskId: Long, durationInSeconds: Long) {
         withContext(dispatcher) {
             queries.setDuration(durationInSeconds, taskId)
         }
     }
 
-    override suspend fun setTitle(title: String, taskId: Long) {
+    override suspend fun setTitle(taskId: Long, title: String) {
         withContext(dispatcher) {
             queries.setTitle(title, taskId)
         }

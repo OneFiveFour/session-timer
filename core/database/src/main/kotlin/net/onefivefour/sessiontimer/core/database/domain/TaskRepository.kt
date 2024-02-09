@@ -32,11 +32,11 @@ class TaskRepository @Inject constructor(
     suspend fun deleteByIds(taskIds: List<Long>) = taskDataSource
         .deleteByIds(taskIds)
 
-    suspend fun setDuration(durationInSeconds: Long, taskId: Long) = taskDataSource
-        .setDuration(durationInSeconds, taskId)
+    suspend fun setDuration(taskId: Long, durationInSeconds: Long) = taskDataSource
+        .setDuration(taskId, durationInSeconds)
 
-    suspend fun setTitle(title: String, taskId: Long) = taskDataSource
-        .setTitle(title, taskId)
+    suspend fun setTitle(taskId: Long, title: String) = taskDataSource
+        .setTitle(taskId, title)
 
 }
 

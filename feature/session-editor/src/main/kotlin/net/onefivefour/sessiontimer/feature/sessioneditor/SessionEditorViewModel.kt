@@ -73,20 +73,18 @@ internal class SessionEditorViewModel @Inject constructor(
         }
     }
 
-    fun setTaskDuration(durationInSeconds: Long, taskId: Long) {
+    fun setTaskDuration(taskId: Long, durationInSeconds: Long) {
         viewModelScope.launch {
-            setTaskDurationUseCase.execute(durationInSeconds, taskId)
+            setTaskDurationUseCase.execute(taskId, durationInSeconds)
         }
     }
 
-    fun setTaskTitle(title: String, taskId: Long) {
+    fun setTaskTitle(taskId: Long, title: String) {
         viewModelScope.launch {
-            setTaskTitleUseCase.execute(title, taskId)
+            setTaskTitleUseCase.execute(taskId, title)
         }
     }
 }
-
-// TODO check all classes if they can be internal
 
 internal sealed interface UiState {
     data object Initial : UiState

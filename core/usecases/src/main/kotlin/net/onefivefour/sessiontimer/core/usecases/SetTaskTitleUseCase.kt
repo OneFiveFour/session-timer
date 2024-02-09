@@ -8,8 +8,8 @@ class SetTaskTitleUseCase @Inject constructor(
     private val taskRepository: TaskRepository
 ){
 
-    suspend fun execute(title: String, taskId: Long) {
-        taskRepository.setTitle(title, taskId)
+    suspend fun execute(taskId: Long, title: String) {
+        taskRepository.setTitle(taskId, title)
     }
 
 }

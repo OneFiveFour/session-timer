@@ -15,7 +15,7 @@ interface TaskDataSource {
 
     suspend fun insert(title: String, taskGroupId: Long)
 
-    suspend fun setDuration(durationInSeconds: Long, taskId: Long)
+    suspend fun setDuration(taskId: Long, durationInSeconds: Long)
 
-    suspend fun setTitle(title: String, taskId: Long)
+    suspend fun setTitle(taskId: Long, title: String)
 }
