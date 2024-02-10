@@ -16,6 +16,9 @@ dependencies {
 
     // Navigation
     api(libs.androidX.navigation)
+    implementation(libs.compose.navigator.api)
+    implementation(libs.compose.navigator.runtime)
+    ksp(libs.compose.navigator.ksp)
 
     // Compose
     implementation(platform(libs.androidX.compose.bom))

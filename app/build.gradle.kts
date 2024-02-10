@@ -73,21 +73,26 @@ dependencies {
         implementation(project(module))
     }
 
+    // Database
     implementation(libs.sqlDelight.android)
 
+    // Android
     implementation(libs.androidX.activity)
     implementation(libs.androidX.activity.compose)
     implementation(libs.android.material)
 
+    // Compose
     implementation(platform(libs.androidX.compose.bom))
     implementation(libs.androidX.compose.ui)
     implementation(libs.androidX.compose.ui.tooling.preview)
     implementation(libs.androidX.compose.material3)
 
+    // Navigation
     implementation(libs.compose.navigator.api)
     implementation(libs.compose.navigator.runtime)
     ksp(libs.compose.navigator.ksp)
 
+    // DI
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 }
