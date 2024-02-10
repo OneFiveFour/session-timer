@@ -16,10 +16,10 @@ import kotlin.time.Duration.Companion.seconds
 
 class GetFullSessionUseCaseTest {
 
-    private val sessionRepositoryMock: SessionRepository = mockk()
+    private val sessionRepository: SessionRepository = mockk()
 
     private val sut = GetFullSessionUseCase(
-        sessionRepositoryMock
+        sessionRepository
     )
 
     @Test
@@ -28,7 +28,7 @@ class GetFullSessionUseCaseTest {
         val sessionId = 1L
         val taskGroupId = 2L
 
-        coEvery { sessionRepositoryMock.getFullSession(any()) } returns flowOf(
+        coEvery { sessionRepository.getFullSession(any()) } returns flowOf(
             Session(
                 id = sessionId,
                 title = "Session 1",
@@ -82,7 +82,7 @@ class GetFullSessionUseCaseTest {
 
         val sessionId = 1L
 
-        coEvery { sessionRepositoryMock.getFullSession(any()) } returns flowOf(
+        coEvery { sessionRepository.getFullSession(any()) } returns flowOf(
             Session(
                 sessionId,
                 "Session 1",

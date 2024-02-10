@@ -16,20 +16,20 @@ import org.junit.jupiter.api.Test
 
 class TaskRepositoryTest {
 
-    private val taskDataSourceMock: TaskDataSource = mockk()
+    private val taskDataSource: TaskDataSource = mockk()
 
     private val sut = TaskRepository(
-        taskDataSourceMock
+        taskDataSource
     )
 
     @Test
     fun `getAll fetches data from taskDataSource`() = runTest {
         val testTask = DatabaseTask(78L, "Title 1", 3L, 1L)
-        coEvery { taskDataSourceMock.getAll(any()) } returns flowOf(listOf(testTask))
+        coEvery { taskDataSource.getAll(any()) } returns flowOf(listOf(testTask))
 
         sut.getAll(listOf(1L)).collect()
 
-        coVerify(exactly = 1) { taskDataSourceMock.getAll(any()) }
+        coVerify(exactly = 1) { taskDataSource.getAll(any()) }
     }
 
     @Test
@@ -40,7 +40,7 @@ class TaskRepositoryTest {
             durationInSeconds = 3L,
             taskGroupId = 1L
         )
-        coEvery { taskDataSourceMock.getAll(any()) } returns flowOf(listOf(testTask))
+        coEvery { taskDataSource.getAll(any()) } returns flowOf(listOf(testTask))
 
         val tasks = sut.getAll(listOf(1L)).first()
 

@@ -14,26 +14,26 @@ import org.junit.jupiter.api.Test
 
 class SessionRepositoryTest {
 
-    private val sessionDataSourceMock: SessionDataSource = mockk()
+    private val sessionDataSource: SessionDataSource = mockk()
 
     private val sut = SessionRepository(
-        sessionDataSourceMock
+        sessionDataSource
     )
 
     @Test
     fun `getAll fetches data from sessionDataSource`() = runTest {
         val testSession = DatabaseSession(78L, "Title 1")
-        every { sessionDataSourceMock.getAll() } returns flowOf(listOf(testSession))
+        every { sessionDataSource.getAll() } returns flowOf(listOf(testSession))
 
         sut.getAll().first()
 
-        coVerify(exactly = 1) { sessionDataSourceMock.getAll() }
+        coVerify(exactly = 1) { sessionDataSource.getAll() }
     }
 
     @Test
     fun `getAll returns domain model session`() = runTest {
         val testSession = DatabaseSession(78L, "Title 1")
-        every { sessionDataSourceMock.getAll() } returns flowOf(listOf(testSession))
+        every { sessionDataSource.getAll() } returns flowOf(listOf(testSession))
 
         val sessions = sut.getAll().first()
 
