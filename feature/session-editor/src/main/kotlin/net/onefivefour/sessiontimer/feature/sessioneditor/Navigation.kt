@@ -2,7 +2,6 @@ package net.onefivefour.sessiontimer.feature.sessioneditor
 
 import androidx.navigation.NavGraphBuilder
 import de.onecode.navigator.api.Destination
-import de.onecode.navigator.api.Navigation
 import de.onecode.navigator.api.Parameter
 import de.onecode.navigator.sessionEditorScreen
 
