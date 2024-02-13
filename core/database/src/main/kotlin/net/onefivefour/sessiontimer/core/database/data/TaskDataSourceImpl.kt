@@ -15,12 +15,6 @@ internal class TaskDataSourceImpl @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : TaskDataSource {
 
-    override suspend fun getAll(taskGroupIds: List<Long>): Flow<List<Task>> {
-        return withContext(dispatcher) {
-            queries.getAll(taskGroupIds).asFlow().mapToList(dispatcher)
-        }
-    }
-
     override suspend fun insert(title: String, taskGroupId: Long) {
         withContext(dispatcher) {
             queries.insert(
@@ -32,15 +26,14 @@ internal class TaskDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun getByTaskGroupIds(taskGroupIds: List<Long>) = queries
+        .getByTaskGroupIds(taskGroupIds)
+        .asFlow()
+        .mapToList(dispatcher)
+
     override suspend fun deleteById(taskId: Long) {
         withContext(dispatcher) {
             queries.deleteById(taskId)
-        }
-    }
-
-    override suspend fun deleteByTaskGroup(taskGroupId: Long) {
-        withContext(dispatcher) {
-            queries.deleteByTaskGroup(taskGroupId)
         }
     }
 
@@ -50,9 +43,15 @@ internal class TaskDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun setDuration(taskId: Long, durationInSeconds: Long) {
+    override suspend fun deleteByTaskGroupId(taskGroupId: Long) {
         withContext(dispatcher) {
-            queries.setDuration(durationInSeconds, taskId)
+            queries.deleteByTaskGroupId(taskGroupId)
+        }
+    }
+
+    override suspend fun setDurationInSeconds(taskId: Long, durationInSeconds: Long) {
+        withContext(dispatcher) {
+            queries.setDurationInSeconds(durationInSeconds, taskId)
         }
     }
 

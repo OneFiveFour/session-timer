@@ -6,14 +6,14 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
-import net.onefivefour.sessiontimer.core.defaults.DatabaseDefaultValuesProvider
+import net.onefivefour.sessiontimer.core.defaults.DatabaseDatabaseDefaultValues
 import org.junit.jupiter.api.Test
 
 class NewTaskUseCaseTest {
 
     private val taskRepository: TaskRepository = mockk()
 
-    private val defaultValuesProvider : DatabaseDefaultValuesProvider = mockk<DatabaseDefaultValuesProvider>().apply {
+    private val defaultValuesProvider : DatabaseDatabaseDefaultValues = mockk<DatabaseDatabaseDefaultValues>().apply {
         every { getTaskTitle() } returns DEFAULT_TITLE
     }
 

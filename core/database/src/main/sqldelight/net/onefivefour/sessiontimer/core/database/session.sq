@@ -12,10 +12,13 @@ VALUES
 (5,"Session 5")
 ;
 
+insert:
+INSERT OR REPLACE INTO session VALUES (?,?);
+
 getAll:
 SELECT * FROM session;
 
-fullSession:
+getFullSessionById:
 SELECT
     S.id AS sessionId,
     S.title AS sessionTitle,
@@ -32,13 +35,10 @@ LEFT JOIN task T ON T.taskGroupId = TG.id
 WHERE S.id = :id
 ;
 
-insert:
-INSERT OR REPLACE INTO session VALUES (?,?);
-
 setTitle:
 UPDATE session SET title = :title WHERE id = :sessionId;
 
-delete:
+deleteById:
 DELETE FROM session WHERE id = :id;
 
 getLastInsertRowId:

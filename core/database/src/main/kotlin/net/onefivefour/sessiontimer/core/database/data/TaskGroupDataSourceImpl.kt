@@ -16,18 +16,6 @@ internal class TaskGroupDataSourceImpl @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : TaskGroupDataSource {
 
-    override suspend fun getBySessionId(sessionId: Long): Flow<List<TaskGroup>> {
-        return withContext(dispatcher) {
-            queries.getBySessionId(sessionId).asFlow().mapToList(dispatcher)
-        }
-    }
-
-    override suspend fun get(taskGroupId: Long): Flow<TaskGroup> {
-        return withContext(dispatcher) {
-            queries.get(taskGroupId).asFlow().mapToOne(dispatcher)
-        }
-    }
-
     override suspend fun insert(title: String, sessionId: Long) {
         withContext(dispatcher) {
             queries.insert(
@@ -36,6 +24,18 @@ internal class TaskGroupDataSourceImpl @Inject constructor(
                 color = null,
                 sessionId = sessionId
             )
+        }
+    }
+
+    override suspend fun getById(taskGroupId: Long): Flow<TaskGroup> {
+        return withContext(dispatcher) {
+            queries.getById(taskGroupId).asFlow().mapToOne(dispatcher)
+        }
+    }
+
+    override suspend fun getBySessionId(sessionId: Long): Flow<List<TaskGroup>> {
+        return withContext(dispatcher) {
+            queries.getBySessionId(sessionId).asFlow().mapToList(dispatcher)
         }
     }
 
@@ -51,10 +51,6 @@ internal class TaskGroupDataSourceImpl @Inject constructor(
         }
     }
 
-    override fun getLastInsertId(): Long {
-        return queries.getLastInsertRowId().executeAsOne()
-    }
-
     override suspend fun setTitle(taskGroupId: Long, title: String) {
         withContext(dispatcher) {
             queries.setTitle(title, taskGroupId)
@@ -65,5 +61,9 @@ internal class TaskGroupDataSourceImpl @Inject constructor(
         withContext(dispatcher) {
             queries.setColor(color, taskGroupId)
         }
+    }
+
+    override fun getLastInsertId(): Long {
+        return queries.getLastInsertRowId().executeAsOne()
     }
 }

@@ -10,20 +10,11 @@ class TaskGroupRepository @Inject constructor(
     private val taskGroupDataSource: TaskGroupDataSource
 ) {
 
-    suspend fun getAll(sessionId: Long) = taskGroupDataSource
-        .getBySessionId(sessionId)
-        .map { taskGroups ->
-            taskGroups.toDomainTaskGroup()
-        }
-
     suspend fun new(title: String, sessionId: Long) = taskGroupDataSource
         .insert(
             title = title,
             sessionId = sessionId
         )
-
-    suspend fun deleteById(taskGroupId: Long) = taskGroupDataSource
-        .deleteById(taskGroupId)
 
     suspend fun get(taskGroupId: Long) = taskGroupDataSource
         .get(taskGroupId)
@@ -34,6 +25,9 @@ class TaskGroupRepository @Inject constructor(
         .map { taskGroups ->
             taskGroups.toDomainTaskGroup()
         }
+
+    suspend fun deleteById(taskGroupId: Long) = taskGroupDataSource
+        .deleteById(taskGroupId)
 
     fun getLastInsertId() = taskGroupDataSource
         .getLastInsertId()
@@ -53,7 +47,7 @@ private fun List<DatabaseTaskGroup>.toDomainTaskGroup(): List<DomainTaskGroup> {
 
 private fun DatabaseTaskGroup.toDomainTaskGroup(): DomainTaskGroup {
     val title = this.title ?: ""
-    val color = this.color?.toInt() ?: 0xFF0000
+    val color = this.color?.toInt() ?: 0x000000
 
     return DomainTaskGroup(
         this.id,

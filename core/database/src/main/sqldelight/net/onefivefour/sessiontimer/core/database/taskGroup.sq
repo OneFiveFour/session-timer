@@ -16,14 +16,14 @@ VALUES
 (2,"TaskGroup 2", 65280, 1)
 ;
 
+insert:
+INSERT OR REPLACE INTO taskGroup VALUES (?,?,?,?);
+
+getById:
+SELECT * FROM taskGroup WHERE id = :id;
+
 getBySessionId:
 SELECT * FROM taskGroup WHERE sessionId = :sessionId;
-
-get:
-SELECT * FROM taskGroup WHERE id = :taskGroupId;
-
-insert:
-INSERT INTO taskGroup VALUES (?,?,?,?);
 
 deleteById:
 DELETE FROM taskGroup WHERE id = :id;

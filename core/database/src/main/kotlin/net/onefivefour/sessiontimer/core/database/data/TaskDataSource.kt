@@ -5,17 +5,17 @@ import net.onefivefour.sessiontimer.core.database.Task
 
 interface TaskDataSource {
 
-    suspend fun getAll(taskGroupIds: List<Long>): Flow<List<Task>>
+    suspend fun insert(title: String, taskGroupId: Long)
+
+    suspend fun getByTaskGroupIds(taskGroupIds: List<Long>): Flow<List<Task>>
 
     suspend fun deleteById(taskId: Long)
 
-    suspend fun deleteByTaskGroup(taskGroupId: Long)
+    suspend fun deleteByTaskGroupId(taskGroupId: Long)
 
     suspend fun deleteByIds(taskIds: List<Long>)
 
-    suspend fun insert(title: String, taskGroupId: Long)
-
-    suspend fun setDuration(taskId: Long, durationInSeconds: Long)
+    suspend fun setDurationInSeconds(taskId: Long, durationInSeconds: Long)
 
     suspend fun setTitle(taskId: Long, title: String)
 }

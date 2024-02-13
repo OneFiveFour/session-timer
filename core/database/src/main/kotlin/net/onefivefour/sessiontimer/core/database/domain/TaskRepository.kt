@@ -11,26 +11,23 @@ class TaskRepository @Inject constructor(
     private val taskDataSource: TaskDataSource
 ) {
 
-    suspend fun getAll(taskGroupIds: List<Long>) = taskDataSource
-        .getAll(taskGroupIds)
-        .map { tasks ->
-            tasks.toDomainTask()
-        }
-
     suspend fun new(title: String, taskGroupId: Long) = taskDataSource
         .insert(
             title = title,
             taskGroupId = taskGroupId
         )
 
+    suspend fun getAll(taskGroupIds: List<Long>) = taskDataSource
+        .getAll(taskGroupIds)
+        .map { tasks ->
+            tasks.toDomainTask()
+        }
+
     suspend fun delete(taskId: Long) = taskDataSource
         .deleteById(taskId)
 
     suspend fun deleteByTaskGroup(taskGroupId: Long) = taskDataSource
         .deleteByTaskGroup(taskGroupId)
-
-    suspend fun deleteByIds(taskIds: List<Long>) = taskDataSource
-        .deleteByIds(taskIds)
 
     suspend fun setDuration(taskId: Long, durationInSeconds: Long) = taskDataSource
         .setDuration(taskId, durationInSeconds)
