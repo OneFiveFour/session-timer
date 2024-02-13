@@ -17,20 +17,18 @@ class TaskRepository @Inject constructor(
             taskGroupId = taskGroupId
         )
 
-    suspend fun getAll(taskGroupIds: List<Long>) = taskDataSource
-        .getAll(taskGroupIds)
-        .map { tasks ->
-            tasks.toDomainTask()
-        }
+    suspend fun getByTaskGroupIds(taskGroupIds: List<Long>) = taskDataSource
+        .getByTaskGroupIds(taskGroupIds)
+        .map { it.toDomainTask() }
 
     suspend fun delete(taskId: Long) = taskDataSource
         .deleteById(taskId)
 
-    suspend fun deleteByTaskGroup(taskGroupId: Long) = taskDataSource
-        .deleteByTaskGroup(taskGroupId)
+    suspend fun deleteByTaskGroupId(taskGroupId: Long) = taskDataSource
+        .deleteByTaskGroupId(taskGroupId)
 
-    suspend fun setDuration(taskId: Long, durationInSeconds: Long) = taskDataSource
-        .setDuration(taskId, durationInSeconds)
+    suspend fun setDurationInSeconds(taskId: Long, durationInSeconds: Long) = taskDataSource
+        .setDurationInSeconds(taskId, durationInSeconds)
 
     suspend fun setTitle(taskId: Long, title: String) = taskDataSource
         .setTitle(taskId, title)

@@ -22,7 +22,7 @@ class SetTaskDurationUseCaseTest {
         sut.execute(taskId, duration)
 
         coVerify(exactly = 1) {
-            taskRepository.setDuration(taskId, duration)
+            taskRepository.setDurationInSeconds(taskId, duration)
         }
     }
 }

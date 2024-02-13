@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.GetTaskGroupUseCase
 import org.junit.jupiter.api.Test
 
 
@@ -24,7 +23,7 @@ class GetTaskGroupUseCaseTest {
     @Test
     fun `executing the use case returns the correct task group`() = runTest {
         val taskGroupId = 1L
-        coEvery { taskGroupRepository.get(taskGroupId) } returns flowOf(
+        coEvery { taskGroupRepository.getById(taskGroupId) } returns flowOf(
             TaskGroup(taskGroupId, "TaskGroup 1", 0xFF0000, emptyList(), 2L)
         )
 
@@ -39,7 +38,7 @@ class GetTaskGroupUseCaseTest {
         }
 
         coVerify(exactly = 1) {
-            taskGroupRepository.get(taskGroupId)
+            taskGroupRepository.getById(taskGroupId)
         }
     }
 

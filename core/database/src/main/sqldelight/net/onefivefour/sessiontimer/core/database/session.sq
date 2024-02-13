@@ -35,11 +35,11 @@ LEFT JOIN task T ON T.taskGroupId = TG.id
 WHERE S.id = :id
 ;
 
-setTitle:
-UPDATE session SET title = :title WHERE id = :sessionId;
-
 deleteById:
 DELETE FROM session WHERE id = :id;
 
 getLastInsertRowId:
 SELECT last_insert_rowid();
+
+setTitle:
+UPDATE session SET title = :title WHERE id = :sessionId;

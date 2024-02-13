@@ -10,7 +10,7 @@ class GetTaskGroupUseCase @Inject constructor(
 ) {
 
     suspend fun execute(taskGroupId: Long): Flow<TaskGroup> {
-        return taskGroupRepository.get(taskGroupId)
+        return taskGroupRepository.getById(taskGroupId)
     }
 
 }

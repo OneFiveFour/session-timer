@@ -8,7 +8,7 @@ class SetTaskDurationUseCase @Inject constructor(
 ){
 
     suspend fun execute(taskId: Long, durationInSeconds: Long) {
-        taskRepository.setDuration(taskId, durationInSeconds)
+        taskRepository.setDurationInSeconds(taskId, durationInSeconds)
     }
 
 }

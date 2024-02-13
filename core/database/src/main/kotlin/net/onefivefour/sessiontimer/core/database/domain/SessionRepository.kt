@@ -1,40 +1,38 @@
 package net.onefivefour.sessiontimer.core.database.domain
 
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.flow.map
-import net.onefivefour.sessiontimer.core.common.domain.model.Session as DomainSession
 import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
-import net.onefivefour.sessiontimer.core.database.FullSession
-import net.onefivefour.sessiontimer.core.database.Session as DatabaseSession
+import net.onefivefour.sessiontimer.core.database.data.FullSession
 import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
+import net.onefivefour.sessiontimer.core.common.domain.model.Session as DomainSession
+import net.onefivefour.sessiontimer.core.database.Session as DatabaseSession
 
 class SessionRepository @Inject constructor(
     private val sessionDataSource: SessionDataSource
 ) {
 
+    suspend fun new(title: String) = sessionDataSource
+        .insert(title)
+
     fun getAll() = sessionDataSource
         .getAll()
-        .map(List<DatabaseSession>::toDomainSession)
+        .map { it.toDomainSession() }
 
     suspend fun getFullSession(sessionId: Long) = sessionDataSource
         .getFullSession(sessionId)
-        .map { fullSession ->
-            fullSession.toDomainSession()
-        }
-
-    suspend fun new(title: String) = sessionDataSource
-        .insert(title)
+        .map { it.toDomainSession() }
 
     suspend fun deleteById(sessionId: Long) = sessionDataSource
         .deleteById(sessionId)
 
-    fun getLastInsertId() = sessionDataSource
-        .getLastInsertId()
-
     suspend fun setTitle(sessionId: Long, title: String) = sessionDataSource
         .setTitle(sessionId, title)
+
+    fun getLastInsertId() = sessionDataSource
+        .getLastInsertId()
 }
 
 private fun List<FullSession>.toDomainSession(): DomainSession? {

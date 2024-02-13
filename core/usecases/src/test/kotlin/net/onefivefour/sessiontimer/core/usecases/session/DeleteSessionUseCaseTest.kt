@@ -1,7 +1,5 @@
 package net.onefivefour.sessiontimer.core.usecases.session
 
-import app.cash.turbine.test
-import com.google.common.truth.Truth.assertThat
 import io.mockk.Ordering
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -10,7 +8,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
@@ -70,10 +67,10 @@ class DeleteSessionUseCaseTest {
         coVerify(ordering = Ordering.SEQUENCE) {
             taskGroupRepository.getBySessionId(sessionId)
 
-            taskRepository.deleteByTaskGroup(taskGroupId1)
+            taskRepository.deleteByTaskGroupId(taskGroupId1)
             taskGroupRepository.deleteById(taskGroupId1)
 
-            taskRepository.deleteByTaskGroup(taskGroupId2)
+            taskRepository.deleteByTaskGroupId(taskGroupId2)
             taskGroupRepository.deleteById(taskGroupId2)
 
             sessionRepository.deleteById(sessionId)

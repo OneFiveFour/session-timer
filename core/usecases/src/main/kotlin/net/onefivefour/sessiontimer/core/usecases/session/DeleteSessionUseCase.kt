@@ -16,7 +16,7 @@ class DeleteSessionUseCase @Inject constructor(
         val taskGroups = taskGroupRepository.getBySessionId(sessionId).first()
 
         taskGroups.forEach { taskGroup ->
-            taskRepository.deleteByTaskGroup(taskGroup.id)
+            taskRepository.deleteByTaskGroupId(taskGroup.id)
             taskGroupRepository.deleteById(taskGroup.id)
         }
 

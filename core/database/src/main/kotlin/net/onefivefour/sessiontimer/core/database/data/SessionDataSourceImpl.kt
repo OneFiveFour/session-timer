@@ -29,15 +29,15 @@ internal class SessionDataSourceImpl @Inject constructor(
         .asFlow()
         .mapToList(dispatcher)
 
-    override suspend fun setTitle(sessionId: Long, title: String) {
-        withContext(dispatcher) {
-            queries.setTitle(sessionId = sessionId, title = title)
-        }
-    }
-
     override suspend fun deleteById(sessionId: Long) {
         withContext(dispatcher) {
             queries.deleteById(sessionId)
+        }
+    }
+
+    override suspend fun setTitle(sessionId: Long, title: String) {
+        withContext(dispatcher) {
+            queries.setTitle(sessionId = sessionId, title = title)
         }
     }
 

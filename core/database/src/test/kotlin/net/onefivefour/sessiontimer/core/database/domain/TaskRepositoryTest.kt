@@ -27,7 +27,7 @@ class TaskRepositoryTest {
         val testTask = DatabaseTask(78L, "Title 1", 3L, 1L)
         coEvery { taskDataSource.getAll(any()) } returns flowOf(listOf(testTask))
 
-        sut.getAll(listOf(1L)).collect()
+        sut.getByTaskGroupIds(listOf(1L)).collect()
 
         coVerify(exactly = 1) { taskDataSource.getAll(any()) }
     }
@@ -42,7 +42,7 @@ class TaskRepositoryTest {
         )
         coEvery { taskDataSource.getAll(any()) } returns flowOf(listOf(testTask))
 
-        val tasks = sut.getAll(listOf(1L)).first()
+        val tasks = sut.getByTaskGroupIds(listOf(1L)).first()
 
         assertThat(tasks.size).isEqualTo(1)
         val task = tasks.first()

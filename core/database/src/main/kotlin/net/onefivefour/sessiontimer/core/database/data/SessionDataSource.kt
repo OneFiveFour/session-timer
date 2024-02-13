@@ -11,9 +11,9 @@ interface SessionDataSource {
 
     suspend fun getFullSession(sessionId: Long): Flow<List<FullSession>>
 
-    suspend fun setTitle(sessionId: Long, title: String)
-
     suspend fun deleteById(sessionId: Long)
+
+    suspend fun setTitle(sessionId: Long, title: String)
 
     fun getLastInsertId(): Long
 }
