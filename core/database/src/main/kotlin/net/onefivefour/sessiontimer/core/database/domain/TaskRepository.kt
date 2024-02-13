@@ -11,9 +11,10 @@ class TaskRepository @Inject constructor(
     private val taskDataSource: TaskDataSource
 ) {
 
-    suspend fun new(title: String, taskGroupId: Long) = taskDataSource
+    suspend fun new(title: String, durationInSeconds: Int, taskGroupId: Long) = taskDataSource
         .insert(
             title = title,
+            durationInSeconds = durationInSeconds.toLong(),
             taskGroupId = taskGroupId
         )
 
@@ -44,7 +45,7 @@ private fun DatabaseTask.toDomainTask(): DomainTask {
     return DomainTask(
         id = this.id,
         title = this.title,
-        duration = this.durationInSeconds?.seconds,
+        duration = this.durationInSeconds.seconds,
         taskGroupId = this.taskGroupId
     )
 }

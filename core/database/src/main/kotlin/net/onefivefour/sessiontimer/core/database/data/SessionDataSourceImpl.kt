@@ -15,7 +15,7 @@ internal class SessionDataSourceImpl @Inject constructor(
 
     override suspend fun insert(title: String) {
         withContext(dispatcher) {
-            queries.insert(null, title)
+            queries.new(null, title)
         }
     }
 

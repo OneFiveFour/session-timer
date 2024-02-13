@@ -1,7 +1,7 @@
 CREATE TABLE taskGroup (
   id INTEGER PRIMARY KEY NOT NULL,
-  title TEXT,
-  color INTEGER,
+  title TEXT NOT NULL,
+  color INTEGER NOT NULL,
   sessionId INTEGER NOT NULL
 );
 
@@ -16,8 +16,8 @@ VALUES
 (2,"TaskGroup 2", 65280, 1)
 ;
 
-insert:
-INSERT OR REPLACE INTO taskGroup VALUES (?,?,?,?);
+new:
+INSERT INTO taskGroup VALUES (?,?,?,?);
 
 getById:
 SELECT * FROM taskGroup WHERE id = :id;

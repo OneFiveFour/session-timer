@@ -1,17 +1,20 @@
 package net.onefivefour.sessiontimer.core.usecases.task
 
+import dagger.hilt.android.scopes.ViewModelScoped
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
-import net.onefivefour.sessiontimer.core.defaults.DatabaseDatabaseDefaultValues
+import net.onefivefour.sessiontimer.core.defaults.DatabaseDefaultValues
 import javax.inject.Inject
 
+@ViewModelScoped
 class NewTaskUseCase @Inject constructor(
     private val taskRepository: TaskRepository,
-    private val defaultValuesProvider: DatabaseDatabaseDefaultValues
+    private val defaultValues: DatabaseDefaultValues
 ){
 
     suspend fun execute(taskGroupId: Long) {
-        val defaultTitle = defaultValuesProvider.getTaskTitle()
-        taskRepository.new(defaultTitle, taskGroupId)
+        val title = defaultValues.getTaskTitle()
+        val duration = defaultValues.getTaskDuration()
+        taskRepository.new(title, duration, taskGroupId)
     }
 
 }

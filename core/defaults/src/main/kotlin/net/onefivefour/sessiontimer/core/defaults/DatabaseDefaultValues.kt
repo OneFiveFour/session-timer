@@ -7,12 +7,14 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DatabaseDatabaseDefaultValues @Inject constructor(
+class DatabaseDefaultValues @Inject constructor(
     @ApplicationContext private val context: Context
 ) : DatabaseDefaultValues {
 
     override fun getSessionTitle() = context.getString(R.string.default_session_title)
     override fun getTaskGroupTitle() = context.getString(R.string.default_taskgroup_title)
+    override fun getTaskGroupColor() = 0xFF0000
     override fun getTaskTitle() = context.getString(R.string.default_task_title)
+    override fun getTaskDuration() = 3
 
 }

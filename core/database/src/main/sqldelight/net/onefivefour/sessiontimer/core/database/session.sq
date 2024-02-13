@@ -1,6 +1,6 @@
 CREATE TABLE session (
   id INTEGER PRIMARY KEY NOT NULL,
-  title TEXT
+  title TEXT NOT NULL
 );
 
 INSERT INTO session (id, title)
@@ -12,8 +12,8 @@ VALUES
 (5,"Session 5")
 ;
 
-insert:
-INSERT OR REPLACE INTO session VALUES (?,?);
+new:
+INSERT INTO session VALUES (?,?);
 
 getAll:
 SELECT * FROM session;

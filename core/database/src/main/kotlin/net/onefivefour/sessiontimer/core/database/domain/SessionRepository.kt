@@ -39,7 +39,7 @@ private fun List<FullSession>.toDomainSession(): DomainSession? {
     val firstSession = this.firstOrNull() ?: return null
 
     val sessionId = firstSession.sessionId
-    val sessionTitle = firstSession.sessionTitle ?: ""
+    val sessionTitle = firstSession.sessionTitle
 
     val taskGroups = this
         .groupBy { it.taskGroupId }
@@ -55,8 +55,8 @@ private fun List<FullSession>.toDomainSession(): DomainSession? {
                     taskRow.taskId?.let {
                         Task(
                             id = taskRow.taskId,
-                            title = taskRow.taskTitle,
-                            duration = taskRow.taskDuration?.seconds,
+                            title = "",
+                            duration = 1.seconds,
                             taskGroupId = taskGroupId
                         )
                     }
@@ -88,7 +88,7 @@ private fun List<DatabaseSession>.toDomainSession(): List<DomainSession> {
 private fun DatabaseSession.toDomainSession(): DomainSession {
     return DomainSession(
         this.id,
-        this.title ?: "",
+        this.title,
         emptyList()
     )
 }

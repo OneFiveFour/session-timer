@@ -16,12 +16,12 @@ internal class TaskGroupDataSourceImpl @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : TaskGroupDataSource {
 
-    override suspend fun insert(title: String, sessionId: Long) {
+    override suspend fun insert(title: String, color: Long, sessionId: Long) {
         withContext(dispatcher) {
-            queries.insert(
+            queries.new(
                 id = null,
                 title = title,
-                color = null,
+                color = color,
                 sessionId = sessionId
             )
         }

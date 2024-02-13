@@ -9,7 +9,7 @@ import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
-import net.onefivefour.sessiontimer.core.defaults.DatabaseDatabaseDefaultValues
+import net.onefivefour.sessiontimer.core.defaults.DatabaseDefaultValues
 import org.junit.jupiter.api.Test
 
 class NewSessionUseCaseTest {
@@ -18,7 +18,7 @@ class NewSessionUseCaseTest {
     private val taskGroupRepository: TaskGroupRepository = mockk()
     private val taskRepository: TaskRepository = mockk()
 
-    private val defaultValuesProvider : DatabaseDatabaseDefaultValues = mockk<DatabaseDatabaseDefaultValues>().apply {
+    private val defaultValuesProvider : DatabaseDefaultValues = mockk<DatabaseDefaultValues>().apply {
         every { getSessionTitle() } returns  DEFAULT_SESSION_TITLE
         every { getTaskGroupTitle() } returns  DEFAULT_TASK_GROUP_TITLE
         every { getTaskTitle() } returns  DEFAULT_TASK_TITLE

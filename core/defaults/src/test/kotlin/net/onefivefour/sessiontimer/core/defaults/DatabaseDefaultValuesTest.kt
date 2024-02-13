@@ -6,7 +6,7 @@ import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
 
-class DatabaseDatabaseDefaultValuesTest {
+class DatabaseDefaultValuesTest {
 
     private val testString = "Test String"
 
@@ -14,7 +14,7 @@ class DatabaseDatabaseDefaultValuesTest {
         every { getString(any()) } returns testString
     }
 
-    private val sut = DatabaseDatabaseDefaultValues(
+    private val sut = DatabaseDefaultValues(
         context
     )
 

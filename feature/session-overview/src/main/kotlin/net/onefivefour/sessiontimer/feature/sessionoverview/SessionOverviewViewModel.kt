@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.usecases.session.DeleteSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.session.GetAllSessionsUseCase
 import net.onefivefour.sessiontimer.core.usecases.session.NewSessionUseCase
@@ -30,7 +29,7 @@ internal class SessionOverviewViewModel @Inject constructor(
         viewModelScope.launch {
             getAllSessionsUseCase.execute().collectLatest { sessions ->
                 _uiState.update {
-                    UiState.Success(sessions)
+                    UiState.Success(sessions.toUiSessions())
                 }
             }
         }
@@ -54,10 +53,4 @@ internal class SessionOverviewViewModel @Inject constructor(
         }
     }
 
-}
-
-internal sealed interface UiState {
-    data object Initial : UiState
-    data class Success(val sessions: List<Session>) : UiState
-    data class Error(val message: String) : UiState
 }

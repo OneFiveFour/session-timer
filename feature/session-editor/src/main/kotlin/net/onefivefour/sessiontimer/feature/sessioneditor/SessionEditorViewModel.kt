@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.usecases.session.GetFullSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.DeleteTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.NewTaskUseCase
@@ -84,10 +83,4 @@ internal class SessionEditorViewModel @Inject constructor(
             setTaskTitleUseCase.execute(taskId, title)
         }
     }
-}
-
-internal sealed interface UiState {
-    data object Initial : UiState
-    data class Success(val session: Session) : UiState
-    data class Error(val message: String) : UiState
 }

@@ -1,7 +1,7 @@
 CREATE TABLE task (
   id INTEGER PRIMARY KEY NOT NULL,
-  title TEXT,
-  durationInSeconds INTEGER,
+  title TEXT NOT NULL,
+  durationInSeconds INTEGER NOT NULL,
   taskGroupId INTEGER NOT NULL
 );
 
@@ -18,8 +18,8 @@ VALUES
 (4,"Task 4", 4, 2)
 ;
 
-insert:
-INSERT OR REPLACE INTO task VALUES (?,?,?,?);
+new:
+INSERT INTO task VALUES (?,?,?,?);
 
 getByTaskGroupIds:
 SELECT * FROM task WHERE taskGroupId IN ? ORDER BY id;

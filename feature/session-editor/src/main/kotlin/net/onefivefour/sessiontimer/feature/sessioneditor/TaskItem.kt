@@ -29,7 +29,7 @@ fun TaskItem(
 ) {
 
     var taskDuration by remember {
-        mutableStateOf(task.duration?.inWholeSeconds?.toString() ?: "0")
+        mutableStateOf(task.duration.inWholeSeconds.toString())
     }
     var taskTitle by remember {
         mutableStateOf(task.title.toString())
