@@ -32,18 +32,6 @@ fun SessionEditorScreen(onEditTaskGroup: (Long) -> Unit) {
     )
 }
 
-@Composable
-fun SessionEditorInitial() {
-    Text(text = "Session Editor Initial")
-}
-
-@Composable
-fun SessionEditorError(
-    errorMessage: String
-) {
-    Text(text = errorMessage)
-}
-
 
 @Composable
 internal fun SessionEditor(

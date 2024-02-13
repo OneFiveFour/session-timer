@@ -26,7 +26,8 @@ import net.onefivefour.sessiontimer.core.theme.typography
 
 @Composable
 fun SessionOverviewScreen(
-    onEditSession: (Long) -> Unit
+    onEditSession: (Long) -> Unit,
+    onStartSession: (Long) -> Unit
 ) {
 
     val viewModel: SessionOverviewViewModel = hiltViewModel()
@@ -37,7 +38,8 @@ fun SessionOverviewScreen(
         onEditSession = onEditSession,
         onNewSession = { viewModel.newSession() },
         onDeleteSession = { sessionId -> viewModel.deleteSession(sessionId) },
-        onSetSessionTitle = { sessionId, title -> viewModel.setSessionTitle(sessionId, title) }
+        onSetSessionTitle = { sessionId, title -> viewModel.setSessionTitle(sessionId, title) },
+        onStartSession = onStartSession
     )
 }
 
@@ -60,7 +62,8 @@ internal fun SessionOverview(
     onEditSession: (Long) -> Unit,
     onNewSession: () -> Unit,
     onDeleteSession: (Long) -> Unit,
-    onSetSessionTitle: (Long, String) -> Unit
+    onSetSessionTitle: (Long, String) -> Unit,
+    onStartSession: (Long) -> Unit
 ) {
 
     if (uiState == UiState.Initial) {
@@ -144,6 +147,12 @@ internal fun SessionOverview(
                 Button(onClick = { onDeleteSession(session.id) }) {
                     Text(text = "Delete")
                 }
+
+                Button(onClick = { onStartSession(session.id) }) {
+                    Text(text = "Start")
+                }
+
+
             }
         }
     }

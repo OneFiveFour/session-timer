@@ -14,9 +14,8 @@ fun AppNavGraph() {
 
         sessionOverviewScreen {
             SessionOverviewScreen(
-                onEditSession = { sessionId ->
-                    navigateToSessionEditor(sessionId)
-                }
+                onEditSession = { sessionId -> navigateToSessionEditor(sessionId) },
+                onStartSession = { sessionId -> navigateToSessionPlayer(sessionId) }
             )
         }
 
