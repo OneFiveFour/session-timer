@@ -14,9 +14,6 @@ dependencies {
     implementation(project(":core:theme"))
     implementation(project(":core:usecases"))
 
-    // Navigation
-    api(libs.androidX.navigation)
-
     // Compose
     implementation(platform(libs.androidX.compose.bom))
     implementation(libs.androidX.compose.ui)

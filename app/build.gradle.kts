@@ -65,9 +65,13 @@ dependencies {
         ":core:theme",
         ":core:usecases",
         ":feature:session-editor",
+        ":feature:session-editor-api",
         ":feature:session-overview",
+        ":feature:session-overview-api",
+        ":feature:session-player-api",
         ":feature:session-player",
-        ":feature:taskgroup-editor"
+        ":feature:taskgroup-editor",
+        ":feature:taskgroup-editor-api"
     )
     for (module in modules) {
         implementation(project(module))

@@ -1,12 +1,12 @@
-package net.onefivefour.sessiontimer.feature.taskgroupeditor
+package net.onefivefour.sessiontimer.feature.taskgroupeditor.api
 
 import androidx.navigation.NavGraphBuilder
 import de.onecode.navigator.api.Destination
 import de.onecode.navigator.api.Parameter
 import de.onecode.navigator.taskGroupEditorScreen
+import net.onefivefour.sessiontimer.feature.taskgroupeditor.TaskGroupEditorScreen
 
 
-// TODO create constants for param names in each module
 @Destination
 @Parameter(name = "taskGroupId", type = Long::class)
 object TaskGroupEditor

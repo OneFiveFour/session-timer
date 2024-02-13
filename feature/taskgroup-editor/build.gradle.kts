@@ -27,12 +27,6 @@ dependencies {
     implementation(libs.hilt.navigation)
     ksp(libs.hilt.android.compiler)
 
-    // Navigation
-    api(libs.androidX.navigation)
-    implementation(libs.compose.navigator.api)
-    implementation(libs.compose.navigator.runtime)
-    ksp(libs.compose.navigator.ksp)
-
     // collectAsStateWithLifecycle
     implementation(libs.androidX.lifecycle.compose)
 }
