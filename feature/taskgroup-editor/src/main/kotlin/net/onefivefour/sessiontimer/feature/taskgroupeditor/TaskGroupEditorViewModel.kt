@@ -1,5 +1,7 @@
 package net.onefivefour.sessiontimer.feature.taskgroupeditor
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +11,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.GetTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.SetTaskGroupColorUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.SetTaskGroupTitleUseCase
@@ -32,7 +33,7 @@ internal class TaskGroupEditorViewModel @Inject constructor(
         viewModelScope.launch {
             getTaskGroupUseCase.execute(taskGroupId).collectLatest { taskGroup ->
                 _uiState.update {
-                    UiState.Success(taskGroup)
+                    UiState.Success(taskGroup.toUiTaskGroup())
                 }
             }
         }
@@ -45,15 +46,11 @@ internal class TaskGroupEditorViewModel @Inject constructor(
         }
     }
 
-    fun setTaskGroupColor(taskId: Long, color: Int) {
+    fun setTaskGroupColor(taskId: Long, color: Color) {
         viewModelScope.launch {
-            setTaskGroupColorUseCase.execute(taskId, color)
+            setTaskGroupColorUseCase.execute(taskId, color.toArgb())
         }
     }
 
 }
 
-internal sealed interface UiState {
-    data object Initial : UiState
-    data class Success(val taskGroup: TaskGroup) : UiState
-}

@@ -11,10 +11,10 @@ class TaskGroupRepository @Inject constructor(
     private val taskGroupDataSource: TaskGroupDataSource
 ) {
 
-    suspend fun new(title: String, color: Int, sessionId: Long) = taskGroupDataSource
+    suspend fun new(title: String, color: Long, sessionId: Long) = taskGroupDataSource
         .insert(
             title = title,
-            color = color.toLong(),
+            color = color,
             sessionId = sessionId
         )
 
@@ -47,7 +47,7 @@ private fun List<DatabaseTaskGroup>.toDomainTaskGroup(): List<DomainTaskGroup> {
 
 private fun DatabaseTaskGroup.toDomainTaskGroup(): DomainTaskGroup {
     val title = this.title
-    val color = this.color.toInt()
+    val color = this.color
 
     return DomainTaskGroup(
         this.id,

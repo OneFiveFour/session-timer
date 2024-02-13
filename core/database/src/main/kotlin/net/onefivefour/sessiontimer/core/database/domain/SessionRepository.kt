@@ -48,7 +48,7 @@ private fun List<FullSession>.toDomainSession(): DomainSession? {
             taskGroupId?.let {
                 val fullSession = fullSessions.firstOrNull() ?: return null
                 val taskGroupTitle = fullSession.taskGroupTitle ?: ""
-                val taskGroupColor = fullSession.taskGroupColor?.toInt() ?: 0xFFFF00
+                val taskGroupColor = fullSession.taskGroupColor ?: 0xFF000000
 
                 val tasks = fullSessions.mapNotNull { taskRow ->
 

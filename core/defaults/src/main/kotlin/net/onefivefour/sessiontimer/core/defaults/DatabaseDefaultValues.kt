@@ -13,7 +13,7 @@ class DatabaseDefaultValues @Inject constructor(
 
     override fun getSessionTitle() = context.getString(R.string.default_session_title)
     override fun getTaskGroupTitle() = context.getString(R.string.default_taskgroup_title)
-    override fun getTaskGroupColor() = 0xFF0000
+    override fun getTaskGroupColor() = 0xFF000000
     override fun getTaskTitle() = context.getString(R.string.default_task_title)
     override fun getTaskDuration() = 3
 

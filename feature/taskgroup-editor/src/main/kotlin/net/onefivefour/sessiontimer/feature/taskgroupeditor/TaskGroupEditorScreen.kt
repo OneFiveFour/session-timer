@@ -42,7 +42,7 @@ fun TaskGroupEditorScreen() {
 internal fun TaskGroupEditor(
     uiState: UiState,
     onSetTaskGroupTitle: (Long, String) -> Unit,
-    onSetTaskGroupColor: (Long, Int) -> Unit
+    onSetTaskGroupColor: (Long, Color) -> Unit
 ) {
 
     when (uiState) {
@@ -63,7 +63,7 @@ internal fun TaskGroupEditor(
     }
 
     var taskGroupColor by remember {
-        mutableIntStateOf(taskGroup.color)
+        mutableStateOf(taskGroup.color)
     }
 
     Column {
@@ -79,9 +79,9 @@ internal fun TaskGroupEditor(
                 modifier = Modifier
                     .size(48.dp)
                     .background(color1)
-                    .clickable { taskGroupColor = color1.toArgb() }
+                    .clickable { taskGroupColor = color1 }
             ) {
-                if (taskGroupColor == color1.toArgb()) {
+                if (taskGroupColor == color1) {
                     Box(modifier = Modifier.size(10.dp).background(Color.Black).align(Alignment.Center))
                 }
             }
@@ -90,9 +90,9 @@ internal fun TaskGroupEditor(
                 modifier = Modifier
                     .size(48.dp)
                     .background(color2)
-                    .clickable { taskGroupColor = color2.toArgb() }
+                    .clickable { taskGroupColor = color2 }
             ) {
-                if (taskGroupColor == color2.toArgb()) {
+                if (taskGroupColor == color2) {
                     Box(modifier = Modifier.size(10.dp).background(Color.Black).align(Alignment.Center))
                 }
             }
