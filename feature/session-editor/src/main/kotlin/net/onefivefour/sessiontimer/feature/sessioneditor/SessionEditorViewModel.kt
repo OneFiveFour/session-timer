@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.DeleteTaskGroupUseCase
-import net.onefivefour.sessiontimer.core.usecases.task.DeleteTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.session.GetFullSessionUseCase
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.NewTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.task.DeleteTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.NewTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.SetTaskDurationUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.SetTaskTitleUseCase
+import net.onefivefour.sessiontimer.core.usecases.taskgroup.DeleteTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.taskgroup.NewTaskGroupUseCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,7 +31,7 @@ internal class SessionEditorViewModel @Inject constructor(
     private val setTaskTitleUseCase: SetTaskTitleUseCase
 ) : ViewModel() {
 
-    private val sessionId = checkNotNull(savedStateHandle.get<Long>("sessionId"))
+    private val sessionId = checkNotNull(savedStateHandle.get<Long>(NAV_ARG_SESSION_ID))
 
     private var _uiState = MutableStateFlow<UiState>(UiState.Initial)
     val uiState = _uiState.asStateFlow()
