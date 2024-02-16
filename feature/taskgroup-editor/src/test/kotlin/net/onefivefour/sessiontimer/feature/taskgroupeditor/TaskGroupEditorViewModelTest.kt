@@ -94,6 +94,7 @@ class TaskGroupEditorViewModelTest {
             assertThat(taskGroup.color).isEqualTo(0xFF0000)
             assertThat(taskGroup.tasks).isEmpty()
             assertThat(taskGroup.sessionId).isEqualTo(2L)
+            awaitComplete()
         }
     }
 

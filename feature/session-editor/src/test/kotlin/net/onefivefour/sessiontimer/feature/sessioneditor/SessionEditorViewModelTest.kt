@@ -83,6 +83,7 @@ class SessionEditorViewModelTest {
         sut.uiState.test {
             val uiState = awaitItem()
             assertThat(uiState is UiState.Initial).isTrue()
+            awaitComplete()
         }
 
     }
@@ -108,6 +109,7 @@ class SessionEditorViewModelTest {
             assertThat(session.id).isEqualTo(sessionId)
             assertThat(session.title).isEqualTo("Session 1")
             assertThat(session.taskGroups).isEmpty()
+            awaitComplete()
         }
 
     }

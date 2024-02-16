@@ -1,5 +1,6 @@
 package net.onefivefour.sessiontimer.core.database.domain
 
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -13,6 +14,9 @@ import net.onefivefour.sessiontimer.core.common.domain.model.Task as DomainTask
 import net.onefivefour.sessiontimer.core.database.Task as DatabaseTask
 import net.onefivefour.sessiontimer.core.database.data.TaskDataSource
 import org.junit.jupiter.api.Test
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.DurationUnit
 
 class TaskRepositoryTest {
 
@@ -23,33 +27,75 @@ class TaskRepositoryTest {
     )
 
     @Test
-    fun `getAll fetches data from taskDataSource`() = runTest {
-        val testTask = DatabaseTask(78L, "Title 1", 3L, 1L)
-        coEvery { taskDataSource.getAll(any()) } returns flowOf(listOf(testTask))
+    fun `new task insertion should call data source insert method`() = runTest {
+        val title = "Sample Task"
+        val durationInSeconds = 300
+        val taskGroupId = 1L
 
-        sut.getByTaskGroupIds(listOf(1L)).collect()
+        coEvery { taskDataSource.insert(any(), any(), any()) } returns Unit
 
-        coVerify(exactly = 1) { taskDataSource.getAll(any()) }
+        sut.new(title, durationInSeconds, taskGroupId)
+
+        coVerify {
+            taskDataSource.insert(
+                title = title,
+                durationInSeconds = durationInSeconds.toLong(),
+                taskGroupId = taskGroupId
+            )
+        }
     }
 
     @Test
-    fun `getAll returns domain model task`() = runTest {
-        val testTask = DatabaseTask(
-            id = 78L,
-            title = "Title 1",
-            durationInSeconds = 3L,
-            taskGroupId = 1L
+    fun `getByTaskGroupIds should return mapped DomainTasks`() = runTest {
+        val taskGroupIds = listOf(1L, 2L, 3L)
+        val databaseTasks = listOf(
+            DatabaseTask(1L, "Task 1", 300, 1L),
+            DatabaseTask(2L, "Task 2", 600, 1L),
+            DatabaseTask(3L, "Task 3", 450, 2L)
         )
-        coEvery { taskDataSource.getAll(any()) } returns flowOf(listOf(testTask))
 
-        val tasks = sut.getByTaskGroupIds(listOf(1L)).first()
+        coEvery { taskDataSource.getByTaskGroupIds(taskGroupIds) } returns flowOf(databaseTasks)
 
-        assertThat(tasks.size).isEqualTo(1)
-        val task = tasks.first()
-        assertThat(task).isInstanceOf(DomainTask::class.java)
-        assertThat(task.id).isEqualTo(78L)
-        assertThat(task.title).isEqualTo("Title 1")
-        assertThat(task.duration).isEqualTo(3.seconds)
-        assertThat(task.taskGroupId).isEqualTo(1L)
+        sut.getByTaskGroupIds(taskGroupIds).test {
+            val result = awaitItem()
+            assertThat(result).isEqualTo(databaseTasks.map { it.toDomainTask() })
+            awaitComplete()
+        }
     }
+
+    @Test
+    fun `update task should call data source update method`() = runTest {
+        val taskId = 1L
+        val title = "Updated Task"
+        val duration = 5.minutes
+
+        coEvery { taskDataSource.update(any(), any(), any()) } returns Unit
+
+        sut.update(taskId, title, duration)
+
+        coVerify { taskDataSource.update(taskId, title, duration.toLong(DurationUnit.SECONDS)) }
+    }
+
+    @Test
+    fun `delete task should call data source deleteById method`() = runTest {
+        val taskId = 1L
+
+        coEvery { taskDataSource.deleteById(any()) } returns Unit
+
+        sut.delete(taskId)
+
+        coVerify { taskDataSource.deleteById(taskId) }
+    }
+
+    @Test
+    fun `delete tasks by task group id should call data source deleteByTaskGroupId method`() =
+        runTest {
+            val taskGroupId = 1L
+
+            coEvery { taskDataSource.deleteByTaskGroupId(any()) } returns Unit
+
+            sut.deleteByTaskGroupId(taskGroupId)
+
+            coVerify { taskDataSource.deleteByTaskGroupId(taskGroupId) }
+        }
 }

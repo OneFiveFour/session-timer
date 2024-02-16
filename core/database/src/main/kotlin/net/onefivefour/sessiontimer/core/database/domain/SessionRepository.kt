@@ -23,7 +23,7 @@ class SessionRepository @Inject constructor(
         .map { it.toDomainSession() }
 
     suspend fun getFullSession(sessionId: Long) = sessionDataSource
-        .getFullSession(sessionId)
+        .getFullSessionById(sessionId)
         .map { it.toDomainSession() }
 
     suspend fun deleteById(sessionId: Long) = sessionDataSource
@@ -36,7 +36,7 @@ class SessionRepository @Inject constructor(
         .getLastInsertId()
 }
 
-private fun List<FullSession>.toDomainSession(): DomainSession? {
+internal fun List<FullSession>.toDomainSession(): DomainSession? {
     val firstSession = this.firstOrNull() ?: return null
 
     val sessionId = firstSession.sessionId
@@ -102,13 +102,13 @@ private fun List<FullSession>.toDomainSession(): DomainSession? {
     )
 }
 
-private fun List<DatabaseSession>.toDomainSession(): List<DomainSession> {
+internal fun List<DatabaseSession>.toDomainSession(): List<DomainSession> {
     return map { databaseSession ->
         databaseSession.toDomainSession()
     }
 }
 
-private fun DatabaseSession.toDomainSession(): DomainSession {
+internal fun DatabaseSession.toDomainSession(): DomainSession {
     return DomainSession(
         this.id,
         this.title,

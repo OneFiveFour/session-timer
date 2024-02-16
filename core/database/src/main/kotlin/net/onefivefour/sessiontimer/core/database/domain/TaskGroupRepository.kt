@@ -56,13 +56,13 @@ class TaskGroupRepository @Inject constructor(
         .getLastInsertId()
 }
 
-private fun List<DatabaseTaskGroup>.toDomainTaskGroup(): List<DomainTaskGroup> {
+internal fun List<DatabaseTaskGroup>.toDomainTaskGroup(): List<DomainTaskGroup> {
     return map { databaseTaskGroup ->
         databaseTaskGroup.toDomainTaskGroup()
     }
 }
 
-private fun DatabaseTaskGroup.toDomainTaskGroup(): DomainTaskGroup {
+internal fun DatabaseTaskGroup.toDomainTaskGroup(): DomainTaskGroup {
     val title = this.title
     val color = this.color
     val playMode = PlayMode.valueOf(this.playMode)

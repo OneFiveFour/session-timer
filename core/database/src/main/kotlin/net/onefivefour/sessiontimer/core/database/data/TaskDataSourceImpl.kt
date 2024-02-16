@@ -31,15 +31,15 @@ internal class TaskDataSourceImpl @Inject constructor(
         .asFlow()
         .mapToList(dispatcher)
 
-    override suspend fun deleteById(taskId: Long) {
-        withContext(dispatcher) {
-            queries.deleteById(taskId)
-        }
-    }
-
     override suspend fun update(taskId: Long, title: String, durationInSeconds: Long) {
         withContext(dispatcher) {
             queries.update(title, durationInSeconds, taskId)
+        }
+    }
+
+    override suspend fun deleteById(taskId: Long) {
+        withContext(dispatcher) {
+            queries.deleteById(taskId)
         }
     }
 

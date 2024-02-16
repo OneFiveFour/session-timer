@@ -48,12 +48,6 @@ internal class TaskGroupDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteById(taskGroupId: Long) {
-        withContext(dispatcher) {
-            queries.deleteById(taskGroupId)
-        }
-    }
-
     override suspend fun update(
         taskGroupId: Long,
         title: String,
@@ -69,6 +63,12 @@ internal class TaskGroupDataSourceImpl @Inject constructor(
                 numberOfRandomTasks,
                 taskGroupId
             )
+        }
+    }
+
+    override suspend fun deleteById(taskGroupId: Long) {
+        withContext(dispatcher) {
+            queries.deleteById(taskGroupId)
         }
     }
 

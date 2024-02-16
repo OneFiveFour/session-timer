@@ -1,13 +1,14 @@
 package net.onefivefour.sessiontimer.core.database.domain
 
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
+import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import net.onefivefour.sessiontimer.core.common.domain.model.Session as DomainSession
+import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
+import net.onefivefour.sessiontimer.core.database.data.FullSession
 import net.onefivefour.sessiontimer.core.database.Session as DatabaseSession
 import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
 import org.junit.jupiter.api.Test
@@ -21,27 +22,95 @@ class SessionRepositoryTest {
     )
 
     @Test
-    fun `getAll fetches data from sessionDataSource`() = runTest {
-        val testSession = DatabaseSession(78L, "Title 1")
-        every { sessionDataSource.getAll() } returns flowOf(listOf(testSession))
+    fun `new session insertion should call data source insert method`() = runTest {
+        val title = "Sample Session"
 
-        sut.getAll().first()
+        coEvery { sessionDataSource.insert(any()) } returns Unit
 
-        coVerify(exactly = 1) { sessionDataSource.getAll() }
+        sut.new(title)
+
+        coVerify { sessionDataSource.insert(title) }
     }
 
     @Test
-    fun `getAll returns domain model session`() = runTest {
-        val testSession = DatabaseSession(78L, "Title 1")
-        every { sessionDataSource.getAll() } returns flowOf(listOf(testSession))
+    fun `getAll should return mapped DomainSessions`() = runTest {
+        val databaseSessions = listOf(
+            DatabaseSession(1L, "Session 1"),
+            DatabaseSession(2L, "Session 2")
+        )
 
-        val sessions = sut.getAll().first()
+        coEvery { sessionDataSource.getAll() } returns flowOf(
+            databaseSessions
+        )
 
-        assertThat(sessions.size).isEqualTo(1)
-        val session = sessions.first()
-        assertThat(session).isInstanceOf(DomainSession::class.java)
-        assertThat(session.id).isEqualTo(78L)
-        assertThat(session.title).isEqualTo("Title 1")
-        assertThat(session.taskGroups).isEmpty()
+        sut.getAll().test {
+            val result = awaitItem()
+            assertThat(result).isEqualTo(databaseSessions.map { it.toDomainSession() })
+            awaitComplete()
+        }
+
+    }
+
+    @Test
+    fun `getFullSession should return mapped DomainSession`() = runTest {
+        val sessionId = 1L
+        val fullSession = FullSession(
+            sessionId,
+            "Session 1",
+            2L,
+            "Task Group 1",
+            0xFF00FFL,
+            PlayMode.RANDOM.toString(),
+            3,
+            1L,
+            1L,
+            "Task 1",
+            300
+        )
+
+        coEvery { sessionDataSource.getFullSessionById(sessionId) } returns flowOf(
+            listOf(fullSession)
+        )
+
+        sut.getFullSession(sessionId).test {
+            val result = awaitItem()
+            assertThat(result).isEqualTo(listOf(fullSession).toDomainSession())
+            awaitComplete()
+        }
+
+    }
+
+    @Test
+    fun `delete session should call data source deleteById method`() = runTest {
+        val sessionId = 1L
+
+        coEvery { sessionDataSource.deleteById(any()) } returns Unit
+
+        sut.deleteById(sessionId)
+
+        coVerify { sessionDataSource.deleteById(sessionId) }
+    }
+
+    @Test
+    fun `setTitle should call data source setTitle method`() = runTest {
+        val sessionId = 1L
+        val title = "Updated Session Title"
+
+        coEvery { sessionDataSource.setTitle(any(), any()) } returns Unit
+
+        sut.setTitle(sessionId, title)
+
+        coVerify { sessionDataSource.setTitle(sessionId, title) }
+    }
+
+    @Test
+    fun `getLastInsertId should return value from data source`() = runTest {
+        val lastInsertId = 42L
+
+        coEvery { sessionDataSource.getLastInsertId() } returns lastInsertId
+
+        val result = sut.getLastInsertId()
+
+        assertThat(result).isEqualTo(lastInsertId)
     }
 }

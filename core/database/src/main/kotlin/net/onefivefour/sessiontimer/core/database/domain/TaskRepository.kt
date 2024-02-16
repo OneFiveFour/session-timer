@@ -35,13 +35,13 @@ class TaskRepository @Inject constructor(
 
 }
 
-private fun List<DatabaseTask>.toDomainTask(): List<DomainTask> {
+internal fun List<DatabaseTask>.toDomainTask(): List<DomainTask> {
     return map { databaseTask ->
         databaseTask.toDomainTask()
     }
 }
 
-private fun DatabaseTask.toDomainTask(): DomainTask {
+internal fun DatabaseTask.toDomainTask(): DomainTask {
     return DomainTask(
         id = this.id,
         title = this.title,

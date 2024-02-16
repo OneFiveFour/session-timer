@@ -53,13 +53,13 @@ internal class SessionDataSourceImplTest {
     }
 
     @Test
-    fun `getBySessionId delegates to correct sessionQueries call`() = runTest {
-        coEvery { sessionQueries.fullSession(any()).executeAsOneOrNull() } returns null
+    fun `insert delegates to correct sessionQueries call`() = runTest {
+        coEvery { sessionQueries.new(any(), any()) } returns mockk()
 
-        val sessionId = 123L
-        sut.getFullSession(sessionId)
+        val title = "title"
+        sut.insert(title)
 
-        coVerify { sessionQueries.fullSession(sessionId) }
+        coVerify { sessionQueries.new(null, title) }
     }
 
     @Test
@@ -72,22 +72,35 @@ internal class SessionDataSourceImplTest {
     }
 
     @Test
-    fun `delete delegates to correct sessionQueries call`() = runTest {
-        coEvery { sessionQueries.delete(any()) } returns mockk()
+    fun `getFullSessionById delegates to correct sessionQueries call`() = runTest {
+        coEvery { sessionQueries.getFullSessionById(any()).executeAsOneOrNull() } returns null
+
+        val sessionId = 123L
+        sut.getFullSessionById(sessionId)
+
+        coVerify { sessionQueries.getFullSessionById(sessionId) }
+    }
+
+
+    @Test
+    fun `deleteById delegates to correct sessionQueries call`() = runTest {
+        coEvery { sessionQueries.deleteById(any()) } returns mockk()
 
         val sessionId = 123L
         sut.deleteById(sessionId)
 
-        coVerify { sessionQueries.delete(sessionId) }
+        coVerify { sessionQueries.deleteById(sessionId) }
     }
 
+
     @Test
-    fun `insert delegates to correct sessionQueries call`() = runTest {
-        coEvery { sessionQueries.insert(any(), any()) } returns mockk()
+    fun `setTitle delegates to correct sessionQueries call`() = runTest {
+        coEvery { sessionQueries.setTitle(any(), any()) } returns mockk()
 
-        val title = "title"
-        sut.insert(title)
+        val sessionId = 123L
+        val title = "Test Title"
+        sut.setTitle(sessionId, title)
 
-        coVerify { sessionQueries.insert(null, title) }
+        coVerify { sessionQueries.setTitle(title, sessionId) }
     }
 }

@@ -2,7 +2,6 @@ package net.onefivefour.sessiontimer.core.database.data
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import app.cash.sqldelight.coroutines.mapToOneNotNull
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import net.onefivefour.sessiontimer.core.database.SessionQueries
@@ -25,7 +24,7 @@ internal class SessionDataSourceImpl @Inject constructor(
         .asFlow()
         .mapToList(dispatcher)
 
-    override suspend fun getFullSession(sessionId: Long) = queries
+    override suspend fun getFullSessionById(sessionId: Long) = queries
         .getFullSessionById(sessionId)
         .asFlow()
         .mapToList(dispatcher)

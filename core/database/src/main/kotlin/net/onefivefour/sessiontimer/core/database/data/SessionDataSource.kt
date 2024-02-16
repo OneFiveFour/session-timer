@@ -9,7 +9,7 @@ interface SessionDataSource {
 
     fun getAll(): Flow<List<Session>>
 
-    suspend fun getFullSession(sessionId: Long): Flow<List<FullSession>>
+    suspend fun getFullSessionById(sessionId: Long): Flow<List<FullSession>>
 
     suspend fun deleteById(sessionId: Long)
 
