@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.feature.sessioneditor
+package net.onefivefour.sessiontimer.feature.sessioneditor.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
@@ -13,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import net.onefivefour.sessiontimer.core.theme.typography
+import net.onefivefour.sessiontimer.feature.sessioneditor.viewmodel.SessionEditorViewModel
+import net.onefivefour.sessiontimer.feature.sessioneditor.viewmodel.UiState
+import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
 
 @Composable
 fun SessionEditorScreen(onEditTaskGroup: (Long) -> Unit) {

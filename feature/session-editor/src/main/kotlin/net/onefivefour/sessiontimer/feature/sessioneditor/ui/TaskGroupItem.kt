@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.feature.sessioneditor
+package net.onefivefour.sessiontimer.feature.sessioneditor.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.theme.typography
+import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
 
 
 @Composable

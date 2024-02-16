@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.feature.sessioneditor
+package net.onefivefour.sessiontimer.feature.sessioneditor.viewmodel
 
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
 

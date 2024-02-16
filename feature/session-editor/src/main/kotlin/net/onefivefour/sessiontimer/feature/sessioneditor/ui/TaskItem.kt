@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.feature.sessioneditor
+package net.onefivefour.sessiontimer.feature.sessioneditor.ui
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import net.onefivefour.sessiontimer.core.common.domain.model.Task
+import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.DurationUnit
 
 
 internal val TASK_ITEM_HEIGHT = 64.dp

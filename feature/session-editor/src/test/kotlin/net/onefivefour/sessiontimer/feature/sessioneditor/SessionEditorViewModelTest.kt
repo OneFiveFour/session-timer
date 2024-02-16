@@ -22,6 +22,8 @@ import net.onefivefour.sessiontimer.core.usecases.taskgroup.NewTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.NewTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.UpdateTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.SetTaskTitleUseCase
+import net.onefivefour.sessiontimer.feature.sessioneditor.viewmodel.SessionEditorViewModel
+import net.onefivefour.sessiontimer.feature.sessioneditor.viewmodel.UiState
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

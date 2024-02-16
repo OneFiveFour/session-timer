@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.feature.sessioneditor
+package net.onefivefour.sessiontimer.feature.sessioneditor.model
 
 import androidx.compose.ui.graphics.Color
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
