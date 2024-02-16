@@ -12,21 +12,16 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
+import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.GetTaskGroupUseCase
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.SetTaskGroupColorUseCase
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.SetTaskGroupNumberOfRandomTasksUseCase
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.SetTaskGroupPlayModeUseCase
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.SetTaskGroupTitleUseCase
+import net.onefivefour.sessiontimer.core.usecases.taskgroup.UpdateTaskGroupUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 internal class TaskGroupEditorViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     getTaskGroupUseCase: GetTaskGroupUseCase,
-    private val setTaskGroupTitleUseCase: SetTaskGroupTitleUseCase,
-    private val setTaskGroupColorUseCase: SetTaskGroupColorUseCase,
-    private val setTaskGroupPlayModeUseCase: SetTaskGroupPlayModeUseCase,
-    private val setTaskGroupNumberOfRandomTasksUseCase: SetTaskGroupNumberOfRandomTasksUseCase,
+    private val updateTaskGroupUseCase: UpdateTaskGroupUseCase
 ) : ViewModel() {
 
     private val taskGroupId = checkNotNull(savedStateHandle.get<Long>(NAV_ARG_TASK_GROUP_ID))
@@ -44,30 +39,16 @@ internal class TaskGroupEditorViewModel @Inject constructor(
         }
     }
 
-
-    fun setTaskGroupTitle(taskId: Long, title: String) {
+    fun updateTaskGroup(taskGroup: UiTaskGroup) {
         viewModelScope.launch {
-            setTaskGroupTitleUseCase.execute(taskId, title)
+            updateTaskGroupUseCase.execute(
+                taskGroup.id,
+                taskGroup.title,
+                taskGroup.color.toArgb(),
+                taskGroup.playMode,
+                taskGroup.numberOfRandomTasks
+            )
         }
     }
-
-    fun setTaskGroupColor(taskId: Long, color: Color) {
-        viewModelScope.launch {
-            setTaskGroupColorUseCase.execute(taskId, color.toArgb())
-        }
-    }
-
-    fun setTaskGroupPlayMode(taskId: Long, playMode: PlayMode) {
-        viewModelScope.launch {
-            setTaskGroupPlayModeUseCase.execute(taskId, playMode)
-        }
-    }
-
-    fun setTaskGroupNumberOfRandomTasks(taskId: Long, number: Int) {
-        viewModelScope.launch {
-            setTaskGroupNumberOfRandomTasksUseCase.execute(taskId, number)
-        }
-    }
-
 }
 

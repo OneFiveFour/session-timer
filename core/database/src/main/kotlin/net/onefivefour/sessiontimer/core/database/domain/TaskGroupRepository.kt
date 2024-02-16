@@ -3,7 +3,6 @@ package net.onefivefour.sessiontimer.core.database.domain
 import javax.inject.Inject
 import kotlinx.coroutines.flow.map
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
-import net.onefivefour.sessiontimer.core.database.TaskGroup
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup as DomainTaskGroup
 import net.onefivefour.sessiontimer.core.database.TaskGroup as DatabaseTaskGroup
 import net.onefivefour.sessiontimer.core.database.data.TaskGroupDataSource
@@ -35,20 +34,23 @@ class TaskGroupRepository @Inject constructor(
         .getBySessionId(sessionId)
         .map { it.toDomainTaskGroup() }
 
+    suspend fun update(
+        taskGroupId: Long,
+        title: String,
+        color: Int,
+        playMode: PlayMode,
+        numberOfRandomTasks: Int
+    ) = taskGroupDataSource
+        .update(
+            taskGroupId,
+            title,
+            color.toLong(),
+            playMode.toString(),
+            numberOfRandomTasks.toLong()
+        )
+
     suspend fun deleteById(taskGroupId: Long) = taskGroupDataSource
         .deleteById(taskGroupId)
-
-    suspend fun setTitle(taskGroupId: Long, title: String) = taskGroupDataSource
-        .setTitle(taskGroupId, title)
-
-    suspend fun setColor(taskGroupId: Long, color: Int) = taskGroupDataSource
-        .setColor(taskGroupId, color.toLong())
-
-    suspend fun setPlayMode(taskGroupId: Long, playMode: PlayMode) = taskGroupDataSource
-        .setPlayMode(taskGroupId, playMode.toString())
-
-    suspend fun setNumberOfRandomTasks(taskGroupId: Long, number: Int) = taskGroupDataSource
-        .setNumberOfRandomTasks(taskGroupId, number.toLong())
 
     fun getLastInsertId() = taskGroupDataSource
         .getLastInsertId()

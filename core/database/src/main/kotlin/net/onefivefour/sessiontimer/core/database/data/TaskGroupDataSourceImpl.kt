@@ -54,33 +54,27 @@ internal class TaskGroupDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun update(
+        taskGroupId: Long,
+        title: String,
+        color: Long,
+        playMode: String,
+        numberOfRandomTasks: Long
+    ) {
+        withContext(dispatcher) {
+            queries.update(
+                title,
+                color,
+                playMode,
+                numberOfRandomTasks,
+                taskGroupId
+            )
+        }
+    }
+
     override suspend fun deleteBySessionId(sessionId: Long) {
         withContext(dispatcher) {
             queries.deleteBySessionId(sessionId)
-        }
-    }
-
-    override suspend fun setTitle(taskGroupId: Long, title: String) {
-        withContext(dispatcher) {
-            queries.setTitle(title, taskGroupId)
-        }
-    }
-
-    override suspend fun setColor(taskGroupId: Long, color: Long) {
-        withContext(dispatcher) {
-            queries.setColor(color, taskGroupId)
-        }
-    }
-
-    override suspend fun setPlayMode(taskGroupId: Long, playMode: String) {
-        withContext(dispatcher) {
-            queries.setPlayMode(playMode, taskGroupId)
-        }
-    }
-
-    override suspend fun setNumberOfRandomTasks(taskGroupId: Long, number: Long) {
-        withContext(dispatcher) {
-            queries.setNumberOfRandomTasks(number, taskGroupId)
         }
     }
 

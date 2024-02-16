@@ -2,12 +2,10 @@ package net.onefivefour.sessiontimer.feature.taskgroupeditor
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -18,8 +16,6 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.GetTaskGroupUseCase
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.SetTaskGroupColorUseCase
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.SetTaskGroupTitleUseCase
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

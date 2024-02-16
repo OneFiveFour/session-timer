@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
+import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 
 @Composable
 fun TaskGroupEditorScreen() {
@@ -31,10 +32,7 @@ fun TaskGroupEditorScreen() {
 
     TaskGroupEditor(
         uiState = taskGroupEditorState,
-        onSetTaskGroupTitle = { taskId, title -> viewModel.setTaskGroupTitle(taskId, title) },
-        onSetTaskGroupColor = { taskId, color -> viewModel.setTaskGroupColor(taskId, color) },
-        onSetTaskGroupPlayMode = { taskId, playMode -> viewModel.setTaskGroupPlayMode(taskId, playMode) },
-        onSetTaskGroupNumberOfRandomTasks = { taskId, number -> viewModel.setTaskGroupNumberOfRandomTasks(taskId, number) },
+        onUpdateTaskGroup = { updatedTaskGroup -> viewModel.updateTaskGroup(updatedTaskGroup) }
     )
 }
 
@@ -42,10 +40,7 @@ fun TaskGroupEditorScreen() {
 @Composable
 internal fun TaskGroupEditor(
     uiState: UiState,
-    onSetTaskGroupTitle: (Long, String) -> Unit,
-    onSetTaskGroupColor: (Long, Color) -> Unit,
-    onSetTaskGroupPlayMode: (Long, PlayMode) -> Unit,
-    onSetTaskGroupNumberOfRandomTasks: (Long, Int) -> Unit
+    onUpdateTaskGroup: (UiTaskGroup) -> Unit
 ) {
 
     when (uiState) {
@@ -64,7 +59,7 @@ internal fun TaskGroupEditor(
     var title by remember { mutableStateOf(taskGroup.title) }
     var color by remember { mutableStateOf(taskGroup.color) }
     var playMode by remember { mutableStateOf(taskGroup.playMode) }
-    var numberOfRandomTasks by remember { mutableStateOf(taskGroup.numberOfRandomTasks) }
+    var numberOfRandomTasks by remember { mutableIntStateOf(taskGroup.numberOfRandomTasks) }
 
     Column {
         TextField(
@@ -119,10 +114,15 @@ internal fun TaskGroupEditor(
         )
 
         Button(onClick = {
-            onSetTaskGroupTitle(taskGroup.id, title)
-            onSetTaskGroupColor(taskGroup.id, color)
-            onSetTaskGroupPlayMode(taskGroup.id, playMode)
-            onSetTaskGroupNumberOfRandomTasks(taskGroup.id, numberOfRandomTasks)
+            val updatedTaskGroup = UiTaskGroup(
+                taskGroup.id,
+                title,
+                color,
+                playMode,
+                numberOfRandomTasks,
+                taskGroup.tasks
+            )
+            onUpdateTaskGroup(updatedTaskGroup)
         }) {
             Text(text = "OK")
         }

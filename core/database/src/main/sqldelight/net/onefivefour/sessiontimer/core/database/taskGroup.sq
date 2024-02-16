@@ -35,17 +35,13 @@ DELETE FROM taskGroup WHERE id = :id;
 deleteBySessionId:
 SELECT * FROM taskGroup WHERE sessionId = :sessionId;
 
-setTitle:
-UPDATE taskGroup SET title = :title WHERE id = :id;
-
-setColor:
-UPDATE taskGroup SET color = :color WHERE id = :id;
-
-setPlayMode:
-UPDATE taskGroup SET playMode = :playMode WHERE id = :id;
-
-setNumberOfRandomTasks:
-UPDATE taskGroup SET numberOfRandomTasks = :numberOfRandomTasks WHERE id = :id;
+update:
+UPDATE taskGroup SET
+    title = :title,
+    color = :color,
+    playMode = :playMode,
+    numberOfRandomTasks = :numberOfRandomTasks
+WHERE id = :id;
 
 getLastInsertRowId:
 SELECT last_insert_rowid();

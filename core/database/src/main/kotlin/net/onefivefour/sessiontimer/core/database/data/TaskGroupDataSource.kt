@@ -20,15 +20,15 @@ interface TaskGroupDataSource {
 
     suspend fun deleteById(taskGroupId: Long)
 
+    suspend fun update(
+        taskGroupId: Long,
+        title: String,
+        color: Long,
+        playMode: String,
+        numberOfRandomTasks: Long
+    )
+
     suspend fun deleteBySessionId(sessionId: Long)
-
-    suspend fun setTitle(taskGroupId: Long, title: String)
-
-    suspend fun setColor(taskGroupId: Long, color: Long)
-
-    suspend fun setPlayMode(taskGroupId: Long, playMode: String)
-
-    suspend fun setNumberOfRandomTasks(taskGroupId: Long, number: Long)
 
     fun getLastInsertId(): Long
 }
