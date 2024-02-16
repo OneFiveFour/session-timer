@@ -37,6 +37,12 @@ internal class TaskDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun update(taskId: Long, title: String, durationInSeconds: Long) {
+        withContext(dispatcher) {
+            queries.update(title, durationInSeconds, taskId)
+        }
+    }
+
     override suspend fun deleteByIds(taskIds: List<Long>) {
         withContext(dispatcher) {
             queries.deleteByIds(taskIds)
@@ -46,18 +52,6 @@ internal class TaskDataSourceImpl @Inject constructor(
     override suspend fun deleteByTaskGroupId(taskGroupId: Long) {
         withContext(dispatcher) {
             queries.deleteByTaskGroupId(taskGroupId)
-        }
-    }
-
-    override suspend fun setDurationInSeconds(taskId: Long, durationInSeconds: Long) {
-        withContext(dispatcher) {
-            queries.setDurationInSeconds(durationInSeconds, taskId)
-        }
-    }
-
-    override suspend fun setTitle(taskId: Long, title: String) {
-        withContext(dispatcher) {
-            queries.setTitle(title, taskId)
         }
     }
 }

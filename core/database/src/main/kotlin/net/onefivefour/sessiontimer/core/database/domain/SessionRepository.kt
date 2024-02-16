@@ -46,37 +46,53 @@ private fun List<FullSession>.toDomainSession(): DomainSession? {
         .groupBy { it.taskGroupId }
         .mapNotNull { (taskGroupId, fullSessions) ->
 
-            taskGroupId?.let {
+            // taskGroupId represents the current taskGroup id
+            // fullSessions represents all joined database rows of this task group
+            //   1 row is basically 1 Task with all the Session/TaskGroup information attached.
 
-                val fullSession = fullSessions.firstOrNull() ?: return null
+            // sanity checks
+            checkNotNull(taskGroupId)
+            check(fullSessions.isNotEmpty())
 
-                val taskGroupTitle = fullSession.taskGroupTitle!!
-                val taskGroupColor = fullSession.taskGroupColor!!
-                val taskGroupPlayMode = PlayMode.valueOf(fullSession.taskGroupPlayMode!!)
-                val taskGroupNumberOfRandomTasks = fullSession.taskGroupNumberOfRandomTasks!!.toInt()
+            // extract task group data
+            val fullSession = fullSessions.first()
 
-                val tasks = fullSessions.mapNotNull { taskRow ->
+            // sanity checks
+            checkNotNull(fullSession.taskGroupTitle)
+            checkNotNull(fullSession.taskGroupColor)
+            checkNotNull(fullSession.taskGroupPlayMode)
+            checkNotNull(fullSession.taskGroupNumberOfRandomTasks)
 
-                    taskRow.taskId?.let {
-                        Task(
-                            id = taskRow.taskId,
-                            title = "",
-                            duration = 1.seconds,
-                            taskGroupId = taskGroupId
-                        )
-                    }
-                }
+            val taskGroupTitle = fullSession.taskGroupTitle
+            val taskGroupColor = fullSession.taskGroupColor
+            val taskGroupPlayMode = PlayMode.valueOf(fullSession.taskGroupPlayMode)
+            val taskGroupNumberOfRandomTasks = fullSession.taskGroupNumberOfRandomTasks.toInt()
 
-                TaskGroup(
-                    taskGroupId,
-                    taskGroupTitle,
-                    taskGroupColor,
-                    taskGroupPlayMode,
-                    taskGroupNumberOfRandomTasks,
-                    tasks,
-                    sessionId
+            // extract tasks
+            val tasks = fullSessions.map { taskRow ->
+
+                // sanity checks
+                checkNotNull(taskRow.taskId)
+                checkNotNull(taskRow.taskTitle)
+                checkNotNull(taskRow.taskDuration)
+
+                Task(
+                    id = taskRow.taskId,
+                    title = taskRow.taskTitle,
+                    duration = taskRow.taskDuration.seconds,
+                    taskGroupId = taskGroupId
                 )
             }
+
+            TaskGroup(
+                taskGroupId,
+                taskGroupTitle,
+                taskGroupColor,
+                taskGroupPlayMode,
+                taskGroupNumberOfRandomTasks,
+                tasks,
+                sessionId
+            )
         }
 
     return DomainSession(

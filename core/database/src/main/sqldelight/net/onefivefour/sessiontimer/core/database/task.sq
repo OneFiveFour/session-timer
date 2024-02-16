@@ -27,14 +27,15 @@ SELECT * FROM task WHERE taskGroupId IN ? ORDER BY id;
 deleteById:
 DELETE FROM task WHERE id = :id;
 
+update:
+UPDATE task SET
+    title = :title,
+    durationInSeconds = :durationInSeconds
+WHERE id = :id;
+
 deleteByIds:
 DELETE FROM task WHERE id IN ?;
 
 deleteByTaskGroupId:
 DELETE FROM task WHERE taskGroupId = :taskGroupId;
 
-setDurationInSeconds:
-UPDATE task SET durationInSeconds = :durationInSeconds WHERE id = :id;
-
-setTitle:
-UPDATE task SET title = :title WHERE id = :id;

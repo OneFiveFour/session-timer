@@ -23,8 +23,7 @@ fun TaskGroupItem(
     onDeleteTask: (Long) -> Unit,
     onDeleteTaskGroup: (Long) -> Unit,
     onEditTaskGroup: (Long) -> Unit,
-    onSetTaskDuration: (Long, Long) -> Unit,
-    onSetTaskTitle: (Long, String) -> Unit
+    onUpdateTask: (UiTask) -> Unit
 ) {
     Row {
 
@@ -76,8 +75,7 @@ fun TaskGroupItem(
 
             TaskItem(
                 task,
-                { taskId, title -> onSetTaskTitle(taskId, title) },
-                { taskId, duration -> onSetTaskDuration(taskId, duration) },
+                { updatedTask -> onUpdateTask(updatedTask) },
                 { taskId -> onDeleteTask(taskId) }
             )
 

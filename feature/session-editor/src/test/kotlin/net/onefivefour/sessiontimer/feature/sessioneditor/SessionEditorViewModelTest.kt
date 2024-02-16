@@ -20,7 +20,7 @@ import net.onefivefour.sessiontimer.core.usecases.task.DeleteTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.session.GetFullSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.NewTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.NewTaskUseCase
-import net.onefivefour.sessiontimer.core.usecases.task.SetTaskDurationUseCase
+import net.onefivefour.sessiontimer.core.usecases.task.UpdateTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.SetTaskTitleUseCase
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -39,7 +39,7 @@ class SessionEditorViewModelTest {
     private val newTaskUseCase: NewTaskUseCase = mockk()
     private val deleteTaskUseCase: DeleteTaskUseCase = mockk()
     private val deleteTaskGroupUseCase: DeleteTaskGroupUseCase = mockk()
-    private val setTaskDurationUseCase: SetTaskDurationUseCase = mockk()
+    private val setTaskDurationUseCase: UpdateTaskUseCase = mockk()
     private val setTaskTitleUseCase: SetTaskTitleUseCase = mockk()
 
     private fun sut() = SessionEditorViewModel(
@@ -207,7 +207,7 @@ class SessionEditorViewModelTest {
         coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(sessionId, "Session 1", emptyList())
         )
-        coEvery { setTaskDurationUseCase.execute(any(), any()) } returns Unit
+        coEvery { setTaskDurationUseCase.execute(any(), any(), task.durationInSeconds) } returns Unit
 
         savedStateHandleFake["sessionId"] = sessionId
 
@@ -217,7 +217,7 @@ class SessionEditorViewModelTest {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            setTaskDurationUseCase.execute(taskId, duration)
+            setTaskDurationUseCase.execute(taskId, duration, task.durationInSeconds)
         }
     }
 

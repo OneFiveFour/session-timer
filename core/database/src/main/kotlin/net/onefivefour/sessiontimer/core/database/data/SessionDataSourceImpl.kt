@@ -2,6 +2,7 @@ package net.onefivefour.sessiontimer.core.database.data
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
+import app.cash.sqldelight.coroutines.mapToOneNotNull
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import net.onefivefour.sessiontimer.core.database.SessionQueries

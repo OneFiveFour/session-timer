@@ -16,6 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import net.onefivefour.sessiontimer.core.common.domain.model.Task
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.DurationUnit
 
 
 internal val TASK_ITEM_HEIGHT = 64.dp
@@ -23,16 +26,15 @@ internal val TASK_ITEM_HEIGHT = 64.dp
 @Composable
 fun TaskItem(
     task: Task,
-    onSetTaskTitle: (Long, String) -> Unit,
-    onSetTaskDuration: (Long, Long) -> Unit,
+    onUpdateTask: (UiTask) -> Unit,
     onDeleteTask: (Long) -> Unit
 ) {
 
     var taskDuration by remember {
-        mutableStateOf(task.duration.inWholeSeconds.toString())
+        mutableStateOf(task.duration)
     }
     var taskTitle by remember {
-        mutableStateOf(task.title.toString())
+        mutableStateOf(task.title)
     }
 
     Row(modifier = Modifier.height(TASK_ITEM_HEIGHT)) {
@@ -43,8 +45,14 @@ fun TaskItem(
         )
         TextField(
             modifier = Modifier.fillMaxWidth(0.3f),
-            value = taskDuration,
-            onValueChange = { taskDuration = it },
+            value = taskDuration.inWholeSeconds.toString(),
+            onValueChange = {
+                taskDuration = if (it.isEmpty()) {
+                        0.seconds
+                } else {
+                    Duration.parse("${it}s")
+                }
+            },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
             )
@@ -56,8 +64,12 @@ fun TaskItem(
         }
         Button(
             onClick = {
-                onSetTaskTitle(task.id, taskTitle)
-                onSetTaskDuration(task.id, taskDuration.toLong())
+                val updatedTask = UiTask(
+                    task.id,
+                    taskTitle,
+                    taskDuration
+                )
+                onUpdateTask(updatedTask)
             }
         ) {
             Text(text = "OK")

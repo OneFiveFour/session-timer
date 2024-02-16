@@ -9,13 +9,11 @@ interface TaskDataSource {
 
     suspend fun getByTaskGroupIds(taskGroupIds: List<Long>): Flow<List<Task>>
 
+    suspend fun update(taskId: Long, title: String, durationInSeconds: Long)
+
     suspend fun deleteById(taskId: Long)
 
     suspend fun deleteByTaskGroupId(taskGroupId: Long)
 
     suspend fun deleteByIds(taskIds: List<Long>)
-
-    suspend fun setDurationInSeconds(taskId: Long, durationInSeconds: Long)
-
-    suspend fun setTitle(taskId: Long, title: String)
 }

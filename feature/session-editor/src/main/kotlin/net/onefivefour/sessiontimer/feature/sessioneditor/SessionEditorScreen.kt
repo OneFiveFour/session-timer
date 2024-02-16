@@ -27,8 +27,7 @@ fun SessionEditorScreen(onEditTaskGroup: (Long) -> Unit) {
         onDeleteTask = { taskId -> viewModel.deleteTask(taskId) },
         onDeleteTaskGroup = { taskGroupId -> viewModel.deleteTaskGroup(taskGroupId) },
         onEditTaskGroup = onEditTaskGroup,
-        onSetTaskDuration = { taskId, durationInSeconds -> viewModel.setTaskDuration(taskId, durationInSeconds) },
-        onSetTaskTitle = { taskId, taskTitle -> viewModel.setTaskTitle(taskId, taskTitle) }
+        onUpdateTask = { updatedTask -> viewModel.updateTask(updatedTask) }
     )
 }
 
@@ -41,8 +40,7 @@ internal fun SessionEditor(
     onDeleteTask: (Long) -> Unit,
     onDeleteTaskGroup: (Long) -> Unit,
     onEditTaskGroup: (Long) -> Unit,
-    onSetTaskDuration: (Long, Long) -> Unit,
-    onSetTaskTitle: (Long, String) -> Unit
+    onUpdateTask: (UiTask) -> Unit
 ) {
 
     when (uiState) {
@@ -91,8 +89,7 @@ internal fun SessionEditor(
                 onDeleteTask = onDeleteTask,
                 onDeleteTaskGroup = onDeleteTaskGroup,
                 onEditTaskGroup = onEditTaskGroup,
-                onSetTaskDuration = onSetTaskDuration,
-                onSetTaskTitle = onSetTaskTitle
+                onUpdateTask = onUpdateTask
             )
 
         }

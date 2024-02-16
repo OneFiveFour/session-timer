@@ -12,8 +12,10 @@ class NewTaskUseCase @Inject constructor(
 ){
 
     suspend fun execute(taskGroupId: Long) {
+
         val title = defaultValues.getTaskTitle()
         val duration = defaultValues.getTaskDuration()
+
         taskRepository.new(title, duration, taskGroupId)
     }
 

@@ -12,8 +12,7 @@ import kotlinx.coroutines.launch
 import net.onefivefour.sessiontimer.core.usecases.session.GetFullSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.DeleteTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.NewTaskUseCase
-import net.onefivefour.sessiontimer.core.usecases.task.SetTaskDurationUseCase
-import net.onefivefour.sessiontimer.core.usecases.task.SetTaskTitleUseCase
+import net.onefivefour.sessiontimer.core.usecases.task.UpdateTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.DeleteTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.NewTaskGroupUseCase
 import javax.inject.Inject
@@ -26,8 +25,7 @@ internal class SessionEditorViewModel @Inject constructor(
     private val newTaskUseCase: NewTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val deleteTaskGroupUseCase: DeleteTaskGroupUseCase,
-    private val setTaskDurationUseCase: SetTaskDurationUseCase,
-    private val setTaskTitleUseCase: SetTaskTitleUseCase
+    private val updateTaskUseCase: UpdateTaskUseCase
 ) : ViewModel() {
 
     private val sessionId = checkNotNull(savedStateHandle.get<Long>(NAV_ARG_SESSION_ID))
@@ -65,22 +63,20 @@ internal class SessionEditorViewModel @Inject constructor(
             newTaskUseCase.execute(taskGroupId)
         }
     }
-    
+
     fun deleteTask(taskId: Long) {
         viewModelScope.launch {
             deleteTaskUseCase.execute(taskId)
         }
     }
 
-    fun setTaskDuration(taskId: Long, durationInSeconds: Long) {
+    fun updateTask(task: UiTask) {
         viewModelScope.launch {
-            setTaskDurationUseCase.execute(taskId, durationInSeconds)
-        }
-    }
-
-    fun setTaskTitle(taskId: Long, title: String) {
-        viewModelScope.launch {
-            setTaskTitleUseCase.execute(taskId, title)
+            updateTaskUseCase.execute(
+                task.id,
+                task.title,
+                task.duration
+            )
         }
     }
 }

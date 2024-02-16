@@ -31,7 +31,13 @@ class NewTaskGroupUseCase @Inject constructor(
         val taskGroupId = taskGroupRepository.getLastInsertId()
         val taskTitle = defaultValues.getTaskTitle()
         val taskDuration = defaultValues.getTaskDuration()
-        taskRepository.new(taskTitle, taskDuration, taskGroupId)
+
+        taskRepository.new(
+            taskTitle,
+            taskDuration,
+            taskGroupId
+        )
+
     }
 
 }

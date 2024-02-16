@@ -10,7 +10,7 @@ class SetTaskDurationUseCaseTest {
 
     private val taskRepository: TaskRepository = mockk(relaxed = true)
 
-    private val sut = SetTaskDurationUseCase(
+    private val sut = UpdateTaskUseCase(
         taskRepository
     )
 
@@ -19,7 +19,7 @@ class SetTaskDurationUseCaseTest {
         val taskId = 1L
         val duration = 3L
 
-        sut.execute(taskId, duration)
+        sut.execute(taskId, duration, task.durationInSeconds)
 
         coVerify(exactly = 1) {
             taskRepository.setDurationInSeconds(taskId, duration)

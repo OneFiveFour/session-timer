@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.map
 import net.onefivefour.sessiontimer.core.common.domain.model.Task as DomainTask
 import net.onefivefour.sessiontimer.core.database.Task as DatabaseTask
 import net.onefivefour.sessiontimer.core.database.data.TaskDataSource
+import kotlin.time.Duration
+import kotlin.time.DurationUnit
 
 class TaskRepository @Inject constructor(
     private val taskDataSource: TaskDataSource
@@ -22,17 +24,15 @@ class TaskRepository @Inject constructor(
         .getByTaskGroupIds(taskGroupIds)
         .map { it.toDomainTask() }
 
+    suspend fun update(taskId: Long, title: String, duration: Duration) = taskDataSource
+        .update(taskId, title, duration.toLong(DurationUnit.SECONDS))
+
     suspend fun delete(taskId: Long) = taskDataSource
         .deleteById(taskId)
 
     suspend fun deleteByTaskGroupId(taskGroupId: Long) = taskDataSource
         .deleteByTaskGroupId(taskGroupId)
 
-    suspend fun setDurationInSeconds(taskId: Long, durationInSeconds: Long) = taskDataSource
-        .setDurationInSeconds(taskId, durationInSeconds)
-
-    suspend fun setTitle(taskId: Long, title: String) = taskDataSource
-        .setTitle(taskId, title)
 }
 
 private fun List<DatabaseTask>.toDomainTask(): List<DomainTask> {
