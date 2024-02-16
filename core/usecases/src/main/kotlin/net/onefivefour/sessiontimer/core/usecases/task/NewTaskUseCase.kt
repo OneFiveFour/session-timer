@@ -1,8 +1,8 @@
 package net.onefivefour.sessiontimer.core.usecases.task
 
 import dagger.hilt.android.scopes.ViewModelScoped
+import net.onefivefour.sessiontimer.core.database.data.DatabaseDefaultValues
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
-import net.onefivefour.sessiontimer.core.defaults.DatabaseDefaultValues
 import javax.inject.Inject
 
 @ViewModelScoped

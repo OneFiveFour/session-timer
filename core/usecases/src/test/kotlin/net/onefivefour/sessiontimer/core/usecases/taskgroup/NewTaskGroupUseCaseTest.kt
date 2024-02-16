@@ -2,12 +2,11 @@ package net.onefivefour.sessiontimer.core.usecases.taskgroup
 
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
-import net.onefivefour.sessiontimer.core.defaults.DatabaseDefaultValues
+import net.onefivefour.sessiontimer.core.usecases.fakes.FakeDefaultValues
 import org.junit.jupiter.api.Test
 
 class NewTaskGroupUseCaseTest {
@@ -15,37 +14,37 @@ class NewTaskGroupUseCaseTest {
     private val taskGroupRepository: TaskGroupRepository = mockk()
     private val taskRepository: TaskRepository = mockk()
 
-    private val defaultValuesProvider : DatabaseDefaultValues = mockk<DatabaseDefaultValues>().apply {
-        every { getTaskGroupTitle() } returns DEFAULT_TASK_GROUP_TITLE
-        every { getTaskTitle() } returns DEFAULT_TASK_TITLE
-    }
-
     private val sut = NewTaskGroupUseCase(
         taskGroupRepository,
         taskRepository,
-        defaultValuesProvider
+        FakeDefaultValues
     )
 
     @Test
-    fun `executing the use case creates a new task group and also the first of its tasks`() = runTest {
-        val taskGroupId = 123L
-        coEvery { taskGroupRepository.new(any(), any()) } returns Unit
-        coEvery { taskGroupRepository.getLastInsertId() } returns taskGroupId
-        coEvery { taskRepository.new(any(), any()) } returns Unit
+    fun `executing the use case creates a new task group and also the first of its tasks`() =
+        runTest {
+            val taskGroupId = 123L
+            coEvery { taskGroupRepository.new(any(), any(), any(), any(), any()) } returns Unit
+            coEvery { taskGroupRepository.getLastInsertId() } returns taskGroupId
+            coEvery { taskRepository.new(any(), any(), any()) } returns Unit
 
-        val sessionId = 1L
+            val sessionId = 1L
+            sut.execute(sessionId)
 
-        sut.execute(sessionId)
-
-        coVerify(exactly = 1) {
-            taskGroupRepository.new(DEFAULT_TASK_GROUP_TITLE, sessionId)
-            taskRepository.new(DEFAULT_TASK_TITLE, taskGroupId)
+            coVerify(exactly = 1) {
+                taskGroupRepository.new(
+                    FakeDefaultValues.getTaskGroupTitle(),
+                    FakeDefaultValues.getTaskGroupColor(),
+                    FakeDefaultValues.getTaskGroupPlayMode(),
+                    FakeDefaultValues.getTaskGroupNumberOfRandomTasks(),
+                    sessionId
+                )
+                taskRepository.new(
+                    FakeDefaultValues.getTaskTitle(),
+                    FakeDefaultValues.getTaskDuration(),
+                    taskGroupId
+                )
+            }
         }
-    }
-
-    companion object {
-        private const val DEFAULT_TASK_GROUP_TITLE = "DEFAULT_TASK_GROUP_TITLE"
-        private const val DEFAULT_TASK_TITLE = "DEFAULT_TASK_TITLE"
-    }
 
 }

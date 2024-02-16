@@ -8,6 +8,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
+import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
@@ -40,6 +41,8 @@ class DeleteSessionUseCaseTest {
                     taskGroupId1,
                     "Task Group Title",
                     0x00FF00,
+                    PlayMode.RANDOM,
+                    5,
                     listOf(
                         Task(3L, "Task Title", 1.seconds, taskGroupId1),
                         Task(4L, "Task Title 2", 2.seconds, taskGroupId1),
@@ -51,6 +54,8 @@ class DeleteSessionUseCaseTest {
                     taskGroupId2,
                     "Task Group Title 2",
                     0x00FFFF,
+                    PlayMode.SEQUENCE,
+                    3,
                     listOf(
                         Task(7L, "Task Title 7", 7.seconds, taskGroupId2),
                         Task(8L, "Task Title 8", 8.seconds, taskGroupId2),
