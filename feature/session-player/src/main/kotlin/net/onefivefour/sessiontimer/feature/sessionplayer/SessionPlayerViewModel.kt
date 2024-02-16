@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.usecases.session.GetFullSessionUseCase
 import javax.inject.Inject
 
@@ -51,7 +50,7 @@ internal class SessionPlayerViewModel @Inject constructor(
         timerJob = viewModelScope.launch {
             while (true) {
                 updateWhenReady {
-                    copy(currentPlayMode = SessionPlayMode.PLAYING)
+                    copy(currentPlayerState = SessionPlayerState.PLAYING)
                 }
                 delay(1000)
                 updateWhenReady {
@@ -63,7 +62,7 @@ internal class SessionPlayerViewModel @Inject constructor(
 
     fun onPauseSession() {
         updateWhenReady {
-            copy(currentPlayMode = SessionPlayMode.PAUSED)
+            copy(currentPlayerState = SessionPlayerState.PAUSED)
         }
         timerJob?.cancel()
     }
@@ -71,7 +70,7 @@ internal class SessionPlayerViewModel @Inject constructor(
     fun onResetSession() {
         updateWhenReady {
             copy(
-                currentPlayMode = SessionPlayMode.IDLE,
+                currentPlayerState = SessionPlayerState.IDLE,
                 elapsedSeconds = 0
             )
         }
@@ -93,19 +92,3 @@ internal class SessionPlayerViewModel @Inject constructor(
     }
 }
 
-internal sealed interface UiState {
-    data object Initial : UiState
-
-    data class Success(
-        val session: Session,
-        val currentTaskId: Long,
-        val currentPlayMode: SessionPlayMode = SessionPlayMode.IDLE,
-        val elapsedSeconds: Int = 0
-    ) : UiState
-
-    data class Error(val message: String) : UiState
-}
-
-enum class SessionPlayMode {
-    IDLE, PAUSED, PLAYING
-}

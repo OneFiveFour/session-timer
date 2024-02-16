@@ -2,6 +2,8 @@ CREATE TABLE taskGroup (
   id INTEGER PRIMARY KEY NOT NULL,
   title TEXT NOT NULL,
   color INTEGER NOT NULL,
+  playMode TEXT NOT NULL,
+  numberOfRandomTasks INTEGER NOT NULL,
   sessionId INTEGER NOT NULL
 );
 
@@ -9,15 +11,17 @@ INSERT INTO taskGroup (
     id,
     title,
     color,
+    playMode,
+    numberOfRandomTasks,
     sessionId
 )
 VALUES
-(1,"TaskGroup 1", 16711680, 1),
-(2,"TaskGroup 2", 65280, 1)
+(1,"TaskGroup 1", 16711680, "SEQUENCE", 1, 1),
+(2,"TaskGroup 2", 16711680, "SEQUENCE", 1, 1)
 ;
 
 new:
-INSERT INTO taskGroup VALUES (?,?,?,?);
+INSERT INTO taskGroup VALUES (?,?,?,?,?,?);
 
 getById:
 SELECT * FROM taskGroup WHERE id = :id;
@@ -36,6 +40,12 @@ UPDATE taskGroup SET title = :title WHERE id = :id;
 
 setColor:
 UPDATE taskGroup SET color = :color WHERE id = :id;
+
+setPlayMode:
+UPDATE taskGroup SET playMode = :playMode WHERE id = :id;
+
+setNumberOfRandomTasks:
+UPDATE taskGroup SET numberOfRandomTasks = :numberOfRandomTasks WHERE id = :id;
 
 getLastInsertRowId:
 SELECT last_insert_rowid();

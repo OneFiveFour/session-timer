@@ -7,6 +7,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.database.TaskGroup
 import net.onefivefour.sessiontimer.core.database.TaskGroupQueries
 import net.onefivefour.sessiontimer.core.di.IoDispatcher
@@ -16,12 +17,20 @@ internal class TaskGroupDataSourceImpl @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : TaskGroupDataSource {
 
-    override suspend fun insert(title: String, color: Long, sessionId: Long) {
+    override suspend fun insert(
+        title: String,
+        color: Long,
+        playMode: String,
+        numberOfRandomTasks: Long,
+        sessionId: Long
+    ) {
         withContext(dispatcher) {
             queries.new(
                 id = null,
                 title = title,
                 color = color,
+                playMode = playMode,
+                numberOfRandomTasks = numberOfRandomTasks,
                 sessionId = sessionId
             )
         }
@@ -60,6 +69,18 @@ internal class TaskGroupDataSourceImpl @Inject constructor(
     override suspend fun setColor(taskGroupId: Long, color: Long) {
         withContext(dispatcher) {
             queries.setColor(color, taskGroupId)
+        }
+    }
+
+    override suspend fun setPlayMode(taskGroupId: Long, playMode: String) {
+        withContext(dispatcher) {
+            queries.setPlayMode(playMode, taskGroupId)
+        }
+    }
+
+    override suspend fun setNumberOfRandomTasks(taskGroupId: Long, number: Long) {
+        withContext(dispatcher) {
+            queries.setNumberOfRandomTasks(number, taskGroupId)
         }
     }
 

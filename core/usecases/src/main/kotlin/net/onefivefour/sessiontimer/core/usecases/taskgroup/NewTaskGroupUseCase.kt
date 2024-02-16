@@ -14,9 +14,19 @@ class NewTaskGroupUseCase @Inject constructor(
 ){
 
     suspend fun execute(sessionId: Long) {
+
         val taskGroupTitle = defaultValues.getTaskGroupTitle()
         val taskGroupColor = defaultValues.getTaskGroupColor()
-        taskGroupRepository.new(taskGroupTitle, taskGroupColor, sessionId)
+        val taskGroupPlayMode = defaultValues.getTaskGroupPlayMode()
+        val taskGroupNumberOfRandomTasks = defaultValues.getTaskGroupNumberOfRandomTasks()
+
+        taskGroupRepository.new(
+            taskGroupTitle,
+            taskGroupColor,
+            taskGroupPlayMode,
+            taskGroupNumberOfRandomTasks,
+            sessionId
+        )
 
         val taskGroupId = taskGroupRepository.getLastInsertId()
         val taskTitle = defaultValues.getTaskTitle()

@@ -54,7 +54,7 @@ internal fun SessionPlayer(
 
         Text(text = uiState.elapsedSeconds.toString())
 
-        Text(text = uiState.currentPlayMode.toString())
+        Text(text = uiState.currentPlayerState.toString())
 
         Button(onClick = onStartSession) {
             Text(text = "Start")

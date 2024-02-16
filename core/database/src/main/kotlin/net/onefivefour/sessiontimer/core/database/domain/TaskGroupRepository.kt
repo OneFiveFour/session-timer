@@ -2,6 +2,7 @@ package net.onefivefour.sessiontimer.core.database.domain
 
 import javax.inject.Inject
 import kotlinx.coroutines.flow.map
+import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.database.TaskGroup
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup as DomainTaskGroup
 import net.onefivefour.sessiontimer.core.database.TaskGroup as DatabaseTaskGroup
@@ -11,10 +12,18 @@ class TaskGroupRepository @Inject constructor(
     private val taskGroupDataSource: TaskGroupDataSource
 ) {
 
-    suspend fun new(title: String, color: Long, sessionId: Long) = taskGroupDataSource
+    suspend fun new(
+        title: String,
+        color: Long,
+        playMode: PlayMode,
+        numberOfRandomTasks: Int,
+        sessionId: Long
+    ) = taskGroupDataSource
         .insert(
             title = title,
             color = color,
+            playMode = playMode.toString(),
+            numberOfRandomTasks = numberOfRandomTasks.toLong(),
             sessionId = sessionId
         )
 
@@ -35,6 +44,12 @@ class TaskGroupRepository @Inject constructor(
     suspend fun setColor(taskGroupId: Long, color: Int) = taskGroupDataSource
         .setColor(taskGroupId, color.toLong())
 
+    suspend fun setPlayMode(taskGroupId: Long, playMode: PlayMode) = taskGroupDataSource
+        .setPlayMode(taskGroupId, playMode.toString())
+
+    suspend fun setNumberOfRandomTasks(taskGroupId: Long, number: Int) = taskGroupDataSource
+        .setNumberOfRandomTasks(taskGroupId, number.toLong())
+
     fun getLastInsertId() = taskGroupDataSource
         .getLastInsertId()
 }
@@ -48,11 +63,15 @@ private fun List<DatabaseTaskGroup>.toDomainTaskGroup(): List<DomainTaskGroup> {
 private fun DatabaseTaskGroup.toDomainTaskGroup(): DomainTaskGroup {
     val title = this.title
     val color = this.color
+    val playMode = PlayMode.valueOf(this.playMode)
+    val numberOfRandomTasks = this.numberOfRandomTasks.toInt()
 
     return DomainTaskGroup(
         this.id,
         title,
         color,
+        playMode,
+        numberOfRandomTasks,
         emptyList(),
         this.sessionId
     )

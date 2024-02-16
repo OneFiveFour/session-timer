@@ -25,6 +25,8 @@ SELECT
     TG.id AS taskGroupId,
     TG.title AS taskGroupTitle,
     TG.color AS taskGroupColor,
+    TG.playMode AS taskGroupPlayMode,
+    TG.numberOfRandomTasks AS taskGroupNumberOfRandomTasks,
     T.id AS taskId,
     T.taskGroupId AS taskTaskGroupId,
     T.title AS taskTitle,

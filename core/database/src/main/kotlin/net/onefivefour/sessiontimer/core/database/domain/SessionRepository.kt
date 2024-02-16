@@ -1,6 +1,7 @@
 package net.onefivefour.sessiontimer.core.database.domain
 
 import kotlinx.coroutines.flow.map
+import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.database.data.FullSession
@@ -46,9 +47,13 @@ private fun List<FullSession>.toDomainSession(): DomainSession? {
         .mapNotNull { (taskGroupId, fullSessions) ->
 
             taskGroupId?.let {
+
                 val fullSession = fullSessions.firstOrNull() ?: return null
-                val taskGroupTitle = fullSession.taskGroupTitle ?: ""
-                val taskGroupColor = fullSession.taskGroupColor ?: 0xFF000000
+
+                val taskGroupTitle = fullSession.taskGroupTitle!!
+                val taskGroupColor = fullSession.taskGroupColor!!
+                val taskGroupPlayMode = PlayMode.valueOf(fullSession.taskGroupPlayMode!!)
+                val taskGroupNumberOfRandomTasks = fullSession.taskGroupNumberOfRandomTasks!!.toInt()
 
                 val tasks = fullSessions.mapNotNull { taskRow ->
 
@@ -66,6 +71,8 @@ private fun List<FullSession>.toDomainSession(): DomainSession? {
                     taskGroupId,
                     taskGroupTitle,
                     taskGroupColor,
+                    taskGroupPlayMode,
+                    taskGroupNumberOfRandomTasks,
                     tasks,
                     sessionId
                 )
