@@ -86,7 +86,7 @@ class SessionOverviewViewModelTest {
         val sut = sut()
         advanceTimeBy(1)
 
-        val expectedUiState = UiState.Success(sessions = sessions)
+        val expectedUiState = UiState.Success(sessions = sessions.toUiSessions())
         assertThat(sut.uiState.value).isEqualTo(expectedUiState)
     }
 
