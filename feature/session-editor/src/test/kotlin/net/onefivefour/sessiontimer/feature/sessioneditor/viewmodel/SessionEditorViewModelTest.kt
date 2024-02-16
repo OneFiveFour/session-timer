@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.feature.sessioneditor
+package net.onefivefour.sessiontimer.feature.sessioneditor.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
@@ -21,12 +21,12 @@ import net.onefivefour.sessiontimer.core.usecases.session.GetFullSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.NewTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.NewTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.UpdateTaskUseCase
-import net.onefivefour.sessiontimer.core.usecases.task.SetTaskTitleUseCase
-import net.onefivefour.sessiontimer.feature.sessioneditor.viewmodel.SessionEditorViewModel
-import net.onefivefour.sessiontimer.feature.sessioneditor.viewmodel.UiState
+import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
+import net.onefivefour.sessiontimer.feature.sessioneditor.navigation.NAV_ARG_SESSION_ID
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import kotlin.time.Duration.Companion.seconds
 
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -34,25 +34,23 @@ class SessionEditorViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    private val savedStateHandleFake = SavedStateHandle()
+    private val savedStateHandle = SavedStateHandle()
 
     private val getFullSessionUseCase: GetFullSessionUseCase = mockk()
     private val newTaskGroupUseCase: NewTaskGroupUseCase = mockk()
     private val newTaskUseCase: NewTaskUseCase = mockk()
     private val deleteTaskUseCase: DeleteTaskUseCase = mockk()
     private val deleteTaskGroupUseCase: DeleteTaskGroupUseCase = mockk()
-    private val setTaskDurationUseCase: UpdateTaskUseCase = mockk()
-    private val setTaskTitleUseCase: SetTaskTitleUseCase = mockk()
+    private val updateTaskUseCase: UpdateTaskUseCase = mockk()
 
     private fun sut() = SessionEditorViewModel(
-        savedStateHandleFake,
+        savedStateHandle,
         getFullSessionUseCase,
         newTaskGroupUseCase,
         newTaskUseCase,
         deleteTaskUseCase,
         deleteTaskGroupUseCase,
-        setTaskDurationUseCase,
-        setTaskTitleUseCase
+        updateTaskUseCase
     )
 
     @BeforeEach
@@ -78,14 +76,13 @@ class SessionEditorViewModelTest {
         coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(1L, "Session 1", emptyList())
         )
-        savedStateHandleFake["sessionId"] = 1L
+        savedStateHandle[NAV_ARG_SESSION_ID] = 1L
 
         val sut = sut()
 
         sut.uiState.test {
-            val uiState = awaitItem()
-            assertThat(uiState is UiState.Initial).isTrue()
-            awaitComplete()
+            val uiState1 = awaitItem()
+            assertThat(uiState1 is UiState.Initial).isTrue()
         }
 
     }
@@ -96,7 +93,7 @@ class SessionEditorViewModelTest {
         coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(sessionId, "Session 1", emptyList())
         )
-        savedStateHandleFake["sessionId"] = sessionId
+        savedStateHandle[NAV_ARG_SESSION_ID] = sessionId
 
         val sut = sut()
 
@@ -111,7 +108,6 @@ class SessionEditorViewModelTest {
             assertThat(session.id).isEqualTo(sessionId)
             assertThat(session.title).isEqualTo("Session 1")
             assertThat(session.taskGroups).isEmpty()
-            awaitComplete()
         }
 
     }
@@ -124,7 +120,7 @@ class SessionEditorViewModelTest {
         )
         coEvery { newTaskGroupUseCase.execute(any()) } returns Unit
 
-        savedStateHandleFake["sessionId"] = sessionId
+        savedStateHandle[NAV_ARG_SESSION_ID] = sessionId
 
         val sut = sut()
 
@@ -146,7 +142,7 @@ class SessionEditorViewModelTest {
         )
         coEvery { deleteTaskGroupUseCase.execute(any()) } returns Unit
 
-        savedStateHandleFake["sessionId"] = sessionId
+        savedStateHandle[NAV_ARG_SESSION_ID] = sessionId
 
         val sut = sut()
 
@@ -168,7 +164,7 @@ class SessionEditorViewModelTest {
         )
         coEvery { newTaskUseCase.execute(any()) } returns Unit
 
-        savedStateHandleFake["sessionId"] = sessionId
+        savedStateHandle[NAV_ARG_SESSION_ID] = sessionId
 
         val sut = sut()
 
@@ -190,7 +186,7 @@ class SessionEditorViewModelTest {
         )
         coEvery { deleteTaskUseCase.execute(any()) } returns Unit
 
-        savedStateHandleFake["sessionId"] = sessionId
+        savedStateHandle[NAV_ARG_SESSION_ID] = sessionId
 
         val sut = sut()
 
@@ -204,46 +200,30 @@ class SessionEditorViewModelTest {
     }
 
     @Test
-    fun `setTaskDuration executes setTaskDurationUseCase`() = runTest {
+    fun `updateTask executes updateTaskUseCase`() = runTest {
         val sessionId = 1L
-        val duration = 3L
+        val duration = 3.seconds
+        val title = "Task Title"
         val taskId = 1L
         coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
             Session(sessionId, "Session 1", emptyList())
         )
-        coEvery { setTaskDurationUseCase.execute(any(), any(), task.durationInSeconds) } returns Unit
+        coEvery { updateTaskUseCase.execute(any(), any(), any()) } returns Unit
 
-        savedStateHandleFake["sessionId"] = sessionId
+        savedStateHandle[NAV_ARG_SESSION_ID] = sessionId
 
         val sut = sut()
-        sut.setTaskDuration(taskId, duration)
-
-        advanceUntilIdle()
-
-        coVerify(exactly = 1) {
-            setTaskDurationUseCase.execute(taskId, duration, task.durationInSeconds)
-        }
-    }
-
-    @Test
-    fun `setTaskTitle executes setTaskTitleUseCase`() = runTest {
-        val sessionId = 1L
-        val title = "Test Task Title"
-        val taskId = 1L
-        coEvery { getFullSessionUseCase.execute(any()) } returns flowOf(
-            Session(sessionId, "Session 1", emptyList())
+        val uiTask = UiTask(
+            taskId,
+            title,
+            duration
         )
-        coEvery { setTaskTitleUseCase.execute(any(), any()) } returns Unit
-
-        savedStateHandleFake["sessionId"] = sessionId
-
-        val sut = sut()
-        sut.setTaskTitle(taskId, title)
+        sut.updateTask(uiTask)
 
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            setTaskTitleUseCase.execute(taskId, title)
+            updateTaskUseCase.execute(taskId, title, duration)
         }
     }
 }
