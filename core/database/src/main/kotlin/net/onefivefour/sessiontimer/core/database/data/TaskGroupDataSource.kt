@@ -1,7 +1,6 @@
 package net.onefivefour.sessiontimer.core.database.data
 
 import kotlinx.coroutines.flow.Flow
-import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.database.TaskGroup
 
 interface TaskGroupDataSource {

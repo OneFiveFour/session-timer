@@ -5,15 +5,12 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
-import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup as DomainTaskGroup
-import net.onefivefour.sessiontimer.core.database.TaskGroup as DatabaseTaskGroup
 import net.onefivefour.sessiontimer.core.database.data.TaskGroupDataSource
 import org.junit.jupiter.api.Test
+import net.onefivefour.sessiontimer.core.database.TaskGroup as DatabaseTaskGroup
 
 class TaskGroupRepositoryTest {
 

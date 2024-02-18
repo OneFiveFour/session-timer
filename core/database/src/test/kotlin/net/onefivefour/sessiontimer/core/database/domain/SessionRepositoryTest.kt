@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.database.data.FullSession
-import net.onefivefour.sessiontimer.core.database.Session as DatabaseSession
 import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
 import org.junit.jupiter.api.Test
+import net.onefivefour.sessiontimer.core.database.Session as DatabaseSession
 
 class SessionRepositoryTest {
 

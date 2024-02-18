@@ -15,8 +15,8 @@ import net.onefivefour.sessiontimer.core.usecases.task.NewTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.UpdateTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.DeleteTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.NewTaskGroupUseCase
-import net.onefivefour.sessiontimer.feature.sessioneditor.navigation.NAV_ARG_SESSION_ID
 import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
+import net.onefivefour.sessiontimer.feature.sessioneditor.navigation.NAV_ARG_SESSION_ID
 import javax.inject.Inject
 
 @HiltViewModel

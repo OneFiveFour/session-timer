@@ -15,12 +15,12 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.DeleteTaskGroupUseCase
-import net.onefivefour.sessiontimer.core.usecases.task.DeleteTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.session.GetFullSessionUseCase
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.NewTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.task.DeleteTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.NewTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.UpdateTaskUseCase
+import net.onefivefour.sessiontimer.core.usecases.taskgroup.DeleteTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.taskgroup.NewTaskGroupUseCase
 import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
 import net.onefivefour.sessiontimer.feature.sessioneditor.navigation.NAV_ARG_SESSION_ID
 import org.junit.jupiter.api.AfterEach

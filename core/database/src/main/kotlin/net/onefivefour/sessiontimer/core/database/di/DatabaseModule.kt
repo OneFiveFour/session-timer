@@ -5,11 +5,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 import net.onefivefour.sessiontimer.core.database.Database
 import net.onefivefour.sessiontimer.core.database.SessionQueries
 import net.onefivefour.sessiontimer.core.database.TaskGroupQueries
 import net.onefivefour.sessiontimer.core.database.TaskQueries
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)

@@ -1,6 +1,3 @@
-import org.gradle.api.Project
-import org.gradle.kotlin.dsl.apply
-
 plugins {
     id("org.jetbrains.kotlinx.kover")
 }

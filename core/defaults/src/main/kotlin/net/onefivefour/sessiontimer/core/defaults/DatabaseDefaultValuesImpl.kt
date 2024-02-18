@@ -2,7 +2,7 @@ package net.onefivefour.sessiontimer.core.defaults
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode.*
+import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode.SEQUENCE
 import net.onefivefour.sessiontimer.core.database.data.DatabaseDefaultValues
 import javax.inject.Inject
 import javax.inject.Singleton
