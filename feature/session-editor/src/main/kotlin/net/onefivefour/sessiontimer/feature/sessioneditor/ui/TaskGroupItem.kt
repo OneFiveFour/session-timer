@@ -18,7 +18,7 @@ import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
 
 
 @Composable
-fun TaskGroupItem(
+internal fun TaskGroupItem(
     taskGroup: TaskGroup,
     onNewTask: (Long) -> Unit,
     onDeleteTask: (Long) -> Unit,

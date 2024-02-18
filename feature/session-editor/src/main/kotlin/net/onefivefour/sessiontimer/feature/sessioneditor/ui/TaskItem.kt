@@ -24,7 +24,7 @@ import kotlin.time.Duration.Companion.seconds
 internal val TASK_ITEM_HEIGHT = 64.dp
 
 @Composable
-fun TaskItem(
+internal fun TaskItem(
     task: Task,
     onUpdateTask: (UiTask) -> Unit,
     onDeleteTask: (Long) -> Unit

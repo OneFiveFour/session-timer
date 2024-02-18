@@ -10,6 +10,3 @@ data class TaskGroup(
     val sessionId: Long
 )
 
-enum class PlayMode {
-    SEQUENCE, RANDOM
-}

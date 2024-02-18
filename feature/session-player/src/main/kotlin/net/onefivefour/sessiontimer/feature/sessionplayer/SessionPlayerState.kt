@@ -1,5 +1,5 @@
 package net.onefivefour.sessiontimer.feature.sessionplayer
 
-enum class SessionPlayerState {
+internal enum class SessionPlayerState {
     IDLE, PAUSED, PLAYING
 }

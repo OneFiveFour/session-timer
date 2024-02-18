@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DatabaseDefaultValues @Inject constructor(
+class DatabaseDefaultValuesImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : DatabaseDefaultValues {
 

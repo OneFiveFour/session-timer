@@ -4,6 +4,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun SessionPlayerInitial() {
+internal fun SessionPlayerInitial() {
     Text(text = "Session Player Initial")
 }
