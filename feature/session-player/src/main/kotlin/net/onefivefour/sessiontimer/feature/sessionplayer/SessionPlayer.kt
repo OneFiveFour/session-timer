@@ -39,6 +39,10 @@ internal fun SessionPlayer(
 
         Text(text = uiState.currentPlayerState.toString())
 
+        Text(text = uiState.currentTask.title)
+
+        Text(text = uiState.currentTask.duration.toString())
+
         Button(onClick = onStartSession) {
             Text(text = "Start")
         }

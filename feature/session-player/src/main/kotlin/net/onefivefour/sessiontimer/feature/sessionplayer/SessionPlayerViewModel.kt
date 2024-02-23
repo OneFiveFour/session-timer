@@ -11,14 +11,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
-import net.onefivefour.sessiontimer.core.common.domain.model.Session
-import net.onefivefour.sessiontimer.core.common.domain.model.Task
-import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
-import net.onefivefour.sessiontimer.core.usecases.session.GetCompiledSessionUseCase_Factory
 import net.onefivefour.sessiontimer.core.usecases.session.GetFullSessionUseCase
 import javax.inject.Inject
-import kotlin.time.Duration
 
 @HiltViewModel
 internal class SessionPlayerViewModel @Inject constructor(
@@ -43,7 +37,7 @@ internal class SessionPlayerViewModel @Inject constructor(
                             val compiledSession = fullSession.toCompiledSession()
                             UiState.Success(
                                 session = compiledSession,
-                                currentTaskId = compiledSession.taskGroups.first().tasks.first().id
+                                currentTask = compiledSession.taskGroups.first().tasks.first()
                             )
                         }
                     }
@@ -53,15 +47,30 @@ internal class SessionPlayerViewModel @Inject constructor(
     }
 
     fun onStartSession() {
-        timerJob?.cancel()
+        cancelTimer()
+
+        updateWhenReady {
+            copy(currentPlayerState = SessionPlayerState.PLAYING)
+        }
+
         timerJob = viewModelScope.launch {
             while (true) {
-                updateWhenReady {
-                    copy(currentPlayerState = SessionPlayerState.PLAYING)
-                }
                 delay(1000)
                 updateWhenReady {
-                    copy(elapsedSeconds = this.elapsedSeconds + 1)
+                    var newElapsedSeconds = this.elapsedSeconds + 1
+                    val currentTask = if (newElapsedSeconds < this.currentTask.duration.inWholeSeconds) {
+                        this.currentTask
+                    } else {
+                        newElapsedSeconds = 0
+                        getNextTask(this.session.taskGroups, this.currentTask.id)
+                    }
+
+                    if (currentTask == null) {
+                        cancelTimer()
+                        copy(currentPlayerState = SessionPlayerState.FINISHED)
+                    } else {
+                        copy(elapsedSeconds = newElapsedSeconds, currentTask = currentTask)
+                    }
                 }
             }
         }
@@ -71,22 +80,48 @@ internal class SessionPlayerViewModel @Inject constructor(
         updateWhenReady {
             copy(currentPlayerState = SessionPlayerState.PAUSED)
         }
-        timerJob?.cancel()
+        cancelTimer()
     }
 
     fun onResetSession() {
         updateWhenReady {
             copy(
+                currentTask = session.taskGroups.first().tasks.first(),
                 currentPlayerState = SessionPlayerState.IDLE,
                 elapsedSeconds = 0
             )
         }
-        timerJob?.cancel()
+        cancelTimer()
     }
 
     override fun onCleared() {
         super.onCleared()
+        cancelTimer()
+    }
+
+    private fun cancelTimer() {
         timerJob?.cancel()
+    }
+
+    private fun getNextTask(taskGroups: List<UiTaskGroup>, currentTaskId: Long): UiTask? {
+        for ((groupIndex, taskGroup) in taskGroups.withIndex()) {
+            for ((taskIndex, task) in taskGroup.tasks.withIndex()) {
+                if (task.id == currentTaskId) {
+                    // Current task found
+                    return if (taskIndex < taskGroup.tasks.lastIndex) {
+                        // There is a next task in the same group
+                        taskGroup.tasks[taskIndex + 1]
+                    } else if (groupIndex < taskGroups.lastIndex) {
+                        // Current task is the last in the group, but there is a next group
+                        taskGroups[groupIndex + 1].tasks.firstOrNull()
+                    } else {
+                        // Current task is the last in the last group
+                        null
+                    }
+                }
+            }
+        }
+        return null  // Task with given ID not found
     }
 
     private fun updateWhenReady(newState: UiState.Success.() -> UiState) {

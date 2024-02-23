@@ -5,7 +5,7 @@ internal sealed interface UiState {
 
     data class Success(
         val session: CompiledSession,
-        val currentTaskId: Long,
+        val currentTask: UiTask,
         val currentPlayerState: SessionPlayerState = SessionPlayerState.IDLE,
         val elapsedSeconds: Int = 0
     ) : UiState
