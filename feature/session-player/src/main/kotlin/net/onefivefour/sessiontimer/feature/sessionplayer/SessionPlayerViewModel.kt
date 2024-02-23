@@ -11,8 +11,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
+import net.onefivefour.sessiontimer.core.common.domain.model.Session
+import net.onefivefour.sessiontimer.core.common.domain.model.Task
+import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
+import net.onefivefour.sessiontimer.core.usecases.session.GetCompiledSessionUseCase_Factory
 import net.onefivefour.sessiontimer.core.usecases.session.GetFullSessionUseCase
 import javax.inject.Inject
+import kotlin.time.Duration
 
 @HiltViewModel
 internal class SessionPlayerViewModel @Inject constructor(
@@ -33,12 +39,13 @@ internal class SessionPlayerViewModel @Inject constructor(
                 _uiState.update {
                     when (fullSession) {
                         null -> UiState.Error("Could not find a session with id $sessionId")
-                        // TODO think about creating UI data classes. at least for now 3 differen versions
-                        //   of Session (Overview, Editor and Compiled)
-                        else -> UiState.Success(
-                            session = fullSession,
-                            currentTaskId = fullSession.taskGroups.first().tasks.first().id
-                        )
+                        else -> {
+                            val compiledSession = fullSession.toCompiledSession()
+                            UiState.Success(
+                                session = compiledSession,
+                                currentTaskId = compiledSession.taskGroups.first().tasks.first().id
+                            )
+                        }
                     }
                 }
             }
@@ -91,4 +98,3 @@ internal class SessionPlayerViewModel @Inject constructor(
         }
     }
 }
-
