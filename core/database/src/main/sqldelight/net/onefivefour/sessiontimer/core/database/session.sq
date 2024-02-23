@@ -5,11 +5,7 @@ CREATE TABLE session (
 
 INSERT INTO session (id, title)
 VALUES
-(1,"Session 1"),
-(2,"Session 2"),
-(3,"Session 3"),
-(4,"Session 4"),
-(5,"Session 5")
+(1,"Session 1")
 ;
 
 new:
