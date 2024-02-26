@@ -68,8 +68,8 @@ dependencies {
         ":feature:session-editor-api",
         ":feature:session-overview",
         ":feature:session-overview-api",
-        ":feature:session-player-api",
         ":feature:session-player",
+        ":feature:session-player-api",
         ":feature:taskgroup-editor",
         ":feature:taskgroup-editor-api"
     )

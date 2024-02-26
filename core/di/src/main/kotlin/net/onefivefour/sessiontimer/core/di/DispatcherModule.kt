@@ -14,5 +14,9 @@ internal object DispatcherModule {
     @IoDispatcher
     @Provides
     fun providesIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+    @DefaultDispatcher
+    @Provides
+    fun providesDefaultDispatcher() : CoroutineDispatcher = Dispatchers.Default
 }
 

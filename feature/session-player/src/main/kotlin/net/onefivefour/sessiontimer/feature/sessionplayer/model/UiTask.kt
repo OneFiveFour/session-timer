@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.feature.sessionplayer
+package net.onefivefour.sessiontimer.feature.sessionplayer.model
 
 import kotlin.time.Duration
 

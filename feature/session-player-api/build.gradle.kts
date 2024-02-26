@@ -11,8 +11,6 @@ android {
 
 dependencies {
 
-    implementation(project(":feature:session-player"))
-
     // Navigation
     api(libs.androidX.navigation)
     implementation(libs.compose.navigator.api)

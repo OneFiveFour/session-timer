@@ -1,4 +1,4 @@
-package net.onefivefour.sessiontimer.feature.sessionplayer
+package net.onefivefour.sessiontimer.feature.sessionplayer.model
 
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.Session

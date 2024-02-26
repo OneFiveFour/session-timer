@@ -1,9 +1,10 @@
-package net.onefivefour.sessiontimer.feature.sessionplayer
+package net.onefivefour.sessiontimer.feature.sessionplayer.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
 
 @Composable
 internal fun SessionPlayer(

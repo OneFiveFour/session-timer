@@ -12,12 +12,24 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import net.onefivefour.sessiontimer.core.usecases.session.GetFullSessionUseCase
+import net.onefivefour.sessiontimer.core.usecases.timer.GetTimerStatusUseCase
+import net.onefivefour.sessiontimer.core.usecases.timer.PauseTimerUseCase
+import net.onefivefour.sessiontimer.core.usecases.timer.ResetTimerUseCase
+import net.onefivefour.sessiontimer.core.usecases.timer.StartTimerUseCase
+import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
+import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
+import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTaskGroup
+import net.onefivefour.sessiontimer.feature.sessionplayer.model.toCompiledSession
 import javax.inject.Inject
 
 @HiltViewModel
 internal class SessionPlayerViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    getFullSessionUseCase: GetFullSessionUseCase
+    getFullSessionUseCase: GetFullSessionUseCase,
+    private val getTimerStatusUseCase: GetTimerStatusUseCase,
+    private val startTimerUseCase: StartTimerUseCase,
+    private val pauseTimerUseCase: PauseTimerUseCase,
+    private val resetTimerUseCase: ResetTimerUseCase
 ) : ViewModel() {
 
     private val sessionId = checkNotNull(savedStateHandle.get<Long>(NAV_ARG_SESSION_ID))
@@ -25,7 +37,7 @@ internal class SessionPlayerViewModel @Inject constructor(
     private var _uiState = MutableStateFlow<UiState>(UiState.Initial)
     val uiState = _uiState.asStateFlow()
 
-    private var timerJob: Job? = null
+
 
     init {
         viewModelScope.launch {
@@ -47,10 +59,11 @@ internal class SessionPlayerViewModel @Inject constructor(
     }
 
     fun onStartSession() {
+        startTimerUseCase.execute()
         cancelTimer()
 
         updateWhenReady {
-            copy(currentPlayerState = SessionPlayerState.PLAYING)
+            copy(currentPlayerState = net.onefivefour.sessiontimer.feature.sessionplayer.model.SessionPlayerState.PLAYING)
         }
 
         timerJob = viewModelScope.launch {
@@ -67,7 +80,7 @@ internal class SessionPlayerViewModel @Inject constructor(
 
                     if (currentTask == null) {
                         cancelTimer()
-                        copy(currentPlayerState = SessionPlayerState.FINISHED)
+                        copy(currentPlayerState = net.onefivefour.sessiontimer.feature.sessionplayer.model.SessionPlayerState.FINISHED)
                     } else {
                         copy(elapsedSeconds = newElapsedSeconds, currentTask = currentTask)
                     }
@@ -77,21 +90,11 @@ internal class SessionPlayerViewModel @Inject constructor(
     }
 
     fun onPauseSession() {
-        updateWhenReady {
-            copy(currentPlayerState = SessionPlayerState.PAUSED)
-        }
-        cancelTimer()
+        pauseTimerUseCase.execute()
     }
 
     fun onResetSession() {
-        updateWhenReady {
-            copy(
-                currentTask = session.taskGroups.first().tasks.first(),
-                currentPlayerState = SessionPlayerState.IDLE,
-                elapsedSeconds = 0
-            )
-        }
-        cancelTimer()
+        resetTimerUseCase.execute()
     }
 
     override fun onCleared() {

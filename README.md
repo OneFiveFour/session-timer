@@ -1,8 +1,15 @@
 # Important Gradle Tasks
 
 ```
-./gradlew ktLintFormat // format code
-./gradlew :koverHtmlReport // check code coverage
-./gradlew test // run tests
-./gradlew :core:database:generateSqlDelightInterface // generate database classes
+// format code
+./gradlew ktLintFormat
+
+// check code coverage
+./gradlew :koverHtmlReport
+
+// run tests
+./gradlew test
+
+// generate database classes
+./gradlew :core:database:generateSqlDelightInterface
 ```
