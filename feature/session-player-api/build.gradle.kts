@@ -16,4 +16,8 @@ dependencies {
     implementation(libs.compose.navigator.api)
     implementation(libs.compose.navigator.runtime)
     ksp(libs.compose.navigator.ksp)
+
+    // DI
+    implementation(libs.hilt.core)
+    ksp(libs.hilt.compiler)
 }

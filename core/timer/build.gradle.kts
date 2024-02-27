@@ -11,8 +11,8 @@ dependencies {
     implementation(project(":core:timer-api"))
 
     // DI
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
+    implementation(libs.hilt.core)
+    ksp(libs.hilt.compiler)
 
     // Coroutines
     implementation(libs.coroutines.core)

@@ -6,8 +6,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import net.onefivefour.sessiontimer.feature.sessionplayer.SessionPlayerViewModel
 import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerScreen
+import javax.inject.Inject
 
-class SessionPlayerScreenImpl : SessionPlayerScreen {
+class SessionPlayerScreenImpl @Inject constructor() : SessionPlayerScreen {
 
     @Composable
     override operator fun invoke(): @Composable () -> Unit {

@@ -6,8 +6,23 @@ import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 
 internal fun Session.toCompiledSession(): CompiledSession {
+
+    val totalDuration = this.taskGroups
+        .flatMap { it.tasks }
+        .map { it.duration }
+        .reduce { acc, duration -> acc + duration }
+
+    val taskIndices = mutableListOf<Pair<Int, Int>>()
+    this.taskGroups.forEachIndexed { taskGroupIndex, taskGroup ->
+        taskGroup.tasks.forEachIndexed { taskIndex, _ ->
+            taskIndices.add(taskGroupIndex to taskIndex)
+        }
+    }
+
     return CompiledSession(
         this.title,
+        totalDuration,
+        taskIndices,
         this.taskGroups.toUiTaskGroups()
     )
 }

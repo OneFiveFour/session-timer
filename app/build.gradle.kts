@@ -63,6 +63,8 @@ dependencies {
         ":core:database",
         ":core:di",
         ":core:theme",
+        ":core:timer-api",
+        ":core:timer",
         ":core:usecases",
         ":feature:session-editor",
         ":feature:session-editor-api",

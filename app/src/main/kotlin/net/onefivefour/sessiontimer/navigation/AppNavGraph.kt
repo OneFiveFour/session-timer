@@ -4,11 +4,14 @@ import androidx.compose.runtime.Composable
 import de.onecode.navigator.Navigator
 import net.onefivefour.sessiontimer.feature.sessioneditor.api.attachSessionEditor
 import net.onefivefour.sessiontimer.feature.sessionoverview.SessionOverviewScreen
+import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerScreen
 import net.onefivefour.sessiontimer.feature.sessionplayer.api.attachSessionPlayer
 import net.onefivefour.sessiontimer.feature.taskgroupeditor.api.attachTaskGroupEditor
 
 @Composable
-fun AppNavGraph() {
+fun AppNavGraph(
+    sessionPlayerScreen: SessionPlayerScreen
+) {
 
     Navigator { navGraphBuilder ->
 
@@ -21,7 +24,7 @@ fun AppNavGraph() {
 
         navGraphBuilder.attachSessionEditor()
         navGraphBuilder.attachTaskGroupEditor()
-        navGraphBuilder.attachSessionPlayer()
+        navGraphBuilder.attachSessionPlayer(sessionPlayerScreen)
     }
 
 }

@@ -38,7 +38,7 @@ internal fun SessionPlayer(
 
         Text(text = uiState.elapsedSeconds.toString())
 
-        Text(text = uiState.currentPlayerState.toString())
+        Text(text = uiState.timerMode.toString())
 
         Text(text = uiState.currentTask.title)
 
