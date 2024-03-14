@@ -15,6 +15,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:theme"))
     implementation(project(":core:usecases"))
+    implementation(project(":core:ui"))
 
     // Compose
     implementation(platform(libs.androidX.compose.bom))

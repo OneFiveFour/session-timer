@@ -1,7 +1,6 @@
-package net.onefivefour.sessiontimer.core.components.button
+package net.onefivefour.sessiontimer.core.ui.components.button
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -19,10 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -61,13 +59,13 @@ fun PrimaryButton(
                     interactionSource = interactionSource,
                     indication = ScaleIndication(outerHorizontalPaddingPx)
                 )
-                .background(
-                    color = MaterialTheme.colorScheme.surface,
-                    shape = buttonShape
-                )
-                .clip(
-                    shape = buttonShape
-                )
+//                .background(
+//                    color = MaterialTheme.colorScheme.surface,
+//                    shape = buttonShape
+//                )
+//                .clip(
+//                    shape = buttonShape
+//                )
                 .padding(
                     horizontal = innerHorizontalPadding,
                     vertical = innerVerticalPadding
@@ -79,11 +77,6 @@ fun PrimaryButton(
                 text = text
             )
         }
-
-//        ButtonContent(
-//            iconRes,
-//            text
-//        )
     }
 }
 
@@ -115,4 +108,13 @@ private fun ButtonContent(
             color = contentColor
         )
     }
+}
+
+
+@Preview
+@Composable
+private fun PrimaryButtonPreview() {
+    PrimaryButton(
+        text = "New Session"
+    ) {}
 }

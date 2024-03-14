@@ -18,12 +18,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
-import net.onefivefour.sessiontimer.core.components.button.PrimaryButton
+import net.onefivefour.sessiontimer.core.ui.components.button.PrimaryButton
 import net.onefivefour.sessiontimer.core.theme.typography
+import net.onefivefour.sessiontimer.core.ui.R as UiR
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -54,7 +54,7 @@ internal fun SessionOverview(
 
         PrimaryButton(
             text = stringResource(id = R.string.new_session),
-            iconRes = R.drawable.btn_add
+            iconRes = UiR.drawable.ic_add
         ) {
             onNewSession()
         }
