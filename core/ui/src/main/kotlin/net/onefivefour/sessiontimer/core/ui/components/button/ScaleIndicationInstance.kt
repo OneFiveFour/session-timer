@@ -13,8 +13,15 @@ import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.launch
 
 internal class ScaleIndicationInstance : IndicationInstance {
+
+    var pressedAnimation: Job? = null
+    var restingAnimation: Job? = null
 
     private val animatedPercent = Animatable(1f)
 
@@ -27,41 +34,40 @@ internal class ScaleIndicationInstance : IndicationInstance {
         gradientColorEnd
     )
 
-    suspend fun animateToPressed() {
-        animatedPercent.animateTo(0f, spring())
+    suspend fun animateToPressed(scope: CoroutineScope) {
+        val currentPressedAnimation = pressedAnimation
+        pressedAnimation = scope.launch {
+            restingAnimation?.cancelAndJoin()
+            currentPressedAnimation?.cancelAndJoin()
+            animatedPercent.snapTo(1f)
+            animatedPercent.animateTo(0f, spring())
+        }
+
     }
 
-    suspend fun animateToResting() {
-        animatedPercent.animateTo(1f, spring())
+    suspend fun animateToResting(scope: CoroutineScope) {
+        restingAnimation = scope.launch {
+            // Wait for the existing press animation to finish if it is still ongoing
+            pressedAnimation?.join()
+            animatedPercent.animateTo(1f, spring())
+        }
     }
+
+    private var radius: Float? = null
+    private var baseOffsetX: Float? = null
+    private var baseOffsetY: Float? = null
+
+    private var offsetLeft: Offset? = null
+    private var offsetRight: Offset? = null
+
+    private var brushLeft: Brush? = null
+    private var brushRight: Brush? = null
 
     override fun ContentDrawScope.drawIndication() {
 
-        val radius = size.minDimension / 1.8f
-        val baseOffsetX = size.width * 0.07f
-        val baseOffsetY = size.height / 2f
-
-        val offsetLeft = Offset(
-            x = baseOffsetX,
-            y = baseOffsetY
-        )
-
-        val offsetRight = Offset(
-            x = size.width - (baseOffsetX),
-            y = baseOffsetY
-        )
-
-        val brushLeft = Brush.radialGradient(
-            colors = gradientColors,
-            radius = radius,
-            center = offsetLeft
-        )
-
-        val brushRight = Brush.radialGradient(
-            colors = gradientColors,
-            radius = radius,
-            center = offsetRight
-        )
+        if (radius == null) {
+            initVariables()
+        }
 
         val animatedAlpha = 0.6f + (0.4f * animatedPercent.value)
         val animatedScaleXOuter = 0.95f + (0.05f * animatedPercent.value)
@@ -73,16 +79,16 @@ internal class ScaleIndicationInstance : IndicationInstance {
         ) {
 
             drawCircle(
-                brush = brushLeft,
-                radius = radius,
-                center = offsetLeft,
+                brush = brushLeft!!,
+                radius = radius!!,
+                center = offsetLeft!!,
                 alpha = animatedAlpha
             )
 
             drawCircle(
-                brush = brushRight,
-                radius = radius,
-                center = offsetRight,
+                brush = brushRight!!,
+                radius = radius!!,
+                center = offsetRight!!,
                 alpha = animatedAlpha
             )
 
@@ -98,5 +104,35 @@ internal class ScaleIndicationInstance : IndicationInstance {
         ) {
             this@drawIndication.drawContent()
         }
+    }
+
+    private fun ContentDrawScope.initVariables() {
+
+        radius = size.minDimension / 1.8f
+        baseOffsetX = size.width * 0.07f
+        baseOffsetY = size.height / 2f
+
+        offsetLeft = Offset(
+            x = baseOffsetX!!,
+            y = baseOffsetY!!
+        )
+
+        offsetRight = Offset(
+            x = size.width - (baseOffsetX!!),
+            y = baseOffsetY!!
+        )
+
+        brushLeft = Brush.radialGradient(
+            colors = gradientColors,
+            radius = radius!!,
+            center = offsetLeft!!
+        )
+
+        brushRight = Brush.radialGradient(
+            colors = gradientColors,
+            radius = radius!!,
+            center = offsetRight!!
+        )
+
     }
 }

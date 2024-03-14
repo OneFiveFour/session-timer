@@ -17,9 +17,9 @@ internal object ScaleIndication : Indication {
         LaunchedEffect(interactionSource) {
             interactionSource.interactions.collectLatest { interaction ->
                 when (interaction) {
-                    is PressInteraction.Press -> instance.animateToPressed()
-                    is PressInteraction.Release -> instance.animateToResting()
-                    is PressInteraction.Cancel -> instance.animateToResting()
+                    is PressInteraction.Press -> instance.animateToPressed(this)
+                    is PressInteraction.Release -> instance.animateToResting(this)
+                    is PressInteraction.Cancel -> instance.animateToResting(this)
                 }
             }
         }
