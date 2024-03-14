@@ -9,12 +9,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import kotlinx.coroutines.flow.collectLatest
 
-internal class ScaleIndication(
-    private val horizontalOffset: Float
-) : Indication {
+internal object ScaleIndication : Indication {
     @Composable
     override fun rememberUpdatedInstance(interactionSource: InteractionSource): IndicationInstance {
-        val instance = remember(interactionSource) { ScaleIndicationInstance(horizontalOffset) }
+        val instance = remember(interactionSource) { ScaleIndicationInstance() }
 
         LaunchedEffect(interactionSource) {
             interactionSource.interactions.collectLatest { interaction ->

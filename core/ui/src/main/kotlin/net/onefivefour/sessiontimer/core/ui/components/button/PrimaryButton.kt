@@ -18,10 +18,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import net.onefivefour.sessiontimer.core.ui.R
 
 @Composable
 fun PrimaryButton(
@@ -30,16 +32,11 @@ fun PrimaryButton(
     onClick: () -> Unit
 ) {
 
-    val outerHorizontalPadding = 24.dp
-    val outerHorizontalPaddingPx = with(LocalDensity.current) {
-        outerHorizontalPadding.toPx()
-    }
-    val outerVerticalPadding = 24.dp
+    val outerHorizontalPadding = 16.dp
+    val outerVerticalPadding = 8.dp
 
-    val innerVerticalPadding = 14.dp
-    val innerHorizontalPadding = 24.dp
-
-    val buttonShape = RoundedCornerShape(size = 16.dp)
+    val innerVerticalPadding = 10.dp
+    val innerHorizontalPadding = 16.dp
 
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -57,21 +54,13 @@ fun PrimaryButton(
                 .clickable(
                     onClick = onClick,
                     interactionSource = interactionSource,
-                    indication = ScaleIndication(outerHorizontalPaddingPx)
+                    indication = ScaleIndication
                 )
-//                .background(
-//                    color = MaterialTheme.colorScheme.surface,
-//                    shape = buttonShape
-//                )
-//                .clip(
-//                    shape = buttonShape
-//                )
                 .padding(
                     horizontal = innerHorizontalPadding,
                     vertical = innerVerticalPadding
                 )
         ) {
-
             ButtonContent(
                 iconRes = iconRes,
                 text = text
@@ -93,28 +82,34 @@ private fun ButtonContent(
         modifier = Modifier.alpha(alpha = alpha),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (iconRes != null) {
 
+        if (iconRes != null) {
             Icon(
                 painter = painterResource(id = iconRes),
                 contentDescription = null,
                 tint = contentColor
             )
-            Spacer(modifier = Modifier.width(4.dp))
+            Spacer(modifier = Modifier.width(8.dp))
         }
+
         Text(
             style = MaterialTheme.typography.labelMedium,
             text = text,
             color = contentColor
         )
+
     }
 }
 
 
-@Preview
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFFFFFFFF
+)
 @Composable
 private fun PrimaryButtonPreview() {
     PrimaryButton(
-        text = "New Session"
+        text = "New Session",
+        iconRes = R.drawable.ic_add
     ) {}
 }

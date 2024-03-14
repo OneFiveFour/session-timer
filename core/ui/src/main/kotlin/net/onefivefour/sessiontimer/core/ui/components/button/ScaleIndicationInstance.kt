@@ -3,7 +3,10 @@ package net.onefivefour.sessiontimer.core.ui.components.button
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.IndicationInstance
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
@@ -11,9 +14,7 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.unit.dp
 
-internal class ScaleIndicationInstance(
-    private val horizontalOffset: Float
-) : IndicationInstance {
+internal class ScaleIndicationInstance : IndicationInstance {
 
     private val animatedPercent = Animatable(1f)
 
@@ -37,7 +38,7 @@ internal class ScaleIndicationInstance(
     override fun ContentDrawScope.drawIndication() {
 
         val radius = size.minDimension / 1.8f
-        val baseOffsetX = horizontalOffset / 1.4f
+        val baseOffsetX = size.width * 0.07f
         val baseOffsetY = size.height / 2f
 
         val offsetLeft = Offset(
@@ -64,8 +65,7 @@ internal class ScaleIndicationInstance(
 
         val animatedAlpha = 0.6f + (0.4f * animatedPercent.value)
         val animatedScaleXOuter = 0.95f + (0.05f * animatedPercent.value)
-        val animatedScaleXInner = 1.05f + (0.05f * -animatedPercent.value)
-        val translate = -animatedPercent.value * 2.dp.toPx()
+        val animatedTranslate = -animatedPercent.value * 2.dp.toPx()
 
         scale(
             scaleX = animatedScaleXOuter,
@@ -86,14 +86,17 @@ internal class ScaleIndicationInstance(
                 alpha = animatedAlpha
             )
 
-            translate(top = translate){
-                scale(
-                    scaleX = animatedScaleXInner,
-                    scaleY = 1f
-                ) {
-                    this@drawIndication.drawContent()
-                }
-            }
+            drawRoundRect(
+                color = Color.White,
+                cornerRadius = CornerRadius(16f, 16f)
+            )
+
+        }
+
+        translate(
+            top = animatedTranslate
+        ) {
+            this@drawIndication.drawContent()
         }
     }
 }
