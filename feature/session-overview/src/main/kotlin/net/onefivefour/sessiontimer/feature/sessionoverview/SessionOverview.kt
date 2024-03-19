@@ -1,7 +1,7 @@
 package net.onefivefour.sessiontimer.feature.sessionoverview
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,20 +16,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import net.onefivefour.sessiontimer.core.theme.SessionTimerTheme
-import net.onefivefour.sessiontimer.core.theme.typography
 import net.onefivefour.sessiontimer.core.ui.components.button.PrimaryButton
 import net.onefivefour.sessiontimer.core.ui.components.dragger.Dragger
 import net.onefivefour.sessiontimer.core.ui.R as UiR
@@ -95,80 +90,43 @@ private fun SessionItem(
     onStartSession: (Long) -> Unit
 ) {
 
-    val gradientColorStart = Color(0xFF838383)
-    val gradientColorEnd = Color.Transparent
-    val gradientColors = listOf(
-        gradientColorStart,
-        gradientColorEnd
-    )
+    val cornerRadius = 8.dp
 
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
 
+    Row(
+        modifier = Modifier
+            .clickable(
+                interactionSource = interactionSource,
+                indication = SessionItemIndication
+            ) { onStartSession(session.id) }
+            .padding(12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
 
-    Box(
-        modifier = Modifier.drawBehind {
+        Dragger()
 
-            val radius = this.size.minDimension / 2.4f
-            val offsetXLeft = radius * 1f
-            val offsetXRight = this.size.width - (radius * 1.2f)
-            val offsetY = this.size.height / 2f
+        Spacer(modifier = Modifier.width(6.dp))
 
-            val offsetLeft = Offset(offsetXLeft, offsetY)
-            val offsetRight = Offset(offsetXRight, offsetY)
+        Text(
+            modifier = Modifier.weight(1f),
+            color = MaterialTheme.colorScheme.onSurface,
+            text = session.title,
+            style = MaterialTheme.typography.titleLarge
+        )
 
-            val brushLeft = Brush.radialGradient(
-                colors = gradientColors,
-                radius = radius,
-                center = offsetLeft
-            )
-            val brushRight = Brush.radialGradient(
-                colors = gradientColors,
-                radius = radius,
-                center = offsetRight
-            )
+        Icon(
+            modifier = Modifier
+                .clip(RoundedCornerShape(cornerRadius))
+                .clickable { onEditSession(session.id) }
+                .padding(4.dp),
+            painter = painterResource(id = UiR.drawable.ic_edit),
+            tint = MaterialTheme.colorScheme.onSurface,
+            contentDescription = stringResource(id = R.string.edit_session),
+        )
 
-            drawCircle(
-                brush = brushLeft,
-                radius = radius,
-                center = offsetLeft
-            )
-
-            drawCircle(
-                color = Color.Blue,
-                radius = radius,
-                center = offsetRight
-            )
-
-        }) {
-
-        Row(
-            Modifier
-                .padding(12.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color.Green),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            // Dragger()
-
-            Spacer(modifier = Modifier.width(6.dp))
-
-            Text(
-                modifier = Modifier.weight(1f),
-                color = MaterialTheme.colorScheme.onSurface,
-                text = session.title,
-                style = typography.titleLarge
-            )
-
-            Icon(
-                modifier = Modifier
-                    .background(Color.Red)
-                    .alpha(0.5f),
-                painter = painterResource(id = UiR.drawable.ic_edit),
-                tint = MaterialTheme.colorScheme.onSurface,
-                contentDescription = stringResource(id = R.string.edit_session),
-            )
-
-        }
     }
 }
 
@@ -179,9 +137,8 @@ private fun SessionItemPreview() {
     SessionTimerTheme {
         SessionItem(
             session = UiSession(1, "A Session"),
-            onEditSession = {},
-            onStartSession = {}
-        )
+            onEditSession = {}
+        ) {}
     }
 }
 
