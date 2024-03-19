@@ -1,32 +1,22 @@
 package net.onefivefour.sessiontimer.feature.sessionoverview
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import net.onefivefour.sessiontimer.core.theme.SessionTimerTheme
 import net.onefivefour.sessiontimer.core.ui.components.button.PrimaryButton
-import net.onefivefour.sessiontimer.core.ui.components.dragger.Dragger
 import net.onefivefour.sessiontimer.core.ui.R as UiR
 
 @Composable
@@ -58,6 +48,14 @@ internal fun SessionOverview(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        Text(
+            text = stringResource(id = R.string.sessions),
+            color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.displayLarge
+        )
+
+        Spacer(modifier = Modifier.padding(16.dp))
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
@@ -73,6 +71,10 @@ internal fun SessionOverview(
             }
         }
 
+
+        Spacer(modifier = Modifier.padding(16.dp))
+
+
         PrimaryButton(
             text = stringResource(id = R.string.new_session),
             iconRes = UiR.drawable.ic_add,
@@ -80,69 +82,17 @@ internal fun SessionOverview(
         ) {
             onNewSession()
         }
-    }
-}
 
-@Composable
-private fun SessionItem(
-    session: UiSession,
-    onEditSession: (Long) -> Unit,
-    onStartSession: (Long) -> Unit
-) {
-
-    val cornerRadius = 8.dp
-
-    val interactionSource = remember {
-        MutableInteractionSource()
-    }
-
-    Row(
-        modifier = Modifier
-            .clickable(
-                interactionSource = interactionSource,
-                indication = SessionItemIndication
-            ) { onStartSession(session.id) }
-            .padding(12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-        Dragger()
-
-        Spacer(modifier = Modifier.width(6.dp))
-
-        Text(
-            modifier = Modifier.weight(1f),
-            color = MaterialTheme.colorScheme.onSurface,
-            text = session.title,
-            style = MaterialTheme.typography.titleLarge
-        )
-
-        Icon(
-            modifier = Modifier
-                .clip(RoundedCornerShape(cornerRadius))
-                .clickable { onEditSession(session.id) }
-                .padding(4.dp),
-            painter = painterResource(id = UiR.drawable.ic_edit),
-            tint = MaterialTheme.colorScheme.onSurface,
-            contentDescription = stringResource(id = R.string.edit_session),
-        )
-
+        Spacer(modifier = Modifier.padding(16.dp))
     }
 }
 
 
-@Preview(showBackground = true)
-@Composable
-private fun SessionItemPreview() {
-    SessionTimerTheme {
-        SessionItem(
-            session = UiSession(1, "A Session"),
-            onEditSession = {}
-        ) {}
-    }
-}
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFFFFFFFF
+)
 @Composable
 private fun SessionOverviewPreview() {
     SessionTimerTheme {

@@ -2,4 +2,5 @@
 <resources>
     <string name="new_session">New Session</string>
     <string name="edit_session">Edit Session</string>
+    <string name="sessions">Sessions</string>
 </resources>

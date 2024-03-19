@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 
 internal class SessionItemIndicationInstance : IndicationInstance {
 
-    private val cornerRadius = 8.dp
+    private val cornerRadius = 12.dp
 
     private val animatedPercent = Animatable(0f)
 
@@ -41,7 +41,7 @@ internal class SessionItemIndicationInstance : IndicationInstance {
             with(it.asFrameworkPaint()) {
                 maskFilter = BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.NORMAL)
                 color = lerp(
-                    Color(0xFFE0E0E0),
+                    Color(0xFFEFEFEF),
                     Color(0xFFFFFFFF),
                     animatedPercent.value
                 ).toArgb()
@@ -52,7 +52,17 @@ internal class SessionItemIndicationInstance : IndicationInstance {
         drawIntoCanvas { canvas ->
 
             canvas.drawRoundRect(
-                left = size.width / 1.3f,
+                left = rectPadding,
+                top = rectPadding,
+                right = size.width * 0.27f,
+                bottom = size.height - rectPadding,
+                radiusX = cornerRadiusPx,
+                radiusY = cornerRadiusPx,
+                paint = paint,
+            )
+
+            canvas.drawRoundRect(
+                left = size.width * 0.77f,
                 top = rectPadding,
                 right = size.width - rectPadding,
                 bottom = size.height - rectPadding,

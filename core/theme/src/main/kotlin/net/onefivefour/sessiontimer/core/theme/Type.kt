@@ -12,19 +12,29 @@ val sairaFontFamily = FontFamily(
 )
 
 val typography = Typography(
+    displayLarge = TextStyle(
+        fontFamily = sairaFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 42.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = sairaFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 18.sp
+    ),
     titleLarge = TextStyle(
         fontFamily = sairaFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 22.sp
     ),
-    titleMedium = TextStyle(
-        fontFamily = sairaFontFamily,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    ),
     labelMedium = TextStyle(
         fontFamily = sairaFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
+    ),
+    labelLarge = TextStyle(
+        fontFamily = sairaFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 21.sp
     )
 )

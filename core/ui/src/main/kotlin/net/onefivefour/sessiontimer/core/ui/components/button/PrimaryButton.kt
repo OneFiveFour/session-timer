@@ -41,8 +41,8 @@ fun PrimaryButton(
                 indication = PrimaryButtonIndication
             )
             .padding(
-                vertical = 14.dp,
-                horizontal = 22.dp
+                vertical = 18.dp,
+                horizontal = 32.dp
             )
     ) {
         ButtonContent(
@@ -74,11 +74,11 @@ private fun ButtonContent(
                 contentDescription = contentDescription,
                 tint = contentColor
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(14.dp))
         }
 
         Text(
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.labelLarge,
             text = text,
             color = contentColor
         )
