@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.ksp)
@@ -5,6 +7,12 @@ plugins {
     id("st.kotlin")
     id("st.ktlint")
     kotlin("android")
+}
+
+val signingProperties = Properties()
+val signingFile = file("keystore/sessiontimer.properties")
+if (signingFile.exists()) {
+    signingProperties.load(signingFile.inputStream())
 }
 
 android {
@@ -20,12 +28,26 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
+    signingConfigs {
+        create("signing") {
+            enableV3Signing = true
+            enableV4Signing = true
+            storeFile = file(signingProperties.getProperty("signing.storeFilePath"))
+            storePassword = signingProperties.getProperty("signing.storePassword")
+            keyAlias = signingProperties.getProperty("signing.keyAlias")
+            keyPassword = signingProperties.getProperty("signing.keyPassword")
+        }
+    }
+
     buildTypes {
         debug {
             isDebuggable = true
         }
         release {
+            signingConfig = signingConfigs.getByName("signing")
+            isDebuggable = false
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -102,3 +124,5 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 }
+
+
