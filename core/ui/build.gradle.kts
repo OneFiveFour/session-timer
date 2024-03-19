@@ -8,6 +8,9 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":core:theme"))
+
     implementation(platform(libs.androidX.compose.bom))
     implementation(libs.androidX.compose.material3)
     implementation(libs.androidX.core)

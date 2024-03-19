@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,11 +17,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import net.onefivefour.sessiontimer.core.theme.SessionTimerTheme
 import net.onefivefour.sessiontimer.core.ui.R
 
 @Composable
@@ -33,41 +31,25 @@ fun PrimaryButton(
     onClick: () -> Unit
 ) {
 
-    val outerHorizontalPadding = 16.dp
-    val outerVerticalPadding = 8.dp
-
-    val innerVerticalPadding = 10.dp
-    val innerHorizontalPadding = 16.dp
-
     val interactionSource = remember { MutableInteractionSource() }
 
     Box(
         modifier = Modifier
+            .clickable(
+                onClick = onClick,
+                interactionSource = interactionSource,
+                indication = PrimaryButtonIndication
+            )
             .padding(
-                horizontal = outerHorizontalPadding,
-                vertical = outerVerticalPadding
+                vertical = 14.dp,
+                horizontal = 22.dp
             )
-            .wrapContentSize(),
-        contentAlignment = Alignment.Center
     ) {
-        Box(
-            modifier = Modifier
-                .clickable(
-                    onClick = onClick,
-                    interactionSource = interactionSource,
-                    indication = ScaleIndication
-                )
-                .padding(
-                    horizontal = innerHorizontalPadding,
-                    vertical = innerVerticalPadding
-                )
-        ) {
-            ButtonContent(
-                iconRes = iconRes,
-                text = text,
-                contentDescription = contentDescription
-            )
-        }
+        ButtonContent(
+            iconRes = iconRes,
+            text = text,
+            contentDescription = contentDescription
+        )
     }
 }
 
@@ -111,8 +93,10 @@ private fun ButtonContent(
 )
 @Composable
 private fun PrimaryButtonPreview() {
-    PrimaryButton(
-        text = "New Session",
-        iconRes = R.drawable.ic_add
-    ) {}
+    SessionTimerTheme {
+        PrimaryButton(
+            text = "New Session",
+            iconRes = R.drawable.ic_add
+        ) {}
+    }
 }
