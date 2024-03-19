@@ -9,7 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import kotlinx.coroutines.flow.collectLatest
 
-internal object ScaleIndication : Indication {
+object ScaleIndication : Indication {
     @Composable
     override fun rememberUpdatedInstance(interactionSource: InteractionSource): IndicationInstance {
         val instance = remember(interactionSource) { ScaleIndicationInstance() }

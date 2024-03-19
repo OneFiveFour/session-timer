@@ -25,8 +25,8 @@ internal class ScaleIndicationInstance : IndicationInstance {
 
     private val animatedPercent = Animatable(1f)
 
-    private val gradientColorStart = Color(0xFFA2A2A2)
-    private val gradientColorMid = Color(0xFFD3D3D3)
+    private val gradientColorStart = Color(0xFFDFDEDE)
+    private val gradientColorMid = Color(0xFFE7E7E7)
     private val gradientColorEnd = Color.Transparent
     private val gradientColors = listOf(
         gradientColorStart,
@@ -70,7 +70,7 @@ internal class ScaleIndicationInstance : IndicationInstance {
         }
 
         val animatedAlpha = 0.6f + (0.4f * animatedPercent.value)
-        val animatedScaleXOuter = 0.95f + (0.05f * animatedPercent.value)
+        val animatedScaleXOuter = 4.dp.toPx() * animatedPercent.value
         val animatedTranslate = -animatedPercent.value * 2.dp.toPx()
 
         scale(
@@ -94,7 +94,7 @@ internal class ScaleIndicationInstance : IndicationInstance {
 
             drawRoundRect(
                 color = Color.White,
-                cornerRadius = CornerRadius(16f, 16f)
+                cornerRadius = CornerRadius(8.dp.toPx(), 8.dp.toPx())
             )
 
         }
@@ -109,7 +109,7 @@ internal class ScaleIndicationInstance : IndicationInstance {
     private fun ContentDrawScope.initVariables() {
 
         radius = size.minDimension / 1.8f
-        baseOffsetX = size.width * 0.07f
+        baseOffsetX = size.width * 0.08f
         baseOffsetY = size.height / 2f
 
         offsetLeft = Offset(

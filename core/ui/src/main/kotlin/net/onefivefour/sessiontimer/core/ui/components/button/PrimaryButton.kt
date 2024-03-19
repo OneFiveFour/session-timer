@@ -29,6 +29,7 @@ import net.onefivefour.sessiontimer.core.ui.R
 fun PrimaryButton(
     text: String,
     @DrawableRes iconRes: Int? = null,
+    contentDescription: String? = null,
     onClick: () -> Unit
 ) {
 
@@ -63,7 +64,8 @@ fun PrimaryButton(
         ) {
             ButtonContent(
                 iconRes = iconRes,
-                text = text
+                text = text,
+                contentDescription = contentDescription
             )
         }
     }
@@ -73,7 +75,8 @@ fun PrimaryButton(
 private fun ButtonContent(
     iconRes: Int?,
     text: String,
-    alpha: Float = 1f
+    alpha: Float = 1f,
+    contentDescription: String? = null
 ) {
 
     val contentColor = MaterialTheme.colorScheme.onSurface
@@ -86,7 +89,7 @@ private fun ButtonContent(
         if (iconRes != null) {
             Icon(
                 painter = painterResource(id = iconRes),
-                contentDescription = null,
+                contentDescription = contentDescription,
                 tint = contentColor
             )
             Spacer(modifier = Modifier.width(8.dp))
