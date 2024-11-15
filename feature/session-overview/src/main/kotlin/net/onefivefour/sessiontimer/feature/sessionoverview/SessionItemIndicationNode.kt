@@ -4,7 +4,9 @@ import android.graphics.BlurMaskFilter
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.IndicationInstance
+import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -14,26 +16,43 @@ import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.node.DrawModifierNode
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-internal class SessionItemIndicationInstance : IndicationInstance {
+internal class SessionItemIndicationNode(
+    private val interactionSource: InteractionSource
+) : Modifier.Node(), DrawModifierNode {
 
     private val cornerRadius = 12.dp
 
     private val animatedPercent = Animatable(0f)
 
-    suspend fun animateToPressed() {
+    override fun onAttach() {
+        coroutineScope.launch {
+            interactionSource.interactions.collectLatest { interaction ->
+                when (interaction) {
+                    is PressInteraction.Press -> animateToPressed()
+                    is PressInteraction.Release -> animateToResting()
+                    is PressInteraction.Cancel -> animateToResting()
+                }
+            }
+        }
+    }
+
+    private suspend fun animateToPressed() {
         animatedPercent.animateTo(
             targetValue = 1f,
             animationSpec = tween(200)
         )
     }
 
-    suspend fun animateToResting() {
+    private suspend fun animateToResting() {
         animatedPercent.animateTo(0f, spring())
     }
 
-    override fun ContentDrawScope.drawIndication() {
+    override fun ContentDrawScope.draw() {
 
         val cornerRadiusPx = cornerRadius.toPx()
         val blurRadius = 6.dp.toPx()

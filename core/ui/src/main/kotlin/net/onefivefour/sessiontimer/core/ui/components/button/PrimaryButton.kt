@@ -2,13 +2,13 @@ package net.onefivefour.sessiontimer.core.ui.components.button
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,7 +38,7 @@ fun PrimaryButton(
             .clickable(
                 onClick = onClick,
                 interactionSource = interactionSource,
-                indication = PrimaryButtonIndication
+                indication = PrimaryButtonIndicationNodeFactory
             )
             .padding(
                 vertical = 18.dp,

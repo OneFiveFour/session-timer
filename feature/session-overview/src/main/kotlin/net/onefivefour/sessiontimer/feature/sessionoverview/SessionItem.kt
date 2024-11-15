@@ -1,6 +1,8 @@
 package net.onefivefour.sessiontimer.feature.sessionoverview
 
+import android.util.Log
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,8 +27,10 @@ import net.onefivefour.sessiontimer.core.ui.components.dragger.Dragger
 @Composable
 internal fun SessionItem(
     session: UiSession,
+    onStartSession: (Long) -> Unit,
+    onSetSessionTitle: (Long, String) -> Unit,
     onEditSession: (Long) -> Unit,
-    onStartSession: (Long) -> Unit
+    onDeleteSession: (Long) -> Unit
 ) {
 
     val cornerRadius = 8.dp
@@ -69,6 +73,8 @@ internal fun SessionItem(
             contentDescription = stringResource(id = R.string.edit_session),
         )
 
+        Log.d("+++", "$onDeleteSession, $onSetSessionTitle")
+
     }
 }
 
@@ -81,7 +87,10 @@ private fun SessionItemPreview() {
     SessionTimerTheme {
         SessionItem(
             session = UiSession(1, "A Session"),
-            onEditSession = {}
-        ) {}
+            onEditSession = {},
+            onStartSession = {},
+            onDeleteSession = {},
+            onSetSessionTitle = { _, _ -> }
+        )
     }
 }

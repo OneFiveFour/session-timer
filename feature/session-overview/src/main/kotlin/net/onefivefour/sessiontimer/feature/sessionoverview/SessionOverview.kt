@@ -65,8 +65,10 @@ internal fun SessionOverview(
             items(uiState.sessions) { session ->
                 SessionItem(
                     session,
+                    onStartSession,
+                    onSetSessionTitle,
                     onEditSession,
-                    onStartSession
+                    onDeleteSession,
                 )
             }
         }
