@@ -90,3 +90,4 @@ lint/tmp/
 # keystore data
 /app/keystore/
 /app/release/
+.idea
