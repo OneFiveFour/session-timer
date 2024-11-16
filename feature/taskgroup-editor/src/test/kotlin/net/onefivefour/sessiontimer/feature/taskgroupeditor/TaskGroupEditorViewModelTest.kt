@@ -2,7 +2,6 @@ package net.onefivefour.sessiontimer.feature.taskgroupeditor
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
@@ -27,15 +26,12 @@ import org.junit.jupiter.api.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class TaskGroupEditorViewModelTest {
 
-    private val savedStateHandle = SavedStateHandle()
-
     private val getTaskGroupUseCase: GetTaskGroupUseCase = mockk()
     private val updateTaskGroupUseCase: UpdateTaskGroupUseCase = mockk()
 
     private val testDispatcher = StandardTestDispatcher()
 
     private fun sut() = TaskGroupEditorViewModel(
-        savedStateHandle,
         getTaskGroupUseCase,
         updateTaskGroupUseCase
     )
@@ -60,8 +56,6 @@ class TaskGroupEditorViewModelTest {
 
     @Test
     fun `uiState has correct initial value`() {
-        savedStateHandle[NAV_ARG_TASK_GROUP_ID] = 1L
-
         val sut = sut()
 
         assertThat(sut.uiState.value).isEqualTo(UiState.Initial)
@@ -70,7 +64,6 @@ class TaskGroupEditorViewModelTest {
     @Test
     fun `GetTaskGroupUseCase is called on init`() = runTest {
         val taskGroupId = 1L
-        savedStateHandle[NAV_ARG_TASK_GROUP_ID] = taskGroupId
         coEvery { getTaskGroupUseCase.execute(taskGroupId) } returns flowOf(
             TaskGroup(
                 id = taskGroupId,
@@ -105,7 +98,6 @@ class TaskGroupEditorViewModelTest {
     @Test
     fun `updateTaskGroup delegates to UpdateTaskGroupUseCase`() = runTest {
         val taskGroupId = 1L
-        savedStateHandle[NAV_ARG_TASK_GROUP_ID] = taskGroupId
         coEvery { getTaskGroupUseCase.execute(taskGroupId) } returns flowOf(
             TaskGroup(
                 id = taskGroupId,

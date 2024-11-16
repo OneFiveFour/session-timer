@@ -6,7 +6,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
-fun TaskGroupEditorScreen() {
+fun TaskGroupEditorScreen(taskGroupId: Long) {
 
     val viewModel: TaskGroupEditorViewModel = hiltViewModel()
     val taskGroupEditorState by viewModel.uiState.collectAsStateWithLifecycle()

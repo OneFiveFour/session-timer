@@ -1,7 +1,6 @@
 package net.onefivefour.sessiontimer.feature.taskgroupeditor
 
 import androidx.compose.ui.graphics.toArgb
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,12 +15,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class TaskGroupEditorViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     getTaskGroupUseCase: GetTaskGroupUseCase,
     private val updateTaskGroupUseCase: UpdateTaskGroupUseCase
 ) : ViewModel() {
 
-    private val taskGroupId = checkNotNull(savedStateHandle.get<Long>(NAV_ARG_TASK_GROUP_ID))
+    private val taskGroupId = -1L
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Initial)
     val uiState = _uiState.asStateFlow()

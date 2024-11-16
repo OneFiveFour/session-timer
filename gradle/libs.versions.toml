@@ -19,6 +19,7 @@ kover = "0.7.5"
 ksp = "2.0.21-1.0.28"
 ktLint = "12.1.1"
 mockk = "1.13.8"
+serialization = "1.6.3"
 sqlDelight = "2.0.0"
 turbine="1.0.0"
 truth="1.1.5"
@@ -68,6 +69,7 @@ hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.re
 
 # Navigation
 androidX-navigation = { module = "androidx.navigation:navigation-compose", version.ref ="androidXNavigation" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization"}
 
 # Testing
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
@@ -93,3 +95,4 @@ kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktLint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
 sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

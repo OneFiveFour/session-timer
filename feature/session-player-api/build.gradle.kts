@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
     id("st.android-library")
     id("st.compose")
     id("st.kotlin-test")
@@ -14,6 +15,7 @@ dependencies {
 
     // Navigation
     api(libs.androidX.navigation)
+    implementation(libs.kotlinx.serialization.json)
 
     // DI
     implementation(libs.hilt.core)

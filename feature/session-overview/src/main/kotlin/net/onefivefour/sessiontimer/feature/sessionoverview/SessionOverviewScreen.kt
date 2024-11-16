@@ -8,7 +8,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @Composable
 fun SessionOverviewScreen(
     onEditSession: (Long) -> Unit,
-    onStartSession: (Long) -> Unit
+    onPlaySession: (Long) -> Unit
 ) {
 
     val viewModel: SessionOverviewViewModel = hiltViewModel()
@@ -20,6 +20,6 @@ fun SessionOverviewScreen(
         onNewSession = { viewModel.newSession() },
         onDeleteSession = { sessionId -> viewModel.deleteSession(sessionId) },
         onSetSessionTitle = { sessionId, title -> viewModel.setSessionTitle(sessionId, title) },
-        onStartSession = onStartSession
+        onStartSession = onPlaySession
     )
 }

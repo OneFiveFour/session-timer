@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlin.serialization)
     id("com.android.application")
     id("st.kotlin")
     id("st.ktlint")
@@ -116,6 +117,10 @@ dependencies {
     // DI
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+
+    // Navigation
+    implementation(libs.androidX.navigation)
+    implementation(libs.kotlinx.serialization.json)
 }
 
 

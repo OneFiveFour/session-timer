@@ -5,23 +5,17 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import net.onefivefour.sessiontimer.feature.sessionplayer.SessionPlayerViewModel
-import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerScreen
-import javax.inject.Inject
 
-class SessionPlayerScreenImpl @Inject constructor() : SessionPlayerScreen {
+@Composable
+fun SessionPlayerScreen(sessionId: Long) {
 
-    @Composable
-    override operator fun invoke(): @Composable () -> Unit {
-        val viewModel: SessionPlayerViewModel = hiltViewModel()
-        val sessionPlayerState by viewModel.uiState.collectAsStateWithLifecycle()
+    val viewModel: SessionPlayerViewModel = hiltViewModel()
+    val sessionPlayerState by viewModel.uiState.collectAsStateWithLifecycle()
 
-        return {
-            SessionPlayer(
-                uiState = sessionPlayerState,
-                { viewModel.onStartSession() },
-                { viewModel.onPauseSession() },
-                { viewModel.onResetSession() }
-            )
-        }
-    }
+    SessionPlayer(
+        uiState = sessionPlayerState,
+        { viewModel.onStartSession() },
+        { viewModel.onPauseSession() },
+        { viewModel.onResetSession() }
+    )
 }
