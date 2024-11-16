@@ -8,6 +8,14 @@ gradlePlugin {
             id = "st.compose"
             implementationClass = "AndroidComposeConventionPlugin"
         }
+        register("ktlint") {
+            id = "st.ktlint"
+            implementationClass = "KtlintPlugin"
+        }
+        register("kotlin") {
+            id = "st.kotlin"
+            implementationClass = "KotlinPlugin"
+        }
     }
 }
 
