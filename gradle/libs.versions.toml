@@ -15,7 +15,6 @@ hiltNavigation = "1.2.0"
 junit = "5.10.1"
 kotlin = "2.0.21"
 kotlinxDatetime = "0.5.0"
-kover = "0.7.5"
 ksp = "2.0.21-1.0.28"
 ktLint = "12.1.1"
 mockk = "1.13.8"
@@ -83,7 +82,6 @@ turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 # Lint and Code Coverage
 ktLint-gradlePlugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktLint" }
-kover-gradlePlugin = { module = "org.jetbrains.kotlinx.kover:org.jetbrains.kotlinx.kover.gradle.plugin", version.ref = "kover" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "gradle" }
@@ -91,7 +89,6 @@ androidLibrary = { id = "com.android.library", version.ref = "gradle" }
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktLint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
 sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
