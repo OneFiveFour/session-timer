@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.composeCompiler)
     id("com.android.application")
     id("st.kotlin")
     id("st.ktlint")
@@ -67,9 +68,6 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidXKotlinCompiler.get()
-    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -114,11 +112,6 @@ dependencies {
     implementation(libs.androidX.compose.ui)
     implementation(libs.androidX.compose.ui.tooling.preview)
     implementation(libs.androidX.compose.material3)
-
-    // Navigation
-    implementation(libs.compose.navigator.api)
-    implementation(libs.compose.navigator.runtime)
-    ksp(libs.compose.navigator.ksp)
 
     // DI
     implementation(libs.hilt.android)

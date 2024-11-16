@@ -5,7 +5,6 @@ androidXActivityCompose = "1.9.3"
 androidXArchCoreTesting = "2.2.0"
 androidXComposeBom = "2024.11.00"
 androidXCore = "1.15.0"
-androidXKotlinCompiler = "1.5.14"
 androidXLifecycle="2.8.7"
 androidXNavigation = "2.8.4"
 composeNavigator="1.0.2-SNAPSHOT"
@@ -14,10 +13,10 @@ dagger = "2.50"
 gradle = "8.6.1"
 hiltNavigation = "1.2.0"
 junit = "5.10.1"
-kotlin = "1.9.24"
+kotlin = "2.0.21"
 kotlinxDatetime = "0.5.0"
 kover = "0.7.5"
-ksp = "1.9.25-1.0.20"
+ksp = "2.0.21-1.0.28"
 ktLint = "12.1.1"
 mockk = "1.13.8"
 sqlDelight = "2.0.0"
@@ -70,10 +69,6 @@ hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.re
 # Navigation
 androidX-navigation = { module = "androidx.navigation:navigation-compose", version.ref ="androidXNavigation" }
 
-compose-navigator-api = { module = "de.onecode:compose-navigator-api", version.ref="composeNavigator" }
-compose-navigator-runtime = { module = "de.onecode:compose-navigator-runtime", version.ref="composeNavigator" }
-compose-navigator-ksp = { module = "de.onecode:compose-navigator-ksp", version.ref="composeNavigator" }
-
 # Testing
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
@@ -92,6 +87,7 @@ kover-gradlePlugin = { module = "org.jetbrains.kotlinx.kover:org.jetbrains.kotli
 androidApplication = { id = "com.android.application", version.ref = "gradle" }
 androidLibrary = { id = "com.android.library", version.ref = "gradle" }
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

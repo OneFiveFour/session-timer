@@ -1,5 +1,6 @@
 plugins {
     id("st.android-library")
+    id("st.compose")
     id("st.ktlint")
 }
 

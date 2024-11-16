@@ -2,6 +2,15 @@ plugins {
     `kotlin-dsl`
 }
 
+gradlePlugin {
+    plugins {
+        register("androidCompose") {
+            id = "st.compose"
+            implementationClass = "AndroidComposeConventionPlugin"
+        }
+    }
+}
+
 repositories {
     google()
     mavenCentral()

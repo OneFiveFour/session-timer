@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.ksp)
     id("st.android-library")
+    id("st.compose")
     id("st.kotlin-test")
     id("st.ktlint")
 }
