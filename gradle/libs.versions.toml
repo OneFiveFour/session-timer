@@ -47,7 +47,7 @@ coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", ve
 ## Date Time
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 
-## UI
+## Compose
 android-material = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
 androidX-compose-material3 = { module = "androidx.compose.material3:material3" }
 androidX-compose-ui = { module = "androidx.compose.ui:ui" }

@@ -12,11 +12,19 @@ import org.gradle.plugin.use.PluginDependency
 internal val Project.libs: VersionCatalog
     get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
+private fun VersionCatalog.findLibraryOrThrow(name: String) =
+    findLibrary(name)
+        .orElseThrow { NoSuchElementException("Library $name not found in version catalog") }
+
+private fun VersionCatalog.findPluginOrThrow(name: String) =
+    findPlugin(name)
+        .orElseThrow { NoSuchElementException("Plugin $name not found in version catalog") }
+
 // Compose Compiler
 internal val VersionCatalog.pluginComposeCompiler: Provider<PluginDependency>?
     get() = findPluginOrThrow("composeCompiler")
 
-// Kotlin Test
+// Kotlin Test Dependencies
 internal val VersionCatalog.libJunitBom: Provider<MinimalExternalModuleDependency>
     get() = findLibraryOrThrow("junit-bom")
 internal val VersionCatalog.libJunitJupiterApi: Provider<MinimalExternalModuleDependency>
@@ -32,10 +40,20 @@ internal val VersionCatalog.libAndroidXArchCoreTesting: Provider<MinimalExternal
 internal val VersionCatalog.libTurbine: Provider<MinimalExternalModuleDependency>
     get() = findLibraryOrThrow("turbine")
 
-private fun VersionCatalog.findLibraryOrThrow(name: String) =
-    findLibrary(name)
-        .orElseThrow { NoSuchElementException("Library $name not found in version catalog") }
+// Android Dependencies
+internal val VersionCatalog.libAndroidXCore: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("androidX-core")
 
-private fun VersionCatalog.findPluginOrThrow(name: String) =
-    findPlugin(name)
-        .orElseThrow { NoSuchElementException("Plugin $name not found in version catalog") }
+// Compose Dependencies
+internal val VersionCatalog.libComposeBom: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("androidX-compose-bom")
+internal val VersionCatalog.libComposeUi: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("androidX-compose-ui")
+internal val VersionCatalog.libComposeUiTooling: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("androidX-compose-ui-tooling")
+internal val VersionCatalog.libComposeUiToolingPreview: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("androidX-compose-ui-tooling-preview")
+internal val VersionCatalog.libComposeMaterial3: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("androidX-compose-material3")
+internal val VersionCatalog.libComposeLifecycle: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("androidX-lifecycle-compose")
