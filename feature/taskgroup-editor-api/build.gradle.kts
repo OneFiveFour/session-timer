@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
-    id("st.android-library")
-    id("st.kotlin-test")
+    id("st.android.library")
+    id("st.kotlin.test")
     id("st.ktlint")
 }
 

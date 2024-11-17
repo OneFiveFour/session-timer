@@ -1,9 +1,13 @@
 plugins {
     alias(libs.plugins.sqlDelight)
     alias(libs.plugins.ksp)
-    id("st.kotlin-library")
-    id("st.kotlin-test")
+    id("st.kotlin.library")
+    id("st.kotlin.test")
     id("st.ktlint")
+}
+
+android {
+    namespace = AppConfig.applicationId + ".core.database"
 }
 
 sqldelight {

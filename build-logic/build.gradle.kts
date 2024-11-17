@@ -4,18 +4,42 @@ plugins {
 
 gradlePlugin {
     plugins {
-        register("androidCompose") {
-            id = "st.compose"
-            implementationClass = "AndroidComposeConventionPlugin"
-        }
+        // Basics
         register("ktlint") {
             id = "st.ktlint"
             implementationClass = "KtlintPlugin"
         }
+        // TODO add code coverage plugin
+
+        // Kotlin
         register("kotlin") {
             id = "st.kotlin"
             implementationClass = "KotlinPlugin"
         }
+        register("kotlinLibrary") {
+            id = "st.kotlin.library"
+            implementationClass = "KotlinLibraryPlugin"
+        }
+        register("kotlinTest") {
+            id = "st.kotlin.test"
+            implementationClass = "KotlinTestPlugin"
+        }
+
+        // Android
+        register("androidLibrary") {
+            id = "st.android.library"
+            implementationClass = "AndroidLibraryPlugin"
+        }
+        register("uiTest") {
+            id = "st.android.test"
+            implementationClass = "AndroidTestPlugin"
+        }
+        register("androidCompose") {
+            id = "st.android.compose"
+            implementationClass = "AndroidComposePlugin"
+        }
+
+
     }
 }
 

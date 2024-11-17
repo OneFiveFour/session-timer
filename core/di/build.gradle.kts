@@ -1,7 +1,11 @@
 plugins {
     alias(libs.plugins.ksp)
-    id("st.kotlin-library")
+    id("st.kotlin.library")
     id("st.ktlint")
+}
+
+android {
+    namespace = AppConfig.applicationId + ".core.di"
 }
 
 dependencies {
