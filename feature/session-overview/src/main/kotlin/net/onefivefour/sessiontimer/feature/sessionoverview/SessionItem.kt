@@ -32,7 +32,6 @@ internal fun SessionItem(
     onEditSession: (Long) -> Unit,
     onDeleteSession: (Long) -> Unit
 ) {
-
     val cornerRadius = 8.dp
 
     val interactionSource = remember {
@@ -51,7 +50,6 @@ internal fun SessionItem(
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Dragger()
 
         Spacer(modifier = Modifier.width(6.dp))
@@ -70,11 +68,10 @@ internal fun SessionItem(
                 .padding(4.dp),
             painter = painterResource(id = net.onefivefour.sessiontimer.core.ui.R.drawable.ic_edit),
             tint = MaterialTheme.colorScheme.onBackground,
-            contentDescription = stringResource(id = R.string.edit_session),
+            contentDescription = stringResource(id = R.string.edit_session)
         )
 
         Log.d("+++", "$onDeleteSession, $onSetSessionTitle")
-
     }
 }
 

@@ -128,13 +128,15 @@ internal class TaskGroupDataSourceImplTest {
             numberOfRandomTasks
         )
 
-        coVerify { taskGroupQueries.update(
-            title,
-            color,
-            playMode,
-            numberOfRandomTasks,
-            taskGroupId
-        ) }
+        coVerify {
+            taskGroupQueries.update(
+                title,
+                color,
+                playMode,
+                numberOfRandomTasks,
+                taskGroupId
+            )
+        }
     }
 
     @Test

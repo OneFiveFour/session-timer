@@ -16,7 +16,6 @@ import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.theme.typography
 import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
 
-
 @Composable
 internal fun TaskGroupItem(
     taskGroup: TaskGroup,
@@ -27,7 +26,6 @@ internal fun TaskGroupItem(
     onUpdateTask: (UiTask) -> Unit
 ) {
     Row {
-
         val taskGroupColor = Color(taskGroup.color)
         Text(
             modifier = Modifier.background(taskGroupColor),
@@ -58,7 +56,6 @@ internal fun TaskGroupItem(
         Text(text = "Create new Task")
     }
 
-
     // We want to animate item placement which is only possible out of the box
     // with a LazyColumn. Nested scrollables are not allowed in Jetpack Compose
     // due to single layout pass requirements, however if we have a specified
@@ -71,7 +68,7 @@ internal fun TaskGroupItem(
     ) {
         items(
             items = taskGroup.tasks,
-            key = { task -> task.id },
+            key = { task -> task.id }
         ) { task ->
 
             TaskItem(
@@ -79,7 +76,6 @@ internal fun TaskGroupItem(
                 { updatedTask -> onUpdateTask(updatedTask) },
                 { taskId -> onDeleteTask(taskId) }
             )
-
         }
     }
 }

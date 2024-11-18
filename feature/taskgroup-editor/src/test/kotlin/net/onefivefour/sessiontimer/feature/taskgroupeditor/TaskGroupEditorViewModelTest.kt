@@ -2,6 +2,7 @@ package net.onefivefour.sessiontimer.feature.taskgroupeditor
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
@@ -31,7 +32,10 @@ class TaskGroupEditorViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
+    private val savedStateHandle = SavedStateHandle()
+
     private fun sut() = TaskGroupEditorViewModel(
+        savedStateHandle,
         getTaskGroupUseCase,
         updateTaskGroupUseCase
     )

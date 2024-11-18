@@ -32,5 +32,4 @@ class DeleteTaskGroupUseCaseTest {
             taskRepository.deleteByTaskGroupId(taskGroupId)
         }
     }
-
 }

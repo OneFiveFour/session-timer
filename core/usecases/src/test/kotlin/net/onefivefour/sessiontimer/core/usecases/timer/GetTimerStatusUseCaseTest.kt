@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 
 class GetTimerStatusUseCaseTest {
 
-    private val sessionTimer : SessionTimer = mockk()
+    private val sessionTimer: SessionTimer = mockk()
 
     private val sut = GetTimerStatusUseCase(sessionTimer)
 

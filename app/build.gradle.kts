@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kover)
     id("com.android.application")
     id("st.kotlin")
     id("st.ktlint")
@@ -121,5 +122,3 @@ dependencies {
     // Navigation
     implementation(libs.bundles.navigation)
 }
-
-

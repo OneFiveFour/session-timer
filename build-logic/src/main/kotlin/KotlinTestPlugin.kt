@@ -1,12 +1,15 @@
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
+import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
 
 class KotlinTestPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
+            apply(plugin = "st.kover")
+
             // Configure test dependencies
             dependencies {
                 "testImplementation"(platform(libs.libJunitBom))

@@ -16,8 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import net.onefivefour.sessiontimer.core.theme.SessionTimerTheme
-import net.onefivefour.sessiontimer.core.ui.components.button.PrimaryButton
 import net.onefivefour.sessiontimer.core.ui.R as UiR
+import net.onefivefour.sessiontimer.core.ui.components.button.PrimaryButton
 
 @Composable
 internal fun SessionOverview(
@@ -28,7 +28,6 @@ internal fun SessionOverview(
     onSetSessionTitle: (Long, String) -> Unit,
     onStartSession: (Long) -> Unit
 ) {
-
     if (uiState == UiState.Initial) {
         SessionOverviewInitial()
         return
@@ -47,7 +46,6 @@ internal fun SessionOverview(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Text(
             text = stringResource(id = R.string.sessions),
             color = MaterialTheme.colorScheme.onBackground,
@@ -61,21 +59,18 @@ internal fun SessionOverview(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-
             items(uiState.sessions) { session ->
                 SessionItem(
                     session,
                     onStartSession,
                     onSetSessionTitle,
                     onEditSession,
-                    onDeleteSession,
+                    onDeleteSession
                 )
             }
         }
 
-
         Spacer(modifier = Modifier.padding(16.dp))
-
 
         PrimaryButton(
             text = stringResource(id = R.string.new_session),
@@ -88,8 +83,6 @@ internal fun SessionOverview(
         Spacer(modifier = Modifier.padding(16.dp))
     }
 }
-
-
 
 @Preview(
     showBackground = true,
@@ -114,5 +107,4 @@ private fun SessionOverviewPreview() {
             onStartSession = { _ -> }
         )
     }
-
 }

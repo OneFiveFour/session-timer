@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
@@ -12,8 +13,6 @@ import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import org.junit.jupiter.api.Test
-import kotlin.time.Duration.Companion.seconds
-
 
 class GetFullSessionUseCaseTest {
 
@@ -25,7 +24,6 @@ class GetFullSessionUseCaseTest {
 
     @Test
     fun `executing the use case returns a session with all its task groups and tasks`() = runTest {
-
         val sessionId = 1L
         val taskGroupId = 2L
 
@@ -79,12 +77,10 @@ class GetFullSessionUseCaseTest {
 
             awaitComplete()
         }
-
     }
 
     @Test
     fun `an empty taskGroup must be part of the full session object`() = runTest {
-
         val sessionId = 1L
 
         coEvery { sessionRepository.getFullSession(any()) } returns flowOf(
@@ -102,8 +98,5 @@ class GetFullSessionUseCaseTest {
 
             awaitComplete()
         }
-
     }
-
-
 }

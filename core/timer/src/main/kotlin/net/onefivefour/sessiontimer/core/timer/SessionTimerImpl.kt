@@ -1,8 +1,9 @@
 package net.onefivefour.sessiontimer.core.timer
 
+import javax.inject.Inject
+import kotlin.time.Duration
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -15,9 +16,6 @@ import net.onefivefour.sessiontimer.core.di.DefaultDispatcher
 import net.onefivefour.sessiontimer.core.timer.api.SessionTimer
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerStatus
-import javax.inject.Inject
-import javax.inject.Singleton
-import kotlin.time.Duration
 
 internal class SessionTimerImpl @Inject constructor(
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher
@@ -33,7 +31,6 @@ internal class SessionTimerImpl @Inject constructor(
     private var timerMode: TimerMode = TimerMode.IDLE
 
     override fun start(totalDuration: Duration) {
-
         this.totalSeconds = totalDuration.inWholeSeconds
         this.timerMode = TimerMode.RUNNING
 
@@ -62,7 +59,6 @@ internal class SessionTimerImpl @Inject constructor(
     }
 
     private fun updateTimerStatus() {
-
         if (elapsedSeconds >= totalSeconds) {
             cancelTimer()
             timerMode = TimerMode.FINISHED

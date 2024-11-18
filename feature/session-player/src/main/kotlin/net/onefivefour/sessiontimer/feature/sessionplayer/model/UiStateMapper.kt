@@ -6,7 +6,6 @@ import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 
 internal fun Session.toCompiledSession(): CompiledSession {
-
     val totalDuration = this.taskGroups
         .flatMap { it.tasks }
         .map { it.duration }
@@ -32,7 +31,6 @@ private fun List<TaskGroup>.toUiTaskGroups(): List<UiTaskGroup> {
 }
 
 private fun TaskGroup.toUiTaskGroup(): UiTaskGroup {
-
     val tasks = when (this.playMode) {
         PlayMode.SEQUENCE -> this.tasks
         PlayMode.RANDOM -> this.tasks.take(numberOfRandomTasks).shuffled()

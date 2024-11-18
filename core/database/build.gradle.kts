@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.sqlDelight)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kover)
     id("st.kotlin.library")
     id("st.kotlin.test")
     id("st.kotlin.hilt")

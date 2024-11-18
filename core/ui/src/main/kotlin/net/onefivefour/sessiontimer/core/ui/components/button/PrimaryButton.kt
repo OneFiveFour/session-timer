@@ -30,7 +30,6 @@ fun PrimaryButton(
     contentDescription: String? = null,
     onClick: () -> Unit
 ) {
-
     val interactionSource = remember { MutableInteractionSource() }
 
     Box(
@@ -60,14 +59,12 @@ private fun ButtonContent(
     alpha: Float = 1f,
     contentDescription: String? = null
 ) {
-
     val contentColor = MaterialTheme.colorScheme.onSurface
 
     Row(
         modifier = Modifier.alpha(alpha = alpha),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         if (iconRes != null) {
             Icon(
                 painter = painterResource(id = iconRes),
@@ -82,10 +79,8 @@ private fun ButtonContent(
             text = text,
             color = contentColor
         )
-
     }
 }
-
 
 @Preview(
     showBackground = true,

@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test
 
 class PauseTimerUseCaseTest {
 
-    private val sessionTimer : SessionTimer = mockk(relaxed = true)
+    private val sessionTimer: SessionTimer = mockk(relaxed = true)
 
     private val sut = PauseTimerUseCase(sessionTimer)
 
     @Test
     fun `executing UseCase is calling session timer`() {
         sut.execute()
-        verify { sessionTimer.pause( ) }
+        verify { sessionTimer.pause() }
     }
 }

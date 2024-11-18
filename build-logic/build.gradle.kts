@@ -9,7 +9,10 @@ gradlePlugin {
             id = "st.ktlint"
             implementationClass = "KtlintPlugin"
         }
-        // TODO add code coverage plugin
+        register("kover") {
+            id = "st.kover"
+            implementationClass = "KoverPlugin"
+        }
 
         // Kotlin
         register("kotlin") {
@@ -61,4 +64,5 @@ dependencies {
     implementation(libs.kotlin.gradlePlugin)
     implementation(libs.android.gradlePlugin)
     implementation(libs.ktLint.gradlePlugin)
+    implementation(libs.kover.gradlePlugin)
 }

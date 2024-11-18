@@ -2,10 +2,10 @@ package net.onefivefour.sessiontimer.core.defaults
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode.SEQUENCE
-import net.onefivefour.sessiontimer.core.database.data.DatabaseDefaultValues
 import javax.inject.Inject
 import javax.inject.Singleton
+import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode.SEQUENCE
+import net.onefivefour.sessiontimer.core.database.data.DatabaseDefaultValues
 
 @Singleton
 class DatabaseDefaultValuesImpl @Inject constructor(
@@ -19,5 +19,4 @@ class DatabaseDefaultValuesImpl @Inject constructor(
     override fun getTaskGroupNumberOfRandomTasks() = 1
     override fun getTaskTitle() = context.getString(R.string.default_task_title)
     override fun getTaskDuration() = 3
-
 }

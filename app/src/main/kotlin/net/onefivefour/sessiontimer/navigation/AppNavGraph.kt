@@ -15,14 +15,12 @@ import net.onefivefour.sessiontimer.feature.taskgroupeditor.api.TaskGroupEditor
 
 @Composable
 fun AppNavGraph() {
-
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
         startDestination = SessionOverview
     ) {
-
         composable<SessionOverview> {
             SessionOverviewScreen(
                 onEditSession = { sessionId ->
@@ -49,11 +47,8 @@ fun AppNavGraph() {
             TaskGroupEditorScreen()
         }
 
-
         composable<SessionPlayer> {
             SessionPlayerScreen()
         }
     }
-
-
 }

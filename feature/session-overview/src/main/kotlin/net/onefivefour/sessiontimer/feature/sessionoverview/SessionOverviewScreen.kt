@@ -6,11 +6,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
-fun SessionOverviewScreen(
-    onEditSession: (Long) -> Unit,
-    onPlaySession: (Long) -> Unit
-) {
-
+fun SessionOverviewScreen(onEditSession: (Long) -> Unit, onPlaySession: (Long) -> Unit) {
     val viewModel: SessionOverviewViewModel = hiltViewModel()
     val sessionOverviewState by viewModel.uiState.collectAsStateWithLifecycle()
 

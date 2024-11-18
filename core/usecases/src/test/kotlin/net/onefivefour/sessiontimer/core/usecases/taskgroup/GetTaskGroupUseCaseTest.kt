@@ -12,10 +12,9 @@ import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import org.junit.jupiter.api.Test
 
-
 class GetTaskGroupUseCaseTest {
 
-    private val taskGroupRepository : TaskGroupRepository = mockk()
+    private val taskGroupRepository: TaskGroupRepository = mockk()
 
     private val sut = GetTaskGroupUseCase(
         taskGroupRepository
@@ -52,5 +51,4 @@ class GetTaskGroupUseCaseTest {
             taskGroupRepository.getById(taskGroupId)
         }
     }
-
 }

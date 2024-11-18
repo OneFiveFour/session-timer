@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import kotlin.time.Duration
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -22,8 +24,6 @@ import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayer
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.toCompiledSession
-import javax.inject.Inject
-import kotlin.time.Duration
 
 @HiltViewModel
 internal class SessionPlayerViewModel @Inject constructor(
@@ -65,7 +65,7 @@ internal class SessionPlayerViewModel @Inject constructor(
 
         val elapsedSeconds = timerStatus.elapsedSeconds
         var currentTaskIndices = 0
-        var currentTask : UiTask? = null
+        var currentTask: UiTask? = null
         var pastTaskDuration = Duration.ZERO
 
         for ((index, taskIndices) in compiledSession.taskIndices.withIndex()) {
@@ -100,7 +100,6 @@ internal class SessionPlayerViewModel @Inject constructor(
         doWhenSuccess {
             startTimerUseCase.execute(this.session.totalDuration)
         }
-
 
 //        timerJob = viewModelScope.launch {
 //            while (true) {

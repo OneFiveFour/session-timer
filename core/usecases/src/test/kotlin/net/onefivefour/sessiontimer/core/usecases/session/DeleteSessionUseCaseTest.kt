@@ -4,6 +4,7 @@ import io.mockk.Ordering
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -15,7 +16,6 @@ import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import org.junit.jupiter.api.Test
-import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class DeleteSessionUseCaseTest {

@@ -15,21 +15,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import net.onefivefour.sessiontimer.core.common.domain.model.Task
-import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
-
+import net.onefivefour.sessiontimer.core.common.domain.model.Task
+import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
 
 internal val TASK_ITEM_HEIGHT = 64.dp
 
 @Composable
-internal fun TaskItem(
-    task: Task,
-    onUpdateTask: (UiTask) -> Unit,
-    onDeleteTask: (Long) -> Unit
-) {
-
+internal fun TaskItem(task: Task, onUpdateTask: (UiTask) -> Unit, onDeleteTask: (Long) -> Unit) {
     var taskDuration by remember {
         mutableStateOf(task.duration)
     }
@@ -48,7 +42,7 @@ internal fun TaskItem(
             value = taskDuration.inWholeSeconds.toString(),
             onValueChange = {
                 taskDuration = if (it.isEmpty()) {
-                        0.seconds
+                    0.seconds
                 } else {
                     Duration.parse("${it}s")
                 }
@@ -75,6 +69,4 @@ internal fun TaskItem(
             Text(text = "OK")
         }
     }
-
-
 }

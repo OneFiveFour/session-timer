@@ -8,9 +8,9 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
+import net.onefivefour.sessiontimer.core.database.TaskGroup as DatabaseTaskGroup
 import net.onefivefour.sessiontimer.core.database.data.TaskGroupDataSource
 import org.junit.jupiter.api.Test
-import net.onefivefour.sessiontimer.core.database.TaskGroup as DatabaseTaskGroup
 
 class TaskGroupRepositoryTest {
 
@@ -64,7 +64,6 @@ class TaskGroupRepositoryTest {
             assertThat(result).isEqualTo(databaseTaskGroup.toDomainTaskGroup())
             awaitComplete()
         }
-
     }
 
     @Test
@@ -84,7 +83,6 @@ class TaskGroupRepositoryTest {
             assertThat(result).isEqualTo(databaseTaskGroups.map { it.toDomainTaskGroup() })
             awaitComplete()
         }
-
     }
 
     @Test

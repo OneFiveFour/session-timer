@@ -13,7 +13,6 @@ internal fun SessionPlayer(
     onPauseSession: () -> Unit,
     onResetSession: () -> Unit
 ) {
-
     when (uiState) {
         UiState.Initial -> {
             SessionPlayerInitial()
@@ -33,7 +32,6 @@ internal fun SessionPlayer(
     val session = uiState.session
 
     Column {
-
         Text(text = session.title)
 
         Text(text = uiState.elapsedSeconds.toString())
@@ -54,5 +52,4 @@ internal fun SessionPlayer(
             Text(text = "Reset")
         }
     }
-
 }

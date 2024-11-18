@@ -53,7 +53,6 @@ internal class SessionItemIndicationNode(
     }
 
     override fun ContentDrawScope.draw() {
-
         val cornerRadiusPx = cornerRadius.toPx()
         val blurRadius = 6.dp.toPx()
         val paint = Paint().also {
@@ -77,7 +76,7 @@ internal class SessionItemIndicationNode(
                 bottom = size.height - rectPadding,
                 radiusX = cornerRadiusPx,
                 radiusY = cornerRadiusPx,
-                paint = paint,
+                paint = paint
             )
 
             canvas.drawRoundRect(
@@ -87,9 +86,8 @@ internal class SessionItemIndicationNode(
                 bottom = size.height - rectPadding,
                 radiusX = cornerRadiusPx,
                 radiusY = cornerRadiusPx,
-                paint = paint,
+                paint = paint
             )
-
         }
 
         val rectOffset = Offset(rectPadding, rectPadding)

@@ -81,7 +81,6 @@ internal class SessionDataSourceImplTest {
         coVerify { sessionQueries.getFullSessionById(sessionId) }
     }
 
-
     @Test
     fun `deleteById delegates to correct sessionQueries call`() = runTest {
         coEvery { sessionQueries.deleteById(any()) } returns mockk()
@@ -91,7 +90,6 @@ internal class SessionDataSourceImplTest {
 
         coVerify { sessionQueries.deleteById(sessionId) }
     }
-
 
     @Test
     fun `setTitle delegates to correct sessionQueries call`() = runTest {

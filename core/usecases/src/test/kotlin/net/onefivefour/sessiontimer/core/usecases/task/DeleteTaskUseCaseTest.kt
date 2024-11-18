@@ -27,5 +27,4 @@ class DeleteTaskUseCaseTest {
             taskRepository.delete(taskId)
         }
     }
-
 }

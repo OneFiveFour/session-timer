@@ -2,10 +2,10 @@ package net.onefivefour.sessiontimer.core.usecases.task
 
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import org.junit.jupiter.api.Test
-import kotlin.time.Duration.Companion.seconds
 
 class UpdateTaskUseCaseTest {
 

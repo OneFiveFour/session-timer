@@ -1,15 +1,15 @@
 package net.onefivefour.sessiontimer.core.database.domain
 
-import kotlinx.coroutines.flow.map
-import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
-import net.onefivefour.sessiontimer.core.common.domain.model.Task
-import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
-import net.onefivefour.sessiontimer.core.database.data.FullSession
-import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.flow.map
+import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.Session as DomainSession
+import net.onefivefour.sessiontimer.core.common.domain.model.Task
+import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.database.Session as DatabaseSession
+import net.onefivefour.sessiontimer.core.database.data.FullSession
+import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
 
 class SessionRepository @Inject constructor(
     private val sessionDataSource: SessionDataSource

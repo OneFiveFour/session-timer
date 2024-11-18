@@ -4,4 +4,3 @@ data class TimerStatus(
     val mode: TimerMode = TimerMode.IDLE,
     val elapsedSeconds: Int = 0
 )
-

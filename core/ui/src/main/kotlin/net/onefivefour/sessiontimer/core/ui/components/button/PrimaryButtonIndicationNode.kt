@@ -49,7 +49,6 @@ internal class PrimaryButtonIndicationNode(
     }
 
     override fun ContentDrawScope.draw() {
-
         val cornerRadiusPx = 8.dp.toPx()
         val blurRadius = 6.dp.toPx()
         val rectPadding = 6.dp.toPx()
@@ -86,7 +85,7 @@ internal class PrimaryButtonIndicationNode(
                 bottom = size.height - rectPadding - 2.dp.toPx(),
                 radiusX = cornerRadiusPx,
                 radiusY = cornerRadiusPx,
-                paint = paintLeft,
+                paint = paintLeft
             )
 
             canvas.drawRoundRect(
@@ -96,9 +95,8 @@ internal class PrimaryButtonIndicationNode(
                 bottom = size.height - rectPadding - 2.dp.toPx(),
                 radiusX = cornerRadiusPx,
                 radiusY = cornerRadiusPx,
-                paint = paintRight,
+                paint = paintRight
             )
-
         }
 
         val rectOffset = Offset(
@@ -115,7 +113,6 @@ internal class PrimaryButtonIndicationNode(
             color = Color.White,
             alpha = 1f
         )
-
 
         translate(
             top = animatedTranslate

@@ -1,11 +1,11 @@
 package net.onefivefour.sessiontimer.core.usecases.session
 
 import dagger.hilt.android.scopes.ViewModelScoped
+import javax.inject.Inject
 import net.onefivefour.sessiontimer.core.database.data.DatabaseDefaultValues
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
-import javax.inject.Inject
 
 @ViewModelScoped
 class NewSessionUseCase @Inject constructor(
@@ -38,5 +38,4 @@ class NewSessionUseCase @Inject constructor(
         val taskDuration = defaultValues.getTaskDuration()
         taskRepository.new(taskTitle, taskDuration, taskGroupId)
     }
-
 }

@@ -23,7 +23,6 @@ internal fun SessionEditor(
     onEditTaskGroup: (Long) -> Unit,
     onUpdateTask: (UiTask) -> Unit
 ) {
-
     when (uiState) {
         UiState.Initial -> {
             SessionEditorInitial()
@@ -41,7 +40,6 @@ internal fun SessionEditor(
     val session = uiState.session
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-
         item {
             Text(
                 color = MaterialTheme.colorScheme.onBackground,
@@ -72,7 +70,6 @@ internal fun SessionEditor(
                 onEditTaskGroup = onEditTaskGroup,
                 onUpdateTask = onUpdateTask
             )
-
         }
     }
 }

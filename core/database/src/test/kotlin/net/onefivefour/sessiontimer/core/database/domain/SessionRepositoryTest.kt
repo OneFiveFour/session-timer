@@ -8,10 +8,10 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
+import net.onefivefour.sessiontimer.core.database.Session as DatabaseSession
 import net.onefivefour.sessiontimer.core.database.data.FullSession
 import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
 import org.junit.jupiter.api.Test
-import net.onefivefour.sessiontimer.core.database.Session as DatabaseSession
 
 class SessionRepositoryTest {
 
@@ -48,7 +48,6 @@ class SessionRepositoryTest {
             assertThat(result).isEqualTo(databaseSessions.map { it.toDomainSession() })
             awaitComplete()
         }
-
     }
 
     @Test
@@ -77,7 +76,6 @@ class SessionRepositoryTest {
             assertThat(result).isEqualTo(listOf(fullSession).toDomainSession())
             awaitComplete()
         }
-
     }
 
     @Test

@@ -9,4 +9,3 @@ data class TaskGroup(
     val tasks: List<Task>,
     val sessionId: Long
 )
-

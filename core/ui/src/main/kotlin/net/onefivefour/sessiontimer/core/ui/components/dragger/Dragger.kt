@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun Dragger() {
-
     val numberOfRows = 6
 
     Column(
@@ -27,29 +26,28 @@ fun Dragger() {
             )
             .alpha(0.5f)
     ) {
-
         repeat(numberOfRows) {
-
             if (it != 0) {
                 Spacer(modifier = Modifier.size(1.dp))
             }
 
             Row {
-                Box(modifier = Modifier
-                    .size(2.dp)
-                    .background(MaterialTheme.colorScheme.onSurface)
+                Box(
+                    modifier = Modifier
+                        .size(2.dp)
+                        .background(MaterialTheme.colorScheme.onSurface)
                 )
 
                 Spacer(modifier = Modifier.size(1.dp))
 
-                Box(modifier = Modifier
-                    .size(2.dp)
-                    .background(MaterialTheme.colorScheme.onSurface)
+                Box(
+                    modifier = Modifier
+                        .size(2.dp)
+                        .background(MaterialTheme.colorScheme.onSurface)
                 )
             }
         }
     }
-
 }
 
 @Preview(
