@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import net.onefivefour.sessiontimer.feature.sessioneditor.api.SessionEditor
 import net.onefivefour.sessiontimer.feature.sessioneditor.ui.SessionEditorScreen
 import net.onefivefour.sessiontimer.feature.sessionoverview.SessionOverviewScreen
@@ -47,14 +46,12 @@ fun AppNavGraph() {
         }
 
         composable<TaskGroupEditor> {
-            val args = it.toRoute<TaskGroupEditor>()
-            TaskGroupEditorScreen(args.taskGroupId)
+            TaskGroupEditorScreen()
         }
 
 
         composable<SessionPlayer> {
-            val args = it.toRoute<SessionPlayer>()
-            SessionPlayerScreen(args.sessionId)
+            SessionPlayerScreen()
         }
     }
 

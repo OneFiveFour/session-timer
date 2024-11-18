@@ -68,6 +68,7 @@ hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.re
 
 # Navigation
 androidX-navigation = { module = "androidx.navigation:navigation-compose", version.ref ="androidXNavigation" }
+androidX-navigation-common = { module = "androidx.navigation:navigation-common", version.ref ="androidXNavigation" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization"}
 
 # Testing
@@ -96,4 +97,4 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 
 
 [bundles]
-navigation = ["androidX-navigation", "kotlinx-serialization-json"]
+navigation = ["androidX-navigation", "androidX-navigation-common", "kotlinx-serialization-json"]

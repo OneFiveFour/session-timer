@@ -12,8 +12,6 @@ android {
 
 dependencies {
 
-    implementation(project(":feature:taskgroup-editor"))
-
     // Navigation
     implementation(libs.bundles.navigation)
 }

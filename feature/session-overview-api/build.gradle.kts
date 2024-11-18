@@ -12,7 +12,6 @@ android {
 
 dependencies {
 
-    implementation(project(":feature:session-overview"))
     implementation(project(":feature:session-editor-api"))
     implementation(project(":feature:session-player-api"))
 

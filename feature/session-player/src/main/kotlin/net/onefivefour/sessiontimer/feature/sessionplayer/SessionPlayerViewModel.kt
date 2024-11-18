@@ -1,7 +1,9 @@
 package net.onefivefour.sessiontimer.feature.sessionplayer
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,6 +18,7 @@ import net.onefivefour.sessiontimer.core.usecases.timer.GetTimerStatusUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.PauseTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.ResetTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.StartTimerUseCase
+import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayer
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.toCompiledSession
@@ -24,6 +27,7 @@ import kotlin.time.Duration
 
 @HiltViewModel
 internal class SessionPlayerViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     getFullSessionUseCase: GetFullSessionUseCase,
     private val getTimerStatusUseCase: GetTimerStatusUseCase,
     private val startTimerUseCase: StartTimerUseCase,
@@ -31,7 +35,7 @@ internal class SessionPlayerViewModel @Inject constructor(
     private val resetTimerUseCase: ResetTimerUseCase
 ) : ViewModel() {
 
-    private val sessionId = -1L
+    private val sessionId = savedStateHandle.toRoute<SessionPlayer>().sessionId
 
     private var _uiState = MutableStateFlow<UiState>(UiState.Initial)
     val uiState = _uiState.asStateFlow()

@@ -12,7 +12,6 @@ android {
 
 dependencies {
 
-    implementation(project(":feature:session-editor"))
     implementation(project(":feature:taskgroup-editor-api"))
 
     // Navigation
