@@ -16,6 +16,5 @@ dependencies {
     implementation(project(":feature:taskgroup-editor-api"))
 
     // Navigation
-    api(libs.androidX.navigation)
-    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.bundles.navigation)
 }

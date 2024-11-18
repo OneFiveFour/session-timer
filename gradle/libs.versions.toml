@@ -93,3 +93,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktLint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
 sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+
+[bundles]
+navigation = ["androidX-navigation", "kotlinx-serialization-json"]

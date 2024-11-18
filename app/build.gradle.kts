@@ -119,8 +119,7 @@ dependencies {
     ksp(libs.hilt.android.compiler)
 
     // Navigation
-    implementation(libs.androidX.navigation)
-    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.bundles.navigation)
 }
 
 

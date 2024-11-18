@@ -15,6 +15,5 @@ android {
 dependencies {
 
     // Navigation
-    api(libs.androidX.navigation)
-    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.bundles.navigation)
 }
