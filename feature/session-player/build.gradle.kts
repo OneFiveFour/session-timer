@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.ksp)
     id("st.android.library")
     id("st.android.compose")
+    id("st.android.hilt")
     id("st.kotlin.test")
     id("st.ktlint")
 }
@@ -16,9 +17,4 @@ dependencies {
     implementation(project(":core:usecases"))
     implementation(project(":core:timer-api"))
     implementation(project(":feature:session-player-api"))
-
-    // DI
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation)
-    ksp(libs.hilt.android.compiler)
 }

@@ -4,6 +4,7 @@ plugins {
     id("st.android.library")
     id("st.android.compose")
     id("st.kotlin.test")
+    id("st.kotlin.hilt")
     id("st.ktlint")
 }
 
@@ -16,8 +17,4 @@ dependencies {
     // Navigation
     api(libs.androidX.navigation)
     implementation(libs.kotlinx.serialization.json)
-
-    // DI
-    implementation(libs.hilt.core)
-    ksp(libs.hilt.compiler)
 }

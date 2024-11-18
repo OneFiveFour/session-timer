@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.ksp)
     id("st.kotlin.library")
+    id("st.kotlin.hilt")
     id("st.kotlin.test")
     id("st.ktlint")
 }
@@ -10,10 +11,6 @@ android {
 }
 
 dependencies {
-
-    // DI
-    implementation(libs.hilt.core)
-    ksp(libs.hilt.compiler)
 
     // Coroutines
     implementation(libs.coroutines.core)

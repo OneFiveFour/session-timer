@@ -24,6 +24,10 @@ gradlePlugin {
             id = "st.kotlin.test"
             implementationClass = "KotlinTestPlugin"
         }
+        register("kotlinHilt") {
+            id = "st.kotlin.hilt"
+            implementationClass = "KotlinHiltPlugin"
+        }
 
         // Android
         register("androidLibrary") {
@@ -37,6 +41,10 @@ gradlePlugin {
         register("androidCompose") {
             id = "st.android.compose"
             implementationClass = "AndroidComposePlugin"
+        }
+        register("androidHilt") {
+            id = "st.android.hilt"
+            implementationClass = "AndroidHiltPlugin"
         }
 
 

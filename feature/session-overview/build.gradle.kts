@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.ksp)
     id("st.android.library")
     id("st.android.compose")
+    id("st.android.hilt")
     id("st.ktlint")
     id("st.kotlin.test")
     id("st.android.test")
@@ -17,11 +18,6 @@ dependencies {
     implementation(project(":core:theme"))
     implementation(project(":core:usecases"))
     implementation(project(":core:ui"))
-
-    // DI
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation)
-    ksp(libs.hilt.android.compiler)
 
     // Lifecycle
     implementation(libs.androidX.lifecycle.viewmodel)

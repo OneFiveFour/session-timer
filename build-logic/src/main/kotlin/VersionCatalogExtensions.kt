@@ -44,6 +44,18 @@ internal val VersionCatalog.libTurbine: Provider<MinimalExternalModuleDependency
 internal val VersionCatalog.libAndroidXCore: Provider<MinimalExternalModuleDependency>
     get() = findLibraryOrThrow("androidX-core")
 
+// Hilt
+internal val VersionCatalog.libHiltCore: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("hilt-core")
+internal val VersionCatalog.libHiltCompiler: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("hilt-compiler")
+internal val VersionCatalog.libHiltAndroid: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("hilt-android")
+internal val VersionCatalog.libHiltAndroidCompiler: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("hilt-android-compiler")
+internal val VersionCatalog.libHiltNavigation: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("hilt-navigation")
+
 // Compose Dependencies
 internal val VersionCatalog.libComposeBom: Provider<MinimalExternalModuleDependency>
     get() = findLibraryOrThrow("androidX-compose-bom")

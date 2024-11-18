@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.ksp)
     id("st.android.library")
+    id("st.android.hilt")
     id("st.ktlint")
     id("st.kotlin.test")
 }
@@ -16,7 +17,4 @@ dependencies {
 
     implementation(project(":core:common"))
     implementation(project(":core:database"))
-
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
 }

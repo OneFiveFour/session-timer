@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.ksp)
     id("st.kotlin.library")
     id("st.kotlin.test")
+    id("st.kotlin.hilt")
     id("st.ktlint")
 }
 
@@ -25,10 +26,6 @@ dependencies {
 
     // Database
     implementation(libs.sqlDelight.coroutines)
-
-    // Dependency Injection
-    implementation(libs.hilt.core)
-    ksp(libs.hilt.compiler)
 
     // Coroutines
     implementation(libs.coroutines.core)
