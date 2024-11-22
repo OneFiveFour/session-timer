@@ -5,7 +5,8 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
-import org.junit.jupiter.api.Test
+import org.junit.Test
+
 
 class UpdateTaskGroupUseCaseTest {
 

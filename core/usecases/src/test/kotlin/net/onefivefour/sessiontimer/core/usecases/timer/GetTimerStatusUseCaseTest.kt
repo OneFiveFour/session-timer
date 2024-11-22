@@ -10,7 +10,8 @@ import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.timer.api.SessionTimer
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerStatus
-import org.junit.jupiter.api.Test
+import org.junit.Test
+
 
 class GetTimerStatusUseCaseTest {
 

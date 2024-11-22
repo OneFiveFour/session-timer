@@ -6,7 +6,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import net.onefivefour.sessiontimer.core.usecases.fakes.FakeDefaultValues
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 class NewTaskUseCaseTest {
 

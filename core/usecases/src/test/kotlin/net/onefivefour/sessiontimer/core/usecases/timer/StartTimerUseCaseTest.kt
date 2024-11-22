@@ -4,8 +4,8 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlin.time.Duration
 import net.onefivefour.sessiontimer.core.timer.api.SessionTimer
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Test
+import org.junit.Test
+
 
 class StartTimerUseCaseTest {
 

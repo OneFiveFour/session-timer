@@ -6,7 +6,8 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
-import org.junit.jupiter.api.Test
+import org.junit.Test
+
 
 class DeleteTaskGroupUseCaseTest {
 

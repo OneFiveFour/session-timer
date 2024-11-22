@@ -18,6 +18,10 @@ if (signingFile.exists()) {
     signingProperties.load(signingFile.inputStream())
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 android {
     compileSdk = AppConfig.compileSdk
     namespace = AppConfig.applicationId
@@ -74,6 +78,8 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             excludes += "META-INF/*.kotlin_module"
+            excludes += "META-INF/LICENSE.md"
+            excludes += "META-INF/LICENSE-notice.md"
         }
     }
 }
@@ -84,6 +90,7 @@ dependencies {
         ":core:common",
         ":core:database",
         ":core:di",
+        ":core:test",
         ":core:theme",
         ":core:timer-api",
         ":core:timer",

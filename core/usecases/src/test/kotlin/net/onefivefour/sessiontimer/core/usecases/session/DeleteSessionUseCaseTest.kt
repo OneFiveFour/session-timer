@@ -15,7 +15,8 @@ import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
-import org.junit.jupiter.api.Test
+import org.junit.Test
+
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class DeleteSessionUseCaseTest {

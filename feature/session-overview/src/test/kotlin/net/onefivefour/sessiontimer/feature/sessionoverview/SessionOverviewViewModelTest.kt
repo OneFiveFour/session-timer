@@ -18,9 +18,10 @@ import net.onefivefour.sessiontimer.core.usecases.session.DeleteSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.session.GetAllSessionsUseCase
 import net.onefivefour.sessiontimer.core.usecases.session.NewSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.session.SetSessionTitleUseCase
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SessionOverviewViewModelTest {
@@ -40,12 +41,12 @@ class SessionOverviewViewModelTest {
         setSessionTitleUseCase
     )
 
-    @BeforeEach
+    @Before
     fun setup() {
         setTestDispatcher()
     }
 
-    @AfterEach
+    @After
     fun teardown() {
         unsetTestDispatcher()
     }

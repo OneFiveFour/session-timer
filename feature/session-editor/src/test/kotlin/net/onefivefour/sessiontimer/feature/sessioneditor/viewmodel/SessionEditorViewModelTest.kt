@@ -6,7 +6,6 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -16,23 +15,32 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
+import net.onefivefour.sessiontimer.core.test.SavedStateHandleRule
 import net.onefivefour.sessiontimer.core.usecases.session.GetFullSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.DeleteTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.NewTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.UpdateTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.DeleteTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.NewTaskGroupUseCase
+import net.onefivefour.sessiontimer.feature.sessioneditor.api.SessionEditor
 import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SessionEditorViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    private val savedStateHandle = SavedStateHandle()
+    private val route = SessionEditor(sessionId = 1L)
+
+    @get:Rule
+    val savedStateHandleRule = SavedStateHandleRule(route)
+
+    private val savedStateHandle = savedStateHandleRule.savedStateHandleMock
 
     private val getFullSessionUseCase: GetFullSessionUseCase = mockk()
     private val newTaskGroupUseCase: NewTaskGroupUseCase = mockk()
@@ -51,12 +59,12 @@ class SessionEditorViewModelTest {
         updateTaskUseCase
     )
 
-    @BeforeEach
+    @Before
     fun setup() {
         setTestDispatcher()
     }
 
-    @AfterEach
+    @After
     fun teardown() {
         unsetTestDispatcher()
     }

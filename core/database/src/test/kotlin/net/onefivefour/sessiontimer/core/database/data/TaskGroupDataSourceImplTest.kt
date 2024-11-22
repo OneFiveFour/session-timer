@@ -13,9 +13,9 @@ import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.database.Database
 import net.onefivefour.sessiontimer.core.database.TaskGroupQueries
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class TaskGroupDataSourceImplTest {
@@ -29,13 +29,13 @@ internal class TaskGroupDataSourceImplTest {
         testDispatcher
     )
 
-    @BeforeEach
+    @Before
     fun setup() {
         useJvmDatabaseDriver()
         setTestDispatcher()
     }
 
-    @AfterEach
+    @After
     fun teardown() {
         unsetTestDispatcher()
     }

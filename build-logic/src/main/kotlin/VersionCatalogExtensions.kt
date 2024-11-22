@@ -27,8 +27,8 @@ internal val VersionCatalog.pluginComposeCompiler: Provider<PluginDependency>?
 // Kotlin Test Dependencies
 internal val VersionCatalog.libJunitBom: Provider<MinimalExternalModuleDependency>
     get() = findLibraryOrThrow("junit-bom")
-internal val VersionCatalog.libJunitJupiterApi: Provider<MinimalExternalModuleDependency>
-    get() = findLibraryOrThrow("junit-jupiter-api")
+internal val VersionCatalog.libJunit: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("junit")
 internal val VersionCatalog.libCoroutinesTest: Provider<MinimalExternalModuleDependency>
     get() = findLibraryOrThrow("coroutines-test")
 internal val VersionCatalog.libMockk: Provider<MinimalExternalModuleDependency>

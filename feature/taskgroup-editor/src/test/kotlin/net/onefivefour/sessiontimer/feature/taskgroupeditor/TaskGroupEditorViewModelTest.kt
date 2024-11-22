@@ -20,9 +20,10 @@ import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.GetTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.UpdateTaskGroupUseCase
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class TaskGroupEditorViewModelTest {
@@ -40,12 +41,12 @@ class TaskGroupEditorViewModelTest {
         updateTaskGroupUseCase
     )
 
-    @BeforeEach
+    @Before
     fun setup() {
         setTestDispatcher()
     }
 
-    @AfterEach
+    @After
     fun teardown() {
         unsetTestDispatcher()
     }

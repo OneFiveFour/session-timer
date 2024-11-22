@@ -5,7 +5,8 @@ import io.mockk.mockk
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
-import org.junit.jupiter.api.Test
+import org.junit.Test
+
 
 class UpdateTaskUseCaseTest {
 

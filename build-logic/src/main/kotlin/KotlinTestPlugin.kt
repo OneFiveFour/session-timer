@@ -8,12 +8,13 @@ import org.gradle.kotlin.dsl.withType
 class KotlinTestPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            apply(plugin = "st.kover")
+            println("apply st kover")
+            pluginManager.apply("st.kover")
 
             // Configure test dependencies
             dependencies {
                 "testImplementation"(platform(libs.libJunitBom))
-                "testImplementation"(libs.libJunitJupiterApi)
+                "testImplementation"(libs.libJunit)
                 "testImplementation"(libs.libCoroutinesTest)
                 "testImplementation"(libs.libMockk)
                 "testImplementation"(libs.libTruth)

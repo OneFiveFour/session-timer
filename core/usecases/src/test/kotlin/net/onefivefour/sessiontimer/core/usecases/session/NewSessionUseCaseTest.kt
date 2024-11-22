@@ -9,7 +9,8 @@ import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import net.onefivefour.sessiontimer.core.usecases.fakes.FakeDefaultValues
-import org.junit.jupiter.api.Test
+import org.junit.Test
+
 
 class NewSessionUseCaseTest {
 

@@ -11,9 +11,9 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SessionTimerImplTest {
@@ -24,12 +24,12 @@ class SessionTimerImplTest {
         testDispatcher
     )
 
-    @BeforeEach
+    @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
     }
 
-    @AfterEach
+    @After
     fun teardown() {
         Dispatchers.resetMain()
     }
