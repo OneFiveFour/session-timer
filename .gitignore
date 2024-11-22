@@ -91,3 +91,4 @@ lint/tmp/
 /app/keystore/
 /app/release/
 .idea
+.kotlin/
