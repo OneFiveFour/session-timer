@@ -14,6 +14,7 @@ android {
 
 dependencies {
 
+    // Core
     implementation(project(":core:common"))
     implementation(project(":core:theme"))
     implementation(project(":core:usecases"))
@@ -22,4 +23,7 @@ dependencies {
     // Lifecycle
     implementation(libs.androidX.lifecycle.viewmodel)
     implementation(libs.androidX.lifecycle.viewmodel.compose)
+
+    // Testing
+    testImplementation(project(":core:test"))
 }

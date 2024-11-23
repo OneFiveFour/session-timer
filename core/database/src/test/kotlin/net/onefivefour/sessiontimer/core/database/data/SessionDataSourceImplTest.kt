@@ -12,44 +12,32 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.database.Database
 import net.onefivefour.sessiontimer.core.database.SessionQueries
+import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class SessionDataSourceImplTest {
 
     private val sessionQueries: SessionQueries = mockk()
 
-    private val testDispatcher = StandardTestDispatcher()
+    @get:Rule
+    val standardTestDispatcherRule = StandardTestDispatcherRule()
 
     private val sut = SessionDataSourceImpl(
         sessionQueries,
-        testDispatcher
+        standardTestDispatcherRule.testDispatcher
     )
 
     @Before
     fun setup() {
         useJvmDatabaseDriver()
-        setTestDispatcher()
-    }
-
-    @After
-    fun teardown() {
-        unsetTestDispatcher()
     }
 
     private fun useJvmDatabaseDriver() {
         val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
         Database.Schema.create(driver)
-    }
-
-    private fun setTestDispatcher() {
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    private fun unsetTestDispatcher() {
-        Dispatchers.resetMain()
     }
 
     @Test

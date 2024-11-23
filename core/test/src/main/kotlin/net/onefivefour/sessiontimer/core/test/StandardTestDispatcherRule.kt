@@ -7,24 +7,27 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkStatic
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
-class SavedStateHandleRule(
-    private val route: Any,
-) : TestWatcher() {
+@OptIn(ExperimentalCoroutinesApi::class)
+class StandardTestDispatcherRule : TestWatcher() {
 
-    val savedStateHandleMock: SavedStateHandle = mockk()
+    val testDispatcher = StandardTestDispatcher()
 
     @SuppressLint("RestrictedApi")
     override fun starting(description: Description?) {
-        mockkStatic("androidx.navigation.SavedStateHandleKt")
-        every { savedStateHandleMock.internalToRoute<Any>(any(), any()) } returns route
+        Dispatchers.setMain(testDispatcher)
         super.starting(description)
     }
 
     override fun finished(description: Description?) {
-        unmockkStatic("androidx.navigation.SavedStateHandleKt")
+        Dispatchers.resetMain()
         super.finished(description)
     }
 }

@@ -1,7 +1,7 @@
 import kotlinx.kover.gradle.plugin.dsl.KoverProjectExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.findByType
+import org.gradle.kotlin.dsl.configure
 
 class KoverPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -10,6 +10,17 @@ class KoverPlugin : Plugin<Project> {
 
             subprojects {
                 pluginManager.apply("org.jetbrains.kotlinx.kover")
+            }
+
+            extensions.configure<KoverProjectExtension> {
+                reports {
+                    total {
+                        html {
+                            
+                        }
+                    }
+                }
+
             }
         }
     }

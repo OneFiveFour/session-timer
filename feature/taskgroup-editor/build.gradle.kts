@@ -16,7 +16,10 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:theme"))
     implementation(project(":core:usecases"))
+
     implementation(project(":feature:taskgroup-editor-api"))
 
     implementation(libs.bundles.navigation)
+
+    testImplementation(project(":core:test"))
 }

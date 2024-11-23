@@ -18,10 +18,6 @@ if (signingFile.exists()) {
     signingProperties.load(signingFile.inputStream())
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
 android {
     compileSdk = AppConfig.compileSdk
     namespace = AppConfig.applicationId

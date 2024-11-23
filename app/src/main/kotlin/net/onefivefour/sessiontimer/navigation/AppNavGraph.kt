@@ -4,14 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import net.onefivefour.sessiontimer.feature.sessioneditor.api.SessionEditor
+import net.onefivefour.sessiontimer.feature.sessioneditor.api.SessionEditorRoute
 import net.onefivefour.sessiontimer.feature.sessioneditor.ui.SessionEditorScreen
 import net.onefivefour.sessiontimer.feature.sessionoverview.SessionOverviewScreen
-import net.onefivefour.sessiontimer.feature.sessionoverview.api.SessionOverview
-import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayer
+import net.onefivefour.sessiontimer.feature.sessionoverview.api.SessionOverviewRoute
+import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
 import net.onefivefour.sessiontimer.feature.sessionplayer.ui.SessionPlayerScreen
 import net.onefivefour.sessiontimer.feature.taskgroupeditor.TaskGroupEditorScreen
-import net.onefivefour.sessiontimer.feature.taskgroupeditor.api.TaskGroupEditor
+import net.onefivefour.sessiontimer.feature.taskgroupeditor.api.TaskGroupEditorRoute
 
 @Composable
 fun AppNavGraph() {
@@ -19,35 +19,35 @@ fun AppNavGraph() {
 
     NavHost(
         navController = navController,
-        startDestination = SessionOverview
+        startDestination = SessionOverviewRoute
     ) {
-        composable<SessionOverview> {
+        composable<SessionOverviewRoute> {
             SessionOverviewScreen(
                 onEditSession = { sessionId ->
-                    val route = SessionEditor(sessionId)
+                    val route = SessionEditorRoute(sessionId)
                     navController.navigate(route)
                 },
                 onPlaySession = { sessionId ->
-                    val route = SessionPlayer(sessionId)
+                    val route = SessionPlayerRoute(sessionId)
                     navController.navigate(route)
                 }
             )
         }
 
-        composable<SessionEditor> {
+        composable<SessionEditorRoute> {
             SessionEditorScreen(
                 onEditTaskGroup = { taskGroupId ->
-                    val route = TaskGroupEditor(taskGroupId)
+                    val route = TaskGroupEditorRoute(taskGroupId)
                     navController.navigate(route)
                 }
             )
         }
 
-        composable<TaskGroupEditor> {
+        composable<TaskGroupEditorRoute> {
             TaskGroupEditorScreen()
         }
 
-        composable<SessionPlayer> {
+        composable<SessionPlayerRoute> {
             SessionPlayerScreen()
         }
     }

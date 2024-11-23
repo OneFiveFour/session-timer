@@ -17,7 +17,7 @@ import net.onefivefour.sessiontimer.core.usecases.task.NewTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.UpdateTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.DeleteTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.NewTaskGroupUseCase
-import net.onefivefour.sessiontimer.feature.sessioneditor.api.SessionEditor
+import net.onefivefour.sessiontimer.feature.sessioneditor.api.SessionEditorRoute
 import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
 
 @HiltViewModel
@@ -31,7 +31,7 @@ internal class SessionEditorViewModel @Inject constructor(
     private val updateTaskUseCase: UpdateTaskUseCase
 ) : ViewModel() {
 
-    private val sessionId = savedStateHandle.toRoute<SessionEditor>().sessionId
+    private val sessionId = savedStateHandle.toRoute<SessionEditorRoute>().sessionId
 
     private var _uiState = MutableStateFlow<UiState>(UiState.Initial)
     val uiState = _uiState.asStateFlow()

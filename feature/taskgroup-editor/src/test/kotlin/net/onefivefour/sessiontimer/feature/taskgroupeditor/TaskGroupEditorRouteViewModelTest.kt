@@ -18,46 +18,36 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
+import net.onefivefour.sessiontimer.core.test.SavedStateHandleRule
+import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.GetTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.UpdateTaskGroupUseCase
+import net.onefivefour.sessiontimer.feature.taskgroupeditor.api.TaskGroupEditorRoute
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class TaskGroupEditorViewModelTest {
+class TaskGroupEditorRouteViewModelTest {
 
     private val getTaskGroupUseCase: GetTaskGroupUseCase = mockk()
     private val updateTaskGroupUseCase: UpdateTaskGroupUseCase = mockk()
 
-    private val testDispatcher = StandardTestDispatcher()
+    private val route = TaskGroupEditorRoute(taskGroupId = 1L)
 
-    private val savedStateHandle = SavedStateHandle()
+    @get:Rule
+    val standardTestDispatcherRule = StandardTestDispatcherRule()
+
+    @get:Rule
+    val savedStateHandleRule = SavedStateHandleRule(route)
 
     private fun sut() = TaskGroupEditorViewModel(
-        savedStateHandle,
+        savedStateHandleRule.savedStateHandleMock,
         getTaskGroupUseCase,
         updateTaskGroupUseCase
     )
-
-    @Before
-    fun setup() {
-        setTestDispatcher()
-    }
-
-    @After
-    fun teardown() {
-        unsetTestDispatcher()
-    }
-
-    private fun setTestDispatcher() {
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    private fun unsetTestDispatcher() {
-        Dispatchers.resetMain()
-    }
 
     @Test
     fun `uiState has correct initial value`() {

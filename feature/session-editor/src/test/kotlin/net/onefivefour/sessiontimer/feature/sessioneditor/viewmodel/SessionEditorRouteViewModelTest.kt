@@ -1,6 +1,5 @@
 package net.onefivefour.sessiontimer.feature.sessioneditor.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
@@ -16,13 +15,14 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.test.SavedStateHandleRule
+import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
 import net.onefivefour.sessiontimer.core.usecases.session.GetFullSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.DeleteTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.NewTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.UpdateTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.DeleteTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.NewTaskGroupUseCase
-import net.onefivefour.sessiontimer.feature.sessioneditor.api.SessionEditor
+import net.onefivefour.sessiontimer.feature.sessioneditor.api.SessionEditorRoute
 import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
 import org.junit.After
 import org.junit.Before
@@ -31,16 +31,15 @@ import org.junit.Test
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SessionEditorViewModelTest {
+class SessionEditorRouteViewModelTest {
 
-    private val testDispatcher = StandardTestDispatcher()
+    private val route = SessionEditorRoute(sessionId = 1L)
 
-    private val route = SessionEditor(sessionId = 1L)
+    @get:Rule
+    val standardTestDispatcherRule = StandardTestDispatcherRule()
 
     @get:Rule
     val savedStateHandleRule = SavedStateHandleRule(route)
-
-    private val savedStateHandle = savedStateHandleRule.savedStateHandleMock
 
     private val getFullSessionUseCase: GetFullSessionUseCase = mockk()
     private val newTaskGroupUseCase: NewTaskGroupUseCase = mockk()
@@ -50,7 +49,7 @@ class SessionEditorViewModelTest {
     private val updateTaskUseCase: UpdateTaskUseCase = mockk()
 
     private fun sut() = SessionEditorViewModel(
-        savedStateHandle,
+        savedStateHandleRule.savedStateHandleMock,
         getFullSessionUseCase,
         newTaskGroupUseCase,
         newTaskUseCase,
@@ -58,24 +57,6 @@ class SessionEditorViewModelTest {
         deleteTaskGroupUseCase,
         updateTaskUseCase
     )
-
-    @Before
-    fun setup() {
-        setTestDispatcher()
-    }
-
-    @After
-    fun teardown() {
-        unsetTestDispatcher()
-    }
-
-    private fun setTestDispatcher() {
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    private fun unsetTestDispatcher() {
-        Dispatchers.resetMain()
-    }
 
     @Test
     fun `initial state is correct`() = runTest {

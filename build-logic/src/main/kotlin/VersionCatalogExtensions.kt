@@ -25,8 +25,6 @@ internal val VersionCatalog.pluginComposeCompiler: Provider<PluginDependency>?
     get() = findPluginOrThrow("composeCompiler")
 
 // Kotlin Test Dependencies
-internal val VersionCatalog.libJunitBom: Provider<MinimalExternalModuleDependency>
-    get() = findLibraryOrThrow("junit-bom")
 internal val VersionCatalog.libJunit: Provider<MinimalExternalModuleDependency>
     get() = findLibraryOrThrow("junit")
 internal val VersionCatalog.libCoroutinesTest: Provider<MinimalExternalModuleDependency>

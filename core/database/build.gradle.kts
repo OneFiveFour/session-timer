@@ -35,4 +35,5 @@ dependencies {
 
     // Testing
     testImplementation(libs.sqlDelight.test)
+    testImplementation(project(":core:test"))
 }

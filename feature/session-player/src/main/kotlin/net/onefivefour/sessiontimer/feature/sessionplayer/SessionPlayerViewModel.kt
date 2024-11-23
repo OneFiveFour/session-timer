@@ -20,7 +20,7 @@ import net.onefivefour.sessiontimer.core.usecases.timer.GetTimerStatusUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.PauseTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.ResetTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.StartTimerUseCase
-import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayer
+import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.toCompiledSession
@@ -35,7 +35,7 @@ internal class SessionPlayerViewModel @Inject constructor(
     private val resetTimerUseCase: ResetTimerUseCase
 ) : ViewModel() {
 
-    private val sessionId = savedStateHandle.toRoute<SessionPlayer>().sessionId
+    private val sessionId = savedStateHandle.toRoute<SessionPlayerRoute>().sessionId
 
     private var _uiState = MutableStateFlow<UiState>(UiState.Initial)
     val uiState = _uiState.asStateFlow()

@@ -10,29 +10,21 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class SessionTimerImplTest {
 
-    private val testDispatcher = StandardTestDispatcher()
+    @get:Rule
+    val standardTestDispatcherRule = StandardTestDispatcherRule()
 
     private fun sut() = SessionTimerImpl(
-        testDispatcher
+        standardTestDispatcherRule.testDispatcher
     )
-
-    @Before
-    fun setup() {
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    @After
-    fun teardown() {
-        Dispatchers.resetMain()
-    }
 
     @Test
     fun `start starts the timer`() = runTest {

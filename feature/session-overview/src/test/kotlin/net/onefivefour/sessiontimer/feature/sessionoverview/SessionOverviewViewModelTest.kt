@@ -14,12 +14,14 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
+import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
 import net.onefivefour.sessiontimer.core.usecases.session.DeleteSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.session.GetAllSessionsUseCase
 import net.onefivefour.sessiontimer.core.usecases.session.NewSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.session.SetSessionTitleUseCase
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 
@@ -27,12 +29,12 @@ import org.junit.Test
 class SessionOverviewViewModelTest {
 
     private val getAllSessionsUseCase: GetAllSessionsUseCase = mockk()
-
     private val newSessionUseCase: NewSessionUseCase = mockk()
     private val deleteSessionUseCase: DeleteSessionUseCase = mockk()
     private val setSessionTitleUseCase: SetSessionTitleUseCase = mockk()
 
-    private val testDispatcher = StandardTestDispatcher()
+    @get:Rule
+    val standardTestDispatcherRule = StandardTestDispatcherRule()
 
     private fun sut() = SessionOverviewViewModel(
         getAllSessionsUseCase,
@@ -40,24 +42,6 @@ class SessionOverviewViewModelTest {
         deleteSessionUseCase,
         setSessionTitleUseCase
     )
-
-    @Before
-    fun setup() {
-        setTestDispatcher()
-    }
-
-    @After
-    fun teardown() {
-        unsetTestDispatcher()
-    }
-
-    private fun setTestDispatcher() {
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    private fun unsetTestDispatcher() {
-        Dispatchers.resetMain()
-    }
 
     @Test
     fun `uiState has correct initial value`() {

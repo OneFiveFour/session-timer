@@ -4,52 +4,34 @@ import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.database.Database
 import net.onefivefour.sessiontimer.core.database.TaskQueries
-import org.junit.After
+import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class TaskDataSourceImplTest {
 
     private val taskQueries: TaskQueries = mockk()
 
-    private val testDispatcher = StandardTestDispatcher()
+    @get:Rule
+    val standardTestDispatcherRule = StandardTestDispatcherRule()
 
     private val sut = TaskDataSourceImpl(
         taskQueries,
-        testDispatcher
+        standardTestDispatcherRule.testDispatcher
     )
 
     @Before
     fun setup() {
-        setTestDispatcher()
         useJvmDatabaseDriver()
-    }
-
-    @After
-    fun teardown() {
-        unsetTestDispatcher()
     }
 
     private fun useJvmDatabaseDriver() {
         val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
         Database.Schema.create(driver)
-    }
-
-    private fun setTestDispatcher() {
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    private fun unsetTestDispatcher() {
-        Dispatchers.resetMain()
     }
 
     @Test

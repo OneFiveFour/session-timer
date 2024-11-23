@@ -12,9 +12,13 @@ android {
 
 dependencies {
 
+    // Core
     implementation(project(":core:di"))
     implementation(project(":core:timer-api"))
 
     // Coroutines
     implementation(libs.coroutines.core)
+
+    // Testing
+    testImplementation(project(":core:test"))
 }

@@ -17,11 +17,10 @@ android {
 }
 
 dependencies {
+    implementation(libs.junit)
     implementation(libs.mockk)
 
-    implementation(platform(libs.junit.bom))
-    implementation(libs.junit)
+    implementation(libs.coroutines.test)
     implementation(libs.androidX.lifecycle.viewmodel.compose)
     implementation(libs.androidX.navigation.common)
-
 }

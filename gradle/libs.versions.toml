@@ -12,7 +12,7 @@ coroutines = "1.7.3"
 dagger = "2.50"
 gradle = "8.6.1"
 hiltNavigation = "1.2.0"
-junit = "5.10.1"
+junit = "4.13.2"
 kotlin = "2.0.21"
 kotlinxDatetime = "0.5.0"
 kover = "0.8.3"
@@ -74,8 +74,7 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 
 # Testing
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
-junit = { module = "junit:junit" }
+junit = { module = "junit:junit", version.ref="junit" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 sqlDelight-test = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
 truth = { module = "com.google.truth:truth", version.ref = "truth"}

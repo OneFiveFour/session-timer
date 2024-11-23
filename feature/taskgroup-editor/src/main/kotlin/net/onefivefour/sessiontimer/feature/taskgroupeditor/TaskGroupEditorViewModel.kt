@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.GetTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.UpdateTaskGroupUseCase
-import net.onefivefour.sessiontimer.feature.taskgroupeditor.api.TaskGroupEditor
+import net.onefivefour.sessiontimer.feature.taskgroupeditor.api.TaskGroupEditorRoute
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,7 +23,7 @@ internal class TaskGroupEditorViewModel @Inject constructor(
     private val updateTaskGroupUseCase: UpdateTaskGroupUseCase
 ) : ViewModel() {
 
-    private val taskGroupId = savedStateHandle.toRoute<TaskGroupEditor>().taskGroupId
+    private val taskGroupId = savedStateHandle.toRoute<TaskGroupEditorRoute>().taskGroupId
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Initial)
     val uiState = _uiState.asStateFlow()
