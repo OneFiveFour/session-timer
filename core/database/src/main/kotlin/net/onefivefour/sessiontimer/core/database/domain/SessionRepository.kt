@@ -44,10 +44,10 @@ internal fun List<FullSession>.toDomainSession(): DomainSession? {
 
     val taskGroups = this
         .groupBy { it.taskGroupId }
-        .mapNotNull { (taskGroupId, fullSessions) ->
+        .mapNotNull taskGroups@ { (taskGroupId, fullSessions) ->
 
             if (taskGroupId == null) {
-                return@mapNotNull null
+                return@taskGroups null
             }
 
             // taskGroupId represents the current taskGroup id
@@ -72,15 +72,16 @@ internal fun List<FullSession>.toDomainSession(): DomainSession? {
             val taskGroupNumberOfRandomTasks = fullSession.taskGroupNumberOfRandomTasks.toInt()
 
             // extract tasks
-            val tasks = fullSessions.map { taskRow ->
+            val tasks = fullSessions.mapNotNull tasks@ { taskRow ->
+
+                val taskId = taskRow.taskId ?: return@tasks null
 
                 // sanity checks
-                checkNotNull(taskRow.taskId)
                 checkNotNull(taskRow.taskTitle)
                 checkNotNull(taskRow.taskDuration)
 
                 Task(
-                    id = taskRow.taskId,
+                    id = taskId,
                     title = taskRow.taskTitle,
                     duration = taskRow.taskDuration.seconds,
                     taskGroupId = taskGroupId

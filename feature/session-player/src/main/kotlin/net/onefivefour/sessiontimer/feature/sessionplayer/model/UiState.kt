@@ -8,7 +8,7 @@ internal sealed interface UiState {
     data class Success(
         val session: CompiledSession,
         val currentTaskIndices: Int,
-        val currentTask: UiTask,
+        val currentTask: UiTask?,
         val timerMode: TimerMode,
         val elapsedSeconds: Int
     ) : UiState

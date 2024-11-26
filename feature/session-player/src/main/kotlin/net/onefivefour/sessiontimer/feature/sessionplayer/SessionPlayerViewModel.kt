@@ -90,7 +90,7 @@ internal class SessionPlayerViewModel @Inject constructor(
         return UiState.Success(
             session = compiledSession,
             currentTaskIndices = currentTaskIndices,
-            currentTask = currentTask!!,
+            currentTask = currentTask,
             timerMode = timerStatus.mode,
             elapsedSeconds = elapsedSeconds
         )
