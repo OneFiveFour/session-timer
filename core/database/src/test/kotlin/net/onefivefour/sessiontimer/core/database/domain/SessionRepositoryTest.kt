@@ -113,4 +113,15 @@ class SessionRepositoryTest {
 
         assertThat(result).isEqualTo(lastInsertId)
     }
+
+    @Test
+    fun `delete last taskGroup `() = runTest {
+        val lastInsertId = 42L
+
+        coEvery { sessionDataSource.getLastInsertId() } returns lastInsertId
+
+        val result = sut.getLastInsertId()
+
+        assertThat(result).isEqualTo(lastInsertId)
+    }
 }

@@ -46,12 +46,15 @@ internal fun List<FullSession>.toDomainSession(): DomainSession? {
         .groupBy { it.taskGroupId }
         .mapNotNull { (taskGroupId, fullSessions) ->
 
+            if (taskGroupId == null) {
+                return@mapNotNull null
+            }
+
             // taskGroupId represents the current taskGroup id
             // fullSessions represents all joined database rows of this task group
             //   1 row is basically 1 Task with all the Session/TaskGroup information attached.
 
             // sanity checks
-            checkNotNull(taskGroupId)
             check(fullSessions.isNotEmpty())
 
             // extract task group data
