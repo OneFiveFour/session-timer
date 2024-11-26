@@ -4,12 +4,18 @@ import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
+import kotlin.time.Duration
 
 internal fun Session.toCompiledSession(): CompiledSession {
-    val totalDuration = this.taskGroups
-        .flatMap { it.tasks }
-        .map { it.duration }
-        .reduce { acc, duration -> acc + duration }
+    val totalDuration = when {
+        taskGroups.isEmpty() -> Duration.ZERO
+        else -> {
+            taskGroups
+                .flatMap { it.tasks }
+                .map { it.duration }
+                .reduce { acc, duration -> acc + duration }
+        }
+    }
 
     val taskIndices = mutableListOf<Pair<Int, Int>>()
     this.taskGroups.forEachIndexed { taskGroupIndex, taskGroup ->
