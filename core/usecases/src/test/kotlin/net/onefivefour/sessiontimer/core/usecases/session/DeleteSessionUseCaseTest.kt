@@ -42,7 +42,7 @@ class DeleteSessionUseCaseTest {
                     taskGroupId1,
                     "Task Group Title",
                     0x00FF00,
-                    PlayMode.RANDOM,
+                    PlayMode.RANDOM_SINGLE_TASK,
                     5,
                     listOf(
                         Task(3L, "Task Title", 1.seconds, taskGroupId1),

@@ -11,8 +11,6 @@ import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.database.Session as DatabaseSession
 import net.onefivefour.sessiontimer.core.database.data.FullSession
 import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 
 class SessionRepositoryTest {
@@ -61,7 +59,7 @@ class SessionRepositoryTest {
             2L,
             "Task Group 1",
             0xFF00FFL,
-            PlayMode.RANDOM.toString(),
+            PlayMode.RANDOM_SINGLE_TASK.toString(),
             3,
             1L,
             1L,

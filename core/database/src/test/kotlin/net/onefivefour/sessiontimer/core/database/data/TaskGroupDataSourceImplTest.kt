@@ -4,17 +4,11 @@ import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.database.Database
 import net.onefivefour.sessiontimer.core.database.TaskGroupQueries
 import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -57,7 +51,7 @@ internal class TaskGroupDataSourceImplTest {
         val sessionId = 321L
         val title = "Test TaskGroup Title"
         val color = 123L
-        val playMode = PlayMode.RANDOM.toString()
+        val playMode = PlayMode.RANDOM_SINGLE_TASK.toString()
         val numberOfRandomTasks = 53L
         sut.insert(
             title,
@@ -106,7 +100,7 @@ internal class TaskGroupDataSourceImplTest {
         val taskGroupId = 5L
         val title = "Test TaskGroup Title"
         val color = 123L
-        val playMode = PlayMode.RANDOM.toString()
+        val playMode = PlayMode.RANDOM_SINGLE_TASK.toString()
         val numberOfRandomTasks = 53L
         sut.update(
             taskGroupId,

@@ -29,7 +29,7 @@ import net.onefivefour.sessiontimer.feature.sessionplayer.model.toCompiledSessio
 internal class SessionPlayerViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     getFullSessionUseCase: GetFullSessionUseCase,
-    private val getTimerStatusUseCase: GetTimerStatusUseCase,
+    getTimerStatusUseCase: GetTimerStatusUseCase,
     private val startTimerUseCase: StartTimerUseCase,
     private val pauseTimerUseCase: PauseTimerUseCase,
     private val resetTimerUseCase: ResetTimerUseCase
@@ -58,10 +58,10 @@ internal class SessionPlayerViewModel @Inject constructor(
     }
 
     private fun computeUiStateSuccess(
-        fullSession: Session,
+        session: Session,
         timerStatus: TimerStatus
     ): UiState.Success {
-        val compiledSession = fullSession.toCompiledSession()
+        val compiledSession = session.toCompiledSession()
 
         val elapsedSeconds = timerStatus.elapsedSeconds
         var currentTaskIndices = 0
@@ -100,28 +100,6 @@ internal class SessionPlayerViewModel @Inject constructor(
         doWhenSuccess {
             startTimerUseCase.execute(this.session.totalDuration)
         }
-
-//        timerJob = viewModelScope.launch {
-//            while (true) {
-//                delay(1000)
-//                updateWhenReady {
-//                    var newElapsedSeconds = this.elapsedSeconds + 1
-//                    val currentTask = if (newElapsedSeconds < this.currentTask.duration.inWholeSeconds) {
-//                        this.currentTask
-//                    } else {
-//                        newElapsedSeconds = 0
-//                        getNextTask(this.session.taskGroups, this.currentTask.id)
-//                    }
-//
-//                    if (currentTask == null) {
-//                        cancelTimer()
-//                        copy(currentPlayerState = net.onefivefour.sessiontimer.feature.sessionplayer.model.SessionPlayerState.FINISHED)
-//                    } else {
-//                        copy(elapsedSeconds = newElapsedSeconds, currentTask = currentTask)
-//                    }
-//                }
-//            }
-//        }
     }
 
     fun onPauseSession() {
@@ -130,15 +108,6 @@ internal class SessionPlayerViewModel @Inject constructor(
 
     fun onResetSession() {
         resetTimerUseCase.execute()
-    }
-
-    private fun updateWhenReady(newState: UiState.Success.() -> UiState) {
-        val currentUiState = _uiState.value
-        if (currentUiState is UiState.Success) {
-            _uiState.update {
-                newState(currentUiState)
-            }
-        }
     }
 
     private fun doWhenSuccess(action: UiState.Success.() -> Unit) {

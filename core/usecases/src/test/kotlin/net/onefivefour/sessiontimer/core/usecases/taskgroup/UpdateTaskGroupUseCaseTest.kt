@@ -21,7 +21,7 @@ class UpdateTaskGroupUseCaseTest {
         val taskGroupId = 1L
         val title = "Task Group Title"
         val color = 0xF0F0F0
-        val playMode = PlayMode.RANDOM
+        val playMode = PlayMode.RANDOM_SINGLE_TASK
         val numberOfRandomTasks = 19
 
         sut.execute(

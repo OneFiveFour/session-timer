@@ -2,20 +2,15 @@ package net.onefivefour.sessiontimer.feature.taskgroupeditor
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.test.SavedStateHandleRule
@@ -23,8 +18,6 @@ import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.GetTaskGroupUseCase
 import net.onefivefour.sessiontimer.core.usecases.taskgroup.UpdateTaskGroupUseCase
 import net.onefivefour.sessiontimer.feature.taskgroupeditor.api.TaskGroupEditorRoute
-import org.junit.After
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -115,7 +108,7 @@ class TaskGroupEditorRouteViewModelTest {
         val sut = sut()
         val title = "Test TaskGroup Title"
         val color = Color(0xFF00FF00)
-        val playMode = PlayMode.RANDOM
+        val playMode = PlayMode.RANDOM_SINGLE_TASK
         val numberOfRandomTasks = 5
         val uiTaskGroup = UiTaskGroup(
             taskGroupId,

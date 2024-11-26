@@ -10,8 +10,6 @@ import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.database.TaskGroup as DatabaseTaskGroup
 import net.onefivefour.sessiontimer.core.database.data.TaskGroupDataSource
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 
 class TaskGroupRepositoryTest {
@@ -52,7 +50,7 @@ class TaskGroupRepositoryTest {
             1L,
             "Task Group 1",
             0xFF00FFL,
-            PlayMode.RANDOM.toString(),
+            PlayMode.RANDOM_SINGLE_TASK.toString(),
             2L,
             3
         )
@@ -72,7 +70,7 @@ class TaskGroupRepositoryTest {
     fun `getBySessionId should return mapped DomainTaskGroups`() = runTest {
         val sessionId = 1L
         val databaseTaskGroups = listOf(
-            DatabaseTaskGroup(1L, "Task Group 1", 0xFF00FFL, PlayMode.RANDOM.toString(), 2L, 3),
+            DatabaseTaskGroup(1L, "Task Group 1", 0xFF00FFL, PlayMode.RANDOM_SINGLE_TASK.toString(), 2L, 3),
             DatabaseTaskGroup(2L, "Task Group 2", 0x00FFFFL, PlayMode.SEQUENCE.toString(), 1L, 5)
         )
 

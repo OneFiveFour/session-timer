@@ -37,7 +37,7 @@ class GetFullSessionUseCaseTest {
                         taskGroupId,
                         "TaskGroup 1",
                         0xFF0000,
-                        PlayMode.RANDOM,
+                        PlayMode.RANDOM_SINGLE_TASK,
                         5,
                         listOf(
                             Task(
@@ -65,7 +65,7 @@ class GetFullSessionUseCaseTest {
             assertThat(taskGroup.id).isEqualTo(taskGroupId)
             assertThat(taskGroup.title).isEqualTo("TaskGroup 1")
             assertThat(taskGroup.color).isEqualTo(0xFF0000)
-            assertThat(taskGroup.playMode).isEqualTo(PlayMode.RANDOM)
+            assertThat(taskGroup.playMode).isEqualTo(PlayMode.RANDOM_SINGLE_TASK)
             assertThat(taskGroup.numberOfRandomTasks).isEqualTo(5)
             assertThat(taskGroup.sessionId).isEqualTo(sessionId)
             assertThat(taskGroup.tasks).hasSize(1)
