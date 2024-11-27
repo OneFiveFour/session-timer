@@ -6,7 +6,7 @@ import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import kotlin.time.Duration
 
-internal fun Session.toCompiledSession(): CompiledSession {
+internal fun Session.toUiSession(): UiSession {
     val totalDuration = when {
         taskGroups.isEmpty() -> Duration.ZERO
         else -> {
@@ -24,7 +24,7 @@ internal fun Session.toCompiledSession(): CompiledSession {
         }
     }
 
-    return CompiledSession(
+    return UiSession(
         this.title,
         totalDuration,
         taskIndices,
@@ -51,7 +51,7 @@ private fun TaskGroup.toUiTaskGroup(): UiTaskGroup {
     )
 }
 
-private fun Task.toUiTask(): UiTask {
+internal fun Task.toUiTask(): UiTask {
     return UiTask(
         this.id,
         this.title,

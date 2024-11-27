@@ -7,10 +7,10 @@ import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 
 @ViewModelScoped
-class GetFullSessionUseCase @Inject constructor(
+class GetSessionUseCase @Inject constructor(
     private val sessionRepository: SessionRepository
 ) {
     suspend fun execute(sessionId: Long): Flow<Session?> {
-        return sessionRepository.getFullSession(sessionId)
+        return sessionRepository.getSession(sessionId)
     }
 }

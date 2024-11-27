@@ -22,7 +22,7 @@ class SessionRepository @Inject constructor(
         .getAll()
         .map { it.toDomainSession() }
 
-    suspend fun getFullSession(sessionId: Long) = sessionDataSource
+    suspend fun getSession(sessionId: Long) = sessionDataSource
         .getDenormalizedSessionView(sessionId)
         .map { it.toDomainSession() }
 

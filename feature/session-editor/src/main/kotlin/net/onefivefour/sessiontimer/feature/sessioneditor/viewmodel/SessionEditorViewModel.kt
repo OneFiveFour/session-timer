@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import net.onefivefour.sessiontimer.core.usecases.session.GetFullSessionUseCase
+import net.onefivefour.sessiontimer.core.usecases.session.GetSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.DeleteTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.NewTaskUseCase
 import net.onefivefour.sessiontimer.core.usecases.task.UpdateTaskUseCase
@@ -23,7 +23,7 @@ import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
 @HiltViewModel
 internal class SessionEditorViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getFullSessionUseCase: GetFullSessionUseCase,
+    private val getSessionUseCase: GetSessionUseCase,
     private val newTaskGroupUseCase: NewTaskGroupUseCase,
     private val newTaskUseCase: NewTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
@@ -38,7 +38,7 @@ internal class SessionEditorViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getFullSessionUseCase.execute(sessionId).collectLatest { fullSession ->
+            getSessionUseCase.execute(sessionId).collectLatest { fullSession ->
                 _uiState.update {
                     when (fullSession) {
                         null -> UiState.Error("Could not find a session with id $sessionId")

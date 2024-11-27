@@ -15,11 +15,11 @@ import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import org.junit.Test
 
 
-class GetFullSessionUseCaseTest {
+class GetSessionUseCaseTest {
 
     private val sessionRepository: SessionRepository = mockk()
 
-    private val sut = GetFullSessionUseCase(
+    private val sut = GetSessionUseCase(
         sessionRepository
     )
 
@@ -28,7 +28,7 @@ class GetFullSessionUseCaseTest {
         val sessionId = 1L
         val taskGroupId = 2L
 
-        coEvery { sessionRepository.getFullSession(any()) } returns flowOf(
+        coEvery { sessionRepository.getSession(any()) } returns flowOf(
             Session(
                 id = sessionId,
                 title = "Session 1",
@@ -84,7 +84,7 @@ class GetFullSessionUseCaseTest {
     fun `an empty taskGroup must be part of the full session object`() = runTest {
         val sessionId = 1L
 
-        coEvery { sessionRepository.getFullSession(any()) } returns flowOf(
+        coEvery { sessionRepository.getSession(any()) } returns flowOf(
             Session(
                 sessionId,
                 "Session 1",

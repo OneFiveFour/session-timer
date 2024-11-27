@@ -16,6 +16,7 @@ import net.onefivefour.sessiontimer.core.di.DefaultDispatcher
 import net.onefivefour.sessiontimer.core.timer.api.SessionTimer
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerStatus
+import kotlin.time.Duration.Companion.seconds
 
 internal class SessionTimerImpl @Inject constructor(
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher
@@ -26,19 +27,19 @@ internal class SessionTimerImpl @Inject constructor(
     private val timerScope = CoroutineScope(dispatcher)
     private var timerJob: Job? = null
 
-    private var totalSeconds = 0L
-    private var elapsedSeconds: Int = 0
+    private var totalDuration = Duration.ZERO
+    private var elapsedDuration = Duration.ZERO
     private var timerMode: TimerMode = TimerMode.IDLE
 
     override fun start(totalDuration: Duration) {
-        this.totalSeconds = totalDuration.inWholeSeconds
+        this.totalDuration = totalDuration
         this.timerMode = TimerMode.RUNNING
 
         if (timerJob == null || timerJob?.isActive == false) {
             timerJob = timerScope.launch {
                 while (isActive) {
-                    delay(1000)
-                    elapsedSeconds++
+                    delay(1_000)
+                    elapsedDuration.plus(1.seconds)
                     updateTimerStatus()
                 }
             }
@@ -54,12 +55,12 @@ internal class SessionTimerImpl @Inject constructor(
     override fun reset() {
         cancelTimer()
         timerMode = TimerMode.IDLE
-        elapsedSeconds = 0
+        elapsedDuration = Duration.ZERO
         updateTimerStatus()
     }
 
     private fun updateTimerStatus() {
-        if (elapsedSeconds >= totalSeconds) {
+        if (elapsedDuration >= totalDuration) {
             cancelTimer()
             timerMode = TimerMode.FINISHED
         }
@@ -67,7 +68,7 @@ internal class SessionTimerImpl @Inject constructor(
         timerStatus.update {
             TimerStatus(
                 mode = timerMode,
-                elapsedSeconds = elapsedSeconds
+                elapsedDuration = elapsedDuration
             )
         }
     }

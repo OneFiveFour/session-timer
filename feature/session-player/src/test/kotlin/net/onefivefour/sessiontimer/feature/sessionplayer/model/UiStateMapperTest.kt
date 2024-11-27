@@ -19,7 +19,7 @@ class UiStateMapperTest {
             taskGroups = emptyList()
         )
 
-        val result = session.toCompiledSession()
+        val result = session.toUiSession()
 
         assert(result.totalDuration == Duration.ZERO)
     }
@@ -35,7 +35,7 @@ class UiStateMapperTest {
             )
         )
 
-        val result = session.toCompiledSession()
+        val result = session.toUiSession()
 
         // assert 12 seconds, because 2 taskGroups x (1 + 2 + 3) seconds
         assertThat(result.totalDuration).isEqualTo(Duration.parse("12s"))
@@ -52,9 +52,9 @@ class UiStateMapperTest {
             )
         )
 
-        val result = session.toCompiledSession()
+        val result = session.toUiSession()
 
-        assertThat(result.taskIndices).isEqualTo(
+        assertThat(result.taskGroupAndTaskIndices).isEqualTo(
             listOf(
                 0 to 0,
                 0 to 1,

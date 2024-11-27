@@ -2,9 +2,13 @@ package net.onefivefour.sessiontimer.feature.sessionplayer.model
 
 import kotlin.time.Duration
 
-internal data class CompiledSession(
+internal data class UiSession(
     val title: String,
     val totalDuration: Duration,
-    val taskIndices: List<Pair<Int, Int>> = emptyList(),
+
+    /**
+     * List of pairs representing <taskGroupIndex, taskIndex>
+     */
+    val taskGroupAndTaskIndices: List<Pair<Int, Int>> = emptyList(),
     val taskGroups: List<UiTaskGroup>
 )

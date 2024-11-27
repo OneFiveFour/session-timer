@@ -3,23 +3,37 @@ package net.onefivefour.sessiontimer.feature.sessionplayer.domain
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
+import kotlin.time.Duration
 
-class TaskOrchestratorImpl(
-    private val taskGroups: List<TaskGroup>,
-    private val playMode: PlayMode
+internal class TaskOrchestratorImpl(
+    private val taskGroups: List<TaskGroup>
 ) : TaskOrchestrator {
 
     private var currentTaskGroupIndex = 0
     private var currentTaskIndexInGroup = 0
+    private var durationOfFinishedTasks = Duration.ZERO
 
     private lateinit var currentRandomTasks: List<Task>
 
+    override fun getCurrentTask(): Task {
+        return taskGroups[currentTaskGroupIndex].tasks[currentTaskIndexInGroup]
+    }
+
     override fun getNextTask(): Task? {
+        val playMode = taskGroups[currentTaskGroupIndex].playMode
         return when (playMode) {
             PlayMode.SEQUENCE -> getSequentialNextTask()
             PlayMode.RANDOM_SINGLE_TASK -> getRandomizedNextTask(1)
             PlayMode.RANDOM_ALL_TASKS -> getRandomizedNextTask(0)
         }
+    }
+
+    override fun onCurrentTaskFinished() {
+        durationOfFinishedTasks += getCurrentTask().duration
+    }
+
+    override fun getDurationOfFinishedTasks(): Duration {
+        return durationOfFinishedTasks
     }
 
     private fun getSequentialNextTask(): Task? {

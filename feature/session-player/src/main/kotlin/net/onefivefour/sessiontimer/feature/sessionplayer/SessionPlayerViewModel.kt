@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlin.time.Duration
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -15,20 +14,22 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerStatus
-import net.onefivefour.sessiontimer.core.usecases.session.GetFullSessionUseCase
+import net.onefivefour.sessiontimer.core.usecases.session.GetSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.GetTimerStatusUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.PauseTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.ResetTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.StartTimerUseCase
 import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
+import net.onefivefour.sessiontimer.feature.sessionplayer.domain.TaskOrchestrator
+import net.onefivefour.sessiontimer.feature.sessionplayer.domain.TaskOrchestratorImpl
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
-import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
-import net.onefivefour.sessiontimer.feature.sessionplayer.model.toCompiledSession
+import net.onefivefour.sessiontimer.feature.sessionplayer.model.toUiSession
+import net.onefivefour.sessiontimer.feature.sessionplayer.model.toUiTask
 
 @HiltViewModel
 internal class SessionPlayerViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    getFullSessionUseCase: GetFullSessionUseCase,
+    getSessionUseCase: GetSessionUseCase,
     getTimerStatusUseCase: GetTimerStatusUseCase,
     private val startTimerUseCase: StartTimerUseCase,
     private val pauseTimerUseCase: PauseTimerUseCase,
@@ -37,18 +38,22 @@ internal class SessionPlayerViewModel @Inject constructor(
 
     private val sessionId = savedStateHandle.toRoute<SessionPlayerRoute>().sessionId
 
+    private lateinit var taskOrchestrator: TaskOrchestrator
+
     private var _uiState = MutableStateFlow<UiState>(UiState.Initial)
     val uiState = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
             combine(
-                getFullSessionUseCase.execute(sessionId),
+                getSessionUseCase.execute(sessionId),
                 getTimerStatusUseCase.execute()
-            ) { fullSession, timerStatus ->
-                when (fullSession) {
-                    null -> UiState.Error("Could not find a session with id $sessionId")
-                    else -> computeUiStateSuccess(fullSession, timerStatus)
+            ) { session, timerStatus ->
+                when {
+                    session == null -> UiState.Error("Could not find a session with id $sessionId")
+                    session.taskGroups.isEmpty() -> UiState.Error("Session has no task groups")
+                    session.taskGroups.all { it.tasks.isEmpty() } -> UiState.Error("Session has no tasks")
+                    else -> computeUiState(session, timerStatus)
                 }
             }
                 .collectLatest { uiState ->
@@ -57,48 +62,38 @@ internal class SessionPlayerViewModel @Inject constructor(
         }
     }
 
-    private fun computeUiStateSuccess(
+    private fun computeUiState(
         session: Session,
         timerStatus: TimerStatus
-    ): UiState.Success {
-        val compiledSession = session.toCompiledSession()
+    ): UiState {
 
-        val elapsedSeconds = timerStatus.elapsedSeconds
-        var currentTaskIndices = 0
-        var currentTask: UiTask? = null
-        var pastTaskDuration = Duration.ZERO
+        val uiSession = session.toUiSession()
 
-        for ((index, taskIndices) in compiledSession.taskIndices.withIndex()) {
-            val (taskGroupIndex, taskIndex) = taskIndices
-
-            val taskDuration = compiledSession
-                .taskGroups[taskGroupIndex]
-                .tasks[taskIndex]
-                .duration
-
-            pastTaskDuration += taskDuration
-
-            if (pastTaskDuration.inWholeSeconds > elapsedSeconds) {
-                currentTaskIndices = index
-                currentTask = compiledSession
-                    .taskGroups[taskGroupIndex]
-                    .tasks[taskIndex]
-                break
-            }
+        if (!::taskOrchestrator.isInitialized) {
+            taskOrchestrator = TaskOrchestratorImpl(session.taskGroups)
         }
 
-        return UiState.Success(
-            session = compiledSession,
-            currentTaskIndices = currentTaskIndices,
-            currentTask = currentTask,
+        val elapsedDuration = timerStatus.elapsedDuration
+        var currentTask = taskOrchestrator.getCurrentTask()
+        val durationOfFinishedTasks = taskOrchestrator.getDurationOfFinishedTasks()
+
+        // check if current task is finished
+        if (elapsedDuration > durationOfFinishedTasks + currentTask.duration) {
+            taskOrchestrator.onCurrentTaskFinished()
+            currentTask = taskOrchestrator.getNextTask() ?: return UiState.Finished
+        }
+
+        return UiState.Running(
+            uiSession = uiSession,
+            currentUiTask = currentTask.toUiTask(),
             timerMode = timerStatus.mode,
-            elapsedSeconds = elapsedSeconds
+            elapsedDuration = elapsedDuration
         )
     }
 
     fun onStartSession() {
         doWhenSuccess {
-            startTimerUseCase.execute(this.session.totalDuration)
+            startTimerUseCase.execute(this.uiSession.totalDuration)
         }
     }
 
@@ -110,9 +105,9 @@ internal class SessionPlayerViewModel @Inject constructor(
         resetTimerUseCase.execute()
     }
 
-    private fun doWhenSuccess(action: UiState.Success.() -> Unit) {
+    private fun doWhenSuccess(action: UiState.Running.() -> Unit) {
         val currentUiState = _uiState.value
-        if (currentUiState is UiState.Success) {
+        if (currentUiState is UiState.Running) {
             action(currentUiState)
         }
     }

@@ -51,7 +51,7 @@ class SessionRepositoryTest {
     }
 
     @Test
-    fun `getFullSession should return mapped DomainSession`() = runTest {
+    fun `getDenormalizedSessionView should return mapped DomainSession`() = runTest {
         val sessionId = 1L
         val denormalizedSessionView = DenormalizedSessionView(
             sessionId = sessionId,
@@ -71,7 +71,7 @@ class SessionRepositoryTest {
             listOf(denormalizedSessionView)
         )
 
-        sut.getFullSession(sessionId).test {
+        sut.getSession(sessionId).test {
             val result = awaitItem()
             assertThat(result).isEqualTo(listOf(denormalizedSessionView).toDomainSession())
             awaitComplete()
