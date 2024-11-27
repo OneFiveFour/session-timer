@@ -91,6 +91,7 @@ internal fun TaskGroupEditor(
             playMode = when (playMode) {
                 PlayMode.SEQUENCE -> PlayMode.RANDOM_SINGLE_TASK
                 PlayMode.RANDOM_SINGLE_TASK -> PlayMode.SEQUENCE
+                PlayMode.RANDOM_ALL_TASKS -> PlayMode.RANDOM_ALL_TASKS
             }
         }) {
             Text(text = playMode.toString())

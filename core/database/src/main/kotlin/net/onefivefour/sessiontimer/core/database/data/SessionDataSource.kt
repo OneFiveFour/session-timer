@@ -1,6 +1,7 @@
 package net.onefivefour.sessiontimer.core.database.data
 
 import kotlinx.coroutines.flow.Flow
+import net.onefivefour.sessiontimer.core.database.DenormalizedSessionView
 import net.onefivefour.sessiontimer.core.database.Session
 
 interface SessionDataSource {
@@ -9,7 +10,7 @@ interface SessionDataSource {
 
     fun getAll(): Flow<List<Session>>
 
-    suspend fun getFullSessionById(sessionId: Long): Flow<List<FullSession>>
+    suspend fun getDenormalizedSessionView(sessionId: Long): Flow<List<DenormalizedSessionView>>
 
     suspend fun deleteById(sessionId: Long)
 

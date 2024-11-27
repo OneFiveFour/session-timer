@@ -8,8 +8,8 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
+import net.onefivefour.sessiontimer.core.database.DenormalizedSessionView
 import net.onefivefour.sessiontimer.core.database.Session as DatabaseSession
-import net.onefivefour.sessiontimer.core.database.data.FullSession
 import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
 import org.junit.Test
 
@@ -53,27 +53,27 @@ class SessionRepositoryTest {
     @Test
     fun `getFullSession should return mapped DomainSession`() = runTest {
         val sessionId = 1L
-        val fullSession = FullSession(
-            sessionId,
-            "Session 1",
-            2L,
-            "Task Group 1",
-            0xFF00FFL,
-            PlayMode.RANDOM_SINGLE_TASK.toString(),
-            3,
-            1L,
-            1L,
-            "Task 1",
-            300
+        val denormalizedSessionView = DenormalizedSessionView(
+            sessionId = sessionId,
+            sessionTitle = "Session 1",
+            taskGroupId = 2L,
+            taskGroupTitle = "Task Group 1",
+            taskGroupColor = 0xFF00FFL,
+            taskGroupPlayMode = PlayMode.RANDOM_SINGLE_TASK.toString(),
+            taskGroupNumberOfRandomTasks = 3,
+            taskId = 1L,
+            taskTaskGroupId = 1L,
+            taskTitle = "Task 1",
+            taskDuration = 300
         )
 
-        coEvery { sessionDataSource.getFullSessionById(sessionId) } returns flowOf(
-            listOf(fullSession)
+        coEvery { sessionDataSource.getDenormalizedSessionView(sessionId) } returns flowOf(
+            listOf(denormalizedSessionView)
         )
 
         sut.getFullSession(sessionId).test {
             val result = awaitItem()
-            assertThat(result).isEqualTo(listOf(fullSession).toDomainSession())
+            assertThat(result).isEqualTo(listOf(denormalizedSessionView).toDomainSession())
             awaitComplete()
         }
     }

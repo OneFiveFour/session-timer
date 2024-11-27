@@ -39,7 +39,8 @@ private fun List<TaskGroup>.toUiTaskGroups(): List<UiTaskGroup> {
 private fun TaskGroup.toUiTaskGroup(): UiTaskGroup {
     val tasks = when (this.playMode) {
         PlayMode.SEQUENCE -> this.tasks
-        PlayMode.RANDOM_SINGLE_TASK -> this.tasks.take(numberOfRandomTasks).shuffled()
+        PlayMode.RANDOM_SINGLE_TASK -> this.tasks.take(1).shuffled()
+        PlayMode.RANDOM_ALL_TASKS -> this.tasks.take(this.tasks.size).shuffled()
     }.map { task -> task.toUiTask() }
 
     return UiTaskGroup(

@@ -4,16 +4,10 @@ import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.database.Database
 import net.onefivefour.sessiontimer.core.database.SessionQueries
 import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -61,12 +55,12 @@ internal class SessionDataSourceImplTest {
 
     @Test
     fun `getFullSessionById delegates to correct sessionQueries call`() = runTest {
-        coEvery { sessionQueries.getFullSessionById(any()).executeAsOneOrNull() } returns null
+        coEvery { sessionQueries.denormalizedSessionView(any()).executeAsOneOrNull() } returns null
 
         val sessionId = 123L
-        sut.getFullSessionById(sessionId)
+        sut.getDenormalizedSessionView(sessionId)
 
-        coVerify { sessionQueries.getFullSessionById(sessionId) }
+        coVerify { sessionQueries.denormalizedSessionView(sessionId) }
     }
 
     @Test

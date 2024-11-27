@@ -24,8 +24,8 @@ internal class SessionDataSourceImpl @Inject constructor(
         .asFlow()
         .mapToList(dispatcher)
 
-    override suspend fun getFullSessionById(sessionId: Long) = queries
-        .getFullSessionById(sessionId)
+    override suspend fun getDenormalizedSessionView(sessionId: Long) = queries
+        .denormalizedSessionView(sessionId)
         .asFlow()
         .mapToList(dispatcher)
 

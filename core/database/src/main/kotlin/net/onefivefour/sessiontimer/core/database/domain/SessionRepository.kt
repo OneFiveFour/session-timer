@@ -1,15 +1,15 @@
 package net.onefivefour.sessiontimer.core.database.domain
 
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.flow.map
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
-import net.onefivefour.sessiontimer.core.common.domain.model.Session as DomainSession
 import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
-import net.onefivefour.sessiontimer.core.database.Session as DatabaseSession
-import net.onefivefour.sessiontimer.core.database.data.FullSession
+import net.onefivefour.sessiontimer.core.database.DenormalizedSessionView
 import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
+import net.onefivefour.sessiontimer.core.common.domain.model.Session as DomainSession
+import net.onefivefour.sessiontimer.core.database.Session as DatabaseSession
 
 class SessionRepository @Inject constructor(
     private val sessionDataSource: SessionDataSource
@@ -23,7 +23,7 @@ class SessionRepository @Inject constructor(
         .map { it.toDomainSession() }
 
     suspend fun getFullSession(sessionId: Long) = sessionDataSource
-        .getFullSessionById(sessionId)
+        .getDenormalizedSessionView(sessionId)
         .map { it.toDomainSession() }
 
     suspend fun deleteById(sessionId: Long) = sessionDataSource
@@ -36,7 +36,7 @@ class SessionRepository @Inject constructor(
         .getLastInsertId()
 }
 
-internal fun List<FullSession>.toDomainSession(): DomainSession? {
+internal fun List<DenormalizedSessionView>.toDomainSession(): DomainSession? {
     val firstSession = this.firstOrNull() ?: return null
 
     val sessionId = firstSession.sessionId
