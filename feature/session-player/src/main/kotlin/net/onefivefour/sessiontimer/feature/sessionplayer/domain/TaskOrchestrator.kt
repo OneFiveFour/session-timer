@@ -5,7 +5,7 @@ import kotlin.time.Duration
 
 internal interface TaskOrchestrator {
 
-    fun getCurrentTask() : Task
+    fun getCurrentTask() : Task?
 
     fun getNextTask(): Task?
 

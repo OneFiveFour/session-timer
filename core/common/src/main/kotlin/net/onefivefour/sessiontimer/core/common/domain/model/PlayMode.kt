@@ -12,6 +12,11 @@ enum class PlayMode {
     RANDOM_SINGLE_TASK,
 
     /**
+     * Play a randomly chosen subset of n tasks from each task group.
+     */
+    RANDOM_N_TASKS,
+
+    /**
      * Play all tasks in all task groups shuffled.
      */
     RANDOM_ALL_TASKS

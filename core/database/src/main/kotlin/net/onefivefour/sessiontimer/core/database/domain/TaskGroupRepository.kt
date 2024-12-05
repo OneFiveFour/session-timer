@@ -69,12 +69,12 @@ internal fun DatabaseTaskGroup.toDomainTaskGroup(): DomainTaskGroup {
     val numberOfRandomTasks = this.numberOfRandomTasks.toInt()
 
     return DomainTaskGroup(
-        this.id,
-        title,
-        color,
-        playMode,
-        numberOfRandomTasks,
-        emptyList(),
-        this.sessionId
+        id = this.id,
+        title = title,
+        color = color,
+        playMode = playMode,
+        tasks = emptyList(),
+        numberOfRandomTasks = numberOfRandomTasks,
+        sessionId = this.sessionId
     )
 }

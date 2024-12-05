@@ -89,9 +89,10 @@ internal fun TaskGroupEditor(
 
         Button(onClick = {
             playMode = when (playMode) {
-                PlayMode.SEQUENCE -> PlayMode.RANDOM_SINGLE_TASK
+                PlayMode.SEQUENCE -> PlayMode.RANDOM_ALL_TASKS
                 PlayMode.RANDOM_SINGLE_TASK -> PlayMode.SEQUENCE
-                PlayMode.RANDOM_ALL_TASKS -> PlayMode.RANDOM_ALL_TASKS
+                PlayMode.RANDOM_N_TASKS -> PlayMode.RANDOM_SINGLE_TASK
+                PlayMode.RANDOM_ALL_TASKS -> PlayMode.RANDOM_N_TASKS
             }
         }) {
             Text(text = playMode.toString())

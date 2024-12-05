@@ -33,24 +33,26 @@ internal fun SessionPlayer(
         }
 
         is UiState.Running -> {
-            checkNotNull(uiState.uiSession)
+
         }
 
     }
 
-    val session = uiState.uiSession
-
     Column {
-        Text(text = session.title)
+        Text(text = uiState::class.simpleName.toString())
+
+        Text(text = uiState.sessionTitle)
 
         Text(text = uiState.elapsedDuration.toString())
 
         Text(text = uiState.timerMode.toString())
 
-        val title = uiState.currentUiTask.title
+        Text(text = uiState.currentTask.taskGroupTitle)
+
+        val title = uiState.currentTask.taskTitle
         Text(text = title)
 
-        val duration = uiState.currentUiTask.duration
+        val duration = uiState.currentTask.taskDuration
         Text(text = duration.toString())
 
         Button(onClick = onStartSession) {

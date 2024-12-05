@@ -89,13 +89,13 @@ internal fun List<DenormalizedSessionView>.toDomainSession(): DomainSession? {
             }
 
             TaskGroup(
-                taskGroupId,
-                taskGroupTitle,
-                taskGroupColor,
-                taskGroupPlayMode,
-                taskGroupNumberOfRandomTasks,
-                tasks,
-                sessionId
+                id = taskGroupId,
+                title = taskGroupTitle,
+                color = taskGroupColor,
+                playMode = taskGroupPlayMode,
+                tasks = tasks,
+                numberOfRandomTasks = taskGroupNumberOfRandomTasks,
+                sessionId = sessionId
             )
         }
 

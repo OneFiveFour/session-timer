@@ -5,7 +5,7 @@ data class TaskGroup(
     val title: String,
     val color: Long,
     val playMode: PlayMode,
-    val numberOfRandomTasks: Int,
     val tasks: List<Task>,
+    val numberOfRandomTasks: Int,
     val sessionId: Long
 )

@@ -14,6 +14,8 @@ import net.onefivefour.sessiontimer.core.database.data.TaskDataSource
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 class TaskRepositoryTest {
 
@@ -95,4 +97,21 @@ class TaskRepositoryTest {
 
             coVerify { taskDataSource.deleteByTaskGroupId(taskGroupId) }
         }
+
+    @Test
+    fun testFold() {
+        val list = listOf(
+            3.seconds,
+            3.seconds,
+            3.seconds,
+            1.seconds,
+            1.seconds,
+            3.seconds
+        )
+        val sum = list
+            .take(3)
+            .map { it }
+            .fold(Duration.ZERO, Duration::plus)
+        assertThat(sum).isEqualTo(9.seconds)
+    }
 }

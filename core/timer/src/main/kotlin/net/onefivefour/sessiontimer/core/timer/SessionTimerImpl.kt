@@ -39,7 +39,7 @@ internal class SessionTimerImpl @Inject constructor(
             timerJob = timerScope.launch {
                 while (isActive) {
                     delay(1_000)
-                    elapsedDuration.plus(1.seconds)
+                    elapsedDuration = elapsedDuration.plus(1.seconds)
                     updateTimerStatus()
                 }
             }

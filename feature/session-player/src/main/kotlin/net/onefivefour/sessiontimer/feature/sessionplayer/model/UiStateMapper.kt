@@ -41,6 +41,7 @@ private fun TaskGroup.toUiTaskGroup(): UiTaskGroup {
         PlayMode.SEQUENCE -> this.tasks
         PlayMode.RANDOM_SINGLE_TASK -> this.tasks.take(1).shuffled()
         PlayMode.RANDOM_ALL_TASKS -> this.tasks.take(this.tasks.size).shuffled()
+        PlayMode.RANDOM_N_TASKS -> this.tasks.take(this.tasks.size).shuffled()
     }.map { task -> task.toUiTask() }
 
     return UiTaskGroup(

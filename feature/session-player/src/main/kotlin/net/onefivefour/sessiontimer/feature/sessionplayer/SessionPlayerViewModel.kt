@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerStatus
 import net.onefivefour.sessiontimer.core.usecases.session.GetSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.GetTimerStatusUseCase
@@ -20,11 +19,14 @@ import net.onefivefour.sessiontimer.core.usecases.timer.PauseTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.ResetTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.StartTimerUseCase
 import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
+import net.onefivefour.sessiontimer.feature.sessionplayer.domain.SessionCompiler
 import net.onefivefour.sessiontimer.feature.sessionplayer.domain.TaskOrchestrator
-import net.onefivefour.sessiontimer.feature.sessionplayer.domain.TaskOrchestratorImpl
+import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiCompiledSession
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.toUiSession
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.toUiTask
+import kotlin.concurrent.timer
+import kotlin.time.Duration
 
 @HiltViewModel
 internal class SessionPlayerViewModel @Inject constructor(
@@ -38,62 +40,73 @@ internal class SessionPlayerViewModel @Inject constructor(
 
     private val sessionId = savedStateHandle.toRoute<SessionPlayerRoute>().sessionId
 
-    private lateinit var taskOrchestrator: TaskOrchestrator
+    private lateinit var compiledSession: UiCompiledSession
+
+    private var currentTaskIndex = 0
 
     private var _uiState = MutableStateFlow<UiState>(UiState.Initial)
     val uiState = _uiState.asStateFlow()
 
     init {
+
         viewModelScope.launch {
             combine(
                 getSessionUseCase.execute(sessionId),
                 getTimerStatusUseCase.execute()
             ) { session, timerStatus ->
+
+                if (session == null) {
+                    return@combine UiState.Initial
+                }
+
+                compiledSession = SessionCompiler.compile(session)
+
                 when {
-                    session == null -> UiState.Error("Could not find a session with id $sessionId")
-                    session.taskGroups.isEmpty() -> UiState.Error("Session has no task groups")
-                    session.taskGroups.all { it.tasks.isEmpty() } -> UiState.Error("Session has no tasks")
-                    else -> computeUiState(session, timerStatus)
+                    compiledSession.taskList.isEmpty() -> UiState.Error("Session has no tasks")
+                    else -> computeUiState(compiledSession, timerStatus)
                 }
+            }.collect { newUiState ->
+                _uiState.update { newUiState }
             }
-                .collectLatest { uiState ->
-                    _uiState.update { uiState }
-                }
         }
     }
 
     private fun computeUiState(
-        session: Session,
+        compiledSession: UiCompiledSession,
         timerStatus: TimerStatus
     ): UiState {
 
-        val uiSession = session.toUiSession()
-
-        if (!::taskOrchestrator.isInitialized) {
-            taskOrchestrator = TaskOrchestratorImpl(session.taskGroups)
-        }
-
         val elapsedDuration = timerStatus.elapsedDuration
-        var currentTask = taskOrchestrator.getCurrentTask()
-        val durationOfFinishedTasks = taskOrchestrator.getDurationOfFinishedTasks()
+        val pastTaskDuration = compiledSession.taskList
+            .take(currentTaskIndex)
+            .map { it.taskDuration }
+            .fold(Duration.ZERO, Duration::plus)
 
-        // check if current task is finished
-        if (elapsedDuration > durationOfFinishedTasks + currentTask.duration) {
-            taskOrchestrator.onCurrentTaskFinished()
-            currentTask = taskOrchestrator.getNextTask() ?: return UiState.Finished
+        println("+++ elapsedDuration: $elapsedDuration | pastTaskDuration: $pastTaskDuration")
+
+        if (elapsedDuration >= pastTaskDuration) {
+            // we either finished the session...
+            if (currentTaskIndex == compiledSession.taskList.lastIndex) {
+                resetTimerUseCase.execute()
+                return UiState.Finished
+            }
+
+            // or have to start the next task
+            currentTaskIndex++
         }
 
         return UiState.Running(
-            uiSession = uiSession,
-            currentUiTask = currentTask.toUiTask(),
+            sessionTitle = compiledSession.sessionTitle,
+            currentTask = compiledSession.taskList[currentTaskIndex],
             timerMode = timerStatus.mode,
-            elapsedDuration = elapsedDuration
+            elapsedDuration = elapsedDuration,
+            totalDuration = compiledSession.totalDuration
         )
     }
 
     fun onStartSession() {
         doWhenSuccess {
-            startTimerUseCase.execute(this.uiSession.totalDuration)
+            startTimerUseCase.execute(this.totalDuration)
         }
     }
 
