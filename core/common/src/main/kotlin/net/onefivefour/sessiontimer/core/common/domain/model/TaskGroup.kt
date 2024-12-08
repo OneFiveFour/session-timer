@@ -6,6 +6,6 @@ data class TaskGroup(
     val color: Long,
     val playMode: PlayMode,
     val tasks: List<Task>,
-    val numberOfRandomTasks: Int,
+    val numberOfRandomTasks: Int = 0,
     val sessionId: Long
 )

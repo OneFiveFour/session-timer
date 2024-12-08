@@ -16,8 +16,10 @@ import net.onefivefour.sessiontimer.core.di.DefaultDispatcher
 import net.onefivefour.sessiontimer.core.timer.api.SessionTimer
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerStatus
+import javax.inject.Singleton
 import kotlin.time.Duration.Companion.seconds
 
+@Singleton
 internal class SessionTimerImpl @Inject constructor(
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher
 ) : SessionTimer {
