@@ -8,10 +8,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerStatus
 import net.onefivefour.sessiontimer.core.usecases.session.GetSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.GetTimerStatusUseCase
@@ -20,12 +20,8 @@ import net.onefivefour.sessiontimer.core.usecases.timer.ResetTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.StartTimerUseCase
 import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
 import net.onefivefour.sessiontimer.feature.sessionplayer.domain.SessionCompiler
-import net.onefivefour.sessiontimer.feature.sessionplayer.domain.TaskOrchestrator
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiCompiledSession
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
-import net.onefivefour.sessiontimer.feature.sessionplayer.model.toUiSession
-import net.onefivefour.sessiontimer.feature.sessionplayer.model.toUiTask
-import kotlin.concurrent.timer
 import kotlin.time.Duration
 
 @HiltViewModel
@@ -48,7 +44,6 @@ internal class SessionPlayerViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
-
         viewModelScope.launch {
             combine(
                 getSessionUseCase.execute(sessionId),
@@ -59,7 +54,9 @@ internal class SessionPlayerViewModel @Inject constructor(
                     return@combine UiState.Initial
                 }
 
-                compiledSession = SessionCompiler.compile(session)
+                if (!::compiledSession.isInitialized) {
+                    compiledSession = SessionCompiler.compile(session)
+                }
 
                 when {
                     compiledSession.taskList.isEmpty() -> UiState.Error("Session has no tasks")
@@ -77,17 +74,16 @@ internal class SessionPlayerViewModel @Inject constructor(
     ): UiState {
 
         val elapsedDuration = timerStatus.elapsedDuration
-        val pastTaskDuration = compiledSession.taskList
-            .take(currentTaskIndex)
+        val durationWhenToSkip = compiledSession.taskList
+            .take(currentTaskIndex+1)
             .map { it.taskDuration }
             .fold(Duration.ZERO, Duration::plus)
 
-        println("+++ elapsedDuration: $elapsedDuration | pastTaskDuration: $pastTaskDuration")
+        val currentTask = compiledSession.taskList[currentTaskIndex]
 
-        if (elapsedDuration >= pastTaskDuration) {
+        if (elapsedDuration >= durationWhenToSkip) {
             // we either finished the session...
             if (currentTaskIndex == compiledSession.taskList.lastIndex) {
-                resetTimerUseCase.execute()
                 return UiState.Finished
             }
 
@@ -97,7 +93,7 @@ internal class SessionPlayerViewModel @Inject constructor(
 
         return UiState.Running(
             sessionTitle = compiledSession.sessionTitle,
-            currentTask = compiledSession.taskList[currentTaskIndex],
+            currentTask = currentTask,
             timerMode = timerStatus.mode,
             elapsedDuration = elapsedDuration,
             totalDuration = compiledSession.totalDuration
