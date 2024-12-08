@@ -77,6 +77,7 @@ coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", ve
 junit = { module = "junit:junit", version.ref="junit" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 sqlDelight-test = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "dagger" }
 truth = { module = "com.google.truth:truth", version.ref = "truth"}
 androidX-arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidXArchCoreTesting"}
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
