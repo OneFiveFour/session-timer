@@ -15,7 +15,7 @@ class NewTaskGroupUseCaseTest {
     private val taskGroupRepository: TaskGroupRepository = mockk()
     private val taskRepository: TaskRepository = mockk()
 
-    private val sut = NewTaskGroupUseCase(
+    private val sut = NewTaskGroupUseCaseImpl(
         taskGroupRepository,
         taskRepository,
         FakeDefaultValues

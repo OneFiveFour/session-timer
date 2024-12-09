@@ -17,7 +17,7 @@ class GetTaskGroupUseCaseTest {
 
     private val taskGroupRepository: TaskGroupRepository = mockk()
 
-    private val sut = GetTaskGroupUseCase(
+    private val sut = GetTaskGroupUseCaseImpl(
         taskGroupRepository
     )
 
@@ -26,13 +26,13 @@ class GetTaskGroupUseCaseTest {
         val taskGroupId = 1L
         coEvery { taskGroupRepository.getById(taskGroupId) } returns flowOf(
             TaskGroup(
-                taskGroupId,
-                "TaskGroup 1",
-                0xFF0000,
-                PlayMode.RANDOM_SINGLE_TASK,
-                5,
-                emptyList(),
-                2L
+                id = taskGroupId,
+                title = "TaskGroup 1",
+                color = 0xFF0000,
+                playMode = PlayMode.RANDOM_SINGLE_TASK,
+                tasks = emptyList(),
+                numberOfRandomTasks = 5,
+                sessionId = 2L
             )
         )
 

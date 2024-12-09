@@ -5,13 +5,14 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
+import net.onefivefour.sessiontimer.core.usecases.api.taskgroup.GetTaskGroupUseCase
 
 @ViewModelScoped
-class GetTaskGroupUseCase @Inject constructor(
+class GetTaskGroupUseCaseImpl @Inject constructor(
     private val taskGroupRepository: TaskGroupRepository
-) {
+) : GetTaskGroupUseCase {
 
-    suspend fun execute(taskGroupId: Long): Flow<TaskGroup> {
+    override suspend fun execute(taskGroupId: Long): Flow<TaskGroup> {
         return taskGroupRepository.getById(taskGroupId)
     }
 }

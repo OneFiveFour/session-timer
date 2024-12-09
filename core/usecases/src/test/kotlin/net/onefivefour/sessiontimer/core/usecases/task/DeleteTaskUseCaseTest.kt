@@ -12,7 +12,7 @@ class DeleteTaskUseCaseTest {
 
     private val taskRepository: TaskRepository = mockk()
 
-    private val sut = DeleteTaskUseCase(
+    private val sut = DeleteTaskUseCaseImpl(
         taskRepository
     )
 

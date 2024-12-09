@@ -12,7 +12,7 @@ class UpdateTaskUseCaseTest {
 
     private val taskRepository: TaskRepository = mockk(relaxed = true)
 
-    private val sut = UpdateTaskUseCase(
+    private val sut = UpdateTaskUseCaseImpl(
         taskRepository
     )
 

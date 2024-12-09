@@ -14,7 +14,7 @@ class DeleteTaskGroupUseCaseTest {
     private val taskGroupRepository: TaskGroupRepository = mockk()
     private val taskRepository: TaskRepository = mockk()
 
-    private val sut = DeleteTaskGroupUseCase(
+    private val sut = DeleteTaskGroupUseCaseImpl(
         taskGroupRepository,
         taskRepository
     )

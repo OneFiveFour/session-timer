@@ -17,7 +17,7 @@ class GetTimerStatusUseCaseTest {
 
     private val sessionTimer: SessionTimer = mockk()
 
-    private val sut = GetTimerStatusUseCase(sessionTimer)
+    private val sut = GetTimerStatusUseCaseImpl(sessionTimer)
 
     @Test
     fun `executing UseCase is calling session timer`() = runTest {

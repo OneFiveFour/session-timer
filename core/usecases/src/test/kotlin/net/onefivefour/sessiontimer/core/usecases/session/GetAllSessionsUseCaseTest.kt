@@ -16,7 +16,7 @@ class GetAllSessionsUseCaseTest {
 
     private val sessionRepository: SessionRepository = mockk()
 
-    private val sut = GetAllSessionsUseCase(
+    private val sut = GetAllSessionsUseCaseImpl(
         sessionRepository
     )
 

@@ -10,7 +10,7 @@ class PauseTimerUseCaseTest {
 
     private val sessionTimer: SessionTimer = mockk(relaxed = true)
 
-    private val sut = PauseTimerUseCase(sessionTimer)
+    private val sut = PauseTimerUseCaseImpl(sessionTimer)
 
     @Test
     fun `executing UseCase is calling session timer`() {

@@ -19,4 +19,5 @@ dependencies {
     implementation(project(":core:defaults"))
     implementation(project(":core:common"))
     implementation(project(":core:timer-api"))
+    implementation(project(":core:usecases-api"))
 }

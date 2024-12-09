@@ -18,7 +18,7 @@ class NewSessionUseCaseTest {
     private val taskGroupRepository: TaskGroupRepository = mockk()
     private val taskRepository: TaskRepository = mockk()
 
-    private val sut = NewSessionUseCase(
+    private val sut = NewSessionUseCaseImpl(
         sessionRepository,
         taskGroupRepository,
         taskRepository,

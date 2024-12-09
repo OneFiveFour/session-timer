@@ -11,12 +11,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import net.onefivefour.sessiontimer.core.usecases.session.GetSessionUseCase
-import net.onefivefour.sessiontimer.core.usecases.task.DeleteTaskUseCase
-import net.onefivefour.sessiontimer.core.usecases.task.NewTaskUseCase
-import net.onefivefour.sessiontimer.core.usecases.task.UpdateTaskUseCase
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.DeleteTaskGroupUseCase
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.NewTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.session.GetSessionUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.task.DeleteTaskUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.task.NewTaskUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.task.UpdateTaskUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.taskgroup.DeleteTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.taskgroup.NewTaskGroupUseCase
 import net.onefivefour.sessiontimer.feature.sessioneditor.api.SessionEditorRoute
 import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
 

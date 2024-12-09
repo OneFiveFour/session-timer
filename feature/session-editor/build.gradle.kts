@@ -15,7 +15,7 @@ dependencies {
 
     implementation(project(":core:common"))
     implementation(project(":core:theme"))
-    implementation(project(":core:usecases"))
+    implementation(project(":core:usecases-api"))
     implementation(project(":feature:session-editor-api"))
 
     implementation(libs.bundles.navigation)

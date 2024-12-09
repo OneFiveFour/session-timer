@@ -12,7 +12,7 @@ class NewTaskUseCaseTest {
 
     private val taskRepository: TaskRepository = mockk()
 
-    private val sut = NewTaskUseCase(
+    private val sut = NewTaskUseCaseImpl(
         taskRepository,
         FakeDefaultValues
     )

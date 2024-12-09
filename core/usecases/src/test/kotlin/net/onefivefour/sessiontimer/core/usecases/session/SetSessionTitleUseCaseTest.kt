@@ -11,7 +11,7 @@ class SetSessionTitleUseCaseTest {
 
     private val sessionRepository: SessionRepository = mockk(relaxed = true)
 
-    private val sut = SetSessionTitleUseCase(
+    private val sut = SetSessionTitleUseCaseImpl(
         sessionRepository
     )
 

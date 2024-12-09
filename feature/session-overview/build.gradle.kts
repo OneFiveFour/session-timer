@@ -17,7 +17,7 @@ dependencies {
     // Core
     implementation(project(":core:common"))
     implementation(project(":core:theme"))
-    implementation(project(":core:usecases"))
+    implementation(project(":core:usecases-api"))
     implementation(project(":core:ui"))
 
     // Lifecycle

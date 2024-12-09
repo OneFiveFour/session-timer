@@ -4,23 +4,17 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
-import net.onefivefour.sessiontimer.core.usecases.session.DeleteSessionUseCase
-import net.onefivefour.sessiontimer.core.usecases.session.GetAllSessionsUseCase
-import net.onefivefour.sessiontimer.core.usecases.session.NewSessionUseCase
-import net.onefivefour.sessiontimer.core.usecases.session.SetSessionTitleUseCase
-import org.junit.After
-import org.junit.Before
+import net.onefivefour.sessiontimer.core.usecases.api.session.DeleteSessionUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.session.GetAllSessionsUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.session.NewSessionUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.session.SetSessionTitleUseCase
 import org.junit.Rule
 import org.junit.Test
 

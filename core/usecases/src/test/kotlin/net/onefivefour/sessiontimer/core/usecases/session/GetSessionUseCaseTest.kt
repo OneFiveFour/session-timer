@@ -19,7 +19,7 @@ class GetSessionUseCaseTest {
 
     private val sessionRepository: SessionRepository = mockk()
 
-    private val sut = GetSessionUseCase(
+    private val sut = GetSessionUseCaseImpl(
         sessionRepository
     )
 
@@ -34,12 +34,11 @@ class GetSessionUseCaseTest {
                 title = "Session 1",
                 taskGroups = listOf(
                     TaskGroup(
-                        taskGroupId,
-                        "TaskGroup 1",
-                        0xFF0000,
-                        PlayMode.RANDOM_SINGLE_TASK,
-                        5,
-                        listOf(
+                        id = taskGroupId,
+                        title = "TaskGroup 1",
+                        color = 0xFF0000,
+                        playMode = PlayMode.RANDOM_SINGLE_TASK,
+                        tasks = listOf(
                             Task(
                                 3L,
                                 "Task 1",
@@ -47,7 +46,8 @@ class GetSessionUseCaseTest {
                                 taskGroupId
                             )
                         ),
-                        sessionId
+                        numberOfRandomTasks = 5,
+                        sessionId = sessionId
                     )
                 )
             )

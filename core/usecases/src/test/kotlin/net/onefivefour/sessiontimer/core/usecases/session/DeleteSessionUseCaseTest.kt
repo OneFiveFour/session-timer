@@ -25,7 +25,7 @@ class DeleteSessionUseCaseTest {
     private val taskGroupRepository: TaskGroupRepository = mockk(relaxed = true)
     private val taskRepository: TaskRepository = mockk(relaxed = true)
 
-    private val sut = DeleteSessionUseCase(
+    private val sut = DeleteSessionUseCaseImpl(
         sessionRepository,
         taskGroupRepository,
         taskRepository
@@ -39,30 +39,30 @@ class DeleteSessionUseCaseTest {
         coEvery { taskGroupRepository.getBySessionId(any()) } returns flowOf(
             listOf(
                 TaskGroup(
-                    taskGroupId1,
-                    "Task Group Title",
-                    0x00FF00,
-                    PlayMode.RANDOM_SINGLE_TASK,
-                    5,
-                    listOf(
+                    id = taskGroupId1,
+                    title = "Task Group Title",
+                    color = 0x00FF00,
+                    playMode = PlayMode.RANDOM_SINGLE_TASK,
+                    tasks = listOf(
                         Task(3L, "Task Title", 1.seconds, taskGroupId1),
                         Task(4L, "Task Title 2", 2.seconds, taskGroupId1),
                         Task(5L, "Task Title 3", 3.seconds, taskGroupId1)
                     ),
-                    sessionId
+                    numberOfRandomTasks = 5,
+                    sessionId = sessionId
                 ),
                 TaskGroup(
-                    taskGroupId2,
-                    "Task Group Title 2",
-                    0x00FFFF,
-                    PlayMode.SEQUENCE,
-                    3,
-                    listOf(
+                    id = taskGroupId2,
+                    title = "Task Group Title 2",
+                    color = 0x00FFFF,
+                    playMode = PlayMode.SEQUENCE,
+                    tasks = listOf(
                         Task(7L, "Task Title 7", 7.seconds, taskGroupId2),
                         Task(8L, "Task Title 8", 8.seconds, taskGroupId2),
                         Task(9L, "Task Title 9", 9.seconds, taskGroupId2)
                     ),
-                    sessionId
+                    numberOfRandomTasks = 3,
+                    sessionId = sessionId
                 )
             )
         )

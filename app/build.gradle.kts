@@ -91,6 +91,7 @@ dependencies {
         ":core:timer-api",
         ":core:timer",
         ":core:usecases",
+        ":core:usecases-api",
         ":feature:session-editor",
         ":feature:session-editor-api",
         ":feature:session-overview",
