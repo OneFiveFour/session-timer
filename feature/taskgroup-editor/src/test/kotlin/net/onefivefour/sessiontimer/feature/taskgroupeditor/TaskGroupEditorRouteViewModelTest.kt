@@ -15,8 +15,8 @@ import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.test.SavedStateHandleRule
 import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.GetTaskGroupUseCase
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.UpdateTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.taskgroup.GetTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.taskgroup.UpdateTaskGroupUseCase
 import net.onefivefour.sessiontimer.feature.taskgroupeditor.api.TaskGroupEditorRoute
 import org.junit.Rule
 import org.junit.Test

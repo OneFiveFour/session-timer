@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import net.onefivefour.sessiontimer.core.usecases.session.DeleteSessionUseCase
-import net.onefivefour.sessiontimer.core.usecases.session.GetAllSessionsUseCase
-import net.onefivefour.sessiontimer.core.usecases.session.NewSessionUseCase
-import net.onefivefour.sessiontimer.core.usecases.session.SetSessionTitleUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.session.DeleteSessionUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.session.GetAllSessionsUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.session.NewSessionUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.session.SetSessionTitleUseCase
 
 @HiltViewModel
 internal class SessionOverviewViewModel @Inject constructor(

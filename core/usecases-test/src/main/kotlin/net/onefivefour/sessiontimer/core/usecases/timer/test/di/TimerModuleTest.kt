@@ -13,13 +13,14 @@ import net.onefivefour.sessiontimer.core.usecases.api.timer.PauseTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.ResetTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.StartTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.test.GetTimerStatusUseCaseFake
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 interface TimerBindsModule {
 
     @Binds
-    @ViewModelScoped
+    @Singleton
     fun bindGetTimerStatusUseCase(
         getTimerStatusUseCaseImpl: GetTimerStatusUseCaseFake
     ): GetTimerStatusUseCase
@@ -27,19 +28,19 @@ interface TimerBindsModule {
 }
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object TestUseCaseModule {
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideStartTimerUseCase(): StartTimerUseCase = mockk(relaxed = true)
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun providePauseTimerUseCase(): PauseTimerUseCase = mockk(relaxed = true)
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideResetTimerUseCase(): ResetTimerUseCase = mockk(relaxed = true)
 
 }

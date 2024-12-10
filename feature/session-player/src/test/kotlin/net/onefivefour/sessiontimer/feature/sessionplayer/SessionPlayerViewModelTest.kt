@@ -5,6 +5,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.HiltTestApplication
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -13,26 +14,31 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
-import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
+import net.onefivefour.sessiontimer.core.common.domain.model.FAKE_SESSION
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
-import net.onefivefour.sessiontimer.core.common.domain.model.Task
-import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.test.SavedStateHandleRule
 import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
+import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_RUNNING
 import net.onefivefour.sessiontimer.core.usecases.api.session.GetSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.GetTimerStatusUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.PauseTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.ResetTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.StartTimerUseCase
+import net.onefivefour.sessiontimer.core.usecases.timer.test.GetTimerStatusUseCaseFake
 import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration
 
 @HiltAndroidTest
+@RunWith(RobolectricTestRunner::class)
+@Config(application = HiltTestApplication::class)
 @OptIn(ExperimentalCoroutinesApi::class)
 class SessionPlayerViewModelTest {
 
@@ -50,8 +56,7 @@ class SessionPlayerViewModelTest {
     @get:Rule(order = 3)
     val savedStateHandleRule = SavedStateHandleRule(route)
 
-    @Inject
-    lateinit var getTimerStatusUseCase: GetTimerStatusUseCase
+    private val getTimerStatusUseCase = GetTimerStatusUseCaseFake()
 
     @Inject
     lateinit var getSessionUseCase: GetSessionUseCase
@@ -64,35 +69,6 @@ class SessionPlayerViewModelTest {
 
     @Inject
     lateinit var resetTimerUseCase: ResetTimerUseCase
-
-
-    private val fakeSession = Session(
-        id = 1L,
-        title = "Test Session",
-        taskGroups = listOf(
-            TaskGroup(
-                id = 2L,
-                title = "Test Task Group",
-                color = 0xFF0000,
-                playMode = PlayMode.SEQUENCE,
-                tasks = listOf(
-                    Task(
-                        id = 3L,
-                        title = "Test Task 3L",
-                        duration = 10.seconds,
-                        taskGroupId = 2L
-                    ),
-                    Task(
-                        id = 4L,
-                        title = "Test Task 4L",
-                        duration = 10.seconds,
-                        taskGroupId = 2L
-                    )
-                ),
-                sessionId = 1L
-            )
-        )
-    )
 
     @Before
     fun setUp() {
@@ -118,7 +94,7 @@ class SessionPlayerViewModelTest {
     @Test
     fun `state becomes Error when session has no tasks`() = runTest {
         // Arrange
-        val fakeSessionWithoutTasks = fakeSession.copy(taskGroups = emptyList())
+        val fakeSessionWithoutTasks = FAKE_SESSION.copy(taskGroups = emptyList())
         coEvery { getSessionUseCase.execute(any()) } returns flowOf(fakeSessionWithoutTasks)
 
         // Act
@@ -136,7 +112,7 @@ class SessionPlayerViewModelTest {
     @Test
     fun `session runs while timer is withing totalDuration`() = runTest {
         // Arrange
-        coEvery { getSessionUseCase.execute(any()) } returns flowOf(fakeSession)
+        coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
 
         // Act
         val sut = sut()
@@ -153,7 +129,13 @@ class SessionPlayerViewModelTest {
     @Test
     fun `session finishes when timer surpasses totalDuration`() = runTest {
         // Arrange
-        coEvery { getSessionUseCase.execute(any()) } returns flowOf(fakeSession)
+        coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
+        val sessionDuration = FAKE_SESSION.taskGroups
+            .flatMap { it.tasks }
+            .map { it.duration }
+            .fold(Duration.ZERO) { acc, duration -> acc + duration }
+        getTimerStatusUseCase.update(FAKE_TIMER_STATUS_RUNNING
+            .copy(elapsedDuration = sessionDuration))
 
         // Act
         val sut = sut()
@@ -171,18 +153,12 @@ class SessionPlayerViewModelTest {
     @Test
     fun `onStartSession calls startTimerUseCase when in running state`() = runTest {
         // Arrange
-        val mockSession = mockk<Session> {
-            coEvery { taskGroups } returns listOf(
-                mockk {
-
-                }
-            )
-        }
-
-        coEvery { getSessionUseCase.execute(1L) } returns flowOf(mockSession)
+        coEvery { getSessionUseCase.execute(1L) } returns flowOf(FAKE_SESSION)
+        getTimerStatusUseCase.update(FAKE_TIMER_STATUS_RUNNING)
 
         // Act
         val sut = sut()
+        advanceUntilIdle()
         sut.onStartSession()
 
         // Assert

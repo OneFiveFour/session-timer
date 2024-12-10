@@ -19,5 +19,7 @@ dependencies {
     implementation(project(":core:timer-api"))
     implementation(project(":feature:session-player-api"))
 
+    testImplementation(project(":core:timer-test"))
     testImplementation(project(":core:usecases-test"))
+    testImplementation(project(":core:common-test"))
 }

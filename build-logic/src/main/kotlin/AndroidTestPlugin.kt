@@ -11,6 +11,7 @@ class AndroidTestPlugin : Plugin<Project> {
             dependencies {
                 "testImplementation"(libs.libAndroidXArchCoreTesting)
                 "testImplementation"(libs.libHiltAndroidTesting)
+                "testImplementation"(libs.libRobolectric)
             }
         }
     }

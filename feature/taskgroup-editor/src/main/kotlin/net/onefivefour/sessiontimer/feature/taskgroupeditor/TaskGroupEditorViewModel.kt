@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.GetTaskGroupUseCase
-import net.onefivefour.sessiontimer.core.usecases.taskgroup.UpdateTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.taskgroup.GetTaskGroupUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.taskgroup.UpdateTaskGroupUseCase
 import net.onefivefour.sessiontimer.feature.taskgroupeditor.api.TaskGroupEditorRoute
 import javax.inject.Inject
 

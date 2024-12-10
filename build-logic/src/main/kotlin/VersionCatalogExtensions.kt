@@ -38,6 +38,10 @@ internal val VersionCatalog.libAndroidXArchCoreTesting: Provider<MinimalExternal
 internal val VersionCatalog.libTurbine: Provider<MinimalExternalModuleDependency>
     get() = findLibraryOrThrow("turbine")
 
+// Android Test Dependencies
+internal val VersionCatalog.libRobolectric: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("robolectric")
+
 // Android Dependencies
 internal val VersionCatalog.libAndroidXCore: Provider<MinimalExternalModuleDependency>
     get() = findLibraryOrThrow("androidX-core")

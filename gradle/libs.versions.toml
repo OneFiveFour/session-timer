@@ -19,6 +19,7 @@ kover = "0.8.3"
 ksp = "2.0.21-1.0.28"
 ktLint = "12.1.1"
 mockk = "1.13.8"
+robolectric = "4.14"
 serialization = "1.6.3"
 sqlDelight = "2.0.0"
 turbine="1.0.0"
@@ -81,6 +82,7 @@ hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", vers
 truth = { module = "com.google.truth:truth", version.ref = "truth"}
 androidX-arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidXArchCoreTesting"}
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 
 # Lint and Code Coverage
 ktLint-gradlePlugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktLint" }

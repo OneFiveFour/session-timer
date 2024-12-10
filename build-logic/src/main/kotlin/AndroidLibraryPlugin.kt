@@ -41,6 +41,12 @@ class AndroidLibraryPlugin : Plugin<Project> {
                         excludes += "META-INF/LICENSE-notice.md"
                     }
                 }
+
+                testOptions {
+                    unitTests {
+                        isIncludeAndroidResources = true
+                    }
+                }
             }
 
             dependencies {
