@@ -82,14 +82,16 @@ android {
 
 dependencies {
 
-    val modules = listOf(
+    val implModules = listOf(
         ":core:common",
         ":core:database",
+        ":core:defaults",
         ":core:di",
         ":core:test",
         ":core:theme",
-        ":core:timer-api",
         ":core:timer",
+        ":core:timer-api",
+        ":core:ui",
         ":core:usecases",
         ":core:usecases-api",
         ":feature:session-editor",
@@ -101,8 +103,23 @@ dependencies {
         ":feature:taskgroup-editor",
         ":feature:taskgroup-editor-api"
     )
-    for (module in modules) {
+    for (module in implModules) {
         implementation(project(module))
+    }
+
+    val koverModules = listOf(
+        ":core:common-test",
+        ":core:database",
+        ":core:timer",
+        ":core:timer-api",
+        ":core:usecases",
+        ":feature:session-editor",
+        ":feature:session-overview",
+        ":feature:session-player",
+        ":feature:taskgroup-editor"
+    )
+    for (module in koverModules) {
+        kover(project(module))
     }
 
     // Database

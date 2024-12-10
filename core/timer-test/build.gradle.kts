@@ -1,6 +1,5 @@
 plugins {
     id("st.kotlin.library")
-    id("st.kotlin.test")
     id("st.ktlint")
 }
 

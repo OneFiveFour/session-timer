@@ -1,8 +1,6 @@
 plugins {
-    alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
-    id("st.android.library")
-    id("st.kotlin.test")
+    id("st.kotlin.library")
     id("st.ktlint")
 }
 
@@ -11,9 +9,5 @@ android {
 }
 
 dependencies {
-
-    implementation(project(":feature:taskgroup-editor-api"))
-
-    // Navigation
-    implementation(libs.bundles.navigation)
+    implementation(libs.kotlinx.serialization.json)
 }

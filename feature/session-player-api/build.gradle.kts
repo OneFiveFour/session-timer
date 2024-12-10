@@ -1,10 +1,6 @@
 plugins {
-    alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
-    id("st.android.library")
-    id("st.android.compose")
-    id("st.kotlin.test")
-    id("st.kotlin.hilt")
+    id("st.kotlin.library")
     id("st.ktlint")
 }
 
@@ -13,7 +9,5 @@ android {
 }
 
 dependencies {
-
-    // Navigation
-    implementation(libs.bundles.navigation)
+    implementation(libs.kotlinx.serialization.json)
 }
