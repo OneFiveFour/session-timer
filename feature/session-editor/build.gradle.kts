@@ -18,6 +18,4 @@ dependencies {
     implementation(project(":feature:session-editor-api"))
 
     implementation(libs.bundles.navigation)
-
-    testImplementation(project(":core:test"))
 }

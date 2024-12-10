@@ -17,7 +17,4 @@ dependencies {
 
     // Coroutines
     implementation(libs.coroutines.core)
-
-    // Testing
-    testImplementation(project(":core:test"))
 }

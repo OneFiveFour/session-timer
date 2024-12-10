@@ -19,6 +19,4 @@ dependencies {
     implementation(project(":feature:taskgroup-editor-api"))
 
     implementation(libs.bundles.navigation)
-
-    testImplementation(project(":core:test"))
 }

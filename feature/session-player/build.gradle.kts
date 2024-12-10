@@ -14,9 +14,10 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:theme"))
     implementation(project(":core:usecases-api"))
-    implementation(project(":core:test"))
     implementation(project(":core:timer-api"))
     implementation(project(":feature:session-player-api"))
+
+    implementation(libs.androidX.navigation.common)
 
     testImplementation(project(":core:timer-test"))
     testImplementation(project(":core:usecases-test"))

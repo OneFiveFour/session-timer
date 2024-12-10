@@ -14,6 +14,7 @@ class KotlinTestPlugin : Plugin<Project> {
                 "testImplementation"(libs.libMockk)
                 "testImplementation"(libs.libTruth)
                 "testImplementation"(libs.libTurbine)
+                "testImplementation"(project(":core:test"))
             }
         }
     }

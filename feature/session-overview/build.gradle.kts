@@ -22,7 +22,4 @@ dependencies {
     // Lifecycle
     implementation(libs.androidX.lifecycle.viewmodel)
     implementation(libs.androidX.lifecycle.viewmodel.compose)
-
-    // Testing
-    testImplementation(project(":core:test"))
 }
