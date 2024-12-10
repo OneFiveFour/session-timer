@@ -24,6 +24,10 @@ private fun VersionCatalog.findPluginOrThrow(name: String) =
 internal val VersionCatalog.pluginComposeCompiler: Provider<PluginDependency>?
     get() = findPluginOrThrow("composeCompiler")
 
+// KSP
+internal val VersionCatalog.pluginKsp: Provider<PluginDependency>?
+    get() = findPluginOrThrow("ksp")
+
 // Kotlin Test Dependencies
 internal val VersionCatalog.libJunit: Provider<MinimalExternalModuleDependency>
     get() = findLibraryOrThrow("junit")

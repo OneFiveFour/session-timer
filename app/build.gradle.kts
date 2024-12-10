@@ -108,10 +108,9 @@ dependencies {
     }
 
     val koverModules = listOf(
-        ":core:common-test",
         ":core:database",
+        ":core:defaults",
         ":core:timer",
-        ":core:timer-api",
         ":core:usecases",
         ":feature:session-editor",
         ":feature:session-overview",

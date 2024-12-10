@@ -20,26 +20,18 @@ internal interface TimerModule {
 
     @Binds
     @ViewModelScoped
-    fun bindGetTimerStatusUseCase(
-        impl: GetTimerStatusUseCaseImpl
-    ): GetTimerStatusUseCase
+    fun bindGetTimerStatusUseCase(impl: GetTimerStatusUseCaseImpl): GetTimerStatusUseCase
 
     @Binds
     @ViewModelScoped
-    fun bindPauseTimerUseCase(
-        impl: PauseTimerUseCaseImpl
-    ): PauseTimerUseCase
+    fun bindPauseTimerUseCase(impl: PauseTimerUseCaseImpl): PauseTimerUseCase
 
     @Binds
     @ViewModelScoped
-    fun bindResetTimerUseCase(
-        impl: ResetTimerUseCaseImpl
-    ): ResetTimerUseCase
+    fun bindResetTimerUseCase(impl: ResetTimerUseCaseImpl): ResetTimerUseCase
 
     @Binds
     @ViewModelScoped
-    fun bindStartTimerUseCase(
-        impl: StartTimerUseCaseImpl
-    ): StartTimerUseCase
+    fun bindStartTimerUseCase(impl: StartTimerUseCaseImpl): StartTimerUseCase
 
 }

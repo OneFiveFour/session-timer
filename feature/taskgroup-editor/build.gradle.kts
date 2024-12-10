@@ -1,5 +1,4 @@
 plugins {
-    alias(libs.plugins.ksp)
     id("st.android.library")
     id("st.android.compose")
     id("st.android.hilt")

@@ -30,6 +30,15 @@ class KotlinLibraryPlugin : Plugin<Project> {
                 buildFeatures {
                     buildConfig = true
                 }
+
+                packaging {
+                    resources {
+                        excludes += "/META-INF/{AL2.0,LGPL2.1}"
+                        excludes += "META-INF/*.kotlin_module"
+                        excludes += "META-INF/LICENSE.md"
+                        excludes += "META-INF/LICENSE-notice.md"
+                    }
+                }
             }
         }
     }

@@ -1,11 +1,7 @@
 package net.onefivefour.sessiontimer.feature.sessionplayer
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.HiltTestApplication
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -15,34 +11,24 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.FAKE_SESSION
-import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.test.SavedStateHandleRule
 import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
 import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_RUNNING
 import net.onefivefour.sessiontimer.core.usecases.api.session.GetSessionUseCase
-import net.onefivefour.sessiontimer.core.usecases.api.timer.GetTimerStatusUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.PauseTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.ResetTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.StartTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.test.GetTimerStatusUseCaseFake
 import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
-import javax.inject.Inject
 import kotlin.time.Duration
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SessionPlayerViewModelTest {
 
     private val route = SessionPlayerRoute(sessionId = 1L)
-
-    @get:Rule(order = 1)
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule(order = 2)
     val standardTestDispatcher = StandardTestDispatcherRule()
