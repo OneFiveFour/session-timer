@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
-            SessionTimerTheme{
+            SessionTimerTheme {
                 Box(Modifier.safeDrawingPadding()) {
                     AppNavGraph()
                 }

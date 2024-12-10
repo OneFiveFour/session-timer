@@ -5,17 +5,15 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlin.time.Duration.Companion.minutes
-import kotlin.time.DurationUnit
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import net.onefivefour.sessiontimer.core.database.Task as DatabaseTask
 import net.onefivefour.sessiontimer.core.database.data.TaskDataSource
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.DurationUnit
+import net.onefivefour.sessiontimer.core.database.Task as DatabaseTask
 
 class TaskRepositoryTest {
 

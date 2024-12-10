@@ -16,6 +16,4 @@ dependencies {
 
     implementation(project(":core:timer-api"))
     implementation(project(":core:usecases-api"))
-
-
 }
