@@ -1,5 +1,6 @@
 package net.onefivefour.sessiontimer.core.timer
 
+import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,7 +20,7 @@ import net.onefivefour.sessiontimer.core.timer.api.model.TimerStatus
 import javax.inject.Singleton
 import kotlin.time.Duration.Companion.seconds
 
-@Singleton
+@ViewModelScoped
 internal class SessionTimerImpl @Inject constructor(
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher
 ) : SessionTimer {
