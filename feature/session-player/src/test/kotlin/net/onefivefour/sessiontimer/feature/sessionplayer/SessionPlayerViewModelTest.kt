@@ -36,16 +36,10 @@ import org.robolectric.annotation.Config
 import javax.inject.Inject
 import kotlin.time.Duration
 
-@HiltAndroidTest
-@RunWith(RobolectricTestRunner::class)
-@Config(application = HiltTestApplication::class)
 @OptIn(ExperimentalCoroutinesApi::class)
 class SessionPlayerViewModelTest {
 
     private val route = SessionPlayerRoute(sessionId = 1L)
-
-    @get:Rule(order = 0)
-    var hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -58,22 +52,10 @@ class SessionPlayerViewModelTest {
 
     private val getTimerStatusUseCase = GetTimerStatusUseCaseFake()
 
-    @Inject
-    lateinit var getSessionUseCase: GetSessionUseCase
-
-    @Inject
-    lateinit var startTimerUseCase: StartTimerUseCase
-
-    @Inject
-    lateinit var pauseTimerUseCase: PauseTimerUseCase
-
-    @Inject
-    lateinit var resetTimerUseCase: ResetTimerUseCase
-
-    @Before
-    fun setUp() {
-        hiltRule.inject()
-    }
+    private val getSessionUseCase: GetSessionUseCase = mockk(relaxed = true)
+    private val startTimerUseCase: StartTimerUseCase = mockk(relaxed = true)
+    private val pauseTimerUseCase: PauseTimerUseCase = mockk(relaxed = true)
+    private val resetTimerUseCase: ResetTimerUseCase = mockk(relaxed = true)
 
     @Test
     fun `initial state is UiState Initial when no session found`() = runTest {

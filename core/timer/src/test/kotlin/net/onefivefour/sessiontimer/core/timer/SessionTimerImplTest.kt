@@ -56,7 +56,7 @@ class SessionTimerImplTest {
 
         val status = sut.getStatus().first()
         assertThat(status.mode).isEqualTo(TimerMode.IDLE)
-        assertThat(status.elapsedDuration).isEqualTo(0)
+        assertThat(status.elapsedDuration).isEqualTo(0.seconds)
     }
 
     @Test
