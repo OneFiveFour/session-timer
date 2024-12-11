@@ -14,10 +14,12 @@ import org.junit.Test
 class NewSessionUseCaseTest {
 
     private val sessionRepository: SessionRepository = mockk()
+
     private val taskGroupRepository: TaskGroupRepository = mockk()
+
     private val taskRepository: TaskRepository = mockk()
 
-    private val sut = NewSessionUseCaseImpl(
+    private fun sut() = NewSessionUseCaseImpl(
         sessionRepository,
         taskGroupRepository,
         taskRepository,
@@ -25,7 +27,7 @@ class NewSessionUseCaseTest {
     )
 
     @Test
-    fun `executing the use case creates a new session, taskGroup and task`() = runTest {
+    fun `WHEN executing the UseCase THEN a new session with taskGroup and task is created`() = runTest {
         val sessionId = 1L
         val taskGroupId = 2L
         coEvery { sessionRepository.newSession(any()) } returns Unit
@@ -34,8 +36,10 @@ class NewSessionUseCaseTest {
         coEvery { taskGroupRepository.getLastInsertId() } returns taskGroupId
         coEvery { taskRepository.newTask(any(), any(), any()) } returns Unit
 
-        sut.execute()
+        // WHEN
+        sut().execute()
 
+        // THEN
         coVerify(ordering = Ordering.ORDERED) {
             sessionRepository.newSession(DatabaseDefaultValuesFake.getSessionTitle())
 

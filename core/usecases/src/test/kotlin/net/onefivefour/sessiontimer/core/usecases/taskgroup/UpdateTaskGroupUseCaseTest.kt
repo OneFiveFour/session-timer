@@ -11,19 +11,21 @@ class UpdateTaskGroupUseCaseTest {
 
     private val taskGroupRepository: TaskGroupRepository = mockk(relaxed = true)
 
-    private val sut = UpdateTaskGroupUseCaseImpl(
+    private fun sut() = UpdateTaskGroupUseCaseImpl(
         taskGroupRepository
     )
 
     @Test
-    fun `executing the use case updates the task group`() = runTest {
+    fun `GIVEN taskGroup data WHEN executing the UseCase THEN it updates the taskGroup`() = runTest {
+        // GIVEN
         val taskGroupId = 1L
         val title = "Task Group Title"
         val color = 0xF0F0F0
         val playMode = PlayMode.RANDOM_SINGLE_TASK
         val numberOfRandomTasks = 19
 
-        sut.execute(
+        // WHEN
+        sut().execute(
             taskGroupId,
             title,
             color,
@@ -31,6 +33,7 @@ class UpdateTaskGroupUseCaseTest {
             numberOfRandomTasks
         )
 
+        // THEN
         coVerify(exactly = 1) {
             taskGroupRepository.updateTaskGroup(
                 taskGroupId,

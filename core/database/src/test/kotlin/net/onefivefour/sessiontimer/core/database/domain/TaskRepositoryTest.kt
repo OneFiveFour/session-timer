@@ -106,7 +106,7 @@ class TaskRepositoryTest {
             coEvery { taskDataSource.deleteByTaskGroupId(any()) } returns Unit
 
             // WHEN
-            sut().deleteTaskByTaskGroupId(taskGroupId)
+            sut().deleteTasksByTaskGroupId(taskGroupId)
 
             // THEN
             coVerify(exactly = 1) { taskDataSource.deleteByTaskGroupId(taskGroupId) }

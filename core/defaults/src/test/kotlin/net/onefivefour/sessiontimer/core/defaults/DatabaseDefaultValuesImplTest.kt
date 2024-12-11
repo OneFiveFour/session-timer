@@ -14,25 +14,43 @@ class DatabaseDefaultValuesImplTest {
         every { getString(any()) } returns testString
     }
 
-    private val sut = DatabaseDefaultValuesImpl(
+    private fun sut() = DatabaseDefaultValuesImpl(
         context
     )
 
     @Test
-    fun `getSessionTitle returns correct String`() {
+    fun `GIVEN sut with context WHEN getSessionTitle is called THEN the correct String is returned`() {
+        // GIVEN
+        val sut = sut()
+
+        // WHEN
         val result = sut.getSessionTitle()
+
+        // THEN
         assertThat(result).isEqualTo(testString)
     }
 
     @Test
-    fun `getTaskGroupTitle returns correct String`() {
+    fun `GIVEN sut with context WHEN getTaskGroupTitle is called THEN the correct String is returned`() {
+        // GIVEN
+        val sut = sut()
+
+        // WHEN
         val result = sut.getTaskGroupTitle()
+
+        // THEN
         assertThat(result).isEqualTo(testString)
     }
 
     @Test
-    fun `getTaskTitle returns correct String`() {
+    fun `GIVEN sut with context WHEN getTaskTitle is called THEN the correct String is returned`() {
+        // GIVEN
+        val sut = sut()
+
+        // WHEN
         val result = sut.getTaskTitle()
+
+        // THEN
         assertThat(result).isEqualTo(testString)
     }
 }

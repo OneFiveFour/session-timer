@@ -16,20 +16,25 @@ class GetTimerStatusUseCaseTest {
 
     private val sessionTimer: SessionTimer = mockk()
 
-    private val sut = GetTimerStatusUseCaseImpl(sessionTimer)
+    private fun sut() = GetTimerStatusUseCaseImpl(
+        sessionTimer
+    )
 
     @Test
-    fun `executing UseCase is calling session timer`() = runTest {
+    fun `GIVEN a new timerStates WHEN executing the UseCase THEN it is calling getStatus on the sessionTimer`() = runTest {
+        // GIVEN
         coEvery { sessionTimer.getStatus() } returns flowOf(
             TimerStatus()
         )
 
-        sut.execute().test {
+        // WHEN
+        sut().execute().test {
             val initialStatus = awaitItem()
             assertThat(initialStatus.mode).isEqualTo(TimerMode.IDLE)
             awaitComplete()
         }
 
+        // THEN
         verify { sessionTimer.getStatus() }
     }
 }

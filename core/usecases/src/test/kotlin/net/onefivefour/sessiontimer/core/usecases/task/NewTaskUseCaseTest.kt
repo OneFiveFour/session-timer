@@ -12,18 +12,21 @@ class NewTaskUseCaseTest {
 
     private val taskRepository: TaskRepository = mockk()
 
-    private val sut = NewTaskUseCaseImpl(
+    private fun sut() = NewTaskUseCaseImpl(
         taskRepository,
         DatabaseDefaultValuesFake
     )
 
     @Test
-    fun `executing the use case creates a new task`() = runTest {
+    fun `GIVEN a taskGroupId WHEN executing the UseCase THEN the taskRepository creates a new task`() = runTest {
+        // GIVEN
         coEvery { taskRepository.newTask(any(), any(), any()) } returns Unit
-
         val taskGroupId = 1L
-        sut.execute(taskGroupId)
 
+        // WHEN
+        sut().execute(taskGroupId)
+
+        // THEN
         coVerify(exactly = 1) {
             taskRepository.newTask(
                 DatabaseDefaultValuesFake.getTaskTitle(),

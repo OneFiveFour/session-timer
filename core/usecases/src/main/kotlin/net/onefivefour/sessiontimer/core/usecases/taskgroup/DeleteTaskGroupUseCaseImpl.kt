@@ -14,6 +14,6 @@ class DeleteTaskGroupUseCaseImpl @Inject constructor(
 
     override suspend fun execute(taskGroupId: Long) {
         taskGroupRepository.deleteTaskGroupById(taskGroupId)
-        taskRepository.deleteTaskByTaskGroupId(taskGroupId)
+        taskRepository.deleteTasksByTaskGroupId(taskGroupId)
     }
 }

@@ -21,17 +21,20 @@ import org.junit.Test
 class DeleteSessionUseCaseTest {
 
     private val sessionRepository: SessionRepository = mockk(relaxed = true)
+
     private val taskGroupRepository: TaskGroupRepository = mockk(relaxed = true)
+
     private val taskRepository: TaskRepository = mockk(relaxed = true)
 
-    private val sut = DeleteSessionUseCaseImpl(
+    private fun sut() = DeleteSessionUseCaseImpl(
         sessionRepository,
         taskGroupRepository,
         taskRepository
     )
 
     @Test
-    fun `executing the use case deletes the session and all its taskgroups and tasks`() = runTest {
+    fun `GIVEN a full session WHEN executing the UseCase THEN the session, all its taskGroups and tasks are deleted`() = runTest {
+        // GIVEN
         val sessionId = 1L
         val taskGroupId1 = 2L
         val taskGroupId2 = 6L
@@ -66,16 +69,18 @@ class DeleteSessionUseCaseTest {
             )
         )
 
-        sut.execute(sessionId)
+        // WHEN
+        sut().execute(sessionId)
         advanceUntilIdle()
 
+        // THEN
         coVerify(ordering = Ordering.SEQUENCE) {
             taskGroupRepository.getTaskGroupBySessionId(sessionId)
 
-            taskRepository.deleteTaskByTaskGroupId(taskGroupId1)
+            taskRepository.deleteTasksByTaskGroupId(taskGroupId1)
             taskGroupRepository.deleteTaskGroupById(taskGroupId1)
 
-            taskRepository.deleteTaskByTaskGroupId(taskGroupId2)
+            taskRepository.deleteTasksByTaskGroupId(taskGroupId2)
             taskGroupRepository.deleteTaskGroupById(taskGroupId2)
 
             sessionRepository.deleteSessionById(sessionId)

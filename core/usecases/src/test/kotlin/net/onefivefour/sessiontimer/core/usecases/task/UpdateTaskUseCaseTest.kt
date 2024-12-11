@@ -11,18 +11,21 @@ class UpdateTaskUseCaseTest {
 
     private val taskRepository: TaskRepository = mockk(relaxed = true)
 
-    private val sut = UpdateTaskUseCaseImpl(
+    private fun sut() = UpdateTaskUseCaseImpl(
         taskRepository
     )
 
     @Test
-    fun `executing the use case updates the task`() = runTest {
+    fun `GIVEN task data WHEN executing the UseCase THEN the taskRepository updates the task`() = runTest {
+        // GIVEN
         val taskId = 1L
         val title = "New Task Title"
         val duration = 3.seconds
 
-        sut.execute(taskId, title, duration)
+        // WHEN
+        sut().execute(taskId, title, duration)
 
+        // THEN
         coVerify(exactly = 1) {
             taskRepository.updateTask(taskId, title, duration)
         }

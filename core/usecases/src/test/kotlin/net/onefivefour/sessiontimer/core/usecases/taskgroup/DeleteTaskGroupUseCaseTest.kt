@@ -11,25 +11,28 @@ import org.junit.Test
 class DeleteTaskGroupUseCaseTest {
 
     private val taskGroupRepository: TaskGroupRepository = mockk()
+
     private val taskRepository: TaskRepository = mockk()
 
-    private val sut = DeleteTaskGroupUseCaseImpl(
+    private fun sut() = DeleteTaskGroupUseCaseImpl(
         taskGroupRepository,
         taskRepository
     )
 
     @Test
-    fun `executing the use case deletes the task group and all of its tasks`() = runTest {
+    fun `GIVEN a taskGroupId WHEN executing the UseCase THEN both repositories delete the task group and all of its tasks`() = runTest {
+        // GIVEN
         coEvery { taskGroupRepository.deleteTaskGroupById(any()) } returns Unit
-        coEvery { taskRepository.deleteTaskByTaskGroupId(any()) } returns Unit
-
+        coEvery { taskRepository.deleteTasksByTaskGroupId(any()) } returns Unit
         val taskGroupId = 1L
 
-        sut.execute(taskGroupId)
+        // WHEN
+        sut().execute(taskGroupId)
 
+        // THEN
         coVerify(exactly = 1) {
             taskGroupRepository.deleteTaskGroupById(taskGroupId)
-            taskRepository.deleteTaskByTaskGroupId(taskGroupId)
+            taskRepository.deleteTasksByTaskGroupId(taskGroupId)
         }
     }
 }

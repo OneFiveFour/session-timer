@@ -10,17 +10,20 @@ class SetSessionTitleUseCaseTest {
 
     private val sessionRepository: SessionRepository = mockk(relaxed = true)
 
-    private val sut = SetSessionTitleUseCaseImpl(
+    private fun sut() = SetSessionTitleUseCaseImpl(
         sessionRepository
     )
 
     @Test
-    fun `executing the use case sets the title to the session`() = runTest {
+    fun `GIVEN session data WHEN executing the UseCase THEN the repository is called to set the session title`() = runTest {
+        // GIVEN
         val sessionId = 1L
         val title = "Test Session Title"
 
-        sut.execute(sessionId, title)
+        // WHEN
+        sut().execute(sessionId, title)
 
+        // THEN
         coVerify(exactly = 1) {
             sessionRepository.setSessionTitle(sessionId, title)
         }

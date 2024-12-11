@@ -30,7 +30,7 @@ class TaskRepository @Inject constructor(
     suspend fun deleteTask(taskId: Long) = taskDataSource
         .deleteById(taskId)
 
-    suspend fun deleteTaskByTaskGroupId(taskGroupId: Long) = taskDataSource
+    suspend fun deleteTasksByTaskGroupId(taskGroupId: Long) = taskDataSource
         .deleteByTaskGroupId(taskGroupId)
 }
 

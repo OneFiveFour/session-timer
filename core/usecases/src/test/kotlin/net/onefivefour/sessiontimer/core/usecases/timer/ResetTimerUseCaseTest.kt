@@ -9,11 +9,16 @@ class ResetTimerUseCaseTest {
 
     private val sessionTimer: SessionTimer = mockk(relaxed = true)
 
-    private val sut = ResetTimerUseCaseImpl(sessionTimer)
+    private fun sut() = ResetTimerUseCaseImpl(
+        sessionTimer
+    )
 
     @Test
-    fun `executing UseCase is calling session timer`() {
-        sut.execute()
+    fun `WHEN executing the UseCase THEN it is calling reset on the sessionTimer`() {
+        // WHEN
+        sut().execute()
+
+        // THEN
         verify { sessionTimer.reset() }
     }
 }

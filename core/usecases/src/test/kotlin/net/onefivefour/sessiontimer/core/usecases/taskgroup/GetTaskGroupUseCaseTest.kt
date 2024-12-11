@@ -16,12 +16,13 @@ class GetTaskGroupUseCaseTest {
 
     private val taskGroupRepository: TaskGroupRepository = mockk()
 
-    private val sut = GetTaskGroupUseCaseImpl(
+    private fun sut() = GetTaskGroupUseCaseImpl(
         taskGroupRepository
     )
 
     @Test
-    fun `executing the use case returns the correct task group`() = runTest {
+    fun `GIVEN a taskGroupId WHEN executing the UseCase THEN the correct task group is returned`() = runTest {
+        // GIVEN
         val taskGroupId = 1L
         coEvery { taskGroupRepository.getTaskGroupById(taskGroupId) } returns flowOf(
             TaskGroup(
@@ -35,7 +36,11 @@ class GetTaskGroupUseCaseTest {
             )
         )
 
-        sut.execute(taskGroupId).test {
+        // WHEN
+        val result = sut().execute(taskGroupId)
+
+        // THEN
+        result.test {
             val taskGroup = awaitItem()
             assertThat(taskGroup.id).isEqualTo(taskGroupId)
             assertThat(taskGroup.title).isEqualTo("TaskGroup 1")

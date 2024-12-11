@@ -11,18 +11,20 @@ class DeleteTaskUseCaseTest {
 
     private val taskRepository: TaskRepository = mockk()
 
-    private val sut = DeleteTaskUseCaseImpl(
+    private fun sut() = DeleteTaskUseCaseImpl(
         taskRepository
     )
 
     @Test
-    fun `executing the use case deletes the task`() = runTest {
+    fun `GIVEN a taskId WHEN executing the UseCase THEN the taskRepository deletes the task`() = runTest {
+        // GIVEN
         coEvery { taskRepository.deleteTask(any()) } returns Unit
-
         val taskId = 1L
 
-        sut.execute(taskId)
+        // WHEN
+        sut().execute(taskId)
 
+        // THEN
         coVerify(exactly = 1) {
             taskRepository.deleteTask(taskId)
         }

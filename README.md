@@ -14,3 +14,6 @@
 # Open TODOs
 [ ] provide test fakes of DatabaseTaskGroup
 [ ] provide test fakes of DatabaseTask
+[ ] provide test fakes of TaskGroup
+[ ] provide test fakes of Task
+[ ] move DatabaseDefaultValuesFake to proper test package (prbably names *Fakes)

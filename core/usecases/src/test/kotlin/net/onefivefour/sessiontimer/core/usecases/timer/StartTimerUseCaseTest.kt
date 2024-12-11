@@ -10,12 +10,19 @@ class StartTimerUseCaseTest {
 
     private val sessionTimer: SessionTimer = mockk(relaxed = true)
 
-    private val sut = StartTimerUseCaseImpl(sessionTimer)
+    private fun sut() = StartTimerUseCaseImpl(
+        sessionTimer
+    )
 
     @Test
-    fun `executing UseCase is calling session timer`() {
+    fun `GIVEN a duration WHEN executing the UseCase with it THEN it is calling start on the sessionTimer`() {
+        // GIVEN
         val totalDuration = Duration.ZERO
-        sut.execute(totalDuration)
+
+        // WHEN
+        sut().execute(totalDuration)
+
+        // THEN
         verify { sessionTimer.start(totalDuration) }
     }
 }

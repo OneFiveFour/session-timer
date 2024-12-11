@@ -14,15 +14,17 @@ class NewTaskGroupUseCaseTest {
     private val taskGroupRepository: TaskGroupRepository = mockk()
     private val taskRepository: TaskRepository = mockk()
 
-    private val sut = NewTaskGroupUseCaseImpl(
+    private fun sut() = NewTaskGroupUseCaseImpl(
         taskGroupRepository,
         taskRepository,
         DatabaseDefaultValuesFake
     )
 
     @Test
-    fun `executing the use case creates a new task group and also the first of its tasks`() =
+    fun `GIVEN a sessionId WHEN executing the UseCase THEN it creates a new task group and the first of its tasks`() =
         runTest {
+            // GIVEN
+            val sessionId = 1L
             val taskGroupId = 123L
             coEvery {
                 taskGroupRepository.newTaskGroup(
@@ -33,7 +35,11 @@ class NewTaskGroupUseCaseTest {
                     sessionId = any()
                 )
             } returns Unit
-            coEvery { taskGroupRepository.getLastInsertId() } returns taskGroupId
+
+            coEvery {
+                taskGroupRepository.getLastInsertId()
+            } returns taskGroupId
+
             coEvery {
                 taskRepository.newTask(
                     title = any(),
@@ -42,9 +48,10 @@ class NewTaskGroupUseCaseTest {
                 )
             } returns Unit
 
-            val sessionId = 1L
-            sut.execute(sessionId)
+            // WHEN
+            sut().execute(sessionId)
 
+            // THEN
             coVerify(exactly = 1) {
                 taskGroupRepository.newTaskGroup(
                     DatabaseDefaultValuesFake.getTaskGroupTitle(),

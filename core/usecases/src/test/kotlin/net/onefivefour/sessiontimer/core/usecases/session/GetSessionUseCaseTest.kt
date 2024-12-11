@@ -18,15 +18,15 @@ class GetSessionUseCaseTest {
 
     private val sessionRepository: SessionRepository = mockk()
 
-    private val sut = GetSessionUseCaseImpl(
+    private fun sut() = GetSessionUseCaseImpl(
         sessionRepository
     )
 
     @Test
-    fun `executing the use case returns a session with all its task groups and tasks`() = runTest {
+    fun `GIVEN a full session WHEN executing the UseCase THEN a session with all its task groups and tasks is returned`() = runTest {
+        // GIVEN
         val sessionId = 1L
         val taskGroupId = 2L
-
         coEvery { sessionRepository.getSession(any()) } returns flowOf(
             Session(
                 id = sessionId,
@@ -52,7 +52,10 @@ class GetSessionUseCaseTest {
             )
         )
 
-        val fullSessionFlow = sut.execute(sessionId)
+        // WHEN
+        val fullSessionFlow = sut().execute(sessionId)
+
+        // THEN
         fullSessionFlow.test {
             val fullSession = awaitItem()
             checkNotNull(fullSession)
@@ -80,9 +83,9 @@ class GetSessionUseCaseTest {
     }
 
     @Test
-    fun `an empty taskGroup must be part of the full session object`() = runTest {
+    fun `GIVEN a sessionId WHEN calling the UseCase THEN an empty taskGroup must be part of the full session object`() = runTest {
+        // GIVEN
         val sessionId = 1L
-
         coEvery { sessionRepository.getSession(any()) } returns flowOf(
             Session(
                 sessionId,
@@ -91,7 +94,11 @@ class GetSessionUseCaseTest {
             )
         )
 
-        sut.execute(sessionId).test {
+        // WHEN
+        val result = sut().execute(sessionId)
+
+        // THEN
+        result.test {
             val session = awaitItem()
             checkNotNull(session)
             assertThat(session.taskGroups).isEmpty()
