@@ -5,6 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -22,7 +23,6 @@ import net.onefivefour.sessiontimer.feature.sessioneditor.api.SessionEditorRoute
 import net.onefivefour.sessiontimer.feature.sessioneditor.model.UiTask
 import org.junit.Rule
 import org.junit.Test
-import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SessionEditorRouteViewModelTest {

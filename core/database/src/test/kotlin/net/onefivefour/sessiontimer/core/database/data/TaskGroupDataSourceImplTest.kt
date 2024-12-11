@@ -15,129 +15,128 @@ import org.junit.Test
 
 internal class TaskGroupDataSourceImplTest {
 
-    private val taskGroupQueries: TaskGroupQueries = mockk()
-
     @get:Rule
     val standardTestDispatcherRule = StandardTestDispatcherRule()
 
-    private val sut = TaskGroupDataSourceImpl(
+    private val taskGroupQueries: TaskGroupQueries = mockk()
+
+    private fun sut() = TaskGroupDataSourceImpl(
         taskGroupQueries,
         standardTestDispatcherRule.testDispatcher
     )
-
-    @Before
-    fun setup() {
-        useJvmDatabaseDriver()
-    }
 
     private fun useJvmDatabaseDriver() {
         val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
         Database.Schema.create(driver)
     }
 
+    @Before
+    fun setup() {
+        useJvmDatabaseDriver()
+    }
+
     @Test
-    fun `insert delegates to correct taskGroupQueries call`() = runTest {
-        coEvery {
-            taskGroupQueries.new(
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any()
-            )
-        } returns mockk()
+    fun `GIVEN taskGroup data WHEN insert is called THEN the call is delegated to taskGroupQueries`() =
+        runTest {
+            // GIVEN
+            coEvery {
+                taskGroupQueries.new(
+                    id = any(),
+                    title = any(),
+                    color = any(),
+                    playMode = any(),
+                    numberOfRandomTasks = any(),
+                    sessionId = any()
+                )
+            } returns mockk()
+            val sessionId = 321L
+            val title = "Test TaskGroup Title"
+            val color = 123L
+            val playMode = PlayMode.RANDOM_SINGLE_TASK.toString()
+            val numberOfRandomTasks = 53L
 
-        val sessionId = 321L
-        val title = "Test TaskGroup Title"
-        val color = 123L
-        val playMode = PlayMode.RANDOM_SINGLE_TASK.toString()
-        val numberOfRandomTasks = 53L
-        sut.insert(
-            title,
-            color,
-            playMode,
-            numberOfRandomTasks,
-            sessionId
-        )
+            // WHEN
+            sut().insert(title, color, playMode, numberOfRandomTasks, sessionId)
 
-        coVerify {
-            taskGroupQueries.new(
-                null,
-                title,
-                color,
-                playMode,
-                numberOfRandomTasks,
-                sessionId
-            )
+            // THEN
+            coVerify(exactly = 1) {
+                taskGroupQueries.new(null, title, color, playMode, numberOfRandomTasks, sessionId)
+            }
         }
-    }
 
     @Test
-    fun `getById delegates to correct taskGroupQueries call`() = runTest {
-        coEvery { taskGroupQueries.getById(any()).executeAsOneOrNull() } returns null
+    fun `GIVEN a sessionId WHEN getById is called THEN the call is delegated to taskGroupQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { taskGroupQueries.getById(any()).executeAsOneOrNull() } returns null
+            val sessionId = 123L
 
-        val sessionId = 123L
-        sut.getById(sessionId)
+            // WHEN
+            sut().getById(sessionId)
 
-        coVerify { taskGroupQueries.getById(sessionId) }
-    }
-
-    @Test
-    fun `getBySessionId delegates to correct taskGroupQueries call`() = runTest {
-        coEvery { taskGroupQueries.getBySessionId(any()).executeAsOneOrNull() } returns null
-
-        val sessionId = 123L
-        sut.getBySessionId(sessionId)
-
-        coVerify { taskGroupQueries.getBySessionId(sessionId) }
-    }
-
-    @Test
-    fun `update delegates to correct taskGroupQueries call`() = runTest {
-        coEvery { taskGroupQueries.update(any(), any(), any(), any(), any()) } returns mockk()
-
-        val taskGroupId = 5L
-        val title = "Test TaskGroup Title"
-        val color = 123L
-        val playMode = PlayMode.RANDOM_SINGLE_TASK.toString()
-        val numberOfRandomTasks = 53L
-        sut.update(
-            taskGroupId,
-            title,
-            color,
-            playMode,
-            numberOfRandomTasks
-        )
-
-        coVerify {
-            taskGroupQueries.update(
-                title,
-                color,
-                playMode,
-                numberOfRandomTasks,
-                taskGroupId
-            )
+            // THEN
+            coVerify(exactly = 1) { taskGroupQueries.getById(sessionId) }
         }
-    }
 
     @Test
-    fun `deleteById delegates to correct taskGroupQueries call`() = runTest {
-        coEvery { taskGroupQueries.deleteById(any()) } returns mockk()
+    fun `GIVEN a sessionId WHEN getBySessionId is called THEN the call is delegated to taskGroupQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { taskGroupQueries.getBySessionId(any()).executeAsOneOrNull() } returns null
+            val sessionId = 123L
 
-        val taskGroupId = 123L
-        sut.deleteById(taskGroupId)
+            // WHEN
+            sut().getBySessionId(sessionId)
 
-        coVerify { taskGroupQueries.deleteById(taskGroupId) }
-    }
+            // THEN
+            coVerify(exactly = 1) { taskGroupQueries.getBySessionId(sessionId) }
+        }
 
     @Test
-    fun `deleteBySessionId delegates to correct taskGroupQueries call`() = runTest {
-        coEvery { taskGroupQueries.deleteBySessionId(any()) } returns mockk()
+    fun `GIVEN taskGroup data WHEN update is called THEN the call is delegated to taskGroupQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { taskGroupQueries.update(any(), any(), any(), any(), any()) } returns mockk()
+            val taskGroupId = 5L
+            val title = "Test TaskGroup Title"
+            val color = 123L
+            val playMode = PlayMode.RANDOM_SINGLE_TASK.toString()
+            val numberOfRandomTasks = 53L
 
-        val sessionId = 123L
-        sut.deleteBySessionId(sessionId)
+            // WHEN
+            sut().update(taskGroupId, title, color, playMode, numberOfRandomTasks)
 
-        coVerify { taskGroupQueries.deleteBySessionId(sessionId) }
-    }
+            // THEN
+            coVerify(exactly = 1) {
+                taskGroupQueries.update(title, color, playMode, numberOfRandomTasks, taskGroupId)
+            }
+        }
+
+    @Test
+    fun `GIVEN a taskGroupId WHEN deleteById is called THEN the call is delegated to taskGroupQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { taskGroupQueries.deleteById(any()) } returns mockk()
+            val taskGroupId = 123L
+
+            // WHEN
+            sut().deleteById(taskGroupId)
+
+            // THEN
+            coVerify(exactly = 1) { taskGroupQueries.deleteById(taskGroupId) }
+        }
+
+    @Test
+    fun `GIVEN a sessionId WHEN deleteBySessionId is called the call is delegated to taskGroupQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { taskGroupQueries.deleteBySessionId(any()) } returns mockk()
+
+            // WHEN
+            val sessionId = 123L
+            sut().deleteBySessionId(sessionId)
+
+            // THEN
+            coVerify(exactly = 1) { taskGroupQueries.deleteBySessionId(sessionId) }
+        }
 }

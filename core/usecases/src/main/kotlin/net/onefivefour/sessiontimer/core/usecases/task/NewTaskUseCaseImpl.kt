@@ -10,12 +10,12 @@ import net.onefivefour.sessiontimer.core.usecases.api.task.NewTaskUseCase
 class NewTaskUseCaseImpl @Inject constructor(
     private val taskRepository: TaskRepository,
     private val defaultValues: DatabaseDefaultValues
-): NewTaskUseCase {
+) : NewTaskUseCase {
 
     override suspend fun execute(taskGroupId: Long) {
         val title = defaultValues.getTaskTitle()
         val duration = defaultValues.getTaskDuration()
 
-        taskRepository.new(title, duration, taskGroupId)
+        taskRepository.newTask(title, duration, taskGroupId)
     }
 }

@@ -12,7 +12,6 @@ import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerStatus
 import org.junit.Test
 
-
 class GetTimerStatusUseCaseTest {
 
     private val sessionTimer: SessionTimer = mockk()

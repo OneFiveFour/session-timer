@@ -8,9 +8,9 @@ import net.onefivefour.sessiontimer.core.usecases.api.session.SetSessionTitleUse
 @ViewModelScoped
 class SetSessionTitleUseCaseImpl @Inject constructor(
     private val sessionRepository: SessionRepository
-): SetSessionTitleUseCase {
+) : SetSessionTitleUseCase {
 
     override suspend fun execute(sessionId: Long, title: String) {
-        sessionRepository.setTitle(sessionId, title)
+        sessionRepository.setSessionTitle(sessionId, title)
     }
 }

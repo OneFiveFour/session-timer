@@ -1,7 +1,7 @@
 package net.onefivefour.sessiontimer.feature.sessionplayer.model
 
-import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 import kotlin.time.Duration
+import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 
 internal sealed interface UiState {
 

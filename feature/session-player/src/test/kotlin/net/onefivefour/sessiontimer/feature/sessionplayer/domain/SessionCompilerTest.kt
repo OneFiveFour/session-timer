@@ -3,12 +3,12 @@ package net.onefivefour.sessiontimer.feature.sessionplayer.domain
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
+import kotlin.time.Duration.Companion.seconds
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import org.junit.Test
-import kotlin.time.Duration.Companion.seconds
 
 class SessionCompilerTest {
 
@@ -40,7 +40,7 @@ class SessionCompilerTest {
         val compiledSession = SessionCompiler.compile(session)
 
         // Verify
-        assertThat(compiledSession.sessionTitle).isEqualTo( "Test Session")
+        assertThat(compiledSession.sessionTitle).isEqualTo("Test Session")
         assertThat(compiledSession.taskList.size).isEqualTo(2)
         assertThat(compiledSession.totalDuration).isEqualTo(30.seconds)
 
@@ -132,7 +132,11 @@ class SessionCompilerTest {
         assertThat(compiledSession.sessionTitle).isEqualTo("Test Session")
         assertThat(compiledSession.taskList.size).isEqualTo(2)
         assertThat(compiledSession.taskList.map { it.taskTitle }).containsNoDuplicates()
-        assertThat(compiledSession.taskList.map { it.taskTitle }).containsAnyIn(listOf("Task 1", "Task 2", "Task 3"))
+        assertThat(
+            compiledSession.taskList.map {
+                it.taskTitle
+            }
+        ).containsAnyIn(listOf("Task 1", "Task 2", "Task 3"))
     }
 
     @Test
@@ -169,7 +173,11 @@ class SessionCompilerTest {
         // Verify
         assertThat(compiledSession.sessionTitle).isEqualTo("Test Session")
         assertThat(compiledSession.taskList.size).isEqualTo(3)
-        assertThat(compiledSession.taskList.map { it.taskTitle }).containsExactlyElementsIn(listOf("Task 1", "Task 2", "Task 3"))
+        assertThat(
+            compiledSession.taskList.map {
+                it.taskTitle
+            }
+        ).containsExactlyElementsIn(listOf("Task 1", "Task 2", "Task 3"))
     }
 
     @Test

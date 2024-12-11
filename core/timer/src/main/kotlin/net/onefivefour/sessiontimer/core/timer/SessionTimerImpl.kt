@@ -3,6 +3,7 @@ package net.onefivefour.sessiontimer.core.timer
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -17,8 +18,6 @@ import net.onefivefour.sessiontimer.core.di.DefaultDispatcher
 import net.onefivefour.sessiontimer.core.timer.api.SessionTimer
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerStatus
-import javax.inject.Singleton
-import kotlin.time.Duration.Companion.seconds
 
 @ViewModelScoped
 internal class SessionTimerImpl @Inject constructor(

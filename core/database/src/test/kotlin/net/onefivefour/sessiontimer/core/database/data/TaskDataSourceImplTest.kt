@@ -14,94 +14,118 @@ import org.junit.Test
 
 internal class TaskDataSourceImplTest {
 
-    private val taskQueries: TaskQueries = mockk()
-
     @get:Rule
     val standardTestDispatcherRule = StandardTestDispatcherRule()
 
-    private val sut = TaskDataSourceImpl(
+    private val taskQueries: TaskQueries = mockk()
+
+    private fun sut() = TaskDataSourceImpl(
         taskQueries,
         standardTestDispatcherRule.testDispatcher
     )
-
-    @Before
-    fun setup() {
-        useJvmDatabaseDriver()
-    }
 
     private fun useJvmDatabaseDriver() {
         val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
         Database.Schema.create(driver)
     }
 
+    @Before
+    fun setup() {
+        useJvmDatabaseDriver()
+    }
+
     @Test
-    fun `insert delegates to correct taskQueries call`() = runTest {
-        coEvery { taskQueries.new(any(), any(), any(), any()) } returns mockk()
+    fun `GIVEN data for a task WHEN insert is called THEN the call is delegated to taskQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { taskQueries.new(any(), any(), any(), any()) } returns mockk()
+            val taskGroupId = 321L
+            val duration = 123L
+            val taskTitle = "Test Task Title"
 
-        val taskGroupId = 321L
-        val duration = 123L
-        val taskTitle = "Test Task Title"
-        sut.insert(taskTitle, duration, taskGroupId)
+            // WHEN
+            sut().insert(taskTitle, duration, taskGroupId)
 
-        coVerify {
-            taskQueries.new(
-                id = null,
-                title = taskTitle,
-                durationInSeconds = duration,
-                taskGroupId = taskGroupId
-            )
+            // THEN
+            coVerify(exactly = 1) {
+                taskQueries.new(
+                    id = null,
+                    title = taskTitle,
+                    durationInSeconds = duration,
+                    taskGroupId = taskGroupId
+                )
+            }
         }
-    }
 
     @Test
-    fun `getByTaskGroupIds delegates to correct taskQueries call`() = runTest {
-        coEvery { taskQueries.getByTaskGroupIds(any()).executeAsOneOrNull() } returns null
+    fun `GIVEN taskGroupIds WHEN getByTaskGroupIds is called THEN the call is delegated to taskQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { taskQueries.getByTaskGroupIds(any()).executeAsOneOrNull() } returns null
+            val taskGroupIds = listOf(1L, 2L, 3L)
 
-        val taskGroupIds = listOf(1L, 2L, 3L)
-        sut.getByTaskGroupIds(taskGroupIds)
+            // WHEN
+            sut().getByTaskGroupIds(taskGroupIds)
 
-        coVerify { taskQueries.getByTaskGroupIds(taskGroupIds) }
-    }
-
-    @Test
-    fun `update delegates to correct taskQueries call`() = runTest {
-        coEvery { taskQueries.update(any(), any(), any()) } returns mockk()
-
-        val taskId = 123L
-        val title = "Test Title"
-        val duration = 3L
-        sut.update(taskId, title, duration)
-
-        coVerify { taskQueries.update(title, duration, taskId) }
-    }
+            // THEN
+            coVerify(exactly = 1) { taskQueries.getByTaskGroupIds(taskGroupIds) }
+        }
 
     @Test
-    fun `deleteById delegates to correct taskQueries call`() = runTest {
-        coEvery { taskQueries.deleteById(any()) } returns mockk()
+    fun `GIVEN task data WHEN update is called THEN the call is delegated to taskQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { taskQueries.update(any(), any(), any()) } returns mockk()
+            val taskId = 123L
+            val title = "Test Title"
+            val duration = 3L
 
-        val taskId = 123L
-        sut.deleteById(taskId)
+            // WHEN
+            sut().update(taskId, title, duration)
 
-        coVerify { taskQueries.deleteById(taskId) }
-    }
-
-    @Test
-    fun `deleteByIds delegates to correct taskQueries call`() = runTest {
-        coEvery { taskQueries.deleteByIds(any()) } returns mockk()
-
-        val taskIds = listOf(123L)
-        sut.deleteByIds(taskIds)
-
-        coVerify { taskQueries.deleteByIds(taskIds) }
-    }
+            // THEN
+            coVerify(exactly = 1) { taskQueries.update(title, duration, taskId) }
+        }
 
     @Test
-    fun `deleteByTaskGroup delegates to correct taskQueries call`() = runTest {
-        coEvery { taskQueries.deleteByTaskGroupId(any()) } returns mockk()
+    fun `GIVEN a taskId WHEN deleteById is called THEN the call is delegated to taskQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { taskQueries.deleteById(any()) } returns mockk()
 
-        val taskId = 123L
-        sut.deleteByTaskGroupId(taskId)
+            // WHEN
+            val taskId = 123L
+            sut().deleteById(taskId)
 
-        coVerify { taskQueries.deleteByTaskGroupId(taskId) }
-    }
+            // THEN
+            coVerify(exactly = 1) { taskQueries.deleteById(taskId) }
+        }
+
+    @Test
+    fun `GIVEN a list of taskIds WHEN deleteByIds is called THEN the call is delegated to taskQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { taskQueries.deleteByIds(any()) } returns mockk()
+
+            // WHEN
+            val taskIds = listOf(123L)
+            sut().deleteByIds(taskIds)
+
+            // THEN
+            coVerify(exactly = 1) { taskQueries.deleteByIds(taskIds) }
+        }
+
+    @Test
+    fun `GIVEN a taskId WHEN deleteByTaskGroup is called THEN the call is delegated to taskQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { taskQueries.deleteByTaskGroupId(any()) } returns mockk()
+
+            // WHEN
+            val taskId = 123L
+            sut().deleteByTaskGroupId(taskId)
+
+            // THEN
+            coVerify(exactly = 1) { taskQueries.deleteByTaskGroupId(taskId) }
+        }
 }

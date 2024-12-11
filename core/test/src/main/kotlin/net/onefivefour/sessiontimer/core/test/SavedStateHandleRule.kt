@@ -11,7 +11,7 @@ import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
 class SavedStateHandleRule(
-    private val route: Any,
+    private val route: Any
 ) : TestWatcher() {
 
     val savedStateHandleMock: SavedStateHandle = mockk()

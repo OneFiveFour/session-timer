@@ -8,9 +8,9 @@ import net.onefivefour.sessiontimer.core.usecases.api.task.DeleteTaskUseCase
 @ViewModelScoped
 class DeleteTaskUseCaseImpl @Inject constructor(
     private val taskRepository: TaskRepository
-): DeleteTaskUseCase {
+) : DeleteTaskUseCase {
 
     override suspend fun execute(taskId: Long) {
-        taskRepository.delete(taskId)
+        taskRepository.deleteTask(taskId)
     }
 }

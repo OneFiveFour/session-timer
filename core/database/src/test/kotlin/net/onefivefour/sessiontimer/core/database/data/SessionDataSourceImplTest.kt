@@ -14,73 +14,93 @@ import org.junit.Test
 
 internal class SessionDataSourceImplTest {
 
-    private val sessionQueries: SessionQueries = mockk()
-
     @get:Rule
     val standardTestDispatcherRule = StandardTestDispatcherRule()
 
-    private val sut = SessionDataSourceImpl(
+    private val sessionQueries: SessionQueries = mockk()
+
+    private fun sut() = SessionDataSourceImpl(
         sessionQueries,
         standardTestDispatcherRule.testDispatcher
     )
-
-    @Before
-    fun setup() {
-        useJvmDatabaseDriver()
-    }
 
     private fun useJvmDatabaseDriver() {
         val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
         Database.Schema.create(driver)
     }
 
-    @Test
-    fun `insert delegates to correct sessionQueries call`() = runTest {
-        coEvery { sessionQueries.new(any(), any()) } returns mockk()
-
-        val title = "title"
-        sut.insert(title)
-
-        coVerify { sessionQueries.new(null, title) }
+    @Before
+    fun setup() {
+        useJvmDatabaseDriver()
     }
 
     @Test
-    fun `getAll delegates to correct sessionQueries call`() = runTest {
-        coEvery { sessionQueries.getAll() } returns mockk()
+    fun `GIVEN data for new session WHEN insert is called THEN the call is delegated to sessionQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { sessionQueries.new(any(), any()) } returns mockk()
+            val title = "title"
 
-        sut.getAll()
+            // WHEN
+            sut().insert(title)
 
-        coVerify { sessionQueries.getAll() }
-    }
-
-    @Test
-    fun `getFullSessionById delegates to correct sessionQueries call`() = runTest {
-        coEvery { sessionQueries.denormalizedSessionView(any()).executeAsOneOrNull() } returns null
-
-        val sessionId = 123L
-        sut.getDenormalizedSessionView(sessionId)
-
-        coVerify { sessionQueries.denormalizedSessionView(sessionId) }
-    }
+            // THEN
+            coVerify(exactly = 1) { sessionQueries.new(null, title) }
+        }
 
     @Test
-    fun `deleteById delegates to correct sessionQueries call`() = runTest {
-        coEvery { sessionQueries.deleteById(any()) } returns mockk()
+    fun `GIVEN mocked sessions WHEN getAll is called THEN the call is delegated to sessionQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { sessionQueries.getAll() } returns mockk()
 
-        val sessionId = 123L
-        sut.deleteById(sessionId)
+            // WHEN
+            sut().getAll()
 
-        coVerify { sessionQueries.deleteById(sessionId) }
-    }
+            // THEN
+            coVerify(exactly = 1) { sessionQueries.getAll() }
+        }
 
     @Test
-    fun `setTitle delegates to correct sessionQueries call`() = runTest {
-        coEvery { sessionQueries.setTitle(any(), any()) } returns mockk()
+    fun `GIVEN a sessionId WHEN getDenormalizedSessionView is called THEN the call is delegated to sessionQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { sessionQueries.denormalizedSessionView(any()).executeAsOneOrNull() } returns null
+            val sessionId = 123L
 
-        val sessionId = 123L
-        val title = "Test Title"
-        sut.setTitle(sessionId, title)
+            // WHEN
+            sut().getDenormalizedSessionView(sessionId)
 
-        coVerify { sessionQueries.setTitle(title, sessionId) }
-    }
+            // THEN
+            coVerify(exactly = 1) { sessionQueries.denormalizedSessionView(sessionId) }
+        }
+
+    @Test
+    fun `GIVEN a sessionId WHEN deleteById is called THEN the call is delegated to sessionQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { sessionQueries.deleteById(any()) } returns mockk()
+            val sessionId = 123L
+
+            // WHEN
+            sut().deleteById(sessionId)
+
+            // THEN
+            coVerify(exactly = 1) { sessionQueries.deleteById(sessionId) }
+        }
+
+    @Test
+    fun `GIVEN a sessionId and title WHEN setTitle is called THEN the call is delegated to sessionQueries`() =
+        runTest {
+            // GIVEN
+            coEvery { sessionQueries.setTitle(any(), any()) } returns mockk()
+            val sessionId = 123L
+            val title = "Test Title"
+
+            // WHEN
+            sut().setTitle(sessionId, title)
+
+            // THEN
+            coVerify(exactly = 1) { sessionQueries.setTitle(title, sessionId) }
+        }
 }

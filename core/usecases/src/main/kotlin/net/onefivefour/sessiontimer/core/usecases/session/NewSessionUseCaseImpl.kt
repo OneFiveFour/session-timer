@@ -14,11 +14,11 @@ class NewSessionUseCaseImpl @Inject constructor(
     private val taskGroupRepository: TaskGroupRepository,
     private val taskRepository: TaskRepository,
     private val defaultValues: DatabaseDefaultValues
-): NewSessionUseCase {
+) : NewSessionUseCase {
 
     override suspend fun execute() {
         val defaultSessionTitle = defaultValues.getSessionTitle()
-        sessionRepository.new(defaultSessionTitle)
+        sessionRepository.newSession(defaultSessionTitle)
 
         val sessionId = sessionRepository.getLastInsertId()
         val taskGroupTitle = defaultValues.getTaskGroupTitle()
@@ -26,7 +26,7 @@ class NewSessionUseCaseImpl @Inject constructor(
         val taskGroupPlayMode = defaultValues.getTaskGroupPlayMode()
         val taskGroupNumberOfRandomTasks = defaultValues.getTaskGroupNumberOfRandomTasks()
 
-        taskGroupRepository.new(
+        taskGroupRepository.newTaskGroup(
             taskGroupTitle,
             taskGroupColor,
             taskGroupPlayMode,
@@ -37,6 +37,6 @@ class NewSessionUseCaseImpl @Inject constructor(
         val taskGroupId = taskGroupRepository.getLastInsertId()
         val taskTitle = defaultValues.getTaskTitle()
         val taskDuration = defaultValues.getTaskDuration()
-        taskRepository.new(taskTitle, taskDuration, taskGroupId)
+        taskRepository.newTask(taskTitle, taskDuration, taskGroupId)
     }
 }

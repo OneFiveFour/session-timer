@@ -12,7 +12,6 @@ import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import org.junit.Test
 
-
 class GetTaskGroupUseCaseTest {
 
     private val taskGroupRepository: TaskGroupRepository = mockk()
@@ -24,7 +23,7 @@ class GetTaskGroupUseCaseTest {
     @Test
     fun `executing the use case returns the correct task group`() = runTest {
         val taskGroupId = 1L
-        coEvery { taskGroupRepository.getById(taskGroupId) } returns flowOf(
+        coEvery { taskGroupRepository.getTaskGroupById(taskGroupId) } returns flowOf(
             TaskGroup(
                 id = taskGroupId,
                 title = "TaskGroup 1",
@@ -49,7 +48,7 @@ class GetTaskGroupUseCaseTest {
         }
 
         coVerify(exactly = 1) {
-            taskGroupRepository.getById(taskGroupId)
+            taskGroupRepository.getTaskGroupById(taskGroupId)
         }
     }
 }

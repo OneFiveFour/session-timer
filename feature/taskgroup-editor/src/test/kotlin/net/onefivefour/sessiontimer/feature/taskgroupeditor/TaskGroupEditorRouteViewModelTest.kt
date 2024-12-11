@@ -21,7 +21,6 @@ import net.onefivefour.sessiontimer.feature.taskgroupeditor.api.TaskGroupEditorR
 import org.junit.Rule
 import org.junit.Test
 
-
 @OptIn(ExperimentalCoroutinesApi::class)
 class TaskGroupEditorRouteViewModelTest {
 
@@ -97,13 +96,15 @@ class TaskGroupEditorRouteViewModelTest {
                 sessionId = 2L
             )
         )
-        coEvery { updateTaskGroupUseCase.execute(
-            any(),
-            any(),
-            any(),
-            any(),
-            any()
-        ) } returns Unit
+        coEvery {
+            updateTaskGroupUseCase.execute(
+                any(),
+                any(),
+                any(),
+                any(),
+                any()
+            )
+        } returns Unit
 
         val sut = sut()
         val title = "Test TaskGroup Title"
@@ -122,7 +123,7 @@ class TaskGroupEditorRouteViewModelTest {
 
         advanceUntilIdle()
 
-        coVerify {
+        coVerify(exactly = 1) {
             updateTaskGroupUseCase.execute(
                 taskGroupId,
                 title,
@@ -132,5 +133,4 @@ class TaskGroupEditorRouteViewModelTest {
             )
         }
     }
-
 }

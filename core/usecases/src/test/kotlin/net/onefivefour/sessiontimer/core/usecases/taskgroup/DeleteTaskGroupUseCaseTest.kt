@@ -8,7 +8,6 @@ import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import org.junit.Test
 
-
 class DeleteTaskGroupUseCaseTest {
 
     private val taskGroupRepository: TaskGroupRepository = mockk()
@@ -21,16 +20,16 @@ class DeleteTaskGroupUseCaseTest {
 
     @Test
     fun `executing the use case deletes the task group and all of its tasks`() = runTest {
-        coEvery { taskGroupRepository.deleteById(any()) } returns Unit
-        coEvery { taskRepository.deleteByTaskGroupId(any()) } returns Unit
+        coEvery { taskGroupRepository.deleteTaskGroupById(any()) } returns Unit
+        coEvery { taskRepository.deleteTaskByTaskGroupId(any()) } returns Unit
 
         val taskGroupId = 1L
 
         sut.execute(taskGroupId)
 
         coVerify(exactly = 1) {
-            taskGroupRepository.deleteById(taskGroupId)
-            taskRepository.deleteByTaskGroupId(taskGroupId)
+            taskGroupRepository.deleteTaskGroupById(taskGroupId)
+            taskRepository.deleteTaskByTaskGroupId(taskGroupId)
         }
     }
 }

@@ -1,22 +1,20 @@
 package net.onefivefour.sessiontimer.feature.sessionplayer.domain
 
+import kotlin.time.Duration
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiCompiledSession
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiCompiledTask
-import kotlin.time.Duration
 
 internal object SessionCompiler {
 
     fun compile(session: Session): UiCompiledSession {
-
         val taskList = mutableListOf<UiCompiledTask>()
         var totalDuration = Duration.ZERO
 
         for (taskGroup in session.taskGroups) {
-
             val (tasks, taskGroupDuration) = when (taskGroup.playMode) {
                 PlayMode.SEQUENCE -> getSequenceTaskList(
                     taskGroup = taskGroup
@@ -58,7 +56,6 @@ internal object SessionCompiler {
         taskGroup: TaskGroup,
         taskList: List<Task>? = null
     ): Pair<List<UiCompiledTask>, Duration> {
-
         val tasks = taskList ?: taskGroup.tasks
 
         return tasks
@@ -70,8 +67,8 @@ internal object SessionCompiler {
                     taskDuration = task.duration
                 )
             } to
-                tasks
-                    .map { it.duration }
-                    .fold(Duration.ZERO, Duration::plus)
+            tasks
+                .map { it.duration }
+                .fold(Duration.ZERO, Duration::plus)
     }
 }

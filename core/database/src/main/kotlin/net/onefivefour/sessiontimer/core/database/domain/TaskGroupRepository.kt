@@ -11,7 +11,7 @@ class TaskGroupRepository @Inject constructor(
     private val taskGroupDataSource: TaskGroupDataSource
 ) {
 
-    suspend fun new(
+    suspend fun newTaskGroup(
         title: String,
         color: Long,
         playMode: PlayMode,
@@ -26,15 +26,15 @@ class TaskGroupRepository @Inject constructor(
             sessionId = sessionId
         )
 
-    suspend fun getById(taskGroupId: Long) = taskGroupDataSource
+    suspend fun getTaskGroupById(taskGroupId: Long) = taskGroupDataSource
         .getById(taskGroupId)
         .map { it.toDomainTaskGroup() }
 
-    suspend fun getBySessionId(sessionId: Long) = taskGroupDataSource
+    suspend fun getTaskGroupBySessionId(sessionId: Long) = taskGroupDataSource
         .getBySessionId(sessionId)
         .map { it.toDomainTaskGroup() }
 
-    suspend fun update(
+    suspend fun updateTaskGroup(
         taskGroupId: Long,
         title: String,
         color: Int,
@@ -49,7 +49,7 @@ class TaskGroupRepository @Inject constructor(
             numberOfRandomTasks.toLong()
         )
 
-    suspend fun deleteById(taskGroupId: Long) = taskGroupDataSource
+    suspend fun deleteTaskGroupById(taskGroupId: Long) = taskGroupDataSource
         .deleteById(taskGroupId)
 
     fun getLastInsertId() = taskGroupDataSource

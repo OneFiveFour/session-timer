@@ -9,7 +9,7 @@ import net.onefivefour.sessiontimer.core.usecases.api.taskgroup.UpdateTaskGroupU
 @ViewModelScoped
 class UpdateTaskGroupUseCaseImpl @Inject constructor(
     private val taskGroupRepository: TaskGroupRepository
-): UpdateTaskGroupUseCase {
+) : UpdateTaskGroupUseCase {
 
     override suspend fun execute(
         id: Long,
@@ -18,7 +18,7 @@ class UpdateTaskGroupUseCaseImpl @Inject constructor(
         playMode: PlayMode,
         numberOfRandomTasks: Int
     ) {
-        taskGroupRepository.update(
+        taskGroupRepository.updateTaskGroup(
             id,
             title,
             color,

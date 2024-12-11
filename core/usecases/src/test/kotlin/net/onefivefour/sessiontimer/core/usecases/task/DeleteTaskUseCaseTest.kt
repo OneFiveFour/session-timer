@@ -7,7 +7,6 @@ import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import org.junit.Test
 
-
 class DeleteTaskUseCaseTest {
 
     private val taskRepository: TaskRepository = mockk()
@@ -18,14 +17,14 @@ class DeleteTaskUseCaseTest {
 
     @Test
     fun `executing the use case deletes the task`() = runTest {
-        coEvery { taskRepository.delete(any()) } returns Unit
+        coEvery { taskRepository.deleteTask(any()) } returns Unit
 
         val taskId = 1L
 
         sut.execute(taskId)
 
         coVerify(exactly = 1) {
-            taskRepository.delete(taskId)
+            taskRepository.deleteTask(taskId)
         }
     }
 }

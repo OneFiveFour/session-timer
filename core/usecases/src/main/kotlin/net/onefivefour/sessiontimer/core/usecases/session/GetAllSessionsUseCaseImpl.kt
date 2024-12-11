@@ -10,9 +10,9 @@ import net.onefivefour.sessiontimer.core.usecases.api.session.GetAllSessionsUseC
 @ViewModelScoped
 class GetAllSessionsUseCaseImpl @Inject constructor(
     private val sessionRepository: SessionRepository
-): GetAllSessionsUseCase {
+) : GetAllSessionsUseCase {
 
     override fun execute(): Flow<List<Session>> {
-        return sessionRepository.getAll()
+        return sessionRepository.getAllSessions()
     }
 }

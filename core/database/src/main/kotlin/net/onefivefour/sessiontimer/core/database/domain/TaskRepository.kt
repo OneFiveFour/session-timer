@@ -13,24 +13,24 @@ class TaskRepository @Inject constructor(
     private val taskDataSource: TaskDataSource
 ) {
 
-    suspend fun new(title: String, durationInSeconds: Int, taskGroupId: Long) = taskDataSource
+    suspend fun newTask(title: String, durationInSeconds: Int, taskGroupId: Long) = taskDataSource
         .insert(
             title = title,
             durationInSeconds = durationInSeconds.toLong(),
             taskGroupId = taskGroupId
         )
 
-    suspend fun getByTaskGroupIds(taskGroupIds: List<Long>) = taskDataSource
+    suspend fun getTasksByTaskGroupIds(taskGroupIds: List<Long>) = taskDataSource
         .getByTaskGroupIds(taskGroupIds)
         .map { it.toDomainTask() }
 
-    suspend fun update(taskId: Long, title: String, duration: Duration) = taskDataSource
+    suspend fun updateTask(taskId: Long, title: String, duration: Duration) = taskDataSource
         .update(taskId, title, duration.toLong(DurationUnit.SECONDS))
 
-    suspend fun delete(taskId: Long) = taskDataSource
+    suspend fun deleteTask(taskId: Long) = taskDataSource
         .deleteById(taskId)
 
-    suspend fun deleteByTaskGroupId(taskGroupId: Long) = taskDataSource
+    suspend fun deleteTaskByTaskGroupId(taskGroupId: Long) = taskDataSource
         .deleteByTaskGroupId(taskGroupId)
 }
 

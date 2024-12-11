@@ -10,10 +10,10 @@ import net.onefivefour.sessiontimer.core.usecases.api.taskgroup.DeleteTaskGroupU
 class DeleteTaskGroupUseCaseImpl @Inject constructor(
     private val taskGroupRepository: TaskGroupRepository,
     private val taskRepository: TaskRepository
-): DeleteTaskGroupUseCase {
+) : DeleteTaskGroupUseCase {
 
     override suspend fun execute(taskGroupId: Long) {
-        taskGroupRepository.deleteById(taskGroupId)
-        taskRepository.deleteByTaskGroupId(taskGroupId)
+        taskGroupRepository.deleteTaskGroupById(taskGroupId)
+        taskRepository.deleteTaskByTaskGroupId(taskGroupId)
     }
 }

@@ -8,7 +8,7 @@ data class Session(
     val taskGroups: List<TaskGroup>
 )
 
-fun Session.getTotalDuration() : Duration {
+fun Session.getTotalDuration(): Duration {
     return this.taskGroups
         .flatMap { it.tasks }
         .map { it.duration }

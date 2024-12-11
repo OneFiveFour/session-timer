@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import net.onefivefour.sessiontimer.feature.sessionplayer.R
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
-import kotlin.time.Duration
 
 @Composable
 internal fun SessionPlayer(
@@ -33,9 +32,7 @@ internal fun SessionPlayer(
         }
 
         is UiState.Running -> {
-
         }
-
     }
 
     Column {

@@ -18,7 +18,6 @@ import net.onefivefour.sessiontimer.core.usecases.api.session.SetSessionTitleUse
 import org.junit.Rule
 import org.junit.Test
 
-
 @OptIn(ExperimentalCoroutinesApi::class)
 class SessionOverviewViewModelTest {
 

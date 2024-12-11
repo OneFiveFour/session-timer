@@ -10,3 +10,7 @@
 // generate database classes
 ./gradlew :core:database:generateSqlDelightInterface
 ```
+
+# Open TODOs
+[ ] provide test fakes of DatabaseTaskGroup
+[ ] provide test fakes of DatabaseTask

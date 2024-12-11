@@ -8,7 +8,7 @@ import net.onefivefour.sessiontimer.core.usecases.api.timer.PauseTimerUseCase
 @ViewModelScoped
 internal class PauseTimerUseCaseImpl @Inject constructor(
     private val sessionTimer: SessionTimer
-): PauseTimerUseCase {
+) : PauseTimerUseCase {
 
     override fun execute() {
         sessionTimer.pause()

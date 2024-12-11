@@ -8,7 +8,7 @@ import net.onefivefour.sessiontimer.core.usecases.api.timer.ResetTimerUseCase
 @ViewModelScoped
 class ResetTimerUseCaseImpl @Inject constructor(
     private val sessionTimer: SessionTimer
-): ResetTimerUseCase {
+) : ResetTimerUseCase {
 
     override fun execute() {
         sessionTimer.reset()

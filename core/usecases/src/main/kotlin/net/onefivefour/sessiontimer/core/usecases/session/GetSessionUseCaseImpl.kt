@@ -10,7 +10,7 @@ import net.onefivefour.sessiontimer.core.usecases.api.session.GetSessionUseCase
 @ViewModelScoped
 class GetSessionUseCaseImpl @Inject constructor(
     private val sessionRepository: SessionRepository
-): GetSessionUseCase {
+) : GetSessionUseCase {
     override suspend fun execute(sessionId: Long): Flow<Session?> {
         return sessionRepository.getSession(sessionId)
     }

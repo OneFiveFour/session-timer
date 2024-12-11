@@ -13,6 +13,6 @@ class GetTaskGroupUseCaseImpl @Inject constructor(
 ) : GetTaskGroupUseCase {
 
     override suspend fun execute(taskGroupId: Long): Flow<TaskGroup> {
-        return taskGroupRepository.getById(taskGroupId)
+        return taskGroupRepository.getTaskGroupById(taskGroupId)
     }
 }

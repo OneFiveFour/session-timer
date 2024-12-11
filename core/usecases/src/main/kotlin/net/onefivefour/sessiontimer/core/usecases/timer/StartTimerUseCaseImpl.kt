@@ -9,7 +9,7 @@ import net.onefivefour.sessiontimer.core.usecases.api.timer.StartTimerUseCase
 @ViewModelScoped
 class StartTimerUseCaseImpl @Inject constructor(
     private val sessionTimer: SessionTimer
-): StartTimerUseCase {
+) : StartTimerUseCase {
 
     override fun execute(totalDuration: Duration) {
         sessionTimer.start(totalDuration)

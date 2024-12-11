@@ -5,7 +5,6 @@ import io.mockk.verify
 import net.onefivefour.sessiontimer.core.timer.api.SessionTimer
 import org.junit.Test
 
-
 class PauseTimerUseCaseTest {
 
     private val sessionTimer: SessionTimer = mockk(relaxed = true)

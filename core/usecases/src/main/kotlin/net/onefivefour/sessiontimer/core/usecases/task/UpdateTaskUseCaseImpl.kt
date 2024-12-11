@@ -9,9 +9,9 @@ import net.onefivefour.sessiontimer.core.usecases.api.task.UpdateTaskUseCase
 @ViewModelScoped
 class UpdateTaskUseCaseImpl @Inject constructor(
     private val taskRepository: TaskRepository
-): UpdateTaskUseCase {
+) : UpdateTaskUseCase {
 
     override suspend fun execute(taskId: Long, title: String, duration: Duration) {
-        taskRepository.update(taskId, title, duration)
+        taskRepository.updateTask(taskId, title, duration)
     }
 }

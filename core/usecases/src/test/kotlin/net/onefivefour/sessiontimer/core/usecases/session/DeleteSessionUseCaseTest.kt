@@ -17,7 +17,6 @@ import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import org.junit.Test
 
-
 @OptIn(ExperimentalCoroutinesApi::class)
 class DeleteSessionUseCaseTest {
 
@@ -36,7 +35,7 @@ class DeleteSessionUseCaseTest {
         val sessionId = 1L
         val taskGroupId1 = 2L
         val taskGroupId2 = 6L
-        coEvery { taskGroupRepository.getBySessionId(any()) } returns flowOf(
+        coEvery { taskGroupRepository.getTaskGroupBySessionId(any()) } returns flowOf(
             listOf(
                 TaskGroup(
                     id = taskGroupId1,
@@ -71,15 +70,15 @@ class DeleteSessionUseCaseTest {
         advanceUntilIdle()
 
         coVerify(ordering = Ordering.SEQUENCE) {
-            taskGroupRepository.getBySessionId(sessionId)
+            taskGroupRepository.getTaskGroupBySessionId(sessionId)
 
-            taskRepository.deleteByTaskGroupId(taskGroupId1)
-            taskGroupRepository.deleteById(taskGroupId1)
+            taskRepository.deleteTaskByTaskGroupId(taskGroupId1)
+            taskGroupRepository.deleteTaskGroupById(taskGroupId1)
 
-            taskRepository.deleteByTaskGroupId(taskGroupId2)
-            taskGroupRepository.deleteById(taskGroupId2)
+            taskRepository.deleteTaskByTaskGroupId(taskGroupId2)
+            taskGroupRepository.deleteTaskGroupById(taskGroupId2)
 
-            sessionRepository.deleteById(sessionId)
+            sessionRepository.deleteSessionById(sessionId)
         }
     }
 }

@@ -22,11 +22,7 @@ import androidx.compose.ui.unit.dp
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 
 @Composable
-internal fun TaskGroupEditor(
-    uiState: UiState,
-    onUpdateTaskGroup: (UiTaskGroup) -> Unit
-) {
-
+internal fun TaskGroupEditor(uiState: UiState, onUpdateTaskGroup: (UiTaskGroup) -> Unit) {
     when (uiState) {
         UiState.Initial -> {
             Text(text = "TaskGroup Editor")
@@ -117,6 +113,4 @@ internal fun TaskGroupEditor(
             Text(text = "OK")
         }
     }
-
-
 }

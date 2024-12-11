@@ -17,109 +17,118 @@ class SessionRepositoryTest {
 
     private val sessionDataSource: SessionDataSource = mockk()
 
-    private val sut = SessionRepository(
+    private fun sut() = SessionRepository(
         sessionDataSource
     )
 
     @Test
-    fun `new session insertion should call data source insert method`() = runTest {
-        val title = "Sample Session"
+    fun `GIVEN a sessionTitle WHEN newSession is called THEN the call is delegated to sessionDataSource`() =
+        runTest {
+            // GIVEN
+            coEvery { sessionDataSource.insert(any()) } returns Unit
+            val title = "Sample Session"
 
-        coEvery { sessionDataSource.insert(any()) } returns Unit
+            // WHEN
+            sut().newSession(title)
 
-        sut.new(title)
-
-        coVerify { sessionDataSource.insert(title) }
-    }
-
-    @Test
-    fun `getAll should return mapped DomainSessions`() = runTest {
-        val databaseSessions = listOf(
-            DatabaseSession(1L, "Session 1"),
-            DatabaseSession(2L, "Session 2")
-        )
-
-        coEvery { sessionDataSource.getAll() } returns flowOf(
-            databaseSessions
-        )
-
-        sut.getAll().test {
-            val result = awaitItem()
-            assertThat(result).isEqualTo(databaseSessions.map { it.toDomainSession() })
-            awaitComplete()
+            // THEN
+            coVerify(exactly = 1) { sessionDataSource.insert(title) }
         }
-    }
 
     @Test
-    fun `getDenormalizedSessionView should return mapped DomainSession`() = runTest {
-        val sessionId = 1L
-        val denormalizedSessionView = DenormalizedSessionView(
-            sessionId = sessionId,
-            sessionTitle = "Session 1",
-            taskGroupId = 2L,
-            taskGroupTitle = "Task Group 1",
-            taskGroupColor = 0xFF00FFL,
-            taskGroupPlayMode = PlayMode.RANDOM_SINGLE_TASK.toString(),
-            taskGroupNumberOfRandomTasks = 3,
-            taskId = 1L,
-            taskTaskGroupId = 1L,
-            taskTitle = "Task 1",
-            taskDuration = 300
-        )
+    fun `GIVEN a list of sessions WHEN getAllSessions is called THEN the mapped DomainSessions should be returned`() =
+        runTest {
+            // GIVEN
+            val databaseSessions = listOf(
+                DatabaseSession(1L, "Session 1"),
+                DatabaseSession(2L, "Session 2")
+            )
+            coEvery { sessionDataSource.getAll() } returns flowOf(databaseSessions)
 
-        coEvery { sessionDataSource.getDenormalizedSessionView(sessionId) } returns flowOf(
-            listOf(denormalizedSessionView)
-        )
+            // WHEN
+            val domainSessions = sut().getAllSessions()
 
-        sut.getSession(sessionId).test {
-            val result = awaitItem()
-            assertThat(result).isEqualTo(listOf(denormalizedSessionView).toDomainSession())
-            awaitComplete()
+            // THEN
+            domainSessions.test {
+                val result = awaitItem()
+                assertThat(result).isEqualTo(databaseSessions.map { it.toDomainSession() })
+                awaitComplete()
+            }
         }
-    }
 
     @Test
-    fun `delete session should call data source deleteById method`() = runTest {
-        val sessionId = 1L
+    fun `GIVEN a sessionId WHEN getDenormalizedSessionView is called THEN the mapped DomainSession should be returned`() =
+        runTest {
+            // GIVEN
+            val sessionId = 1L
+            val denormalizedSessionView = DenormalizedSessionView(
+                sessionId = sessionId,
+                sessionTitle = "Session 1",
+                taskGroupId = 2L,
+                taskGroupTitle = "Task Group 1",
+                taskGroupColor = 0xFF00FFL,
+                taskGroupPlayMode = PlayMode.RANDOM_SINGLE_TASK.toString(),
+                taskGroupNumberOfRandomTasks = 3,
+                taskId = 1L,
+                taskTaskGroupId = 1L,
+                taskTitle = "Task 1",
+                taskDuration = 300
+            )
+            coEvery { sessionDataSource.getDenormalizedSessionView(sessionId) } returns flowOf(
+                listOf(denormalizedSessionView)
+            )
 
-        coEvery { sessionDataSource.deleteById(any()) } returns Unit
+            // WHEN
+            val session = sut().getSession(sessionId)
 
-        sut.deleteById(sessionId)
-
-        coVerify { sessionDataSource.deleteById(sessionId) }
-    }
+            // THEN
+            session.test {
+                val result = awaitItem()
+                assertThat(result).isEqualTo(listOf(denormalizedSessionView).toDomainSession())
+                awaitComplete()
+            }
+        }
 
     @Test
-    fun `setTitle should call data source setTitle method`() = runTest {
-        val sessionId = 1L
-        val title = "Updated Session Title"
+    fun `GIVEN a sessionId WHEN deleteSessionById is called THEN the call is delegated to sessionDataSource`() =
+        runTest {
+            // GIVEN
+            val sessionId = 1L
+            coEvery { sessionDataSource.deleteById(any()) } returns Unit
 
-        coEvery { sessionDataSource.setTitle(any(), any()) } returns Unit
+            // WHEN
+            sut().deleteSessionById(sessionId)
 
-        sut.setTitle(sessionId, title)
-
-        coVerify { sessionDataSource.setTitle(sessionId, title) }
-    }
-
-    @Test
-    fun `getLastInsertId should return value from data source`() = runTest {
-        val lastInsertId = 42L
-
-        coEvery { sessionDataSource.getLastInsertId() } returns lastInsertId
-
-        val result = sut.getLastInsertId()
-
-        assertThat(result).isEqualTo(lastInsertId)
-    }
+            // THEN
+            coVerify(exactly = 1) { sessionDataSource.deleteById(sessionId) }
+        }
 
     @Test
-    fun `delete last taskGroup `() = runTest {
-        val lastInsertId = 42L
+    fun `GIVEN session data WHEN setTitle is called THEN the call is delegated to sessionDataSource`() =
+        runTest {
+            // GIVEN
+            val sessionId = 1L
+            val title = "Updated Session Title"
+            coEvery { sessionDataSource.setTitle(any(), any()) } returns Unit
 
-        coEvery { sessionDataSource.getLastInsertId() } returns lastInsertId
+            // WHEN
+            sut().setSessionTitle(sessionId, title)
 
-        val result = sut.getLastInsertId()
+            // THEN
+            coVerify(exactly = 1) { sessionDataSource.setTitle(sessionId, title) }
+        }
 
-        assertThat(result).isEqualTo(lastInsertId)
-    }
+    @Test
+    fun `GIVEN a last inserted sessionId WHEN getLastInsertId is called THEN the value from sessionDataSource should be returned`() =
+        runTest {
+            // GIVEN
+            val lastInsertId = 42L
+            coEvery { sessionDataSource.getLastInsertId() } returns lastInsertId
+
+            // WHEN
+            val result = sut().getLastInsertId()
+
+            // THEN
+            assertThat(result).isEqualTo(lastInsertId)
+        }
 }

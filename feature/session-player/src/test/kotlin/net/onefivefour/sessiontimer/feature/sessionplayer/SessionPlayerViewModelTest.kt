@@ -5,10 +5,10 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlin.time.Duration
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.FAKE_SESSION
 import net.onefivefour.sessiontimer.core.common.domain.model.getTotalDuration
@@ -25,8 +25,6 @@ import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
 import org.junit.Rule
 import org.junit.Test
-import kotlin.math.floor
-import kotlin.time.Duration
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SessionPlayerViewModelTest {
@@ -44,7 +42,7 @@ class SessionPlayerViewModelTest {
     private val getSessionUseCase: GetSessionUseCase = mockk(relaxed = true)
 
     private val startTimerUseCase: StartTimerUseCase = mockk(relaxed = true)
-    
+
     private val pauseTimerUseCase: PauseTimerUseCase = mockk(relaxed = true)
 
     private val resetTimerUseCase: ResetTimerUseCase = mockk(relaxed = true)
@@ -61,120 +59,131 @@ class SessionPlayerViewModelTest {
     }
 
     @Test
-    fun `GIVEN no available session WHEN sut is initialized THEN the initial uiState is UiState Initial`() = runTest {
-        // GIVEN
-        coEvery { getSessionUseCase.execute(any()) } returns flowOf(null)
+    fun `GIVEN no available session WHEN sut is initialized THEN the initial uiState is UiState Initial`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(null)
 
-        // WHEN
-        val sut = sut()
-        advanceUntilIdle()
+            // WHEN
+            val sut = sut()
+            advanceUntilIdle()
 
-        // THEN
-        sut.uiState.test {
-            assertThat(awaitItem()).isInstanceOf(UiState.Initial::class.java)
-            cancelAndIgnoreRemainingEvents()
+            // THEN
+            sut.uiState.test {
+                assertThat(awaitItem()).isInstanceOf(UiState.Initial::class.java)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `GIVEN a session without tasks WHEN sut is initialized THEN the uiState is Error`() = runTest {
-        // GIVEN
-        val fakeSessionWithoutTasks = FAKE_SESSION.copy(taskGroups = emptyList())
-        coEvery { getSessionUseCase.execute(any()) } returns flowOf(fakeSessionWithoutTasks)
+    fun `GIVEN a session without tasks WHEN sut is initialized THEN the uiState is Error`() =
+        runTest {
+            // GIVEN
+            val fakeSessionWithoutTasks = FAKE_SESSION.copy(taskGroups = emptyList())
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(fakeSessionWithoutTasks)
 
-        // WHEN
-        val sut = sut()
-        advanceUntilIdle()
+            // WHEN
+            val sut = sut()
+            advanceUntilIdle()
 
-        // THEN
-        sut.uiState.test {
-            val state = awaitItem()
-            assertThat(state).isInstanceOf(UiState.Error::class.java)
-            cancelAndIgnoreRemainingEvents()
+            // THEN
+            sut.uiState.test {
+                val state = awaitItem()
+                assertThat(state).isInstanceOf(UiState.Error::class.java)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `GIVEN a normal session WHEN timer is within totalDuration THEN the uiState is Running`() = runTest {
-        // GIVEN
-        coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
-        val sessionDuration = FAKE_SESSION.taskGroups
-            .flatMap { it.tasks }
-            .map { it.duration }
-            .fold(Duration.ZERO) { acc, duration -> acc + duration }
+    fun `GIVEN a normal session WHEN timer is within totalDuration THEN the uiState is Running`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
+            val sessionDuration = FAKE_SESSION.taskGroups
+                .flatMap { it.tasks }
+                .map { it.duration }
+                .fold(Duration.ZERO) { acc, duration -> acc + duration }
 
-        // WHEN
-        val sut = sut()
-        getTimerStatusUseCase.update(FAKE_TIMER_STATUS_RUNNING.copy(elapsedDuration = sessionDuration/2))
-        advanceUntilIdle()
+            // WHEN
+            val sut = sut()
+            getTimerStatusUseCase.update(
+                FAKE_TIMER_STATUS_RUNNING.copy(elapsedDuration = sessionDuration / 2)
+            )
+            advanceUntilIdle()
 
-        // THEN
-        sut.uiState.test {
-            val firstState = awaitItem()
-            assertThat(firstState).isInstanceOf(UiState.Running::class.java)
-            cancelAndIgnoreRemainingEvents()
+            // THEN
+            sut.uiState.test {
+                val firstState = awaitItem()
+                assertThat(firstState).isInstanceOf(UiState.Running::class.java)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `GIVEN a normal session WHEN timer surpasses totalDuration THEN the uiState is Finished`() = runTest {
-        // GIVEN
-        coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
-        val sessionDuration = FAKE_SESSION.getTotalDuration()
+    fun `GIVEN a normal session WHEN timer surpasses totalDuration THEN the uiState is Finished`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
+            val sessionDuration = FAKE_SESSION.getTotalDuration()
 
-        // WHEN
-        val sut = sut()
-        getTimerStatusUseCase.update(FAKE_TIMER_STATUS_RUNNING.copy(elapsedDuration = sessionDuration))
-        advanceUntilIdle()
+            // WHEN
+            val sut = sut()
+            getTimerStatusUseCase.update(
+                FAKE_TIMER_STATUS_RUNNING.copy(elapsedDuration = sessionDuration)
+            )
+            advanceUntilIdle()
 
-        // THEN
-        sut.uiState.test {
-            val firstState = awaitItem()
-            assertThat(firstState).isInstanceOf(UiState.Finished::class.java)
-            cancelAndIgnoreRemainingEvents()
+            // THEN
+            sut.uiState.test {
+                val firstState = awaitItem()
+                assertThat(firstState).isInstanceOf(UiState.Finished::class.java)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `GIVEN an idle timerStatus WHEN onStartSession is called THEN startTimerUseCase is executed`() = runTest {
-        // GIVEN
-        coEvery { getSessionUseCase.execute(1L) } returns flowOf(FAKE_SESSION)
-        getTimerStatusUseCase.update(FAKE_TIMER_STATUS_IDLE)
+    fun `GIVEN an idle timerStatus WHEN onStartSession is called THEN startTimerUseCase is executed`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(1L) } returns flowOf(FAKE_SESSION)
+            getTimerStatusUseCase.update(FAKE_TIMER_STATUS_IDLE)
 
-        // WHEN
-        val sut = sut()
-        advanceUntilIdle()
+            // WHEN
+            val sut = sut()
+            advanceUntilIdle()
 
-        sut.onStartSession()
-        advanceUntilIdle()
+            sut.onStartSession()
+            advanceUntilIdle()
 
-        // THEN
-        coVerify { startTimerUseCase.execute(any()) }
-    }
-
-    @Test
-    fun `GIVEN an initialized sut WHEN onPauseSession is called THEN pauseTimerUseCase is executed`() = runTest {
-        // GIVEN
-        val sut = sut()
-        
-        // WHEN
-        sut.onPauseSession()
-        advanceUntilIdle()
-
-        // THEN
-        coVerify { pauseTimerUseCase.execute() }
-    }
+            // THEN
+            coVerify(exactly = 1) { startTimerUseCase.execute(any()) }
+        }
 
     @Test
-    fun `GIVEN an initialized sut WHEN onResetSession is called THEN resetTimerUseCase is executed`() = runTest {
-        // GIVEN
-        val sut = sut()
-        
-        // WHEN
-        sut.onResetSession()
-        advanceUntilIdle()
+    fun `GIVEN an initialized sut WHEN onPauseSession is called THEN pauseTimerUseCase is executed`() =
+        runTest {
+            // GIVEN
+            val sut = sut()
 
-        // THEN
-        coVerify { resetTimerUseCase.execute() }
-    }
+            // WHEN
+            sut.onPauseSession()
+            advanceUntilIdle()
+
+            // THEN
+            coVerify(exactly = 1) { pauseTimerUseCase.execute() }
+        }
+
+    @Test
+    fun `GIVEN an initialized sut WHEN onResetSession is called THEN resetTimerUseCase is executed`() =
+        runTest {
+            // GIVEN
+            val sut = sut()
+
+            // WHEN
+            sut.onResetSession()
+            advanceUntilIdle()
+
+            // THEN
+            coVerify(exactly = 1) { resetTimerUseCase.execute() }
+        }
 }

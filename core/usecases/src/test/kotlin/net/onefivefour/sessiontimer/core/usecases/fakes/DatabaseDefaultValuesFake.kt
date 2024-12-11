@@ -3,7 +3,7 @@ package net.onefivefour.sessiontimer.core.usecases.fakes
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.database.data.DatabaseDefaultValues
 
-internal object FakeDefaultValues : DatabaseDefaultValues {
+internal object DatabaseDefaultValuesFake : DatabaseDefaultValues {
 
     override fun getSessionTitle(): String {
         return "DEFAULT_SESSION_TITLE"

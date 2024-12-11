@@ -16,13 +16,13 @@ class DeleteSessionUseCaseImpl @Inject constructor(
 ) : DeleteSessionUseCase {
 
     override suspend fun execute(sessionId: Long) {
-        val taskGroups = taskGroupRepository.getBySessionId(sessionId).first()
+        val taskGroups = taskGroupRepository.getTaskGroupBySessionId(sessionId).first()
 
         taskGroups.forEach { taskGroup ->
-            taskRepository.deleteByTaskGroupId(taskGroup.id)
-            taskGroupRepository.deleteById(taskGroup.id)
+            taskRepository.deleteTaskByTaskGroupId(taskGroup.id)
+            taskGroupRepository.deleteTaskGroupById(taskGroup.id)
         }
 
-        sessionRepository.deleteById(sessionId)
+        sessionRepository.deleteSessionById(sessionId)
     }
 }

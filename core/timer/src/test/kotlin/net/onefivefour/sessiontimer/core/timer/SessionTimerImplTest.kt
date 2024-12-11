@@ -1,6 +1,7 @@
 package net.onefivefour.sessiontimer.core.timer
 
 import com.google.common.truth.Truth.assertThat
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
@@ -9,7 +10,6 @@ import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 import org.junit.Rule
 import org.junit.Test
-import kotlin.time.Duration
 
 class SessionTimerImplTest {
 

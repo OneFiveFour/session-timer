@@ -6,7 +6,6 @@ import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import org.junit.Test
 
-
 class SetSessionTitleUseCaseTest {
 
     private val sessionRepository: SessionRepository = mockk(relaxed = true)
@@ -23,7 +22,7 @@ class SetSessionTitleUseCaseTest {
         sut.execute(sessionId, title)
 
         coVerify(exactly = 1) {
-            sessionRepository.setTitle(sessionId, title)
+            sessionRepository.setSessionTitle(sessionId, title)
         }
     }
 }
