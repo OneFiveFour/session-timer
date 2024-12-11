@@ -8,3 +8,8 @@ val FAKE_TIMER_STATUS_RUNNING = TimerStatus(
     TimerMode.RUNNING,
     elapsedDuration = Duration.ZERO
 )
+
+val FAKE_TIMER_STATUS_IDLE = TimerStatus(
+    TimerMode.IDLE,
+    elapsedDuration = Duration.ZERO
+)
