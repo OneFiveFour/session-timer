@@ -8,7 +8,6 @@ import org.junit.Test
 class SessionExtTest {
 
     @Test
-    @Suppress("standard:max-line-length")
     fun `GIVEN a normal session WHEN getTotalDuration is called THEN correct duration is returned`() {
         // GIVEN
         val session = FAKE_SESSION
@@ -21,7 +20,6 @@ class SessionExtTest {
     }
 
     @Test
-    @Suppress("standard:max-line-length")
     fun `GIVEN a session without tasks WHEN getTotalDuration is called THEN Duration Zero is returned`() {
         // GIVEN
         val session = FAKE_SESSION.copy(taskGroups = emptyList())

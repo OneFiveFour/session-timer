@@ -16,17 +16,18 @@ class DeleteTaskUseCaseTest {
     )
 
     @Test
-    fun `GIVEN a taskId WHEN executing the UseCase THEN the taskRepository deletes the task`() = runTest {
-        // GIVEN
-        coEvery { taskRepository.deleteTask(any()) } returns Unit
-        val taskId = 1L
+    fun `GIVEN a taskId WHEN executing the UseCase THEN the taskRepository deletes the task`() =
+        runTest {
+            // GIVEN
+            coEvery { taskRepository.deleteTask(any()) } returns Unit
+            val taskId = 1L
 
-        // WHEN
-        sut().execute(taskId)
+            // WHEN
+            sut().execute(taskId)
 
-        // THEN
-        coVerify(exactly = 1) {
-            taskRepository.deleteTask(taskId)
+            // THEN
+            coVerify(exactly = 1) {
+                taskRepository.deleteTask(taskId)
+            }
         }
-    }
 }

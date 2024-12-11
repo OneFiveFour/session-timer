@@ -24,16 +24,17 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class TaskGroupEditorRouteViewModelTest {
 
-    private val getTaskGroupUseCase: GetTaskGroupUseCase = mockk()
-    private val updateTaskGroupUseCase: UpdateTaskGroupUseCase = mockk()
-
     private val route = TaskGroupEditorRoute(taskGroupId = 1L)
 
-    @get:Rule
+    @get:Rule(order = 0)
     val standardTestDispatcherRule = StandardTestDispatcherRule()
 
-    @get:Rule
+    @get:Rule(order = 1)
     val savedStateHandleRule = SavedStateHandleRule(route)
+
+    private val getTaskGroupUseCase: GetTaskGroupUseCase = mockk()
+
+    private val updateTaskGroupUseCase: UpdateTaskGroupUseCase = mockk()
 
     private fun sut() = TaskGroupEditorViewModel(
         savedStateHandleRule.savedStateHandleMock,
@@ -42,95 +43,103 @@ class TaskGroupEditorRouteViewModelTest {
     )
 
     @Test
-    fun `uiState has correct initial value`() {
+    fun `WHEN ViewModel is created THEN its uiState has correct initial value`() {
+        // WHEN
         val sut = sut()
 
+        // THEN
         assertThat(sut.uiState.value).isEqualTo(UiState.Initial)
     }
 
     @Test
-    fun `GetTaskGroupUseCase is called on init`() = runTest {
-        val taskGroupId = 1L
-        coEvery { getTaskGroupUseCase.execute(taskGroupId) } returns flowOf(
-            TaskGroup(
-                id = taskGroupId,
-                title = "TaskGroup 1",
-                color = 0xFFFF0000,
-                playMode = PlayMode.SEQUENCE,
-                numberOfRandomTasks = 3,
-                tasks = emptyList(),
-                sessionId = 2L
+    fun `GIVEN a taskGroup WHEN ViewModel is created THEN GetTaskGroupUseCase is called on init`() =
+        runTest {
+            // GIVEN
+            val taskGroupId = 1L
+            coEvery { getTaskGroupUseCase.execute(taskGroupId) } returns flowOf(
+                TaskGroup(
+                    id = taskGroupId,
+                    title = "TaskGroup 1",
+                    color = 0xFFFF0000,
+                    playMode = PlayMode.SEQUENCE,
+                    numberOfRandomTasks = 3,
+                    tasks = emptyList(),
+                    sessionId = 2L
+                )
             )
-        )
 
-        val sut = sut()
+            // WHEN
+            val sut = sut()
+            advanceUntilIdle()
 
-        advanceUntilIdle()
+            // THEN
+            coVerify(exactly = 1) { getTaskGroupUseCase.execute(taskGroupId) }
 
-        coVerify(exactly = 1) { getTaskGroupUseCase.execute(taskGroupId) }
-
-        sut.uiState.test {
-            val uiState = awaitItem()
-            check(uiState is UiState.Success)
-            val taskGroup = uiState.taskGroup
-            assertThat(taskGroup.id).isEqualTo(taskGroupId)
-            assertThat(taskGroup.title).isEqualTo("TaskGroup 1")
-            assertThat(taskGroup.color).isEqualTo(Color(0xFFFF0000))
-            assertThat(taskGroup.playMode).isEqualTo(PlayMode.SEQUENCE)
-            assertThat(taskGroup.numberOfRandomTasks).isEqualTo(3)
-            assertThat(taskGroup.tasks).isEmpty()
+            sut.uiState.test {
+                val uiState = awaitItem()
+                check(uiState is UiState.Success)
+                val taskGroup = uiState.taskGroup
+                assertThat(taskGroup.id).isEqualTo(taskGroupId)
+                assertThat(taskGroup.title).isEqualTo("TaskGroup 1")
+                assertThat(taskGroup.color).isEqualTo(Color(0xFFFF0000))
+                assertThat(taskGroup.playMode).isEqualTo(PlayMode.SEQUENCE)
+                assertThat(taskGroup.numberOfRandomTasks).isEqualTo(3)
+                assertThat(taskGroup.tasks).isEmpty()
+            }
         }
-    }
 
     @Test
-    fun `updateTaskGroup delegates to UpdateTaskGroupUseCase`() = runTest {
-        val taskGroupId = 1L
-        coEvery { getTaskGroupUseCase.execute(taskGroupId) } returns flowOf(
-            TaskGroup(
-                id = taskGroupId,
-                title = "TaskGroup 1",
-                color = 0xFF0000,
-                playMode = PlayMode.SEQUENCE,
-                numberOfRandomTasks = 3,
-                tasks = emptyList(),
-                sessionId = 2L
+    fun `GIVEN taskGroup data WHEN updateTaskGroup is called THEN UpdateTaskGroupUseCase is executed with that data`() =
+        runTest {
+            // GIVEN
+            val taskGroupId = 1L
+            coEvery { getTaskGroupUseCase.execute(taskGroupId) } returns flowOf(
+                TaskGroup(
+                    id = taskGroupId,
+                    title = "TaskGroup 1",
+                    color = 0xFF0000,
+                    playMode = PlayMode.SEQUENCE,
+                    numberOfRandomTasks = 3,
+                    tasks = emptyList(),
+                    sessionId = 2L
+                )
             )
-        )
-        coEvery {
-            updateTaskGroupUseCase.execute(
-                any(),
-                any(),
-                any(),
-                any(),
-                any()
-            )
-        } returns Unit
+            coEvery {
+                updateTaskGroupUseCase.execute(
+                    any(),
+                    any(),
+                    any(),
+                    any(),
+                    any()
+                )
+            } returns Unit
 
-        val sut = sut()
-        val title = "Test TaskGroup Title"
-        val color = Color(0xFF00FF00)
-        val playMode = PlayMode.RANDOM_SINGLE_TASK
-        val numberOfRandomTasks = 5
-        val uiTaskGroup = UiTaskGroup(
-            taskGroupId,
-            title,
-            color,
-            playMode,
-            numberOfRandomTasks,
-            emptyList()
-        )
-        sut.updateTaskGroup(uiTaskGroup)
-
-        advanceUntilIdle()
-
-        coVerify(exactly = 1) {
-            updateTaskGroupUseCase.execute(
+            // WHEN
+            val sut = sut()
+            val title = "Test TaskGroup Title"
+            val color = Color(0xFF00FF00)
+            val playMode = PlayMode.RANDOM_SINGLE_TASK
+            val numberOfRandomTasks = 5
+            val uiTaskGroup = UiTaskGroup(
                 taskGroupId,
                 title,
-                color.toArgb(),
+                color,
                 playMode,
-                numberOfRandomTasks
+                numberOfRandomTasks,
+                emptyList()
             )
+            sut.updateTaskGroup(uiTaskGroup)
+            advanceUntilIdle()
+
+            // THEN
+            coVerify(exactly = 1) {
+                updateTaskGroupUseCase.execute(
+                    taskGroupId,
+                    title,
+                    color.toArgb(),
+                    playMode,
+                    numberOfRandomTasks
+                )
+            }
         }
-    }
 }

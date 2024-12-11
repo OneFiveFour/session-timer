@@ -21,20 +21,21 @@ class GetTimerStatusUseCaseTest {
     )
 
     @Test
-    fun `GIVEN a new timerStates WHEN executing the UseCase THEN it is calling getStatus on the sessionTimer`() = runTest {
-        // GIVEN
-        coEvery { sessionTimer.getStatus() } returns flowOf(
-            TimerStatus()
-        )
+    fun `GIVEN a new timerStates WHEN executing the UseCase THEN it is calling getStatus on the sessionTimer`() =
+        runTest {
+            // GIVEN
+            coEvery { sessionTimer.getStatus() } returns flowOf(
+                TimerStatus()
+            )
 
-        // WHEN
-        sut().execute().test {
-            val initialStatus = awaitItem()
-            assertThat(initialStatus.mode).isEqualTo(TimerMode.IDLE)
-            awaitComplete()
+            // WHEN
+            sut().execute().test {
+                val initialStatus = awaitItem()
+                assertThat(initialStatus.mode).isEqualTo(TimerMode.IDLE)
+                awaitComplete()
+            }
+
+            // THEN
+            verify { sessionTimer.getStatus() }
         }
-
-        // THEN
-        verify { sessionTimer.getStatus() }
-    }
 }

@@ -27,34 +27,43 @@ class NewSessionUseCaseTest {
     )
 
     @Test
-    fun `WHEN executing the UseCase THEN a new session with taskGroup and task is created`() = runTest {
-        val sessionId = 1L
-        val taskGroupId = 2L
-        coEvery { sessionRepository.newSession(any()) } returns Unit
-        coEvery { sessionRepository.getLastInsertId() } returns sessionId
-        coEvery { taskGroupRepository.newTaskGroup(any(), any(), any(), any(), any()) } returns Unit
-        coEvery { taskGroupRepository.getLastInsertId() } returns taskGroupId
-        coEvery { taskRepository.newTask(any(), any(), any()) } returns Unit
+    fun `WHEN executing the UseCase THEN a new session with taskGroup and task is created`() =
+        runTest {
+            val sessionId = 1L
+            val taskGroupId = 2L
+            coEvery { sessionRepository.newSession(any()) } returns Unit
+            coEvery { sessionRepository.getLastInsertId() } returns sessionId
+            coEvery {
+                taskGroupRepository.newTaskGroup(
+                    title = any(),
+                    color = any(),
+                    playMode = any(),
+                    numberOfRandomTasks = any(),
+                    sessionId = any()
+                )
+            } returns Unit
+            coEvery { taskGroupRepository.getLastInsertId() } returns taskGroupId
+            coEvery { taskRepository.newTask(any(), any(), any()) } returns Unit
 
-        // WHEN
-        sut().execute()
+            // WHEN
+            sut().execute()
 
-        // THEN
-        coVerify(ordering = Ordering.ORDERED) {
-            sessionRepository.newSession(DatabaseDefaultValuesFake.getSessionTitle())
+            // THEN
+            coVerify(ordering = Ordering.ORDERED) {
+                sessionRepository.newSession(DatabaseDefaultValuesFake.getSessionTitle())
 
-            taskGroupRepository.newTaskGroup(
-                DatabaseDefaultValuesFake.getTaskGroupTitle(),
-                DatabaseDefaultValuesFake.getTaskGroupColor(),
-                DatabaseDefaultValuesFake.getTaskGroupPlayMode(),
-                DatabaseDefaultValuesFake.getTaskGroupNumberOfRandomTasks(),
-                sessionId
-            )
-            taskRepository.newTask(
-                DatabaseDefaultValuesFake.getTaskTitle(),
-                DatabaseDefaultValuesFake.getTaskDuration(),
-                taskGroupId
-            )
+                taskGroupRepository.newTaskGroup(
+                    DatabaseDefaultValuesFake.getTaskGroupTitle(),
+                    DatabaseDefaultValuesFake.getTaskGroupColor(),
+                    DatabaseDefaultValuesFake.getTaskGroupPlayMode(),
+                    DatabaseDefaultValuesFake.getTaskGroupNumberOfRandomTasks(),
+                    sessionId
+                )
+                taskRepository.newTask(
+                    DatabaseDefaultValuesFake.getTaskTitle(),
+                    DatabaseDefaultValuesFake.getTaskDuration(),
+                    taskGroupId
+                )
+            }
         }
-    }
 }

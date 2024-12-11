@@ -6,7 +6,6 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
@@ -21,13 +20,16 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class SessionOverviewViewModelTest {
 
-    private val getAllSessionsUseCase: GetAllSessionsUseCase = mockk()
-    private val newSessionUseCase: NewSessionUseCase = mockk()
-    private val deleteSessionUseCase: DeleteSessionUseCase = mockk()
-    private val setSessionTitleUseCase: SetSessionTitleUseCase = mockk()
-
     @get:Rule
     val standardTestDispatcherRule = StandardTestDispatcherRule()
+
+    private val getAllSessionsUseCase: GetAllSessionsUseCase = mockk()
+
+    private val newSessionUseCase: NewSessionUseCase = mockk()
+
+    private val deleteSessionUseCase: DeleteSessionUseCase = mockk()
+
+    private val setSessionTitleUseCase: SetSessionTitleUseCase = mockk()
 
     private fun sut() = SessionOverviewViewModel(
         getAllSessionsUseCase,
@@ -37,82 +39,100 @@ class SessionOverviewViewModelTest {
     )
 
     @Test
-    fun `uiState has correct initial value`() {
+    fun `WHEN ViewModel is created THEN uiState has correct initial value`() {
+        // WHEN
         val sut = sut()
 
+        // THEN
         assertThat(sut.uiState.value).isEqualTo(UiState.Initial)
     }
 
     @Test
-    fun `GetAllSessionsUseCase is called on init`() = runTest {
+    fun `WHEN ViewModel is created THEN GetAllSessionsUseCase is executed`() = runTest {
+        // GIVEN
         coEvery { getAllSessionsUseCase.execute() } returns flowOf(emptyList())
 
+        // WHEN
         sut()
-        advanceTimeBy(1)
+        advanceUntilIdle()
 
+        // THEN
         coVerify(exactly = 1) { getAllSessionsUseCase.execute() }
     }
 
     @Test
-    fun `session data is updated in uiState after init`() = runTest {
-        val sessions = listOf(
-            Session(id = 1, title = "Session 1", emptyList()),
-            Session(id = 2, title = "Session 2", emptyList())
-        )
-        coEvery { getAllSessionsUseCase.execute() } returns flowOf(sessions)
+    fun `GIVEN two sessions WHEN ViewModel is created THEN session data is updated in uiState after init`() =
+        runTest {
+            // GIVEN
+            val sessions = listOf(
+                Session(id = 1, title = "Session 1", emptyList()),
+                Session(id = 2, title = "Session 2", emptyList())
+            )
+            coEvery { getAllSessionsUseCase.execute() } returns flowOf(sessions)
 
-        val sut = sut()
-        advanceTimeBy(1)
+            // WHEN
+            val sut = sut()
+            advanceUntilIdle()
 
-        val expectedUiState = UiState.Success(sessions = sessions.toUiSessions())
-        assertThat(sut.uiState.value).isEqualTo(expectedUiState)
-    }
+            // THEN
+            val expectedUiState = UiState.Success(sessions = sessions.toUiSessions())
+            assertThat(sut.uiState.value).isEqualTo(expectedUiState)
+        }
 
     @Test
-    fun `newSession delegates to NewSessionUseCase`() = runTest {
-        coEvery { getAllSessionsUseCase.execute() } returns flowOf(emptyList())
-        coEvery { newSessionUseCase.execute() } returns Unit
+    fun `GIVEN a ViewModel WHEN newSession is called THEN NewSessionUseCase is executed`() =
+        runTest {
+            // GIVEN
+            coEvery { getAllSessionsUseCase.execute() } returns flowOf(emptyList())
+            coEvery { newSessionUseCase.execute() } returns Unit
+            val sut = sut()
 
-        val sut = sut()
-        sut.newSession()
+            // WHEN
+            sut.newSession()
+            advanceUntilIdle()
 
-        advanceUntilIdle()
-
-        coVerify(exactly = 1) {
-            newSessionUseCase.execute()
+            // THEN
+            coVerify(exactly = 1) {
+                newSessionUseCase.execute()
+            }
         }
-    }
 
     @Test
-    fun `deleteSession delegates to DeleteSessionUseCase`() = runTest {
-        coEvery { getAllSessionsUseCase.execute() } returns flowOf(emptyList())
-        coEvery { deleteSessionUseCase.execute(any()) } returns Unit
-        val sessionId = 1L
+    fun `GIVEN a sessionId WHEN deleteSession is calles THEN DeleteSessionUseCase is executed with that sessionId`() =
+        runTest {
+            // GIVEN
+            val sessionId = 1L
+            coEvery { getAllSessionsUseCase.execute() } returns flowOf(emptyList())
+            coEvery { deleteSessionUseCase.execute(any()) } returns Unit
 
-        val sut = sut()
-        sut.deleteSession(sessionId)
+            // WHEN
+            val sut = sut()
+            sut.deleteSession(sessionId)
+            advanceUntilIdle()
 
-        advanceUntilIdle()
-
-        coVerify(exactly = 1) {
-            deleteSessionUseCase.execute(sessionId)
+            // THEN
+            coVerify(exactly = 1) {
+                deleteSessionUseCase.execute(sessionId)
+            }
         }
-    }
 
     @Test
-    fun `setSessionTitle delegates to SetSessionTitleUseCase`() = runTest {
-        coEvery { getAllSessionsUseCase.execute() } returns flowOf(emptyList())
-        coEvery { setSessionTitleUseCase.execute(any(), any()) } returns Unit
-        val sessionId = 1L
-        val title = "Test Session Title"
+    fun `GIVEN session data WHEN setSessionTitle is called THEN SetSessionTitleUseCase is executed with that data`() =
+        runTest {
+            // GIVEN
+            coEvery { getAllSessionsUseCase.execute() } returns flowOf(emptyList())
+            coEvery { setSessionTitleUseCase.execute(any(), any()) } returns Unit
+            val sessionId = 1L
+            val title = "Test Session Title"
 
-        val sut = sut()
-        sut.setSessionTitle(sessionId, title)
+            // WHEN
+            val sut = sut()
+            sut.setSessionTitle(sessionId, title)
+            advanceUntilIdle()
 
-        advanceUntilIdle()
-
-        coVerify(exactly = 1) {
-            setSessionTitleUseCase.execute(sessionId, title)
+            // THEN
+            coVerify(exactly = 1) {
+                setSessionTitleUseCase.execute(sessionId, title)
+            }
         }
-    }
 }

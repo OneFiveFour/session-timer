@@ -13,8 +13,8 @@ import org.junit.Test
 class SessionCompilerTest {
 
     @Test
-    fun `compile session with SEQUENCE play mode`() {
-        // Prepare test data
+    fun `GIVEN a taskGroup in SEQUENCE play mode WHEN compiled THEN the compiled task sequence is correct`() {
+        // GIVEN
         val task1 = mockk<Task> {
             every { title } returns "Task 1"
             every { duration } returns 10.seconds
@@ -36,10 +36,10 @@ class SessionCompilerTest {
             every { taskGroups } returns listOf(taskGroup)
         }
 
-        // Execute
+        // WHEN
         val compiledSession = SessionCompiler.compile(session)
 
-        // Verify
+        // THEN
         assertThat(compiledSession.sessionTitle).isEqualTo("Test Session")
         assertThat(compiledSession.taskList.size).isEqualTo(2)
         assertThat(compiledSession.totalDuration).isEqualTo(30.seconds)
@@ -60,8 +60,8 @@ class SessionCompilerTest {
     }
 
     @Test
-    fun `compile session with RANDOM_SINGLE_TASK play mode`() {
-        // Prepare test data
+    fun `GIVEN a taskGroup in RANDOM_SINGLE_TASK play mode WHEN compiled THEN the compiled task sequence is correct`() {
+        // GIVEN
         val task1 = mockk<Task> {
             every { title } returns "Task 1"
             every { duration } returns 10.seconds
@@ -87,18 +87,18 @@ class SessionCompilerTest {
             every { taskGroups } returns listOf(taskGroup)
         }
 
-        // Execute
+        // WHEN
         val compiledSession = SessionCompiler.compile(session)
 
-        // Verify
+        // THEN
         assertThat(compiledSession.sessionTitle).isEqualTo("Test Session")
         assertThat(compiledSession.taskList.size).isEqualTo(1)
         assertThat(compiledSession.taskList[0].taskTitle).isIn(listOf("Task 1", "Task 2", "Task 3"))
     }
 
     @Test
-    fun `compile session with RANDOM_N_TASKS play mode`() {
-        // Prepare test data
+    fun `GIVEN a taskGroup in RANDOM_N_TASKS play mode WHEN compiled THEN the compiled task sequence is correct`() {
+        // GIVEN
         val task1 = mockk<Task> {
             every { title } returns "Task 1"
             every { duration } returns 10.seconds
@@ -125,10 +125,10 @@ class SessionCompilerTest {
             every { taskGroups } returns listOf(taskGroup)
         }
 
-        // Execute
+        // WHEN
         val compiledSession = SessionCompiler.compile(session)
 
-        // Verify
+        // THEN
         assertThat(compiledSession.sessionTitle).isEqualTo("Test Session")
         assertThat(compiledSession.taskList.size).isEqualTo(2)
         assertThat(compiledSession.taskList.map { it.taskTitle }).containsNoDuplicates()
@@ -140,8 +140,8 @@ class SessionCompilerTest {
     }
 
     @Test
-    fun `compile session with RANDOM_ALL_TASKS play mode`() {
-        // Prepare test data
+    fun `GIVEN a taskGroup in RANDOM_ALL_TASKS play mode WHEN compiled THEN the compiled task sequence is correct`() {
+        // GIVEN
         val task1 = mockk<Task> {
             every { title } returns "Task 1"
             every { duration } returns 10.seconds
@@ -167,10 +167,10 @@ class SessionCompilerTest {
             every { taskGroups } returns listOf(taskGroup)
         }
 
-        // Execute
+        // WHEN
         val compiledSession = SessionCompiler.compile(session)
 
-        // Verify
+        // THEN
         assertThat(compiledSession.sessionTitle).isEqualTo("Test Session")
         assertThat(compiledSession.taskList.size).isEqualTo(3)
         assertThat(
@@ -181,8 +181,8 @@ class SessionCompilerTest {
     }
 
     @Test
-    fun `compile session with multiple task groups`() {
-        // Prepare test data
+    fun `GIVEN a session with multiple taskGroups WHEN compiled THEN the compiled task order is correct`() {
+        // GIVEN
         val task1 = mockk<Task> {
             every { title } returns "Task 1"
             every { duration } returns 10.seconds
@@ -216,15 +216,14 @@ class SessionCompilerTest {
             every { taskGroups } returns listOf(taskGroup1, taskGroup2)
         }
 
-        // Execute
+        // WHEN
         val compiledSession = SessionCompiler.compile(session)
 
-        // Verify
+        // THEN
         assertThat(compiledSession.sessionTitle).isEqualTo("Test Session")
         assertThat(compiledSession.taskList.size).isEqualTo(3)
         assertThat(compiledSession.totalDuration).isEqualTo(80.seconds)
 
-        // Verify task list order and properties
         with(compiledSession.taskList[0]) {
             assertThat(taskGroupTitle).isEqualTo("Group 1")
             assertThat(taskGroupColor).isEqualTo(0xFF0000)

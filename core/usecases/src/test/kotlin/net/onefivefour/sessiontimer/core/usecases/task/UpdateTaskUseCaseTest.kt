@@ -16,18 +16,19 @@ class UpdateTaskUseCaseTest {
     )
 
     @Test
-    fun `GIVEN task data WHEN executing the UseCase THEN the taskRepository updates the task`() = runTest {
-        // GIVEN
-        val taskId = 1L
-        val title = "New Task Title"
-        val duration = 3.seconds
+    fun `GIVEN task data WHEN executing the UseCase THEN the taskRepository updates the task`() =
+        runTest {
+            // GIVEN
+            val taskId = 1L
+            val title = "New Task Title"
+            val duration = 3.seconds
 
-        // WHEN
-        sut().execute(taskId, title, duration)
+            // WHEN
+            sut().execute(taskId, title, duration)
 
-        // THEN
-        coVerify(exactly = 1) {
-            taskRepository.updateTask(taskId, title, duration)
+            // THEN
+            coVerify(exactly = 1) {
+                taskRepository.updateTask(taskId, title, duration)
+            }
         }
-    }
 }

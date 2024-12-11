@@ -14,7 +14,7 @@ class PauseTimerUseCaseTest {
     )
 
     @Test
-    fun `WHEN executing the UseCase THE it is calling pause on the sessionTimer`() {
+    fun `WHEN executing the UseCase THEN it is calling pause on the sessionTimer`() {
         // WHEN
         sut().execute()
 

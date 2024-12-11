@@ -36,10 +36,15 @@ class SessionEditorRouteViewModelTest {
     val savedStateHandleRule = SavedStateHandleRule(route)
 
     private val getSessionUseCase: GetSessionUseCase = mockk()
+
     private val newTaskGroupUseCase: NewTaskGroupUseCase = mockk()
+
     private val newTaskUseCase: NewTaskUseCase = mockk()
+
     private val deleteTaskUseCase: DeleteTaskUseCase = mockk()
+
     private val deleteTaskGroupUseCase: DeleteTaskGroupUseCase = mockk()
+
     private val updateTaskUseCase: UpdateTaskUseCase = mockk()
 
     private fun sut() = SessionEditorViewModel(
@@ -53,83 +58,95 @@ class SessionEditorRouteViewModelTest {
     )
 
     @Test
-    fun `initial state is correct`() = runTest {
-        coEvery { getSessionUseCase.execute(any()) } returns flowOf(
-            Session(1L, "Session 1", emptyList())
-        )
+    fun `GIVEN a session WHEN creating the ViewModel THEN its initial state is correct`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(
+                Session(1L, "Session 1", emptyList())
+            )
 
-        val sut = sut()
+            // WHEN
+            val sut = sut()
 
-        sut.uiState.test {
-            val uiState1 = awaitItem()
-            assertThat(uiState1 is UiState.Initial).isTrue()
+            // THEN
+            sut.uiState.test {
+                val uiState1 = awaitItem()
+                assertThat(uiState1 is UiState.Initial).isTrue()
+            }
         }
-    }
 
     @Test
-    fun `useCase is executed on init`() = runTest {
-        val sessionId = 1L
-        coEvery { getSessionUseCase.execute(any()) } returns flowOf(
-            Session(sessionId, "Session 1", emptyList())
-        )
+    fun `GIVEN a session WHEN creating the ViewModel THEN the GetSessionUseCase is executed and the UiState is Success`() =
+        runTest {
+            // GIVEN
+            val sessionId = 1L
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(
+                Session(sessionId, "Session 1", emptyList())
+            )
 
-        val sut = sut()
+            // WHEN
+            val sut = sut()
+            advanceUntilIdle()
 
-        advanceUntilIdle()
+            // THEN
+            coVerify(exactly = 1) { getSessionUseCase.execute(sessionId) }
 
-        coVerify(exactly = 1) { getSessionUseCase.execute(sessionId) }
-
-        sut.uiState.test {
-            val uiState = awaitItem()
-            check(uiState is UiState.Success)
-            val session = uiState.session
-            assertThat(session.id).isEqualTo(sessionId)
-            assertThat(session.title).isEqualTo("Session 1")
-            assertThat(session.taskGroups).isEmpty()
+            sut.uiState.test {
+                val uiState = awaitItem()
+                check(uiState is UiState.Success)
+                val session = uiState.session
+                assertThat(session.id).isEqualTo(sessionId)
+                assertThat(session.title).isEqualTo("Session 1")
+                assertThat(session.taskGroups).isEmpty()
+            }
         }
-    }
 
     @Test
-    fun `newTaskGroup executes NewTaskGroupUseCase`() = runTest {
-        val sessionId = 1L
-        coEvery { getSessionUseCase.execute(any()) } returns flowOf(
-            Session(sessionId, "Session 1", emptyList())
-        )
-        coEvery { newTaskGroupUseCase.execute(any()) } returns Unit
+    fun `GIVEN a session WHEN newTaskGroup is called THEN NewTaskGroupUseCase is executed`() =
+        runTest {
+            // GIVEN
+            val sessionId = 1L
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(
+                Session(sessionId, "Session 1", emptyList())
+            )
+            coEvery { newTaskGroupUseCase.execute(any()) } returns Unit
 
-        val sut = sut()
+            // WHEN
+            val sut = sut()
+            sut.newTaskGroup()
+            advanceUntilIdle()
 
-        sut.newTaskGroup()
-
-        advanceUntilIdle()
-
-        coVerify(exactly = 1) {
-            newTaskGroupUseCase.execute(sessionId)
+            // THEN
+            coVerify(exactly = 1) {
+                newTaskGroupUseCase.execute(sessionId)
+            }
         }
-    }
 
     @Test
-    fun `deleteTaskGroup executes DeleteTaskGroupUseCase`() = runTest {
-        val sessionId = 1L
-        val taskGroupId = 2L
-        coEvery { getSessionUseCase.execute(any()) } returns flowOf(
-            Session(sessionId, "Session 1", emptyList())
-        )
-        coEvery { deleteTaskGroupUseCase.execute(any()) } returns Unit
+    fun `GIVEN a session WHEN deleteTaskGroup is called THEN DeleteTaskGroupUseCase is executed`() =
+        runTest {
+            // GIVEN
+            val sessionId = 1L
+            val taskGroupId = 2L
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(
+                Session(sessionId, "Session 1", emptyList())
+            )
+            coEvery { deleteTaskGroupUseCase.execute(any()) } returns Unit
 
-        val sut = sut()
+            // WHEN
+            val sut = sut()
+            sut.deleteTaskGroup(taskGroupId)
+            advanceUntilIdle()
 
-        sut.deleteTaskGroup(taskGroupId)
-
-        advanceUntilIdle()
-
-        coVerify(exactly = 1) {
-            deleteTaskGroupUseCase.execute(taskGroupId)
+            // THEN
+            coVerify(exactly = 1) {
+                deleteTaskGroupUseCase.execute(taskGroupId)
+            }
         }
-    }
 
     @Test
-    fun `newTask executes NewTaskUseCase`() = runTest {
+    fun `GIVEN a session WHEN newTask is called THEN NewTaskUseCase is executed`() = runTest {
+        // GIVEN
         val sessionId = 1L
         val taskGroupId = 2L
         coEvery { getSessionUseCase.execute(any()) } returns flowOf(
@@ -137,19 +154,20 @@ class SessionEditorRouteViewModelTest {
         )
         coEvery { newTaskUseCase.execute(any()) } returns Unit
 
+        // WHEN
         val sut = sut()
-
         sut.newTask(taskGroupId)
-
         advanceUntilIdle()
 
+        // THEN
         coVerify(exactly = 1) {
             newTaskUseCase.execute(taskGroupId)
         }
     }
 
     @Test
-    fun `deleteTask executes DeleteTaskUseCase`() = runTest {
+    fun `GIVEN a session WHEN deleteTask is called THEN DeleteTaskUseCase is executed`() = runTest {
+        // GIVEN
         val sessionId = 1L
         val taskId = 2L
         coEvery { getSessionUseCase.execute(any()) } returns flowOf(
@@ -157,40 +175,43 @@ class SessionEditorRouteViewModelTest {
         )
         coEvery { deleteTaskUseCase.execute(any()) } returns Unit
 
+        // WHEN
         val sut = sut()
-
         sut.deleteTask(taskId)
-
         advanceUntilIdle()
 
+        // THEN
         coVerify(exactly = 1) {
             deleteTaskUseCase.execute(taskId)
         }
     }
 
     @Test
-    fun `updateTask executes updateTaskUseCase`() = runTest {
-        val sessionId = 1L
-        val duration = 3.seconds
-        val title = "Task Title"
-        val taskId = 1L
-        coEvery { getSessionUseCase.execute(any()) } returns flowOf(
-            Session(sessionId, "Session 1", emptyList())
-        )
-        coEvery { updateTaskUseCase.execute(any(), any(), any()) } returns Unit
+    fun `GIVEN a session and task data WHEN updateTask is called THEN UpdateTaskUseCase is executed`() =
+        runTest {
+            // GIVEN
+            val sessionId = 1L
+            val duration = 3.seconds
+            val title = "Task Title"
+            val taskId = 1L
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(
+                Session(sessionId, "Session 1", emptyList())
+            )
+            coEvery { updateTaskUseCase.execute(any(), any(), any()) } returns Unit
 
-        val sut = sut()
-        val uiTask = UiTask(
-            taskId,
-            title,
-            duration
-        )
-        sut.updateTask(uiTask)
+            // WHEN
+            val sut = sut()
+            val uiTask = UiTask(
+                taskId,
+                title,
+                duration
+            )
+            sut.updateTask(uiTask)
+            advanceUntilIdle()
 
-        advanceUntilIdle()
-
-        coVerify(exactly = 1) {
-            updateTaskUseCase.execute(taskId, title, duration)
+            // THEN
+            coVerify(exactly = 1) {
+                updateTaskUseCase.execute(taskId, title, duration)
+            }
         }
-    }
 }

@@ -20,19 +20,20 @@ class DeleteTaskGroupUseCaseTest {
     )
 
     @Test
-    fun `GIVEN a taskGroupId WHEN executing the UseCase THEN both repositories delete the task group and all of its tasks`() = runTest {
-        // GIVEN
-        coEvery { taskGroupRepository.deleteTaskGroupById(any()) } returns Unit
-        coEvery { taskRepository.deleteTasksByTaskGroupId(any()) } returns Unit
-        val taskGroupId = 1L
+    fun `GIVEN a taskGroupId WHEN executing the UseCase THEN both repositories delete the task group and all of its tasks`() =
+        runTest {
+            // GIVEN
+            coEvery { taskGroupRepository.deleteTaskGroupById(any()) } returns Unit
+            coEvery { taskRepository.deleteTasksByTaskGroupId(any()) } returns Unit
+            val taskGroupId = 1L
 
-        // WHEN
-        sut().execute(taskGroupId)
+            // WHEN
+            sut().execute(taskGroupId)
 
-        // THEN
-        coVerify(exactly = 1) {
-            taskGroupRepository.deleteTaskGroupById(taskGroupId)
-            taskRepository.deleteTasksByTaskGroupId(taskGroupId)
+            // THEN
+            coVerify(exactly = 1) {
+                taskGroupRepository.deleteTaskGroupById(taskGroupId)
+                taskRepository.deleteTasksByTaskGroupId(taskGroupId)
+            }
         }
-    }
 }

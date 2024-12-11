@@ -17,3 +17,4 @@
 [ ] provide test fakes of TaskGroup
 [ ] provide test fakes of Task
 [ ] move DatabaseDefaultValuesFake to proper test package (prbably names *Fakes)
+[ ] replace mocked data in SessionCompilerTest with fakes

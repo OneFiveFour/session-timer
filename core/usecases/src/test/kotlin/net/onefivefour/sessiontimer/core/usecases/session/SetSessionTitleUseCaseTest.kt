@@ -15,17 +15,18 @@ class SetSessionTitleUseCaseTest {
     )
 
     @Test
-    fun `GIVEN session data WHEN executing the UseCase THEN the repository is called to set the session title`() = runTest {
-        // GIVEN
-        val sessionId = 1L
-        val title = "Test Session Title"
+    fun `GIVEN session data WHEN executing the UseCase THEN the repository is called to set the session title`() =
+        runTest {
+            // GIVEN
+            val sessionId = 1L
+            val title = "Test Session Title"
 
-        // WHEN
-        sut().execute(sessionId, title)
+            // WHEN
+            sut().execute(sessionId, title)
 
-        // THEN
-        coVerify(exactly = 1) {
-            sessionRepository.setSessionTitle(sessionId, title)
+            // THEN
+            coVerify(exactly = 1) {
+                sessionRepository.setSessionTitle(sessionId, title)
+            }
         }
-    }
 }

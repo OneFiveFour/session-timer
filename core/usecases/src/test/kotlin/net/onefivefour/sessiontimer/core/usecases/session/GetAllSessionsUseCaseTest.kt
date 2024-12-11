@@ -7,13 +7,9 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
-import net.onefivefour.sessiontimer.core.common.domain.model.Task
-import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import org.junit.Test
-import kotlin.time.Duration.Companion.seconds
 
 class GetAllSessionsUseCaseTest {
 
@@ -24,32 +20,33 @@ class GetAllSessionsUseCaseTest {
     )
 
     @Test
-    fun `GIVEN a full session WHEN executing the UseCase THEN all sessions without their taskGroups`() = runTest {
-        // GIVEN
-        val sessionId = 1L
-        val title = "Sesssion Title"
-        coEvery { sessionRepository.getAllSessions() } returns flowOf(
-            listOf(
-                Session(sessionId, title, emptyList())
+    fun `GIVEN a full session WHEN executing the UseCase THEN all sessions without their taskGroups`() =
+        runTest {
+            // GIVEN
+            val sessionId = 1L
+            val title = "Sesssion Title"
+            coEvery { sessionRepository.getAllSessions() } returns flowOf(
+                listOf(
+                    Session(sessionId, title, emptyList())
+                )
             )
-        )
 
-        // WHEN
-        val result = sut().execute()
+            // WHEN
+            val result = sut().execute()
 
-        // THEN
-        result.test {
-            val sessionList = awaitItem()
-            assertThat(sessionList.size).isEqualTo(1)
-            val session = sessionList.first()
-            assertThat(session.id).isEqualTo(sessionId)
-            assertThat(session.title).isEqualTo(title)
-            assertThat(session.taskGroups).isEmpty()
-            awaitComplete()
+            // THEN
+            result.test {
+                val sessionList = awaitItem()
+                assertThat(sessionList.size).isEqualTo(1)
+                val session = sessionList.first()
+                assertThat(session.id).isEqualTo(sessionId)
+                assertThat(session.title).isEqualTo(title)
+                assertThat(session.taskGroups).isEmpty()
+                awaitComplete()
+            }
+
+            coVerify(exactly = 1) {
+                sessionRepository.getAllSessions()
+            }
         }
-
-        coVerify(exactly = 1) {
-            sessionRepository.getAllSessions()
-        }
-    }
 }
