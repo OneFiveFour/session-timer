@@ -25,7 +25,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SessionEditorRouteViewModelTest {
+internal class SessionEditorRouteViewModelTest {
 
     private val route = SessionEditorRoute(sessionId = 1L)
 

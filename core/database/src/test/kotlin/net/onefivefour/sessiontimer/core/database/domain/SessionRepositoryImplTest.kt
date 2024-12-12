@@ -13,7 +13,7 @@ import net.onefivefour.sessiontimer.core.database.Session as DatabaseSession
 import net.onefivefour.sessiontimer.core.database.data.SessionDataSource
 import org.junit.Test
 
-class SessionRepositoryImplTest {
+internal class SessionRepositoryImplTest {
 
     private val sessionDataSource: SessionDataSource = mockk()
 

@@ -8,7 +8,7 @@ import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode.SEQUENCE
 import net.onefivefour.sessiontimer.core.database.domain.DatabaseDefaultValues
 
 @Singleton
-class DatabaseDefaultValuesImpl @Inject constructor(
+internal class DatabaseDefaultValuesImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : DatabaseDefaultValues {
 

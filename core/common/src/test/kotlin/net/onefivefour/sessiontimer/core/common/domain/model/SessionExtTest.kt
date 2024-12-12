@@ -5,7 +5,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 import org.junit.Test
 
-class SessionExtTest {
+internal class SessionExtTest {
 
     @Test
     fun `GIVEN a normal session WHEN getTotalDuration is called THEN correct duration is returned`() {

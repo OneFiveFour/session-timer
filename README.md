@@ -12,10 +12,5 @@
 ```
 
 # Open TODOs
-[ ] provide test fakes of DatabaseTaskGroup
-[ ] provide test fakes of DatabaseTask
-[ ] provide test fakes of TaskGroup
-[ ] provide test fakes of Task
-[ ] move DatabaseDefaultValuesFake to proper test package (prbably names *Fakes)
-[ ] replace mocked data in SessionCompilerTest with fakes
 [ ] check that internal classes are defined so
+[ ] 'setter for statusBarColor: Int' is deprecated. Deprecated in Java

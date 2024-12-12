@@ -6,10 +6,10 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
-import net.onefivefour.sessiontimer.core.database.test.DatabaseDefaultValuesFake
+import net.onefivefour.sessiontimer.core.database.test.FAKE_DB_DEFAULT_VALUES
 import org.junit.Test
 
-class NewTaskGroupUseCaseTest {
+internal class NewTaskGroupUseCaseTest {
 
     private val taskGroupRepository: TaskGroupRepository = mockk()
     private val taskRepository: TaskRepository = mockk()
@@ -17,7 +17,7 @@ class NewTaskGroupUseCaseTest {
     private fun sut() = NewTaskGroupUseCaseImpl(
         taskGroupRepository,
         taskRepository,
-        DatabaseDefaultValuesFake
+        FAKE_DB_DEFAULT_VALUES
     )
 
     @Test
@@ -54,15 +54,15 @@ class NewTaskGroupUseCaseTest {
             // THEN
             coVerify(exactly = 1) {
                 taskGroupRepository.newTaskGroup(
-                    DatabaseDefaultValuesFake.getTaskGroupTitle(),
-                    DatabaseDefaultValuesFake.getTaskGroupColor(),
-                    DatabaseDefaultValuesFake.getTaskGroupPlayMode(),
-                    DatabaseDefaultValuesFake.getTaskGroupNumberOfRandomTasks(),
+                    FAKE_DB_DEFAULT_VALUES.getTaskGroupTitle(),
+                    FAKE_DB_DEFAULT_VALUES.getTaskGroupColor(),
+                    FAKE_DB_DEFAULT_VALUES.getTaskGroupPlayMode(),
+                    FAKE_DB_DEFAULT_VALUES.getTaskGroupNumberOfRandomTasks(),
                     sessionId
                 )
                 taskRepository.newTask(
-                    DatabaseDefaultValuesFake.getTaskTitle(),
-                    DatabaseDefaultValuesFake.getTaskDuration(),
+                    FAKE_DB_DEFAULT_VALUES.getTaskTitle(),
+                    FAKE_DB_DEFAULT_VALUES.getTaskDuration(),
                     taskGroupId
                 )
             }

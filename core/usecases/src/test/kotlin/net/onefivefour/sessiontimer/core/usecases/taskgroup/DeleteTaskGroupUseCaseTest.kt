@@ -8,7 +8,7 @@ import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import org.junit.Test
 
-class DeleteTaskGroupUseCaseTest {
+internal class DeleteTaskGroupUseCaseTest {
 
     private val taskGroupRepository: TaskGroupRepository = mockk()
 

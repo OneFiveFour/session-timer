@@ -6,7 +6,7 @@ import kotlin.time.Duration
 import net.onefivefour.sessiontimer.core.timer.api.SessionTimer
 import org.junit.Test
 
-class StartTimerUseCaseTest {
+internal class StartTimerUseCaseTest {
 
     private val sessionTimer: SessionTimer = mockk(relaxed = true)
 

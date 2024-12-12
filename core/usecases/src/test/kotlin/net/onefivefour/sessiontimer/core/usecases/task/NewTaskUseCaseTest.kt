@@ -5,16 +5,16 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
-import net.onefivefour.sessiontimer.core.database.test.DatabaseDefaultValuesFake
+import net.onefivefour.sessiontimer.core.database.test.FAKE_DB_DEFAULT_VALUES
 import org.junit.Test
 
-class NewTaskUseCaseTest {
+internal class NewTaskUseCaseTest {
 
     private val taskRepository: TaskRepository = mockk()
 
     private fun sut() = NewTaskUseCaseImpl(
         taskRepository,
-        DatabaseDefaultValuesFake
+        FAKE_DB_DEFAULT_VALUES
     )
 
     @Test
@@ -30,8 +30,8 @@ class NewTaskUseCaseTest {
             // THEN
             coVerify(exactly = 1) {
                 taskRepository.newTask(
-                    DatabaseDefaultValuesFake.getTaskTitle(),
-                    DatabaseDefaultValuesFake.getTaskDuration(),
+                    FAKE_DB_DEFAULT_VALUES.getTaskTitle(),
+                    FAKE_DB_DEFAULT_VALUES.getTaskDuration(),
                     taskGroupId
                 )
             }

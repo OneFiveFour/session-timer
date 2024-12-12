@@ -22,7 +22,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class TaskGroupEditorRouteViewModelTest {
+internal class TaskGroupEditorRouteViewModelTest {
 
     private val route = TaskGroupEditorRoute(taskGroupId = 1L)
 

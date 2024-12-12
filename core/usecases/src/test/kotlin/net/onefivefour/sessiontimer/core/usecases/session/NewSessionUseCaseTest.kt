@@ -8,10 +8,10 @@ import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
-import net.onefivefour.sessiontimer.core.database.test.DatabaseDefaultValuesFake
+import net.onefivefour.sessiontimer.core.database.test.FAKE_DB_DEFAULT_VALUES
 import org.junit.Test
 
-class NewSessionUseCaseTest {
+internal class NewSessionUseCaseTest {
 
     private val sessionRepository: SessionRepository = mockk()
 
@@ -23,7 +23,7 @@ class NewSessionUseCaseTest {
         sessionRepository,
         taskGroupRepository,
         taskRepository,
-        DatabaseDefaultValuesFake
+        FAKE_DB_DEFAULT_VALUES
     )
 
     @Test
@@ -50,18 +50,18 @@ class NewSessionUseCaseTest {
 
             // THEN
             coVerify(ordering = Ordering.ORDERED) {
-                sessionRepository.newSession(DatabaseDefaultValuesFake.getSessionTitle())
+                sessionRepository.newSession(FAKE_DB_DEFAULT_VALUES.getSessionTitle())
 
                 taskGroupRepository.newTaskGroup(
-                    DatabaseDefaultValuesFake.getTaskGroupTitle(),
-                    DatabaseDefaultValuesFake.getTaskGroupColor(),
-                    DatabaseDefaultValuesFake.getTaskGroupPlayMode(),
-                    DatabaseDefaultValuesFake.getTaskGroupNumberOfRandomTasks(),
+                    FAKE_DB_DEFAULT_VALUES.getTaskGroupTitle(),
+                    FAKE_DB_DEFAULT_VALUES.getTaskGroupColor(),
+                    FAKE_DB_DEFAULT_VALUES.getTaskGroupPlayMode(),
+                    FAKE_DB_DEFAULT_VALUES.getTaskGroupNumberOfRandomTasks(),
                     sessionId
                 )
                 taskRepository.newTask(
-                    DatabaseDefaultValuesFake.getTaskTitle(),
-                    DatabaseDefaultValuesFake.getTaskDuration(),
+                    FAKE_DB_DEFAULT_VALUES.getTaskTitle(),
+                    FAKE_DB_DEFAULT_VALUES.getTaskDuration(),
                     taskGroupId
                 )
             }

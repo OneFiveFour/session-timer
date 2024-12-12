@@ -14,7 +14,7 @@ import net.onefivefour.sessiontimer.feature.taskgroupeditor.TaskGroupEditorScree
 import net.onefivefour.sessiontimer.feature.taskgroupeditor.api.TaskGroupEditorRoute
 
 @Composable
-fun AppNavGraph() {
+internal fun AppNavGraph() {
     val navController = rememberNavController()
 
     NavHost(

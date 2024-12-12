@@ -27,7 +27,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SessionPlayerViewModelTest {
+internal class SessionPlayerViewModelTest {
 
     private val route = SessionPlayerRoute(sessionId = 1L)
 

@@ -18,7 +18,7 @@ import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class DeleteSessionUseCaseTest {
+internal class DeleteSessionUseCaseTest {
 
     private val sessionRepository: SessionRepository = mockk(relaxed = true)
 

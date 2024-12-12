@@ -7,7 +7,7 @@ import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import org.junit.Test
 
-class UpdateTaskUseCaseTest {
+internal class UpdateTaskUseCaseTest {
 
     private val taskRepository: TaskRepository = mockk(relaxed = true)
 

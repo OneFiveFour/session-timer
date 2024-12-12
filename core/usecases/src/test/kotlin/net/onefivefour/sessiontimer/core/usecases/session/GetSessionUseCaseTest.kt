@@ -14,7 +14,7 @@ import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import org.junit.Test
 
-class GetSessionUseCaseTest {
+internal class GetSessionUseCaseTest {
 
     private val sessionRepository: SessionRepository = mockk()
 

@@ -6,7 +6,7 @@ import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import org.junit.Test
 
-class SetSessionTitleUseCaseTest {
+internal class SetSessionTitleUseCaseTest {
 
     private val sessionRepository: SessionRepository = mockk(relaxed = true)
 

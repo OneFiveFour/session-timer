@@ -14,7 +14,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SessionTimerImplTest {
+internal class SessionTimerImplTest {
 
     @get:Rule
     val standardTestDispatcherRule = StandardTestDispatcherRule()

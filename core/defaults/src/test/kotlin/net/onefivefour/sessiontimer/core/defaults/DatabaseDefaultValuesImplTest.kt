@@ -6,7 +6,7 @@ import io.mockk.every
 import io.mockk.mockk
 import org.junit.Test
 
-class DatabaseDefaultValuesImplTest {
+internal class DatabaseDefaultValuesImplTest {
 
     private val testString = "Test String"
 

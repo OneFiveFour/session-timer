@@ -7,7 +7,7 @@ import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import org.junit.Test
 
-class UpdateTaskGroupUseCaseTest {
+internal class UpdateTaskGroupUseCaseTest {
 
     private val taskGroupRepository: TaskGroupRepository = mockk(relaxed = true)
 

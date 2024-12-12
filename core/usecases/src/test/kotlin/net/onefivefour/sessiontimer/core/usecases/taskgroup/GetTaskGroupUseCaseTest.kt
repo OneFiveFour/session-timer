@@ -12,7 +12,7 @@ import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import org.junit.Test
 
-class GetTaskGroupUseCaseTest {
+internal class GetTaskGroupUseCaseTest {
 
     private val taskGroupRepository: TaskGroupRepository = mockk()
 

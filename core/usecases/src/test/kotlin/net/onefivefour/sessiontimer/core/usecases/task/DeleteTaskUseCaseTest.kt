@@ -7,7 +7,7 @@ import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
 import org.junit.Test
 
-class DeleteTaskUseCaseTest {
+internal class DeleteTaskUseCaseTest {
 
     private val taskRepository: TaskRepository = mockk()
 

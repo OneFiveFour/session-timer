@@ -10,7 +10,7 @@ import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import org.junit.Test
 
-class SessionCompilerTest {
+internal class SessionCompilerTest {
 
     @Test
     fun `GIVEN a taskGroup in SEQUENCE play mode WHEN compiled THEN the compiled task sequence is correct`() {
