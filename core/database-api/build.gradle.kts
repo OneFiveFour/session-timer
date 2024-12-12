@@ -8,6 +8,9 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":core:common"))
+
     // Coroutines
     implementation(libs.coroutines.core)
 }

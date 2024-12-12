@@ -65,7 +65,9 @@ internal class SessionDataSourceImplTest {
     fun `GIVEN a sessionId WHEN getDenormalizedSessionView is called THEN the call is delegated to sessionQueries`() =
         runTest {
             // GIVEN
-            coEvery { sessionQueries.denormalizedSessionView(any()).executeAsOneOrNull() } returns null
+            coEvery {
+                sessionQueries.denormalizedSessionView(any()).executeAsOneOrNull()
+            } returns null
             val sessionId = 123L
 
             // WHEN

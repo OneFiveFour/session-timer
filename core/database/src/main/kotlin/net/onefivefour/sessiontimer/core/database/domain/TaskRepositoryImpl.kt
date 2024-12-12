@@ -11,21 +11,23 @@ import net.onefivefour.sessiontimer.core.database.data.TaskDataSource
 
 internal class TaskRepositoryImpl @Inject constructor(
     private val taskDataSource: TaskDataSource
-): TaskRepository {
+) : TaskRepository {
 
-    override suspend fun newTask(title: String, durationInSeconds: Int, taskGroupId: Long) = taskDataSource
-        .insert(
-            title = title,
-            durationInSeconds = durationInSeconds.toLong(),
-            taskGroupId = taskGroupId
-        )
+    override suspend fun newTask(title: String, durationInSeconds: Int, taskGroupId: Long) =
+        taskDataSource
+            .insert(
+                title = title,
+                durationInSeconds = durationInSeconds.toLong(),
+                taskGroupId = taskGroupId
+            )
 
     override suspend fun getTasksByTaskGroupIds(taskGroupIds: List<Long>) = taskDataSource
         .getByTaskGroupIds(taskGroupIds)
         .map { it.toDomainTask() }
 
-    override suspend fun updateTask(taskId: Long, title: String, duration: Duration) = taskDataSource
-        .update(taskId, title, duration.toLong(DurationUnit.SECONDS))
+    override suspend fun updateTask(taskId: Long, title: String, duration: Duration) =
+        taskDataSource
+            .update(taskId, title, duration.toLong(DurationUnit.SECONDS))
 
     override suspend fun deleteTask(taskId: Long) = taskDataSource
         .deleteById(taskId)

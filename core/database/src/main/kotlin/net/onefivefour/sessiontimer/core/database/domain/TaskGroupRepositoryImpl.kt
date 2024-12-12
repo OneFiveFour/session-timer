@@ -3,14 +3,13 @@ package net.onefivefour.sessiontimer.core.database.domain
 import javax.inject.Inject
 import kotlinx.coroutines.flow.map
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
-import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup as DomainTaskGroup
 import net.onefivefour.sessiontimer.core.database.TaskGroup as DatabaseTaskGroup
 import net.onefivefour.sessiontimer.core.database.data.TaskGroupDataSource
 
 internal class TaskGroupRepositoryImpl @Inject constructor(
     private val taskGroupDataSource: TaskGroupDataSource
-): TaskGroupRepository {
+) : TaskGroupRepository {
 
     override suspend fun newTaskGroup(
         title: String,

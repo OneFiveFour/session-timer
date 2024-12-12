@@ -8,7 +8,7 @@ import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.database.domain.SessionRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskGroupRepository
 import net.onefivefour.sessiontimer.core.database.domain.TaskRepository
-import net.onefivefour.sessiontimer.core.usecases.fakes.DatabaseDefaultValuesFake
+import net.onefivefour.sessiontimer.core.database.test.DatabaseDefaultValuesFake
 import org.junit.Test
 
 class NewSessionUseCaseTest {

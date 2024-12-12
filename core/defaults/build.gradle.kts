@@ -15,5 +15,5 @@ dependencies {
     implementation(libs.androidX.compose.runtime)
 
     implementation(project(":core:common"))
-    implementation(project(":core:database"))
+    implementation(project(":core:database-api"))
 }
