@@ -13,11 +13,11 @@ import net.onefivefour.sessiontimer.core.database.Task as DatabaseTask
 import net.onefivefour.sessiontimer.core.database.data.TaskDataSource
 import org.junit.Test
 
-class TaskRepositoryTest {
+class TaskRepositoryImplTest {
 
     private val taskDataSource: TaskDataSource = mockk()
 
-    private fun sut() = TaskRepository(
+    private fun sut() = TaskRepositoryImpl(
         taskDataSource
     )
 

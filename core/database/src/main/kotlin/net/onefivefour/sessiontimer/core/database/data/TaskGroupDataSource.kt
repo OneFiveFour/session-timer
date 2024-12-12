@@ -3,7 +3,7 @@ package net.onefivefour.sessiontimer.core.database.data
 import kotlinx.coroutines.flow.Flow
 import net.onefivefour.sessiontimer.core.database.TaskGroup
 
-interface TaskGroupDataSource {
+internal interface TaskGroupDataSource {
 
     suspend fun insert(
         title: String,

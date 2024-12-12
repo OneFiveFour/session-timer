@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import net.onefivefour.sessiontimer.core.database.DenormalizedSessionView
 import net.onefivefour.sessiontimer.core.database.Session
 
-interface SessionDataSource {
+internal interface SessionDataSource {
 
     suspend fun insert(title: String)
 

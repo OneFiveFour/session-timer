@@ -85,6 +85,7 @@ dependencies {
     val implModules = listOf(
         ":core:common",
         ":core:database",
+        ":core:database-api",
         ":core:defaults",
         ":core:di",
         ":core:test",

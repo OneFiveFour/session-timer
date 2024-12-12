@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-import net.onefivefour.sessiontimer.core.database.data.DatabaseDefaultValues
+import net.onefivefour.sessiontimer.core.database.domain.DatabaseDefaultValues
 import net.onefivefour.sessiontimer.core.defaults.DatabaseDefaultValuesImpl
 
 @Module
@@ -14,5 +14,5 @@ internal interface DefaultValuesModule {
 
     @Binds
     @Singleton
-    fun bindsDatabaseDefaultValues(impl: DatabaseDefaultValuesImpl): DatabaseDefaultValues
+    fun bindDatabaseDefaultValues(impl: DatabaseDefaultValuesImpl): DatabaseDefaultValues
 }

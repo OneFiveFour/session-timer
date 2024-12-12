@@ -1,50 +1,17 @@
 package net.onefivefour.sessiontimer.core.database.domain
 
-import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
-import kotlin.time.DurationUnit
-import kotlinx.coroutines.flow.map
-import net.onefivefour.sessiontimer.core.common.domain.model.Task as DomainTask
-import net.onefivefour.sessiontimer.core.database.Task as DatabaseTask
-import net.onefivefour.sessiontimer.core.database.data.TaskDataSource
 
-class TaskRepository @Inject constructor(
-    private val taskDataSource: TaskDataSource
-) {
+interface TaskRepository {
+    suspend fun newTask(title: String, durationInSeconds: Int, taskGroupId: Long)
 
-    suspend fun newTask(title: String, durationInSeconds: Int, taskGroupId: Long) = taskDataSource
-        .insert(
-            title = title,
-            durationInSeconds = durationInSeconds.toLong(),
-            taskGroupId = taskGroupId
-        )
+    suspend fun getTasksByTaskGroupIds(taskGroupIds: List<Long>): Flow<List<Task>>
 
-    suspend fun getTasksByTaskGroupIds(taskGroupIds: List<Long>) = taskDataSource
-        .getByTaskGroupIds(taskGroupIds)
-        .map { it.toDomainTask() }
+    suspend fun updateTask(taskId: Long, title: String, duration: Duration)
 
-    suspend fun updateTask(taskId: Long, title: String, duration: Duration) = taskDataSource
-        .update(taskId, title, duration.toLong(DurationUnit.SECONDS))
+    suspend fun deleteTask(taskId: Long)
 
-    suspend fun deleteTask(taskId: Long) = taskDataSource
-        .deleteById(taskId)
-
-    suspend fun deleteTasksByTaskGroupId(taskGroupId: Long) = taskDataSource
-        .deleteByTaskGroupId(taskGroupId)
-}
-
-internal fun List<DatabaseTask>.toDomainTask(): List<DomainTask> {
-    return map { databaseTask ->
-        databaseTask.toDomainTask()
-    }
-}
-
-internal fun DatabaseTask.toDomainTask(): DomainTask {
-    return DomainTask(
-        id = this.id,
-        title = this.title,
-        duration = this.durationInSeconds.seconds,
-        taskGroupId = this.taskGroupId
-    )
+    suspend fun deleteTasksByTaskGroupId(taskGroupId: Long)
 }

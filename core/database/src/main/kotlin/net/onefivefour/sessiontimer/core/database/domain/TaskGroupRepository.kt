@@ -1,38 +1,21 @@
 package net.onefivefour.sessiontimer.core.database.domain
 
-import javax.inject.Inject
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.Flow
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
-import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup as DomainTaskGroup
-import net.onefivefour.sessiontimer.core.database.TaskGroup as DatabaseTaskGroup
-import net.onefivefour.sessiontimer.core.database.data.TaskGroupDataSource
+import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 
-class TaskGroupRepository @Inject constructor(
-    private val taskGroupDataSource: TaskGroupDataSource
-) {
-
+interface TaskGroupRepository {
     suspend fun newTaskGroup(
         title: String,
         color: Long,
         playMode: PlayMode,
         numberOfRandomTasks: Int,
         sessionId: Long
-    ) = taskGroupDataSource
-        .insert(
-            title = title,
-            color = color,
-            playMode = playMode.toString(),
-            numberOfRandomTasks = numberOfRandomTasks.toLong(),
-            sessionId = sessionId
-        )
+    )
 
-    suspend fun getTaskGroupById(taskGroupId: Long) = taskGroupDataSource
-        .getById(taskGroupId)
-        .map { it.toDomainTaskGroup() }
+    suspend fun getTaskGroupById(taskGroupId: Long): Flow<TaskGroup>
 
-    suspend fun getTaskGroupBySessionId(sessionId: Long) = taskGroupDataSource
-        .getBySessionId(sessionId)
-        .map { it.toDomainTaskGroup() }
+    suspend fun getTaskGroupBySessionId(sessionId: Long): Flow<List<TaskGroup>>
 
     suspend fun updateTaskGroup(
         taskGroupId: Long,
@@ -40,41 +23,9 @@ class TaskGroupRepository @Inject constructor(
         color: Int,
         playMode: PlayMode,
         numberOfRandomTasks: Int
-    ) = taskGroupDataSource
-        .update(
-            taskGroupId,
-            title,
-            color.toLong(),
-            playMode.toString(),
-            numberOfRandomTasks.toLong()
-        )
-
-    suspend fun deleteTaskGroupById(taskGroupId: Long) = taskGroupDataSource
-        .deleteById(taskGroupId)
-
-    fun getLastInsertId() = taskGroupDataSource
-        .getLastInsertId()
-}
-
-internal fun List<DatabaseTaskGroup>.toDomainTaskGroup(): List<DomainTaskGroup> {
-    return map { databaseTaskGroup ->
-        databaseTaskGroup.toDomainTaskGroup()
-    }
-}
-
-internal fun DatabaseTaskGroup.toDomainTaskGroup(): DomainTaskGroup {
-    val title = this.title
-    val color = this.color
-    val playMode = PlayMode.valueOf(this.playMode)
-    val numberOfRandomTasks = this.numberOfRandomTasks.toInt()
-
-    return DomainTaskGroup(
-        id = this.id,
-        title = title,
-        color = color,
-        playMode = playMode,
-        tasks = emptyList(),
-        numberOfRandomTasks = numberOfRandomTasks,
-        sessionId = this.sessionId
     )
+
+    suspend fun deleteTaskGroupById(taskGroupId: Long)
+
+    fun getLastInsertId(): Long
 }

@@ -14,5 +14,5 @@ internal interface SessionTimerModule {
 
     @Binds
     @ViewModelScoped
-    fun bindsSessionTimer(impl: SessionTimerImpl): SessionTimer
+    fun bindSessionTimer(impl: SessionTimerImpl): SessionTimer
 }

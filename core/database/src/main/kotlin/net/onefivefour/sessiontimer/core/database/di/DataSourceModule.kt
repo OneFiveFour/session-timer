@@ -15,11 +15,11 @@ import net.onefivefour.sessiontimer.core.database.data.TaskGroupDataSourceImpl
 @InstallIn(SingletonComponent::class)
 internal interface DataSourceModule {
     @Binds
-    fun bindsTaskDataSource(taskDataSource: TaskDataSourceImpl): TaskDataSource
+    fun bindTaskDataSource(taskDataSource: TaskDataSourceImpl): TaskDataSource
 
     @Binds
-    fun bindsTaskGroupDataSource(taskGroupDataSource: TaskGroupDataSourceImpl): TaskGroupDataSource
+    fun bindTaskGroupDataSource(taskGroupDataSource: TaskGroupDataSourceImpl): TaskGroupDataSource
 
     @Binds
-    fun bindsSessionDataSource(sessionDataSource: SessionDataSourceImpl): SessionDataSource
+    fun bindSessionDataSource(sessionDataSource: SessionDataSourceImpl): SessionDataSource
 }

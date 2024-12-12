@@ -1,7 +1,7 @@
 package net.onefivefour.sessiontimer.core.usecases.fakes
 
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
-import net.onefivefour.sessiontimer.core.database.data.DatabaseDefaultValues
+import net.onefivefour.sessiontimer.core.database.domain.DatabaseDefaultValues
 
 internal object DatabaseDefaultValuesFake : DatabaseDefaultValues {
 
