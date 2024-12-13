@@ -2,7 +2,7 @@ package net.onefivefour.sessiontimer.core.theme
 
 import androidx.compose.ui.graphics.Color
 
-val st_theme_light_primary = Color(0xFFFFFFFF)
+val st_theme_light_primary = Color(0xFF3258B6)
 val st_theme_light_onPrimary = Color(0xFF8290a7)
 val st_theme_light_primaryContainer = Color(0xFFFFD9E2)
 val st_theme_light_onPrimaryContainer = Color(0xFF3F001C)
