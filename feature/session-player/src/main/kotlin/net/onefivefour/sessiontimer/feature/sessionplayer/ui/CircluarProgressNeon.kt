@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -37,62 +38,84 @@ fun CircluarProgressNeon(
     glowRadius: Dp,
     glowScale: Float = 1f,
     progress: Float = 1f,
+    startAngle: Float = -90f
 ) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .neonBorder(
-                strokeColor = strokeColor,
-                strokeWidthDp = strokeWidth,
-                glowColor = glowColor,
-                glowWidthDp = glowWidth,
-                glowRadiusDp = glowRadius,
-                glowScale = glowScale,
-                progress = progress
+            .glow(
+                color = glowColor,
+                width = glowWidth,
+                radius = glowRadius,
+                scaleFactor = glowScale,
+                progress = progress,
+                startAngle = startAngle
+            )
+            .arc(
+                color = strokeColor,
+                width = strokeWidth,
+                progress = progress,
+                startAngle = startAngle
             )
 
     )
 }
 
-
-fun Modifier.neonBorder(
-    strokeColor: Color,
-    strokeWidthDp: Dp,
-    glowColor: Color,
-    glowWidthDp: Dp,
-    glowRadiusDp: Dp,
-    glowScale: Float = 1f,
-    progress: Float = 1f,
+private fun Modifier.arc(
+    color: Color,
+    width: Dp,
+    progress: Float,
+    startAngle: Float
 ): Modifier = this.drawWithCache {
 
-    val strokeWidthPx = strokeWidthDp.toPx()
-    val glowWidthPx = glowWidthDp.toPx()
-    val glowRadiusPx = glowRadiusDp.toPx()
     val arcDegrees = progress * 360f
     val bounds = RectF(0f, 0f, size.width, size.height)
 
-    val startAngle = -90f
+    onDrawBehind {
+        drawArc(
+            color = color,
+            startAngle = startAngle,
+            sweepAngle = arcDegrees,
+            useCenter = false,
+            size = Size(bounds.width(), bounds.height()),
+            topLeft = Offset(0f, 0f),
+            style = Stroke(
+                width = width.toPx(),
+                cap = StrokeCap.Round
+            )
+        )
+    }
+}
 
-    // Applying a blur effect only to the outer glowing arc is not possible using Compose's Brush.
-    // To achieve this, we use the native Paint class with a BlurMaskFilter and draw the arc using the
-    // native Android Canvas to handle the blur for the glowing effect.
+private fun Modifier.glow(
+    color: Color,
+    width: Dp,
+    radius: Dp,
+    scaleFactor: Float,
+    progress: Float,
+    startAngle: Float
+): Modifier = this.drawWithCache {
+
+    val arcDegrees = progress * 360f
+    val bounds = RectF(0f, 0f, size.width, size.height)
+
     val glowingPaint = Paint().apply {
-        asFrameworkPaint().apply {
-            isAntiAlias = true
-            color = glowColor.toArgb()
-            strokeWidth = glowWidthPx
-            style = android.graphics.Paint.Style.STROKE
-            strokeJoin = android.graphics.Paint.Join.ROUND
-            strokeCap = android.graphics.Paint.Cap.ROUND
-            maskFilter = BlurMaskFilter(
-                glowRadiusPx,
+        asFrameworkPaint().also {
+            it.isAntiAlias = true
+            it.color = color.toArgb()
+            it.strokeWidth =  width.toPx()
+            it.style = android.graphics.Paint.Style.STROKE
+            it.strokeJoin = android.graphics.Paint.Join.ROUND
+            it.strokeCap = android.graphics.Paint.Cap.ROUND
+            it.maskFilter = BlurMaskFilter(
+                radius.toPx(),
                 BlurMaskFilter.Blur.NORMAL
             )
         }
     }.asFrameworkPaint()
 
     val currentWidth = bounds.width()
-    val scaledSize = currentWidth * glowScale
+    val scaledSize = currentWidth * scaleFactor
     val sizeOffset = (scaledSize - currentWidth) / 2
     val glowBounds = RectF(
         0 - sizeOffset,
@@ -112,20 +135,6 @@ fun Modifier.neonBorder(
                 glowingPaint
             )
         }
-
-        //draw with the help of native canvas sweep-gradient body ark
-        drawArc(
-            color = strokeColor,
-            startAngle = startAngle,
-            sweepAngle = arcDegrees,
-            useCenter = false,
-            size = Size(bounds.width(), bounds.height()),
-            topLeft = Offset(0f, 0f),
-            style = Stroke(
-                width = strokeWidthPx,
-                cap = StrokeCap.Round
-            )
-        )
     }
 }
 
@@ -134,27 +143,28 @@ fun Modifier.neonBorder(
 @Composable
 private fun NeumorphismButtonPreviewLight() {
     SessionTimerTheme {
-        Box(
-            Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .size(150.dp)
-                .padding(16.dp)
-        ) {
-            CircluarProgressNeon(
-                strokeColor = MaterialTheme.colorScheme.background,
-                strokeWidth = 3.dp,
-                glowColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
-                glowWidth = 14.dp,
-                glowRadius = 10.dp
-            )
-            CircluarProgressNeon(
-                strokeColor = MaterialTheme.colorScheme.primary,
-                strokeWidth = 6.dp,
-                glowWidth = 10.dp,
-                glowRadius = 6.dp,
-                glowScale = 1.03f,
-                progress = 0.4f
-            )
+        Surface {
+            Box(
+                Modifier
+                    .size(150.dp)
+                    .padding(16.dp)
+            ) {
+                CircluarProgressNeon(
+                    strokeColor = MaterialTheme.colorScheme.background,
+                    strokeWidth = 3.dp,
+                    glowColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
+                    glowWidth = 14.dp,
+                    glowRadius = 10.dp
+                )
+                CircluarProgressNeon(
+                    strokeColor = MaterialTheme.colorScheme.primary,
+                    strokeWidth = 6.dp,
+                    glowWidth = 10.dp,
+                    glowRadius = 6.dp,
+                    glowScale = 1.03f,
+                    progress = 0.4f
+                )
+            }
         }
     }
 }
@@ -163,27 +173,29 @@ private fun NeumorphismButtonPreviewLight() {
 @Composable
 private fun NeumorphismButtonPreviewDark() {
     SessionTimerTheme {
-        Box(
-            Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .size(150.dp)
-                .padding(16.dp)
-        ) {
-            CircluarProgressNeon(
-                strokeColor = MaterialTheme.colorScheme.background,
-                strokeWidth = 3.dp,
-                glowColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
-                glowWidth = 14.dp,
-                glowRadius = 10.dp
-            )
-            CircluarProgressNeon(
-                strokeColor = MaterialTheme.colorScheme.primary,
-                strokeWidth = 6.dp,
-                glowWidth = 10.dp,
-                glowRadius = 6.dp,
-                glowScale = 1.03f,
-                progress = 0.8f
-            )
+        Surface {
+            Box(
+                Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .size(150.dp)
+                    .padding(16.dp)
+            ) {
+                CircluarProgressNeon(
+                    strokeColor = MaterialTheme.colorScheme.background,
+                    strokeWidth = 3.dp,
+                    glowColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
+                    glowWidth = 14.dp,
+                    glowRadius = 10.dp
+                )
+                CircluarProgressNeon(
+                    strokeColor = MaterialTheme.colorScheme.primary,
+                    strokeWidth = 6.dp,
+                    glowWidth = 10.dp,
+                    glowRadius = 6.dp,
+                    glowScale = 1.03f,
+                    progress = 0.8f
+                )
+            }
         }
     }
 }
