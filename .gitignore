@@ -92,3 +92,4 @@ lint/tmp/
 /app/release/
 .idea
 .kotlin/
+.idea/
