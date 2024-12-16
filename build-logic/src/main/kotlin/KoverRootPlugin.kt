@@ -19,15 +19,14 @@ class KoverRootPlugin : Plugin<Project> {
 
                 if (appModule != null) {
 
-                    // Find all modules with Kover plugin
+                    // Find all feature modules with Kover plugin
                     val koverModules = project.rootProject.allprojects
                         .filter { it.plugins.hasPlugin(koverPluginId) }
                         .filter { it != project.rootProject }
                         .filter { it != appModule }
 
                     // kover configuration in app module
-                    val configuration =
-                        appModule.configurations.getByName(KoverNames.configurationName)
+                    val configuration = appModule.configurations.getByName(KoverNames.configurationName)
 
                     // add kover dependencies in app module
                     koverModules.forEach { koverModule ->
@@ -46,6 +45,10 @@ class KoverRootPlugin : Plugin<Project> {
 
     private fun Project.koverExtension() = this.extensions.findByType(KoverProjectExtension::class.java)
 
+    /**
+     * adds the kover dependency to the given configuration:
+     * kover(project(":your:feature"))
+     */
     private fun Project.addKoverDependency(
         configuration: Configuration,
         koverModule: Project?
@@ -57,6 +60,9 @@ class KoverRootPlugin : Plugin<Project> {
         )
     }
 
+    /**
+     * adds all kover classes filters of the given featureKover to the appKover.
+     */
     private fun collectAndApplyFilters(
         appKover: KoverProjectExtension?,
         featureKover: KoverProjectExtension?
