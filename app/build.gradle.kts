@@ -108,20 +108,6 @@ dependencies {
         implementation(project(module))
     }
 
-    val koverModules = listOf(
-        ":core:database",
-        ":core:defaults",
-        ":core:timer",
-        ":core:usecases",
-        ":feature:session-editor",
-        ":feature:session-overview",
-        ":feature:session-player",
-        ":feature:taskgroup-editor"
-    )
-    for (module in koverModules) {
-        kover(project(module))
-    }
-
     // Database
     implementation(libs.sqlDelight.android)
 
@@ -143,3 +129,28 @@ dependencies {
     // Navigation
     implementation(libs.bundles.navigation)
 }
+
+//kover {
+//    reports {
+//        filters {
+//            excludes {
+//                classes(
+//                    // common
+//                    "*ComposableSingletons*",
+//                    "*Hilt_*",
+//                    "*_HiltModules*",
+//                    "*BuildConfig",
+//                    "*_Factory",
+//                    "*Kt",
+//                )
+//                packages(
+//                    // common
+//                    "hilt_aggregated_deps",
+//                    "dagger.hilt.internal.aggregatedroot.codegen",
+//                    "net.onefivefour.sessiontimer.core.theme",
+//                    "*.di",
+//                )
+//            }
+//        }
+//    }
+//}

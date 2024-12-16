@@ -9,9 +9,9 @@ gradlePlugin {
             id = "st.ktlint"
             implementationClass = "KtlintPlugin"
         }
-        register("kover") {
-            id = "st.kover"
-            implementationClass = "KoverPlugin"
+        register("koverRoot") {
+            id = "st.kover.root"
+            implementationClass = "KoverRootPlugin"
         }
 
         // Kotlin
