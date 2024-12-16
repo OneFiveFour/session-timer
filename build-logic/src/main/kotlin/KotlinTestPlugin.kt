@@ -5,7 +5,6 @@ import org.gradle.kotlin.dsl.dependencies
 class KotlinTestPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-
             pluginManager.apply("org.jetbrains.kotlinx.kover")
 
             subprojects {

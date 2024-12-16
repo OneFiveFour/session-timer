@@ -130,27 +130,25 @@ dependencies {
     implementation(libs.bundles.navigation)
 }
 
-//kover {
-//    reports {
-//        filters {
-//            excludes {
-//                classes(
-//                    // common
-//                    "*ComposableSingletons*",
-//                    "*Hilt_*",
-//                    "*_HiltModules*",
-//                    "*BuildConfig",
-//                    "*_Factory",
-//                    "*Kt",
-//                )
-//                packages(
-//                    // common
-//                    "hilt_aggregated_deps",
-//                    "dagger.hilt.internal.aggregatedroot.codegen",
-//                    "net.onefivefour.sessiontimer.core.theme",
-//                    "*.di",
-//                )
-//            }
-//        }
-//    }
-//}
+kover {
+    reports {
+        filters {
+            excludes {
+                annotatedBy("Generated")
+                classes(
+                    "*ComposableSingletons*",
+                    "*Hilt_*",
+                    "*_HiltModules*",
+                    "*BuildConfig",
+                    "*_Factory",
+                    "*Kt",
+                )
+                packages(
+                    "hilt_aggregated_deps",
+                    "dagger.hilt.internal.aggregatedroot.codegen",
+                    "*.di",
+                )
+            }
+        }
+    }
+}

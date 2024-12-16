@@ -1,6 +1,8 @@
 import kotlinx.kover.gradle.plugin.dsl.KoverNames
+import kotlinx.kover.gradle.plugin.dsl.KoverProjectExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.Configuration
 
 class KoverRootPlugin : Plugin<Project> {
 
@@ -29,12 +31,46 @@ class KoverRootPlugin : Plugin<Project> {
 
                     // add kover dependencies in app module
                     koverModules.forEach { koverModule ->
-                        configuration.dependencies.add(
-                            project.dependencies.create(koverModule)
+                        addKoverDependency(configuration, koverModule)
+                        collectAndApplyFilters(
+                            appModule.koverExtension(),
+                            koverModule.koverExtension()
                         )
                     }
+
+                    println(appModule.koverExtension()!!.reports.filters.excludes.classes.get().joinToString(",\n"))
                 }
             }
+        }
+    }
+
+    private fun Project.koverExtension() = this.extensions.findByType(KoverProjectExtension::class.java)
+
+    private fun Project.addKoverDependency(
+        configuration: Configuration,
+        koverModule: Project?
+    ) {
+        checkNotNull(koverModule)
+
+        configuration.dependencies.add(
+            project.dependencies.create(koverModule)
+        )
+    }
+
+    private fun collectAndApplyFilters(
+        appKover: KoverProjectExtension?,
+        featureKover: KoverProjectExtension?
+    ) {
+        checkNotNull(appKover)
+        checkNotNull(featureKover)
+        check(appKover != featureKover)
+
+        // Collect filters for source sets, classes, and packages
+        val classFilters = featureKover.reports.filters.excludes.classes
+
+        // Apply them to the app module's Kover configuration
+        appKover.reports.filters.excludes {
+            classes.addAll(classFilters)
         }
     }
 }
