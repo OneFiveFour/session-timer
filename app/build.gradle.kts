@@ -136,12 +136,13 @@ kover {
             excludes {
                 annotatedBy("Generated")
                 classes(
+                    "net.onefivefour.sessiontimer.MainApplication",
+                    "net.onefivefour.sessiontimer.MainActivity",
                     "*ComposableSingletons*",
                     "*Hilt_*",
                     "*_HiltModules*",
                     "*BuildConfig",
                     "*_Factory",
-                    "*Kt",
                 )
                 packages(
                     "hilt_aggregated_deps",

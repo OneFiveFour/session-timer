@@ -23,12 +23,13 @@ kover {
         filters {
             excludes {
                 classes(
-                    "net.onefivefour.sessiontimer.core.database.Database",
+                    "net.onefivefour.sessiontimer.core.database.*Queries*",
+//                    "net.onefivefour.sessiontimer.core.database.Database",
                     "net.onefivefour.sessiontimer.core.database.database.*",
-                    "net.onefivefour.sessiontimer.core.database.domain.model.*",
-                    "net.onefivefour.sessiontimer.core.database.Task*",
-                    "net.onefivefour.sessiontimer.core.database.TaskGroup*",
-                    "net.onefivefour.sessiontimer.core.database.Session*"
+//                    "net.onefivefour.sessiontimer.core.database.domain.model.*",
+//                    "net.onefivefour.sessiontimer.core.database.Task*",
+//                    "net.onefivefour.sessiontimer.core.database.TaskGroup*",
+//                    "net.onefivefour.sessiontimer.core.database.Session*"
                 )
             }
         }

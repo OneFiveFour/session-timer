@@ -25,6 +25,8 @@ class KoverRootPlugin : Plugin<Project> {
                         .filter { it != project.rootProject }
                         .filter { it != appModule }
 
+//                    println("Found kover modules: ${koverModules.joinToString(",\n") { it.name }}")
+
                     // kover configuration in app module
                     val configuration = appModule.configurations.getByName(KoverNames.configurationName)
 
@@ -37,7 +39,7 @@ class KoverRootPlugin : Plugin<Project> {
                         )
                     }
 
-                    println(appModule.koverExtension()!!.reports.filters.excludes.classes.get().joinToString(",\n"))
+//                    println(appModule.koverExtension()!!.reports.filters.excludes.classes.get().joinToString(",\n"))
                 }
             }
         }

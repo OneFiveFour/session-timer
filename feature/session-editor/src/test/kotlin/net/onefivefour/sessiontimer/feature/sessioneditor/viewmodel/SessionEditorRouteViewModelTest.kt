@@ -102,6 +102,25 @@ internal class SessionEditorRouteViewModelTest {
         }
 
     @Test
+    fun `GIVEN no session WHEN creating the ViewModel THEN the GetSessionUseCase is executed and the UiState is Error`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(null)
+
+            // WHEN
+            val sut = sut()
+            advanceUntilIdle()
+
+            // THEN
+            coVerify(exactly = 1) { getSessionUseCase.execute(any()) }
+
+            sut.uiState.test {
+                val uiState = awaitItem()
+                check(uiState is UiState.Error)
+            }
+        }
+
+    @Test
     fun `GIVEN a session WHEN newTaskGroup is called THEN NewTaskGroupUseCase is executed`() =
         runTest {
             // GIVEN

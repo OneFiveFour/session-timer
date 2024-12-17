@@ -33,11 +33,6 @@ internal fun SessionOverview(
         return
     }
 
-    if (uiState is UiState.Error) {
-        SessionOverviewError(uiState.message)
-        return
-    }
-
     if (uiState !is UiState.Success) {
         return
     }

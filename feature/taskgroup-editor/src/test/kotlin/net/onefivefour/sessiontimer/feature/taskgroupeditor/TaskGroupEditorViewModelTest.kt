@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
+import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.core.test.SavedStateHandleRule
 import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
@@ -20,9 +21,10 @@ import net.onefivefour.sessiontimer.core.usecases.api.taskgroup.UpdateTaskGroupU
 import net.onefivefour.sessiontimer.feature.taskgroupeditor.api.TaskGroupEditorRoute
 import org.junit.Rule
 import org.junit.Test
+import kotlin.time.Duration
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class TaskGroupEditorRouteViewModelTest {
+internal class TaskGroupEditorViewModelTest {
 
     private val route = TaskGroupEditorRoute(taskGroupId = 1L)
 
@@ -63,7 +65,14 @@ internal class TaskGroupEditorRouteViewModelTest {
                     color = 0xFFFF0000,
                     playMode = PlayMode.SEQUENCE,
                     numberOfRandomTasks = 3,
-                    tasks = emptyList(),
+                    tasks = listOf(
+                        Task(
+                            id = 3L,
+                            title = "Task 1",
+                            duration = Duration.ZERO,
+                            taskGroupId = taskGroupId
+                        )
+                    ),
                     sessionId = 2L
                 )
             )
@@ -78,13 +87,18 @@ internal class TaskGroupEditorRouteViewModelTest {
             sut.uiState.test {
                 val uiState = awaitItem()
                 check(uiState is UiState.Success)
+
                 val taskGroup = uiState.taskGroup
                 assertThat(taskGroup.id).isEqualTo(taskGroupId)
                 assertThat(taskGroup.title).isEqualTo("TaskGroup 1")
                 assertThat(taskGroup.color).isEqualTo(Color(0xFFFF0000))
                 assertThat(taskGroup.playMode).isEqualTo(PlayMode.SEQUENCE)
                 assertThat(taskGroup.numberOfRandomTasks).isEqualTo(3)
-                assertThat(taskGroup.tasks).isEmpty()
+                assertThat(taskGroup.tasks).hasSize(1)
+
+                val task = taskGroup.tasks[0]
+                assertThat(task.id).isEqualTo(3L)
+                assertThat(task.title).isEqualTo("Task 1")
             }
         }
 
