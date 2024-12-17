@@ -4,6 +4,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-internal fun SessionEditorInitial() {
-    Text(text = "Session Editor Initial")
+internal fun SessionEditorInitial(initialMessage: String) {
+    Text(text = initialMessage)
 }

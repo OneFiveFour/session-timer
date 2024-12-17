@@ -10,6 +10,12 @@ class AndroidTestPlugin : Plugin<Project> {
             pluginManager.apply("st.kotlin.test")
 
             extensions.configure<LibraryExtension> {
+                testOptions {
+                    unitTests {
+                        isIncludeAndroidResources = true
+                    }
+                }
+
                 defaultConfig {
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
@@ -19,9 +25,9 @@ class AndroidTestPlugin : Plugin<Project> {
             dependencies {
                 "testImplementation"(libs.libAndroidXArchCoreTesting)
                 "testImplementation"(libs.libHiltAndroidTesting)
-                "testImplementation"(libs.libRobolectric)
 
-                "androidTestImplementation"(libs.libComposeTestJUnit)
+                "testImplementation"(libs.libRobolectric)
+                "testImplementation"(libs.libComposeTestJUnit)
 
                 "debugImplementation"(libs.libComposeTestManifest)
             }

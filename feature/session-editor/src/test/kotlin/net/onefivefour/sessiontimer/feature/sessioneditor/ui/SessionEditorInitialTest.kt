@@ -4,25 +4,25 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
-@RunWith(AndroidJUnit4::class)
-class SessionEditorErrorTest {
+@RunWith(RobolectricTestRunner::class)
+class SessionEditorInitialTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val errorMessage = "error message"
+    private val initialMessage = "initial message"
 
     @Test
     fun errorMessageIsDisplayed() {
         with(composeTestRule) {
             initNode()
 
-            onNodeWithText(errorMessage)
+            onNodeWithText(initialMessage)
                 .assertIsDisplayed()
 
         }
@@ -30,7 +30,7 @@ class SessionEditorErrorTest {
 
     private fun ComposeContentTestRule.initNode() {
         setContent {
-            SessionEditorError(errorMessage)
+            SessionEditorInitial(initialMessage)
         }
     }
 

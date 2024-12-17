@@ -25,7 +25,7 @@ internal fun SessionEditor(
 ) {
     when (uiState) {
         UiState.Initial -> {
-            SessionEditorInitial()
+            SessionEditorInitial("Initial Screen")
             return
         }
         is UiState.Error -> {
