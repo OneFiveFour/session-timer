@@ -37,7 +37,7 @@ gradlePlugin {
             id = "st.android.library"
             implementationClass = "AndroidLibraryPlugin"
         }
-        register("uiTest") {
+        register("androidTest") {
             id = "st.android.test"
             implementationClass = "AndroidTestPlugin"
         }

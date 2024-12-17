@@ -29,6 +29,7 @@ android {
         versionCode = AppConfig.versionCode
         versionName = AppConfig.versionName
         vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {

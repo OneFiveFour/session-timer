@@ -3,13 +3,13 @@ androidMaterial = "1.12.0"
 androidXActivity = "1.9.3"
 androidXActivityCompose = "1.9.3"
 androidXArchCoreTesting = "2.2.0"
-androidXComposeBom = "2024.11.00"
+androidXComposeBom = "2024.12.01"
 androidXCore = "1.15.0"
 androidXLifecycle="2.8.7"
-androidXNavigation = "2.8.4"
+androidXNavigation = "2.8.5"
 composeNavigator="1.0.2-SNAPSHOT"
-coroutines = "1.7.3"
-dagger = "2.50"
+coroutines = "1.8.1"
+dagger = "2.51.1"
 gradle = "8.7.3"
 hiltNavigation = "1.2.0"
 junit = "4.13.2"
@@ -19,7 +19,7 @@ kover = "0.8.3"
 ksp = "2.0.21-1.0.28"
 ktLint = "12.1.1"
 mockk = "1.13.8"
-robolectric = "4.14"
+robolectric = "4.14.1"
 serialization = "1.6.3"
 sqlDelight = "2.0.0"
 turbine="1.0.0"
@@ -83,6 +83,8 @@ truth = { module = "com.google.truth:truth", version.ref = "truth"}
 androidX-arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidXArchCoreTesting"}
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+compose-test-junit = { module = "androidx.compose.ui:ui-test-junit4" }
+compose-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 
 # Lint and Code Coverage
 ktLint-gradlePlugin = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktLint" }

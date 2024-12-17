@@ -45,6 +45,10 @@ internal val VersionCatalog.libTurbine: Provider<MinimalExternalModuleDependency
 // Android Test Dependencies
 internal val VersionCatalog.libRobolectric: Provider<MinimalExternalModuleDependency>
     get() = findLibraryOrThrow("robolectric")
+internal val VersionCatalog.libComposeTestJUnit: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("compose-test-junit")
+internal val VersionCatalog.libComposeTestManifest: Provider<MinimalExternalModuleDependency>
+    get() = findLibraryOrThrow("compose-test-manifest")
 
 // Android Dependencies
 internal val VersionCatalog.libAndroidXCore: Provider<MinimalExternalModuleDependency>
