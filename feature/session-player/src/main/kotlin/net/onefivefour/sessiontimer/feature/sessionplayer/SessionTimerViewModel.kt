@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
@@ -28,8 +30,8 @@ import net.onefivefour.sessiontimer.feature.sessionplayer.model.TimerState
 @HiltViewModel
 internal class SessionTimerViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    getSessionUseCase: GetSessionUseCase,
-    getTimerStatusUseCase: GetTimerStatusUseCase,
+    private val getSessionUseCase: GetSessionUseCase,
+    private val getTimerStatusUseCase: GetTimerStatusUseCase,
     private val startTimerUseCase: StartTimerUseCase,
     private val pauseTimerUseCase: PauseTimerUseCase,
     private val resetTimerUseCase: ResetTimerUseCase
@@ -37,61 +39,72 @@ internal class SessionTimerViewModel @Inject constructor(
 
     private val sessionId = savedStateHandle.toRoute<SessionPlayerRoute>().sessionId
 
-    private lateinit var compiledSession: UiSession
+    private val _uiSessionFlow = MutableStateFlow<UiSession?>(null)
+    private val compiledSessionFlow = _uiSessionFlow.asStateFlow()
 
     private var _timerState = MutableStateFlow<TimerState>(TimerState.Initial())
     val timerState = _timerState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            combine(
-                getSessionUseCase.execute(sessionId),
-                getTimerStatusUseCase.execute()
-            ) { session, timerStatus ->
-
-                if (session == null) {
-                    return@combine TimerState.Initial()
-                }
-
-                if (!::compiledSession.isInitialized) {
-                    compiledSession = SessionCompiler.compile(session)
-                }
-
-                when {
-                    compiledSession.taskList.isEmpty() -> TimerState.Initial()
-                    else -> computeTimerState(compiledSession, timerStatus)
-                }
-            }.collect { newTimerState ->
-                _timerState.update { newTimerState }
+            launch {
+                compileSession()
+            }
+            launch {
+                updateTimerState()
             }
         }
     }
 
+    private suspend fun compileSession() {
+        getSessionUseCase.execute(sessionId).collect { session ->
+            if (session != null && _uiSessionFlow.value == null) {
+                _uiSessionFlow.value = SessionCompiler.compile(session)
+            }
+        }
+    }
+
+    private suspend fun updateTimerState() {
+        combine(
+            compiledSessionFlow.filterNotNull(),
+            getTimerStatusUseCase.execute()
+        ) { uiSession, timerStatus ->
+            computeTimerState(uiSession, timerStatus)
+        }.collect { newTimerState ->
+            _timerState.update { newTimerState }
+        }
+    }
+
     private fun computeTimerState(
-        compiledSession: UiSession,
+        uiSession: UiSession,
         timerStatus: TimerStatus
     ): TimerState {
+
+        if (uiSession.taskList.isEmpty()) {
+            return TimerState.Initial()
+        }
 
         if (timerStatus.mode == TimerMode.FINISHED) {
             return TimerState.Finished
         }
 
-        val tasks = compiledSession.taskList
+        val tasks = uiSession.taskList
 
         val currentTask = determineCurrentTask(
             timerStatus.elapsedDuration,
             tasks
         )
 
-        val elapsedTasksDuration = tasks
-            .takeWhile { it != currentTask }
-            .fold(Duration.ZERO) { acc, task -> acc + task.taskDuration }
-
+        var elapsedTasksDuration = Duration.ZERO
+        for (task in tasks) {
+            if (task == currentTask) break
+            elapsedTasksDuration += task.taskDuration
+        }
 
         val elapsedTaskDuration = timerStatus.elapsedDuration - elapsedTasksDuration
 
         return TimerState.Ready(
-            totalDuration = compiledSession.totalDuration,
+            totalDuration = uiSession.totalDuration,
             elapsedTaskDuration = elapsedTaskDuration,
             elapsedTotalDuration = timerStatus.elapsedDuration,
             currentTask = currentTask,
@@ -119,7 +132,7 @@ internal class SessionTimerViewModel @Inject constructor(
     }
 
     fun onStartSession(timerState: TimerState) {
-        if (timerState is TimerState.Ready) {
+        if (timerState is TimerState.Ready && timerState.elapsedTotalDuration == Duration.ZERO) {
             startTimerUseCase.execute(timerState.totalDuration)
         }
     }
