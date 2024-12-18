@@ -1,17 +1,18 @@
 package net.onefivefour.sessiontimer.feature.sessionplayer.domain
 
+import androidx.compose.ui.graphics.Color
 import kotlin.time.Duration
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
-import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiCompiledSession
-import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiCompiledTask
+import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiSession
+import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
 
 internal object SessionCompiler {
 
-    fun compile(session: Session): UiCompiledSession {
-        val taskList = mutableListOf<UiCompiledTask>()
+    fun compile(session: Session): UiSession {
+        val taskList = mutableListOf<UiTask>()
         var totalDuration = Duration.ZERO
 
         for (taskGroup in session.taskGroups) {
@@ -37,7 +38,7 @@ internal object SessionCompiler {
             totalDuration += taskGroupDuration
         }
 
-        return UiCompiledSession(
+        return UiSession(
             sessionTitle = session.title,
             taskList = taskList,
             totalDuration = totalDuration
@@ -47,7 +48,7 @@ internal object SessionCompiler {
     private fun getShuffledTaskList(
         numberOfTasks: Int,
         taskGroup: TaskGroup
-    ): Pair<List<UiCompiledTask>, Duration> {
+    ): Pair<List<UiTask>, Duration> {
         val shuffledTasks = taskGroup.tasks.shuffled().take(numberOfTasks)
         return getSequenceTaskList(taskGroup, shuffledTasks)
     }
@@ -55,14 +56,15 @@ internal object SessionCompiler {
     private fun getSequenceTaskList(
         taskGroup: TaskGroup,
         taskList: List<Task>? = null
-    ): Pair<List<UiCompiledTask>, Duration> {
+    ): Pair<List<UiTask>, Duration> {
         val tasks = taskList ?: taskGroup.tasks
 
         return tasks
             .map { task ->
-                UiCompiledTask(
+                UiTask(
+                    id = task.id,
                     taskGroupTitle = taskGroup.title,
-                    taskGroupColor = taskGroup.color,
+                    taskGroupColor = Color(taskGroup.color),
                     taskTitle = task.title,
                     taskDuration = task.duration
                 )

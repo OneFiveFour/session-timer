@@ -1,18 +1,15 @@
 package net.onefivefour.sessiontimer.feature.sessionplayer.model
 
 import kotlin.time.Duration
-import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 
 internal sealed interface UiState {
 
     data object Initial : UiState
 
-    data class Running(
+    data class Ready(
         val sessionTitle: String,
-        val currentTask: UiCompiledTask,
-        val timerMode: TimerMode,
-        val elapsedDuration: Duration,
-        val totalDuration: Duration
+        val totalDuration: Duration,
+        val tasks: List<UiTask>
     ) : UiState
 
     data class Error(val message: String) : UiState

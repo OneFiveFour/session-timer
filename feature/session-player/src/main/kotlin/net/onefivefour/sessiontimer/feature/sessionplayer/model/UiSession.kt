@@ -2,8 +2,8 @@ package net.onefivefour.sessiontimer.feature.sessionplayer.model
 
 import kotlin.time.Duration
 
-internal data class UiCompiledSession(
+internal data class UiSession(
     val sessionTitle: String,
     val totalDuration: Duration,
-    val taskList: List<UiCompiledTask>
+    val taskList: List<UiTask>
 )

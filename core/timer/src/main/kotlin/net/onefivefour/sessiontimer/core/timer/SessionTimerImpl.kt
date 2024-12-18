@@ -1,5 +1,6 @@
 package net.onefivefour.sessiontimer.core.timer
 
+import android.util.Log
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 import kotlin.time.Duration
@@ -18,8 +19,9 @@ import net.onefivefour.sessiontimer.core.di.DefaultDispatcher
 import net.onefivefour.sessiontimer.core.timer.api.SessionTimer
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerStatus
+import javax.inject.Singleton
 
-@ViewModelScoped
+@Singleton
 internal class SessionTimerImpl @Inject constructor(
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher
 ) : SessionTimer {
@@ -33,6 +35,8 @@ internal class SessionTimerImpl @Inject constructor(
     private var elapsedDuration = Duration.ZERO
     private var timerMode: TimerMode = TimerMode.IDLE
 
+    private val frameRate = 1.seconds / 60
+
     override fun start(totalDuration: Duration) {
         this.totalDuration = totalDuration
         this.timerMode = TimerMode.RUNNING
@@ -40,8 +44,8 @@ internal class SessionTimerImpl @Inject constructor(
         if (timerJob == null || timerJob?.isActive == false) {
             timerJob = timerScope.launch {
                 while (isActive) {
-                    delay(1_000)
-                    elapsedDuration = elapsedDuration.plus(1.seconds)
+                    delay(frameRate)
+                    elapsedDuration = elapsedDuration.plus(frameRate)
                     updateTimerStatus()
                 }
             }
