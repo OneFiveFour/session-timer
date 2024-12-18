@@ -109,7 +109,7 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
                 .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-            Button(onClick = { timerViewModel.onStartSession(timerState) }) {
+            Button(onClick = { timerViewModel.onStartSession() }) {
                 Text(text = stringResource(R.string.start))
             }
             Button(onClick = { timerViewModel.onPauseSession() }) {

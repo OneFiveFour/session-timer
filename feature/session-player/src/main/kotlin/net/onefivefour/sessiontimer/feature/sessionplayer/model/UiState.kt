@@ -13,6 +13,4 @@ internal sealed interface UiState {
     ) : UiState
 
     data class Error(val message: String) : UiState
-
-    data object Finished : UiState
 }

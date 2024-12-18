@@ -27,11 +27,6 @@ fun SessionPlayerScreen() {
             return
         }
 
-        UiState.Finished -> {
-            Text(text = stringResource(R.string.finished))
-            return
-        }
-
         is UiState.Ready -> {
             SessionPlayerReady(currentUiState)
             return

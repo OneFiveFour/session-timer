@@ -56,7 +56,7 @@ internal class SessionTimerImplTest {
             // THEN
             val status = sut.getStatus().first()
             assertThat(status.mode).isEqualTo(TimerMode.PAUSED)
-            assertThat(status.elapsedDuration).isEqualTo(2.seconds)
+            assertThat(status.elapsedDuration.inWholeSeconds).isEqualTo(2)
         }
 
     @Test

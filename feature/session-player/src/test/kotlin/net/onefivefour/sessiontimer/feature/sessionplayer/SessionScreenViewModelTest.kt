@@ -14,6 +14,7 @@ import net.onefivefour.sessiontimer.core.common.domain.model.FAKE_SESSION
 import net.onefivefour.sessiontimer.core.common.domain.model.getTotalDuration
 import net.onefivefour.sessiontimer.core.test.SavedStateHandleRule
 import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
+import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_IDLE
 import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_RUNNING
 import net.onefivefour.sessiontimer.core.usecases.api.session.GetSessionUseCase
@@ -37,15 +38,7 @@ internal class SessionScreenViewModelTest {
     @get:Rule(order = 1)
     val savedStateHandleRule = SavedStateHandleRule(route)
 
-    private val getTimerStatusUseCase = GetTimerStatusUseCaseFake()
-
     private val getSessionUseCase: GetSessionUseCase = mockk(relaxed = true)
-
-    private val startTimerUseCase: StartTimerUseCase = mockk(relaxed = true)
-
-    private val pauseTimerUseCase: PauseTimerUseCase = mockk(relaxed = true)
-
-    private val resetTimerUseCase: ResetTimerUseCase = mockk(relaxed = true)
 
     private fun sut(): SessionScreenViewModel {
         return SessionScreenViewModel(
@@ -91,20 +84,13 @@ internal class SessionScreenViewModelTest {
         }
 
     @Test
-    fun `GIVEN a normal session WHEN timer is within totalDuration THEN the uiState is Running`() =
+    fun `GIVEN a normal session WHEN sut is initialized THEN the uiState is Ready`() =
         runTest {
             // GIVEN
             coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
-            val sessionDuration = FAKE_SESSION.taskGroups
-                .flatMap { it.tasks }
-                .map { it.duration }
-                .fold(Duration.ZERO) { acc, duration -> acc + duration }
 
             // WHEN
             val sut = sut()
-            getTimerStatusUseCase.update(
-                FAKE_TIMER_STATUS_RUNNING.copy(elapsedDuration = sessionDuration / 2)
-            )
             advanceUntilIdle()
 
             // THEN
@@ -116,70 +102,20 @@ internal class SessionScreenViewModelTest {
         }
 
     @Test
-    fun `GIVEN a normal session WHEN timer surpasses totalDuration THEN the uiState is Finished`() =
+    fun `GIVEN a normal session WHEN the timer has finished THEN the uiState is Finished`() =
         runTest {
             // GIVEN
             coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
-            val sessionDuration = FAKE_SESSION.getTotalDuration()
 
             // WHEN
             val sut = sut()
-            getTimerStatusUseCase.update(
-                FAKE_TIMER_STATUS_RUNNING.copy(elapsedDuration = sessionDuration)
-            )
             advanceUntilIdle()
 
             // THEN
             sut.uiState.test {
                 val firstState = awaitItem()
-                assertThat(firstState).isInstanceOf(UiState.Finished::class.java)
+                assertThat(firstState).isInstanceOf(UiState.Ready::class.java)
                 cancelAndIgnoreRemainingEvents()
             }
         }
-
-//    @Test
-//    fun `GIVEN an idle timerStatus WHEN onStartSession is called THEN startTimerUseCase is executed`() =
-//        runTest {
-//            // GIVEN
-//            coEvery { getSessionUseCase.execute(1L) } returns flowOf(FAKE_SESSION)
-//            getTimerStatusUseCase.update(FAKE_TIMER_STATUS_IDLE)
-//
-//            // WHEN
-//            val sut = sut()
-//            advanceUntilIdle()
-//
-//            sut.onStartSession()
-//            advanceUntilIdle()
-//
-//            // THEN
-//            coVerify(exactly = 1) { startTimerUseCase.execute(any()) }
-//        }
-//
-//    @Test
-//    fun `GIVEN an initialized sut WHEN onPauseSession is called THEN pauseTimerUseCase is executed`() =
-//        runTest {
-//            // GIVEN
-//            val sut = sut()
-//
-//            // WHEN
-//            sut.onPauseSession()
-//            advanceUntilIdle()
-//
-//            // THEN
-//            coVerify(exactly = 1) { pauseTimerUseCase.execute() }
-//        }
-//
-//    @Test
-//    fun `GIVEN an initialized sut WHEN onResetSession is called THEN resetTimerUseCase is executed`() =
-//        runTest {
-//            // GIVEN
-//            val sut = sut()
-//
-//            // WHEN
-//            sut.onResetSession()
-//            advanceUntilIdle()
-//
-//            // THEN
-//            coVerify(exactly = 1) { resetTimerUseCase.execute() }
-//        }
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,7 +39,7 @@ internal class SessionTimerViewModel @Inject constructor(
     private val sessionId = savedStateHandle.toRoute<SessionPlayerRoute>().sessionId
 
     private val _uiSessionFlow = MutableStateFlow<UiSession?>(null)
-    private val compiledSessionFlow = _uiSessionFlow.asStateFlow()
+    private val uiSessionFlow = _uiSessionFlow.asStateFlow()
 
     private var _timerState = MutableStateFlow<TimerState>(TimerState.Initial())
     val timerState = _timerState.asStateFlow()
@@ -66,7 +65,7 @@ internal class SessionTimerViewModel @Inject constructor(
 
     private suspend fun updateTimerState() {
         combine(
-            compiledSessionFlow.filterNotNull(),
+            uiSessionFlow.filterNotNull(),
             getTimerStatusUseCase.execute()
         ) { uiSession, timerStatus ->
             computeTimerState(uiSession, timerStatus)
@@ -131,7 +130,8 @@ internal class SessionTimerViewModel @Inject constructor(
         }
     }
 
-    fun onStartSession(timerState: TimerState) {
+    fun onStartSession() {
+        val timerState = _timerState.value
         if (timerState is TimerState.Ready && timerState.elapsedTotalDuration == Duration.ZERO) {
             startTimerUseCase.execute(timerState.totalDuration)
         }
