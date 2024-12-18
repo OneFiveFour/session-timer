@@ -62,13 +62,23 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
             CircluarProgressNeon(
                 modifier = Modifier.padding(16.dp),
                 strokeColor = MaterialTheme.colorScheme.background,
-                strokeWidth = 6.dp,
-                glowColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.05f),
+                strokeWidth = 7.dp,
+                glowColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
                 glowWidth = 14.dp,
                 glowRadius = 10.dp
             )
 
-            Box(modifier = Modifier.padding(40.dp)) {
+            // outer task progress
+            TaskProgressArc(
+                modifier = Modifier.padding(16.dp),
+                timerState = { timerState },
+                task = null,
+                width = 11.dp,
+                startAngle = 0f,
+                endAngle = 360f
+            )
+
+            Box(modifier = Modifier.padding(44.dp)) {
                 val gapAngle = 5f
                 var startAngle = gapAngle / 2
 
@@ -95,7 +105,7 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
                         task = task,
                         width = 5.dp,
                         startAngle = startAngle,
-                        endAngle = sweepAngle / 360f
+                        endAngle = sweepAngle
                     )
 
                     startAngle += sweepAngle + gapAngle
@@ -124,23 +134,33 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
 
 @Composable
 private fun TaskProgressArc(
+    modifier: Modifier = Modifier,
     timerState: () -> TimerState,
-    task: UiTask,
+    task: UiTask?,
     width: Dp,
     startAngle: Float,
     endAngle: Float
 ) {
     val state = timerState()
 
-    val progress = calculateTaskProgress(task, state)
+    if (task == null && state !is TimerState.Ready) return
+
+    val t = task ?: (state as TimerState.Ready).currentTask ?: return
+    val glowScale = if (task == null) 1.03f else 1f
+    val glowWidth = if (task == null) 15.dp else 10.dp
+    val glowRadius = if (task == null) 15.dp else 8.dp
+
+    val progress = calculateTaskProgress(t, state)
 
     CircluarProgressNeon(
-        strokeColor = task.taskGroupColor,
+        modifier = modifier,
+        strokeColor = t.taskGroupColor,
         strokeWidth = width,
-        glowWidth = 10.dp,
-        glowRadius = 5.dp,
+        glowWidth = glowWidth,
+        glowRadius = glowRadius,
+        glowScale = glowScale,
         startAngle = startAngle,
-        progress = endAngle * progress
+        progress = (endAngle / 360f) * progress
     )
 }
 
@@ -151,9 +171,10 @@ private fun calculateTaskProgress(task: UiTask, timerState: TimerState): Float {
         is TimerState.Ready -> when {
             task == timerState.currentTask ->
                 (timerState.elapsedTaskDuration / task.taskDuration).toFloat().coerceIn(0f, 1f)
-
-            timerState.tasks.indexOf(task) < timerState.tasks.indexOf(timerState.currentTask) -> 1f
-            else -> 0f
+            timerState.tasks.indexOf(task) < timerState.tasks.indexOf(timerState.currentTask) ->
+                1f
+            else ->
+                0f
         }
     }
 }

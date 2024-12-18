@@ -48,8 +48,9 @@ internal fun TaskGroupEditor(uiState: UiState, onUpdateTaskGroup: (UiTaskGroup) 
         )
 
         Row {
-            val color1 = Color(100, 200, 50)
-            val color2 = Color(200, 100, 50)
+            val color1 = Color(132, 228, 253, 255)
+            val color2 = Color(250, 225, 178, 255)
+            val color3 = Color(181, 232, 196, 255)
             Box(
                 modifier = Modifier
                     .size(48.dp)
@@ -73,6 +74,22 @@ internal fun TaskGroupEditor(uiState: UiState, onUpdateTaskGroup: (UiTaskGroup) 
                     .clickable { color = color2 }
             ) {
                 if (color == color2) {
+                    Box(
+                        modifier = Modifier
+                            .size(10.dp)
+                            .background(Color.Black)
+                            .align(Alignment.Center)
+                    )
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(color3)
+                    .clickable { color = color3 }
+            ) {
+                if (color == color3) {
                     Box(
                         modifier = Modifier
                             .size(10.dp)

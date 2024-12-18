@@ -30,7 +30,7 @@ fun CircluarProgressNeon(
     modifier: Modifier = Modifier,
     strokeColor: Color,
     strokeWidth: Dp,
-    glowColor: Color = strokeColor.copy(alpha = 0.2f),
+    glowColor: Color = strokeColor.copy(alpha = 0.6f),
     glowWidth: Dp,
     glowRadius: Dp,
     glowScale: Float = 1f,
