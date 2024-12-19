@@ -53,17 +53,7 @@ internal class PrimaryButtonIndicationNode(
         val blurRadius = 6.dp.toPx()
         val rectPadding = 6.dp.toPx()
 
-        val paintLeft = Paint().also {
-            with(it.asFrameworkPaint()) {
-                maskFilter = BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.NORMAL)
-                color = lerp(
-                    Color(0xFFE0E0E0),
-                    Color(0xFFEAEAEA),
-                    animatedPercent.value
-                ).toArgb()
-            }
-        }
-        val paintRight = Paint().also {
+        val paint = Paint().also {
             with(it.asFrameworkPaint()) {
                 maskFilter = BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.NORMAL)
                 color = lerp(
@@ -85,7 +75,7 @@ internal class PrimaryButtonIndicationNode(
                 bottom = size.height - rectPadding - 2.dp.toPx(),
                 radiusX = cornerRadiusPx,
                 radiusY = cornerRadiusPx,
-                paint = paintLeft
+                paint = paint
             )
 
             canvas.drawRoundRect(
@@ -95,7 +85,7 @@ internal class PrimaryButtonIndicationNode(
                 bottom = size.height - rectPadding - 2.dp.toPx(),
                 radiusX = cornerRadiusPx,
                 radiusY = cornerRadiusPx,
-                paint = paintRight
+                paint = paint
             )
         }
 

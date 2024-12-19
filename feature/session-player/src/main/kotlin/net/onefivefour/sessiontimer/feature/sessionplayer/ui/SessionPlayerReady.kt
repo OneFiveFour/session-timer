@@ -1,11 +1,16 @@
 package net.onefivefour.sessiontimer.feature.sessionplayer.ui
 
+import android.widget.Space
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -78,13 +83,22 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
             )
         }
 
-        SessionControls(
-            timerState = { timerState },
-            onStartSession = { timerViewModel.onStartSession() },
-            onPauseSession = { timerViewModel.onPauseSession() },
-            onNextTask = { timerViewModel.onNextTask() },
-            onPreviousTask = { timerViewModel.onPreviousTask() }
-        )
+        Spacer(modifier = Modifier.weight(1f))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 42.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            SessionControls(
+                timerState = { timerState },
+                onStartSession = { timerViewModel.onStartSession() },
+                onPauseSession = { timerViewModel.onPauseSession() },
+                onNextTask = { timerViewModel.onNextTask() },
+                onPreviousTask = { timerViewModel.onPreviousTask() }
+            )
+        }
     }
 }
 
