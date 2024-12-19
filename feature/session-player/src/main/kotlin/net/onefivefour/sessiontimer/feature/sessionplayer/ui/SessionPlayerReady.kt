@@ -1,6 +1,5 @@
 package net.onefivefour.sessiontimer.feature.sessionplayer.ui
 
-import android.widget.Space
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -27,8 +25,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import net.onefivefour.sessiontimer.core.theme.SessionTimerTheme
 import net.onefivefour.sessiontimer.feature.sessionplayer.SessionTimerViewModel
-import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
+import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
@@ -95,6 +93,7 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
                 timerState = { timerState },
                 onStartSession = { timerViewModel.onStartSession() },
                 onPauseSession = { timerViewModel.onPauseSession() },
+                onResetSession = { timerViewModel.onResetSession() },
                 onNextTask = { timerViewModel.onNextTask() },
                 onPreviousTask = { timerViewModel.onPreviousTask() }
             )

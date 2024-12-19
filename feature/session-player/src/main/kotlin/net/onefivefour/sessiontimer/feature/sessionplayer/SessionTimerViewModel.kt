@@ -135,7 +135,7 @@ internal class SessionTimerViewModel @Inject constructor(
 
     fun onStartSession() {
         val timerState = _timerState.value
-        if (timerState is TimerState.Active && timerState.elapsedTotalDuration == Duration.ZERO) {
+        if (timerState is TimerState.Active && !timerState.isRunning) {
             startTimerUseCase.execute(timerState.totalDuration)
         }
     }
