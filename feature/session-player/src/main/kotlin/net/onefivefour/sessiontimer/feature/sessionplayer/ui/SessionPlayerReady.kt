@@ -15,7 +15,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -35,8 +37,23 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
     val timerViewModel: SessionTimerViewModel = hiltViewModel()
     val timerState by timerViewModel.timerState.collectAsStateWithLifecycle()
 
-    Column {
-        Text(text = uiState.sessionTitle)
+    DisposableEffect(Unit) {
+        onDispose {
+            timerViewModel.onResetSession()
+        }
+    }
+
+    Column(
+        Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    )  {
+        Text(
+            text = uiState.sessionTitle,
+            color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.displayLarge
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
 
         Box(
             modifier = Modifier
@@ -84,9 +101,7 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
         Spacer(modifier = Modifier.weight(1f))
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 42.dp),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
             SessionControls(
