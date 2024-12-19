@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.FAKE_SESSION
+import net.onefivefour.sessiontimer.core.common.domain.model.getTotalDuration
 import net.onefivefour.sessiontimer.core.test.SavedStateHandleRule
 import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
@@ -26,6 +27,8 @@ import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.TimerState
 import org.junit.Rule
 import org.junit.Test
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SessionTimerViewModelTest {
@@ -204,7 +207,7 @@ internal class SessionTimerViewModelTest {
         }
 
     @Test
-    fun `GIVEN an initialized sut WHEN onPreviousTask is called THEN seekTimerUseCase is executed`() =
+    fun `GIVEN an initialized sut WHEN onNextTask is called THEN seekTimerUseCase is executed with the correct seekTo value`() =
         runTest {
             // GIVEN
             coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
@@ -212,10 +215,151 @@ internal class SessionTimerViewModelTest {
             advanceUntilIdle()
 
             // WHEN
+            sut.onNextTask()
+            advanceUntilIdle()
+
+            // THEN
+            coVerify(exactly = 1) { seekTimerUseCase.execute(10.seconds) }
+        }
+
+    @Test
+    fun `GIVEN the timer is within the first task WHEN onNextTask is called THEN seekTimerUseCase is executed with the correct seekTo value`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
+            val withinFirstTask = FAKE_SESSION.taskGroups.first().tasks.first().duration / 2
+            val sut = sut()
+            getTimerStatusUseCase.update(
+                FAKE_TIMER_STATUS_RUNNING.copy(elapsedDuration = withinFirstTask)
+            )
+            advanceUntilIdle()
+
+            // WHEN
+            sut.onNextTask()
+            advanceUntilIdle()
+
+            // THEN
+            coVerify(exactly = 1) { seekTimerUseCase.execute(10.seconds) }
+        }
+
+    @Test
+    fun `GIVEN the timer is within the last task WHEN onNextTask is called THEN seekTimerUseCase is executed with the correct seekTo value`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
+            val lastTaskDuration = FAKE_SESSION.taskGroups.last().tasks.last().duration
+            val withinLastTask = FAKE_SESSION.getTotalDuration() - (lastTaskDuration / 2)
+            val sut = sut()
+            getTimerStatusUseCase.update(
+                FAKE_TIMER_STATUS_RUNNING.copy(elapsedDuration = withinLastTask)
+            )
+            advanceUntilIdle()
+
+            // WHEN
+            sut.onNextTask()
+            advanceUntilIdle()
+
+            // THEN
+            val expectedSeekTo = FAKE_SESSION.getTotalDuration()
+            coVerify(exactly = 1) { seekTimerUseCase.execute(expectedSeekTo) }
+        }
+
+    @Test
+    fun `GIVEN the timer is mid-tasks WHEN onNextTask is called THEN seekTimerUseCase is executed with the correct seekTo value`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
+            val firstTaskDuration = FAKE_SESSION.taskGroups.first().tasks[0].duration
+            val secondTaskDuration = FAKE_SESSION.taskGroups.first().tasks[1].duration
+            val midTaskDuration = firstTaskDuration + (secondTaskDuration / 2)
+            val sut = sut()
+            getTimerStatusUseCase.update(
+                FAKE_TIMER_STATUS_RUNNING.copy(elapsedDuration = midTaskDuration)
+            )
+            advanceUntilIdle()
+
+            // WHEN
+            sut.onNextTask()
+            advanceUntilIdle()
+
+            // THEN
+            val expectedSeekTo = firstTaskDuration + secondTaskDuration
+            coVerify(exactly = 1) { seekTimerUseCase.execute(expectedSeekTo) }
+        }
+
+    @Test
+    fun `GIVEN the timer is within the first task WHEN onPreviousTask is called THEN seekTimerUseCase is executed with the correct seekTo value`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
+            val withinFirstTask = FAKE_SESSION.taskGroups.first().tasks.first().duration / 2
+            val sut = sut()
+            getTimerStatusUseCase.update(
+                FAKE_TIMER_STATUS_RUNNING.copy(elapsedDuration = withinFirstTask)
+            )
+            advanceUntilIdle()
+
+            // WHEN
             sut.onPreviousTask()
             advanceUntilIdle()
 
             // THEN
-            coVerify(exactly = 1) { seekTimerUseCase.execute(any()) }
+            coVerify(exactly = 1) { seekTimerUseCase.execute(Duration.ZERO) }
+        }
+
+    @Test
+    fun `GIVEN the timer is within the last task WHEN onPreviousTask is called THEN seekTimerUseCase is executed with the correct seekTo value`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
+            val lastTaskDuration = FAKE_SESSION.taskGroups.last().tasks.last().duration
+            val withinLastTask = FAKE_SESSION.getTotalDuration() - (lastTaskDuration / 2)
+            val sut = sut()
+            getTimerStatusUseCase.update(
+                FAKE_TIMER_STATUS_RUNNING.copy(elapsedDuration = withinLastTask)
+            )
+            advanceUntilIdle()
+
+            // WHEN
+            sut.onPreviousTask()
+            advanceUntilIdle()
+
+            // THEN
+            val expectedSeekTo = FAKE_SESSION.getTotalDuration() - lastTaskDuration
+            coVerify(exactly = 1) { seekTimerUseCase.execute(expectedSeekTo) }
+        }
+
+    @Test
+    fun `GIVEN the timer is mid-tasks WHEN onPreviousTask is called THEN seekTimerUseCase is executed with the correct seekTo value`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
+            val firstTaskDuration = FAKE_SESSION.taskGroups.first().tasks[0].duration
+            val secondTaskDuration = FAKE_SESSION.taskGroups.first().tasks[1].duration
+            val midTaskDuration = firstTaskDuration + (secondTaskDuration / 2)
+            val sut = sut()
+            getTimerStatusUseCase.update(
+                FAKE_TIMER_STATUS_RUNNING.copy(elapsedDuration = midTaskDuration)
+            )
+            advanceUntilIdle()
+
+            // WHEN
+            sut.onPreviousTask()
+            advanceUntilIdle()
+
+            // THEN
+            val expectedSeekTo = firstTaskDuration
+            coVerify(exactly = 1) { seekTimerUseCase.execute(expectedSeekTo) }
+
+            // WHEN
+            getTimerStatusUseCase.update(
+                FAKE_TIMER_STATUS_RUNNING.copy(elapsedDuration = expectedSeekTo + 200.milliseconds)
+            )
+            advanceUntilIdle()
+            sut.onPreviousTask()
+            advanceUntilIdle()
+
+            // THEN
+            coVerify(exactly = 1) { seekTimerUseCase.execute(Duration.ZERO) }
         }
 }

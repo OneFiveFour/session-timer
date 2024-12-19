@@ -27,6 +27,12 @@ val FAKE_SESSION = Session(
                     title = "Test Task 4L",
                     duration = 10.seconds,
                     taskGroupId = 2L
+                ),
+                Task(
+                    id = 5L,
+                    title = "Test Task 5L",
+                    duration = 10.seconds,
+                    taskGroupId = 2L
                 )
             ),
             sessionId = 1L

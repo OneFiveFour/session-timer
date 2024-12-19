@@ -26,6 +26,8 @@ import net.onefivefour.sessiontimer.feature.sessionplayer.domain.SessionCompiler
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiSession
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.TimerState
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 internal class SessionTimerViewModel @Inject constructor(
@@ -155,11 +157,10 @@ internal class SessionTimerViewModel @Inject constructor(
 
         val seekTo = when (state.currentTask) {
             null -> state.tasks.firstOrNull()?.taskDuration ?: return
-            else -> {
-                state.tasks
-                    .takeWhile { it.id == state.currentTask.id }
-                    .fold(Duration.ZERO) { acc, uiTask -> acc + uiTask.taskDuration}
-            }
+            else -> state.tasks
+                .takeWhile { it != state.currentTask }
+                .fold(Duration.ZERO) { acc, task -> acc + task.taskDuration }
+                .plus(state.currentTask.taskDuration)
         }
 
         seekTimerUseCase.execute(seekTo)
@@ -169,12 +170,26 @@ internal class SessionTimerViewModel @Inject constructor(
         val state = _timerState.value as? TimerState.Active ?: return
 
         val seekTo = when (state.currentTask) {
-            null -> state.tasks.firstOrNull()?.taskDuration ?: return
+            null -> Duration.ZERO
             else -> {
-                state.tasks
-                    .takeWhile { it.id == state.currentTask.id }
-                    .drop(1)
-                    .fold(Duration.ZERO) { acc, uiTask -> acc + uiTask.taskDuration}
+
+                val previousTasks = state.tasks
+                    .takeWhile { it.id != state.currentTask.id }
+
+                val previousTasksDuration = previousTasks
+                    .fold(Duration.ZERO) { acc, uiTask -> acc + uiTask.taskDuration }
+
+                // check if we go to the previous task or restart the current task
+                val shouldStartPreviousTask =
+                    state.elapsedTotalDuration - previousTasksDuration < 500.milliseconds
+                when {
+                    shouldStartPreviousTask -> {
+                        previousTasks
+                            .drop(1)
+                            .fold(Duration.ZERO) { acc, uiTask -> acc + uiTask.taskDuration }
+                    }
+                    else -> previousTasksDuration
+                }
             }
         }
 
