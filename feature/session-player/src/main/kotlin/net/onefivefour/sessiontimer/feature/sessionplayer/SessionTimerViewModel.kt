@@ -19,6 +19,7 @@ import net.onefivefour.sessiontimer.core.usecases.api.session.GetSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.GetTimerStatusUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.PauseTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.ResetTimerUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.timer.SeekTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.StartTimerUseCase
 import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
 import net.onefivefour.sessiontimer.feature.sessionplayer.domain.SessionCompiler
@@ -33,7 +34,8 @@ internal class SessionTimerViewModel @Inject constructor(
     private val getTimerStatusUseCase: GetTimerStatusUseCase,
     private val startTimerUseCase: StartTimerUseCase,
     private val pauseTimerUseCase: PauseTimerUseCase,
-    private val resetTimerUseCase: ResetTimerUseCase
+    private val resetTimerUseCase: ResetTimerUseCase,
+    private val seekTimerUseCase: SeekTimerUseCase
 ) : ViewModel() {
 
     private val sessionId = savedStateHandle.toRoute<SessionPlayerRoute>().sessionId
@@ -149,10 +151,33 @@ internal class SessionTimerViewModel @Inject constructor(
     }
 
     fun onNextTask() {
-//        seekTimerUseCase.execute()
+        val state = _timerState.value as? TimerState.Active ?: return
+
+        val seekTo = when (state.currentTask) {
+            null -> state.tasks.firstOrNull()?.taskDuration ?: return
+            else -> {
+                state.tasks
+                    .takeWhile { it.id == state.currentTask.id }
+                    .fold(Duration.ZERO) { acc, uiTask -> acc + uiTask.taskDuration}
+            }
+        }
+
+        seekTimerUseCase.execute(seekTo)
     }
 
     fun onPreviousTask() {
-//        resetTimerUseCase.execute()
+        val state = _timerState.value as? TimerState.Active ?: return
+
+        val seekTo = when (state.currentTask) {
+            null -> state.tasks.firstOrNull()?.taskDuration ?: return
+            else -> {
+                state.tasks
+                    .takeWhile { it.id == state.currentTask.id }
+                    .drop(1)
+                    .fold(Duration.ZERO) { acc, uiTask -> acc + uiTask.taskDuration}
+            }
+        }
+
+        seekTimerUseCase.execute(seekTo)
     }
 }

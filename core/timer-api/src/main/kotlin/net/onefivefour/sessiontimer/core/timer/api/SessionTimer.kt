@@ -9,4 +9,5 @@ interface SessionTimer {
     fun pause()
     fun reset()
     fun getStatus(): Flow<TimerStatus>
+    fun seekTo(seekTo: Duration)
 }

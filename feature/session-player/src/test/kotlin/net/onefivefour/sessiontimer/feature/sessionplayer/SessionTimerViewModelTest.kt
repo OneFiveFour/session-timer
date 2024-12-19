@@ -19,6 +19,7 @@ import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_RUNN
 import net.onefivefour.sessiontimer.core.usecases.api.session.GetSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.PauseTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.ResetTimerUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.timer.SeekTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.StartTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.test.GetTimerStatusUseCaseFake
 import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
@@ -47,6 +48,8 @@ internal class SessionTimerViewModelTest {
 
     private val resetTimerUseCase: ResetTimerUseCase = mockk(relaxed = true)
 
+    private val seekTimerUseCase: SeekTimerUseCase = mockk(relaxed = true)
+
     private fun sut(): SessionTimerViewModel {
         return SessionTimerViewModel(
             savedStateHandleRule.savedStateHandleMock,
@@ -54,7 +57,8 @@ internal class SessionTimerViewModelTest {
             getTimerStatusUseCase,
             startTimerUseCase,
             pauseTimerUseCase,
-            resetTimerUseCase
+            resetTimerUseCase,
+            seekTimerUseCase
         )
     }
 
@@ -165,5 +169,53 @@ internal class SessionTimerViewModelTest {
 
             // THEN
             coVerify(exactly = 1) { resetTimerUseCase.execute() }
+        }
+
+    @Test
+    fun `GIVEN an initialized sut WHEN onNextTask is called THEN seekTimerUseCase is executed`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
+            val sut = sut()
+            advanceUntilIdle()
+
+            // WHEN
+            sut.onNextTask()
+            advanceUntilIdle()
+
+            // THEN
+            coVerify(exactly = 1) { seekTimerUseCase.execute(any()) }
+        }
+
+    @Test
+    fun `GIVEN an initialized sut with no session WHEN onNextTask is called THEN seekTimerUseCase is not executed`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(null)
+            val sut = sut()
+            advanceUntilIdle()
+
+            // WHEN
+            sut.onNextTask()
+            advanceUntilIdle()
+
+            // THEN
+            coVerify(exactly = 0) { seekTimerUseCase.execute(any()) }
+        }
+
+    @Test
+    fun `GIVEN an initialized sut WHEN onPreviousTask is called THEN seekTimerUseCase is executed`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
+            val sut = sut()
+            advanceUntilIdle()
+
+            // WHEN
+            sut.onPreviousTask()
+            advanceUntilIdle()
+
+            // THEN
+            coVerify(exactly = 1) { seekTimerUseCase.execute(any()) }
         }
 }

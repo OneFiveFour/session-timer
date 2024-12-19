@@ -8,10 +8,12 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import net.onefivefour.sessiontimer.core.usecases.api.timer.GetTimerStatusUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.PauseTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.ResetTimerUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.timer.SeekTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.StartTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.GetTimerStatusUseCaseImpl
 import net.onefivefour.sessiontimer.core.usecases.timer.PauseTimerUseCaseImpl
 import net.onefivefour.sessiontimer.core.usecases.timer.ResetTimerUseCaseImpl
+import net.onefivefour.sessiontimer.core.usecases.timer.SeekTimerUseCaseImpl
 import net.onefivefour.sessiontimer.core.usecases.timer.StartTimerUseCaseImpl
 
 @Module
@@ -33,4 +35,8 @@ internal interface TimerModule {
     @Binds
     @ViewModelScoped
     fun bindStartTimerUseCase(impl: StartTimerUseCaseImpl): StartTimerUseCase
+
+    @Binds
+    @ViewModelScoped
+    fun bindSeekTimerUseCase(impl: SeekTimerUseCaseImpl): SeekTimerUseCase
 }

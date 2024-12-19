@@ -65,6 +65,11 @@ internal class SessionTimerImpl @Inject constructor(
         updateTimerStatus()
     }
 
+    override fun seekTo(seekTo: Duration) {
+        elapsedDuration = seekTo
+        updateTimerStatus()
+    }
+
     private fun updateTimerStatus() {
         if (elapsedDuration >= totalDuration) {
             cancelTimer()
