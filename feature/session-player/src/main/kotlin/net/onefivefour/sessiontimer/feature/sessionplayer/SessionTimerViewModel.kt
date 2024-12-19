@@ -102,7 +102,10 @@ internal class SessionTimerViewModel @Inject constructor(
 
         val elapsedTaskDuration = timerStatus.elapsedDuration - elapsedTasksDuration
 
-        return TimerState.Ready(
+        val isRunning = timerStatus.mode == TimerMode.RUNNING
+
+        return TimerState.Active(
+            isRunning = isRunning,
             totalDuration = uiSession.totalDuration,
             elapsedTaskDuration = elapsedTaskDuration,
             elapsedTotalDuration = timerStatus.elapsedDuration,
@@ -132,7 +135,7 @@ internal class SessionTimerViewModel @Inject constructor(
 
     fun onStartSession() {
         val timerState = _timerState.value
-        if (timerState is TimerState.Ready && timerState.elapsedTotalDuration == Duration.ZERO) {
+        if (timerState is TimerState.Active && timerState.elapsedTotalDuration == Duration.ZERO) {
             startTimerUseCase.execute(timerState.totalDuration)
         }
     }
@@ -143,5 +146,13 @@ internal class SessionTimerViewModel @Inject constructor(
 
     fun onResetSession() {
         resetTimerUseCase.execute()
+    }
+
+    fun onNextTask() {
+//        seekTimerUseCase.execute()
+    }
+
+    fun onPreviousTask() {
+//        resetTimerUseCase.execute()
     }
 }

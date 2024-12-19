@@ -8,7 +8,8 @@ internal sealed interface TimerState {
         val totalDuration: Duration = Duration.ZERO
     ) : TimerState
 
-    data class Ready(
+    data class Active(
+        val isRunning: Boolean,
         val totalDuration: Duration,
         val elapsedTotalDuration: Duration,
         val elapsedTaskDuration: Duration,

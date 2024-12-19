@@ -1,16 +1,13 @@
 package net.onefivefour.sessiontimer.feature.sessionplayer.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -19,19 +16,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import net.onefivefour.sessiontimer.core.theme.SessionTimerTheme
-import net.onefivefour.sessiontimer.feature.sessionplayer.R
 import net.onefivefour.sessiontimer.feature.sessionplayer.SessionTimerViewModel
-import net.onefivefour.sessiontimer.feature.sessionplayer.model.TimerState
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
-import net.onefivefour.sessiontimer.feature.sessionplayer.ui.modifier.arc
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
@@ -50,6 +42,7 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
                 .padding(24.dp)
         ) {
 
+            // grey background
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -78,107 +71,22 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
                 endAngle = 360f
             )
 
-            Box(modifier = Modifier.padding(44.dp)) {
-                val gapAngle = 5f
-                var startAngle = gapAngle / 2
-
-                uiState.tasks.forEach { task ->
-
-                    val durationRatio = (task.taskDuration / uiState.totalDuration).toFloat()
-                    val sweepAngle = 360f * durationRatio - gapAngle
-
-                    // task indicator
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .arc(
-                                color = task.taskGroupColor,
-                                width = 1.dp,
-                                progress = sweepAngle / 360f,
-                                startAngle = startAngle
-                            )
-                    )
-
-                    // task progress
-                    TaskProgressArc(
-                        timerState = { timerState },
-                        task = task,
-                        width = 5.dp,
-                        startAngle = startAngle,
-                        endAngle = sweepAngle
-                    )
-
-                    startAngle += sweepAngle + gapAngle
-                }
-            }
+            // inner task arcs
+            GappedTaskArcs(
+                uiState = uiState,
+                timerState = { timerState }
+            )
         }
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            Button(onClick = { timerViewModel.onStartSession() }) {
-                Text(text = stringResource(R.string.start))
-            }
-            Button(onClick = { timerViewModel.onPauseSession() }) {
-                Text(text = stringResource(R.string.pause))
-            }
-            Button(onClick = { timerViewModel.onResetSession() }) {
-                Text(text = stringResource(R.string.reset))
-            }
-        }
+        SessionControls(
+            timerState = { timerState },
+            onStartSession = { timerViewModel.onStartSession() },
+            onPauseSession = { timerViewModel.onPauseSession() },
+            onNextTask = { timerViewModel.onNextTask() },
+            onPreviousTask = { timerViewModel.onPreviousTask() }
+        )
     }
 }
-
-@Composable
-private fun TaskProgressArc(
-    modifier: Modifier = Modifier,
-    timerState: () -> TimerState,
-    task: UiTask?,
-    width: Dp,
-    startAngle: Float,
-    endAngle: Float
-) {
-    val state = timerState()
-
-    if (task == null && state !is TimerState.Ready) return
-
-    val t = task ?: (state as TimerState.Ready).currentTask ?: return
-    val glowScale = if (task == null) 1.03f else 1f
-    val glowWidth = if (task == null) 15.dp else 10.dp
-    val glowRadius = if (task == null) 15.dp else 8.dp
-
-    val progress = calculateTaskProgress(t, state)
-
-    CircluarProgressNeon(
-        modifier = modifier,
-        strokeColor = t.taskGroupColor,
-        strokeWidth = width,
-        glowWidth = glowWidth,
-        glowRadius = glowRadius,
-        glowScale = glowScale,
-        startAngle = startAngle,
-        progress = (endAngle / 360f) * progress
-    )
-}
-
-private fun calculateTaskProgress(task: UiTask, timerState: TimerState): Float {
-    return when (timerState) {
-        is TimerState.Finished -> 1f
-        is TimerState.Initial -> 0f
-        is TimerState.Ready -> when {
-            task == timerState.currentTask ->
-                (timerState.elapsedTaskDuration / task.taskDuration).toFloat().coerceIn(0f, 1f)
-            timerState.tasks.indexOf(task) < timerState.tasks.indexOf(timerState.currentTask) ->
-                1f
-            else ->
-                0f
-        }
-    }
-}
-
 
 @Preview
 @Composable

@@ -5,4 +5,6 @@
     <string name="pause">Pause</string>
     <string name="reset">Reset</string>
     <string name="finished">Finished</string>
+    <string name="next_task">Next Task</string>
+    <string name="previous_task">Previous Task</string>
 </resources>

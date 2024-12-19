@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.FAKE_SESSION
-import net.onefivefour.sessiontimer.core.common.domain.model.getTotalDuration
 import net.onefivefour.sessiontimer.core.test.SavedStateHandleRule
 import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
@@ -24,10 +23,8 @@ import net.onefivefour.sessiontimer.core.usecases.api.timer.StartTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.test.GetTimerStatusUseCaseFake
 import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.TimerState
-import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
 import org.junit.Rule
 import org.junit.Test
-import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SessionTimerViewModelTest {
@@ -98,7 +95,7 @@ internal class SessionTimerViewModelTest {
             // THEN
             sut.timerState.test {
                 val firstState = awaitItem()
-                assertThat(firstState).isInstanceOf(TimerState.Ready::class.java)
+                assertThat(firstState).isInstanceOf(TimerState.Active::class.java)
                 cancelAndIgnoreRemainingEvents()
             }
         }
