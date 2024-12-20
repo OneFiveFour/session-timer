@@ -22,6 +22,7 @@ import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
 @HiltViewModel
 internal class SessionScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    sessionCompiler: SessionCompiler,
     getSessionUseCase: GetSessionUseCase
 ) : ViewModel() {
 
@@ -34,7 +35,7 @@ internal class SessionScreenViewModel @Inject constructor(
         viewModelScope.launch {
             getSessionUseCase.execute(sessionId)
                 .filterNotNull()
-                .map { session -> SessionCompiler.compile(session) }
+                .map { session -> sessionCompiler.compile(session) }
                 .map { uiSession ->
                     when {
                         uiSession.taskList.isEmpty() -> UiState.Error("Session has no tasks")

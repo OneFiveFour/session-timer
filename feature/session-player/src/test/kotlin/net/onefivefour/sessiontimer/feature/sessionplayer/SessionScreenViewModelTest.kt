@@ -23,6 +23,7 @@ import net.onefivefour.sessiontimer.core.usecases.api.timer.ResetTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.StartTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.test.GetTimerStatusUseCaseFake
 import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
+import net.onefivefour.sessiontimer.feature.sessionplayer.domain.SessionCompiler
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
 import org.junit.Rule
 import org.junit.Test
@@ -38,12 +39,15 @@ internal class SessionScreenViewModelTest {
     @get:Rule(order = 1)
     val savedStateHandleRule = SavedStateHandleRule(route)
 
+    private val sessionCompiler = SessionCompiler()
+
     private val getSessionUseCase: GetSessionUseCase = mockk(relaxed = true)
 
     private fun sut(): SessionScreenViewModel {
         return SessionScreenViewModel(
-            savedStateHandleRule.savedStateHandleMock,
-            getSessionUseCase
+            savedStateHandle = savedStateHandleRule.savedStateHandleMock,
+            sessionCompiler = sessionCompiler,
+            getSessionUseCase = getSessionUseCase
         )
     }
 

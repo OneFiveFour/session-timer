@@ -1,6 +1,8 @@
 package net.onefivefour.sessiontimer.feature.sessionplayer.domain
 
 import androidx.compose.ui.graphics.Color
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlin.time.Duration
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
@@ -8,41 +10,65 @@ import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiSession
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
+import javax.inject.Inject
+import javax.inject.Singleton
 
-internal object SessionCompiler {
+@Singleton
+internal class SessionCompiler @Inject constructor() {
 
-    fun compile(session: Session): UiSession {
-        val taskList = mutableListOf<UiTask>()
-        var totalDuration = Duration.ZERO
+    private val mutex = Mutex()
 
-        for (taskGroup in session.taskGroups) {
-            val (tasks, taskGroupDuration) = when (taskGroup.playMode) {
-                PlayMode.SEQUENCE -> getSequenceTaskList(
-                    taskGroup = taskGroup
-                )
-                PlayMode.RANDOM_SINGLE_TASK -> getShuffledTaskList(
-                    numberOfTasks = 1,
-                    taskGroup = taskGroup
-                )
-                PlayMode.RANDOM_N_TASKS -> getShuffledTaskList(
-                    numberOfTasks = taskGroup.numberOfRandomTasks,
-                    taskGroup = taskGroup
-                )
-                PlayMode.RANDOM_ALL_TASKS -> getShuffledTaskList(
-                    numberOfTasks = taskGroup.tasks.size,
-                    taskGroup = taskGroup
-                )
+    private var compiledSession: UiSession? = null
+
+    suspend fun compile(session: Session): UiSession {
+
+        mutex.withLock {
+
+            compiledSession?.let {
+                return it
             }
 
-            taskList.addAll(tasks)
-            totalDuration += taskGroupDuration
-        }
+            val taskList = mutableListOf<UiTask>()
+            var totalDuration = Duration.ZERO
 
-        return UiSession(
-            sessionTitle = session.title,
-            taskList = taskList,
-            totalDuration = totalDuration
-        )
+            for (taskGroup in session.taskGroups) {
+                val (tasks, taskGroupDuration) = when (taskGroup.playMode) {
+                    PlayMode.SEQUENCE -> getSequenceTaskList(
+                        taskGroup = taskGroup
+                    )
+
+                    PlayMode.RANDOM_SINGLE_TASK -> getShuffledTaskList(
+                        numberOfTasks = 1,
+                        taskGroup = taskGroup
+                    )
+
+                    PlayMode.RANDOM_N_TASKS -> getShuffledTaskList(
+                        numberOfTasks = taskGroup.numberOfRandomTasks,
+                        taskGroup = taskGroup
+                    )
+
+                    PlayMode.RANDOM_ALL_TASKS -> getShuffledTaskList(
+                        numberOfTasks = taskGroup.tasks.size,
+                        taskGroup = taskGroup
+                    )
+                }
+
+                taskList.addAll(tasks)
+                totalDuration += taskGroupDuration
+            }
+
+            return UiSession(
+                sessionTitle = session.title,
+                taskList = taskList,
+                totalDuration = totalDuration
+            ).also { result ->
+                compiledSession = result
+            }
+        }
+    }
+
+    fun reset() {
+        compiledSession = null
     }
 
     private fun getShuffledTaskList(
@@ -69,8 +95,8 @@ internal object SessionCompiler {
                     taskDuration = task.duration
                 )
             } to
-            tasks
-                .map { it.duration }
-                .fold(Duration.ZERO, Duration::plus)
+                tasks
+                    .map { it.duration }
+                    .fold(Duration.ZERO, Duration::plus)
     }
 }

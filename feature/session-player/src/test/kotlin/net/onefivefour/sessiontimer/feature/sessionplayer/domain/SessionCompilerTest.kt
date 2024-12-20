@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
 import kotlin.time.Duration.Companion.seconds
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
@@ -12,9 +13,11 @@ import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import org.junit.Test
 
 internal class SessionCompilerTest {
+    
+    private val sessionCompiler = SessionCompiler()
 
     @Test
-    fun `GIVEN a taskGroup in SEQUENCE play mode WHEN compiled THEN the compiled task sequence is correct`() {
+    fun `GIVEN a taskGroup in SEQUENCE play mode WHEN compiled THEN the compiled task sequence is correct`() = runTest {
         // GIVEN
         val task1 = mockk<Task> {
             every { id } returns 1L
@@ -40,7 +43,7 @@ internal class SessionCompilerTest {
         }
 
         // WHEN
-        val compiledSession = SessionCompiler.compile(session)
+        val compiledSession = sessionCompiler.compile(session)
 
         // THEN
         assertThat(compiledSession.sessionTitle).isEqualTo("Test Session")
@@ -63,7 +66,7 @@ internal class SessionCompilerTest {
     }
 
     @Test
-    fun `GIVEN a taskGroup in RANDOM_SINGLE_TASK play mode WHEN compiled THEN the compiled task sequence is correct`() {
+    fun `GIVEN a taskGroup in RANDOM_SINGLE_TASK play mode WHEN compiled THEN the compiled task sequence is correct`() = runTest {
         // GIVEN
         val task1 = mockk<Task> {
             every { id } returns 1L
@@ -94,7 +97,7 @@ internal class SessionCompilerTest {
         }
 
         // WHEN
-        val compiledSession = SessionCompiler.compile(session)
+        val compiledSession = sessionCompiler.compile(session)
 
         // THEN
         assertThat(compiledSession.sessionTitle).isEqualTo("Test Session")
@@ -103,7 +106,7 @@ internal class SessionCompilerTest {
     }
 
     @Test
-    fun `GIVEN a taskGroup in RANDOM_N_TASKS play mode WHEN compiled THEN the compiled task sequence is correct`() {
+    fun `GIVEN a taskGroup in RANDOM_N_TASKS play mode WHEN compiled THEN the compiled task sequence is correct`() = runTest {
         // GIVEN
         val task1 = mockk<Task> {
             every { id } returns 1L
@@ -135,7 +138,7 @@ internal class SessionCompilerTest {
         }
 
         // WHEN
-        val compiledSession = SessionCompiler.compile(session)
+        val compiledSession = sessionCompiler.compile(session)
 
         // THEN
         assertThat(compiledSession.sessionTitle).isEqualTo("Test Session")
@@ -149,7 +152,7 @@ internal class SessionCompilerTest {
     }
 
     @Test
-    fun `GIVEN a taskGroup in RANDOM_ALL_TASKS play mode WHEN compiled THEN the compiled task sequence is correct`() {
+    fun `GIVEN a taskGroup in RANDOM_ALL_TASKS play mode WHEN compiled THEN the compiled task sequence is correct`() = runTest {
         // GIVEN
         val task1 = mockk<Task> {
             every { id } returns 1L
@@ -180,7 +183,7 @@ internal class SessionCompilerTest {
         }
 
         // WHEN
-        val compiledSession = SessionCompiler.compile(session)
+        val compiledSession = sessionCompiler.compile(session)
 
         // THEN
         assertThat(compiledSession.sessionTitle).isEqualTo("Test Session")
@@ -193,7 +196,7 @@ internal class SessionCompilerTest {
     }
 
     @Test
-    fun `GIVEN a session with multiple taskGroups WHEN compiled THEN the compiled task order is correct`() {
+    fun `GIVEN a session with multiple taskGroups WHEN compiled THEN the compiled task order is correct`() = runTest {
         // GIVEN
         val task1 = mockk<Task> {
             every { id } returns 1L
@@ -232,7 +235,7 @@ internal class SessionCompilerTest {
         }
 
         // WHEN
-        val compiledSession = SessionCompiler.compile(session)
+        val compiledSession = sessionCompiler.compile(session)
 
         // THEN
         assertThat(compiledSession.sessionTitle).isEqualTo("Test Session")

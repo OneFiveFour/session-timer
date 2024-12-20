@@ -17,6 +17,7 @@ import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerStatus
 import net.onefivefour.sessiontimer.core.usecases.api.session.GetSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.GetTimerStatusUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.timer.InitSessionTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.PauseTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.ResetTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.SeekTimerUseCase
@@ -32,6 +33,8 @@ import kotlin.time.Duration.Companion.seconds
 @HiltViewModel
 internal class SessionTimerViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    private val sessionCompiler: SessionCompiler,
+    private val initSessionTimerUseCase: InitSessionTimerUseCase,
     private val getSessionUseCase: GetSessionUseCase,
     private val getTimerStatusUseCase: GetTimerStatusUseCase,
     private val startTimerUseCase: StartTimerUseCase,
@@ -62,7 +65,7 @@ internal class SessionTimerViewModel @Inject constructor(
     private suspend fun compileSession() {
         getSessionUseCase.execute(sessionId).collect { session ->
             if (session != null && _uiSessionFlow.value == null) {
-                _uiSessionFlow.value = SessionCompiler.compile(session)
+                _uiSessionFlow.value = sessionCompiler.compile(session)
             }
         }
     }
@@ -72,6 +75,7 @@ internal class SessionTimerViewModel @Inject constructor(
             uiSessionFlow.filterNotNull(),
             getTimerStatusUseCase.execute()
         ) { uiSession, timerStatus ->
+            initSessionTimerUseCase.execute(uiSession.totalDuration)
             computeTimerState(uiSession, timerStatus)
         }.collect { newTimerState ->
             _timerState.update { newTimerState }
@@ -132,7 +136,7 @@ internal class SessionTimerViewModel @Inject constructor(
         }
 
         return when {
-            elapsedDuration >= sumOfPastTaskDurations -> null
+            elapsedDuration > sumOfPastTaskDurations -> null
             else -> taskList.last()
         }
     }
@@ -140,7 +144,7 @@ internal class SessionTimerViewModel @Inject constructor(
     fun onStartSession() {
         val timerState = _timerState.value
         if (timerState is TimerState.Active && !timerState.isRunning) {
-            startTimerUseCase.execute(timerState.totalDuration)
+            startTimerUseCase.execute()
         }
     }
 
@@ -167,7 +171,16 @@ internal class SessionTimerViewModel @Inject constructor(
     }
 
     fun onPreviousTask() {
-        val state = _timerState.value as? TimerState.Active ?: return
+
+        val state = _timerState.value
+        if (state is TimerState.Finished) {
+            val session = _uiSessionFlow.value ?: return
+            val lastTaskDuration = session.taskList.last().taskDuration
+            seekTimerUseCase.execute(session.totalDuration - lastTaskDuration)
+        }
+
+
+        if (state !is TimerState.Active) return
 
         val seekTo = when (state.currentTask) {
             null -> Duration.ZERO
@@ -182,17 +195,24 @@ internal class SessionTimerViewModel @Inject constructor(
                 // check if we go to the previous task or restart the current task
                 val shouldStartPreviousTask =
                     state.elapsedTotalDuration - previousTasksDuration < 500.milliseconds
+
                 when {
                     shouldStartPreviousTask -> {
                         previousTasks
-                            .drop(1)
+                            .dropLast(1)
                             .fold(Duration.ZERO) { acc, uiTask -> acc + uiTask.taskDuration }
                     }
+
                     else -> previousTasksDuration
                 }
             }
         }
 
         seekTimerUseCase.execute(seekTo)
+    }
+
+    fun onDispose() {
+        onResetSession()
+        sessionCompiler.reset()
     }
 }

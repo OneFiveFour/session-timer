@@ -13,6 +13,7 @@ class SeekTimerUseCaseImpl @Inject constructor(
 ) : SeekTimerUseCase {
 
     override fun execute(totalDuration: Duration) {
+        println("+++ seek to ${totalDuration.inWholeSeconds}s")
         sessionTimer.seekTo(totalDuration)
     }
 }

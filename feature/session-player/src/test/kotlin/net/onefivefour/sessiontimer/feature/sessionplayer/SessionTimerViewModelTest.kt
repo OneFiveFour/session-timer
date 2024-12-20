@@ -15,6 +15,7 @@ import net.onefivefour.sessiontimer.core.common.domain.model.getTotalDuration
 import net.onefivefour.sessiontimer.core.test.SavedStateHandleRule
 import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
+import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_FINISHED
 import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_IDLE
 import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_RUNNING
 import net.onefivefour.sessiontimer.core.usecases.api.session.GetSessionUseCase
@@ -24,6 +25,7 @@ import net.onefivefour.sessiontimer.core.usecases.api.timer.SeekTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.StartTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.test.GetTimerStatusUseCaseFake
 import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
+import net.onefivefour.sessiontimer.feature.sessionplayer.domain.SessionCompiler
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.TimerState
 import org.junit.Rule
 import org.junit.Test
@@ -43,6 +45,8 @@ internal class SessionTimerViewModelTest {
 
     private val getTimerStatusUseCase = GetTimerStatusUseCaseFake()
 
+    private val sessionCompiler: SessionCompiler = SessionCompiler()
+
     private val getSessionUseCase: GetSessionUseCase = mockk(relaxed = true)
 
     private val startTimerUseCase: StartTimerUseCase = mockk(relaxed = true)
@@ -55,13 +59,14 @@ internal class SessionTimerViewModelTest {
 
     private fun sut(): SessionTimerViewModel {
         return SessionTimerViewModel(
-            savedStateHandleRule.savedStateHandleMock,
-            getSessionUseCase,
-            getTimerStatusUseCase,
-            startTimerUseCase,
-            pauseTimerUseCase,
-            resetTimerUseCase,
-            seekTimerUseCase
+            savedStateHandle = savedStateHandleRule.savedStateHandleMock,
+            sessionCompiler = sessionCompiler,
+            getSessionUseCase = getSessionUseCase,
+            getTimerStatusUseCase = getTimerStatusUseCase,
+            startTimerUseCase = startTimerUseCase,
+            pauseTimerUseCase = pauseTimerUseCase,
+            resetTimerUseCase = resetTimerUseCase,
+            seekTimerUseCase = seekTimerUseCase
         )
     }
 
@@ -327,6 +332,48 @@ internal class SessionTimerViewModelTest {
             // THEN
             val expectedSeekTo = FAKE_SESSION.getTotalDuration() - lastTaskDuration
             coVerify(exactly = 1) { seekTimerUseCase.execute(expectedSeekTo) }
+        }
+
+    @Test
+    fun `GIVEN the timer is between tasks WHEN onPreviousTask is called THEN seekTimerUseCase is executed with the correct seekTo value`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
+            val firstTaskDuration = FAKE_SESSION.taskGroups.first().tasks[0].duration
+            val secondTaskDuration = FAKE_SESSION.taskGroups.first().tasks[1].duration
+            val elapsedDuration = firstTaskDuration + secondTaskDuration
+            val sut = sut()
+            getTimerStatusUseCase.update(
+                FAKE_TIMER_STATUS_RUNNING.copy(elapsedDuration = elapsedDuration)
+            )
+            advanceUntilIdle()
+
+            // WHEN
+            sut.onPreviousTask()
+            advanceUntilIdle()
+
+            // THEN
+            coVerify(exactly = 1) { seekTimerUseCase.execute(firstTaskDuration) }
+        }
+
+    @Test
+    fun `GIVEN the timer has finished WHEN onPreviousTask is called THEN seekTimerUseCase is executed with the correct seekTo value`() =
+        runTest {
+            // GIVEN
+            coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
+            val sut = sut()
+            getTimerStatusUseCase.update(
+                FAKE_TIMER_STATUS_FINISHED(totalDuration = FAKE_SESSION.getTotalDuration())
+            )
+            advanceUntilIdle()
+
+            // WHEN
+            sut.onPreviousTask()
+            advanceUntilIdle()
+
+            // THEN
+            val expectedDuration = FAKE_SESSION.getTotalDuration() - FAKE_SESSION.taskGroups.last().tasks.last().duration
+            coVerify(exactly = 1) { seekTimerUseCase.execute(expectedDuration) }
         }
 
     @Test

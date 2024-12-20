@@ -13,3 +13,8 @@ val FAKE_TIMER_STATUS_IDLE = TimerStatus(
     TimerMode.IDLE,
     elapsedDuration = Duration.ZERO
 )
+
+fun FAKE_TIMER_STATUS_FINISHED(totalDuration: Duration) = TimerStatus(
+    TimerMode.FINISHED,
+    elapsedDuration = totalDuration
+)

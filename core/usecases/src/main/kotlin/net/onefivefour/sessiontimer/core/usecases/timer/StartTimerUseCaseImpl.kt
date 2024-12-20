@@ -11,7 +11,7 @@ class StartTimerUseCaseImpl @Inject constructor(
     private val sessionTimer: SessionTimer
 ) : StartTimerUseCase {
 
-    override fun execute(totalDuration: Duration) {
-        sessionTimer.start(totalDuration)
+    override fun execute() {
+        sessionTimer.start()
     }
 }

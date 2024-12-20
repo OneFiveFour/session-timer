@@ -39,7 +39,7 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
 
     DisposableEffect(Unit) {
         onDispose {
-            timerViewModel.onResetSession()
+            timerViewModel.onDispose()
         }
     }
 
