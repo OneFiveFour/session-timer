@@ -6,14 +6,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import net.onefivefour.sessiontimer.feature.sessionplayer.model.TimerState
+import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTimerState
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
 import net.onefivefour.sessiontimer.feature.sessionplayer.ui.modifier.arc
 
 @Composable
 internal fun GappedTaskArcs(
     uiState: UiState.Ready,
-    timerState: () -> TimerState
+    uiTimerState: () -> UiTimerState
 ) {
     Box(modifier = Modifier.padding(44.dp)) {
         val gapAngle = 5f
@@ -38,7 +38,7 @@ internal fun GappedTaskArcs(
 
             // task progress
             TaskProgressArc(
-                timerState = timerState,
+                uiTimerState = uiTimerState,
                 task = task,
                 width = 5.dp,
                 startAngle = startAngle,

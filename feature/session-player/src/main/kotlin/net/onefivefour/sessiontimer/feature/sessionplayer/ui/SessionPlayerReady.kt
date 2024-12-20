@@ -84,7 +84,7 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
             // outer task progress
             TaskProgressArc(
                 modifier = Modifier.padding(16.dp),
-                timerState = { timerState },
+                uiTimerState = { timerState },
                 task = null,
                 width = 11.dp,
                 startAngle = 0f,
@@ -94,7 +94,7 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
             // inner task arcs
             GappedTaskArcs(
                 uiState = uiState,
-                timerState = { timerState }
+                uiTimerState = { timerState }
             )
         }
 
@@ -105,7 +105,7 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
             horizontalArrangement = Arrangement.Center
         ) {
             SessionControls(
-                timerState = { timerState },
+                uiTimerState = { timerState },
                 onStartSession = { timerViewModel.onStartSession() },
                 onPauseSession = { timerViewModel.onPauseSession() },
                 onResetSession = { timerViewModel.onResetSession() },

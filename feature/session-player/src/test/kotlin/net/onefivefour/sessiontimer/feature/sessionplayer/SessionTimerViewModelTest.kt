@@ -15,10 +15,12 @@ import net.onefivefour.sessiontimer.core.common.domain.model.getTotalDuration
 import net.onefivefour.sessiontimer.core.test.SavedStateHandleRule
 import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
+import net.onefivefour.sessiontimer.core.timer.api.model.TimerState
 import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_FINISHED
 import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_IDLE
 import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_RUNNING
 import net.onefivefour.sessiontimer.core.usecases.api.session.GetSessionUseCase
+import net.onefivefour.sessiontimer.core.usecases.api.timer.InitSessionTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.PauseTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.ResetTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.SeekTimerUseCase
@@ -26,7 +28,7 @@ import net.onefivefour.sessiontimer.core.usecases.api.timer.StartTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.timer.test.GetTimerStatusUseCaseFake
 import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
 import net.onefivefour.sessiontimer.feature.sessionplayer.domain.SessionCompiler
-import net.onefivefour.sessiontimer.feature.sessionplayer.model.TimerState
+import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTimerState
 import org.junit.Rule
 import org.junit.Test
 import kotlin.time.Duration.Companion.milliseconds
@@ -47,6 +49,8 @@ internal class SessionTimerViewModelTest {
 
     private val sessionCompiler: SessionCompiler = SessionCompiler()
 
+    private val initSessionUseCase: InitSessionTimerUseCase = mockk(relaxed = true)
+
     private val getSessionUseCase: GetSessionUseCase = mockk(relaxed = true)
 
     private val startTimerUseCase: StartTimerUseCase = mockk(relaxed = true)
@@ -60,13 +64,14 @@ internal class SessionTimerViewModelTest {
     private fun sut(): SessionTimerViewModel {
         return SessionTimerViewModel(
             savedStateHandle = savedStateHandleRule.savedStateHandleMock,
+            initSessionTimer = initSessionUseCase,
             sessionCompiler = sessionCompiler,
-            getSessionUseCase = getSessionUseCase,
-            getTimerStatusUseCase = getTimerStatusUseCase,
-            startTimerUseCase = startTimerUseCase,
-            pauseTimerUseCase = pauseTimerUseCase,
-            resetTimerUseCase = resetTimerUseCase,
-            seekTimerUseCase = seekTimerUseCase
+            getSession = getSessionUseCase,
+            getTimerStatus = getTimerStatusUseCase,
+            startTimer = startTimerUseCase,
+            pauseTimer = pauseTimerUseCase,
+            resetTimer = resetTimerUseCase,
+            seekTimer = seekTimerUseCase
         )
     }
 
@@ -82,7 +87,7 @@ internal class SessionTimerViewModelTest {
 
             // THEN
             sut.timerState.test {
-                assertThat(awaitItem()).isInstanceOf(TimerState.Initial::class.java)
+                assertThat(awaitItem()).isInstanceOf(UiTimerState.Initial::class.java)
                 cancelAndIgnoreRemainingEvents()
             }
         }
@@ -107,7 +112,7 @@ internal class SessionTimerViewModelTest {
             // THEN
             sut.timerState.test {
                 val firstState = awaitItem()
-                assertThat(firstState).isInstanceOf(TimerState.Active::class.java)
+                assertThat(firstState).isInstanceOf(UiTimerState.Active::class.java)
                 cancelAndIgnoreRemainingEvents()
             }
         }
@@ -128,7 +133,7 @@ internal class SessionTimerViewModelTest {
             // THEN
             sut.timerState.test {
                 val firstState = awaitItem()
-                assertThat(firstState).isInstanceOf(TimerState.Finished::class.java)
+                assertThat(firstState).isInstanceOf(UiTimerState.Finished::class.java)
                 cancelAndIgnoreRemainingEvents()
             }
         }
@@ -148,7 +153,7 @@ internal class SessionTimerViewModelTest {
             advanceUntilIdle()
 
             // THEN
-            coVerify(exactly = 1) { startTimerUseCase.execute(any()) }
+            coVerify(exactly = 1) { startTimerUseCase.execute() }
         }
 
     @Test

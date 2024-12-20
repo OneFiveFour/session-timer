@@ -2,11 +2,11 @@ package net.onefivefour.sessiontimer.feature.sessionplayer.model
 
 import kotlin.time.Duration
 
-internal sealed interface TimerState {
+internal sealed interface UiTimerState {
 
     data class Initial(
         val totalDuration: Duration = Duration.ZERO
-    ) : TimerState
+    ) : UiTimerState
 
     data class Active(
         val isRunning: Boolean,
@@ -15,7 +15,7 @@ internal sealed interface TimerState {
         val elapsedTaskDuration: Duration,
         val currentTask: UiTask?,
         val tasks: List<UiTask>
-    ) : TimerState
+    ) : UiTimerState
 
-    data object Finished : TimerState
+    data object Finished : UiTimerState
 }

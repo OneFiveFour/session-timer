@@ -6,7 +6,6 @@ import kotlinx.coroutines.sync.withLock
 import kotlin.time.Duration
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
-import net.onefivefour.sessiontimer.core.common.domain.model.Task
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiSession
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
@@ -20,83 +19,56 @@ internal class SessionCompiler @Inject constructor() {
 
     private var compiledSession: UiSession? = null
 
-    suspend fun compile(session: Session): UiSession {
+    suspend fun compile(session: Session): UiSession = mutex.withLock {
 
-        mutex.withLock {
+        compiledSession?.let {
+            return it
+        }
 
-            compiledSession?.let {
-                return it
+        compileSession(session).also {
+            compiledSession = it
+        }
+    }
+
+    private fun compileSession(session: Session): UiSession {
+        val taskList = buildList {
+            session.taskGroups.forEach { taskGroup ->
+                addAll(compileTaskList(taskGroup))
             }
+        }
 
-            val taskList = mutableListOf<UiTask>()
-            var totalDuration = Duration.ZERO
+        return UiSession(
+            sessionTitle = session.title,
+            taskList = taskList,
+            totalDuration = taskList.fold(Duration.ZERO) { acc, task -> acc + task.taskDuration }
+        )
+    }
 
-            for (taskGroup in session.taskGroups) {
-                val (tasks, taskGroupDuration) = when (taskGroup.playMode) {
-                    PlayMode.SEQUENCE -> getSequenceTaskList(
-                        taskGroup = taskGroup
-                    )
+    private fun compileTaskList(taskGroup: TaskGroup): List<UiTask> {
+        val selectedTasks = when (taskGroup.playMode) {
+            PlayMode.SEQUENCE -> taskGroup.tasks
+            PlayMode.RANDOM_SINGLE_TASK -> taskGroup.tasks
+                .shuffled()
+                .take(1)
+            PlayMode.RANDOM_N_TASKS -> taskGroup.tasks
+                .shuffled()
+                .take(taskGroup.numberOfRandomTasks)
+            PlayMode.RANDOM_ALL_TASKS -> taskGroup.tasks
+                .shuffled()
+        }
 
-                    PlayMode.RANDOM_SINGLE_TASK -> getShuffledTaskList(
-                        numberOfTasks = 1,
-                        taskGroup = taskGroup
-                    )
-
-                    PlayMode.RANDOM_N_TASKS -> getShuffledTaskList(
-                        numberOfTasks = taskGroup.numberOfRandomTasks,
-                        taskGroup = taskGroup
-                    )
-
-                    PlayMode.RANDOM_ALL_TASKS -> getShuffledTaskList(
-                        numberOfTasks = taskGroup.tasks.size,
-                        taskGroup = taskGroup
-                    )
-                }
-
-                taskList.addAll(tasks)
-                totalDuration += taskGroupDuration
-            }
-
-            return UiSession(
-                sessionTitle = session.title,
-                taskList = taskList,
-                totalDuration = totalDuration
-            ).also { result ->
-                compiledSession = result
-            }
+        return selectedTasks.map { task ->
+            UiTask(
+                id = task.id,
+                taskGroupTitle = taskGroup.title,
+                taskGroupColor = Color(taskGroup.color),
+                taskTitle = task.title,
+                taskDuration = task.duration
+            )
         }
     }
 
     fun reset() {
         compiledSession = null
-    }
-
-    private fun getShuffledTaskList(
-        numberOfTasks: Int,
-        taskGroup: TaskGroup
-    ): Pair<List<UiTask>, Duration> {
-        val shuffledTasks = taskGroup.tasks.shuffled().take(numberOfTasks)
-        return getSequenceTaskList(taskGroup, shuffledTasks)
-    }
-
-    private fun getSequenceTaskList(
-        taskGroup: TaskGroup,
-        taskList: List<Task>? = null
-    ): Pair<List<UiTask>, Duration> {
-        val tasks = taskList ?: taskGroup.tasks
-
-        return tasks
-            .map { task ->
-                UiTask(
-                    id = task.id,
-                    taskGroupTitle = taskGroup.title,
-                    taskGroupColor = Color(taskGroup.color),
-                    taskTitle = task.title,
-                    taskDuration = task.duration
-                )
-            } to
-                tasks
-                    .map { it.duration }
-                    .fold(Duration.ZERO, Duration::plus)
     }
 }

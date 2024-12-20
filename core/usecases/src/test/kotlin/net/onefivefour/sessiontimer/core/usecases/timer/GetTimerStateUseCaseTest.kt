@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.timer.api.SessionTimer
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
-import net.onefivefour.sessiontimer.core.timer.api.model.TimerStatus
+import net.onefivefour.sessiontimer.core.timer.api.model.TimerState
 import org.junit.Test
 
-internal class GetTimerStatusUseCaseTest {
+internal class GetTimerStateUseCaseTest {
 
     private val sessionTimer: SessionTimer = mockk()
 
@@ -25,7 +25,7 @@ internal class GetTimerStatusUseCaseTest {
         runTest {
             // GIVEN
             coEvery { sessionTimer.getStatus() } returns flowOf(
-                TimerStatus()
+                TimerState()
             )
 
             // WHEN

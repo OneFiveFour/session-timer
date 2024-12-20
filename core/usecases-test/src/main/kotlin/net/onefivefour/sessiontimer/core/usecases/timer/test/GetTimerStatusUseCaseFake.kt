@@ -5,22 +5,22 @@ import javax.inject.Singleton
 import kotlin.time.Duration
 import kotlinx.coroutines.flow.MutableStateFlow
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
-import net.onefivefour.sessiontimer.core.timer.api.model.TimerStatus
+import net.onefivefour.sessiontimer.core.timer.api.model.TimerState
 import net.onefivefour.sessiontimer.core.usecases.api.timer.GetTimerStatusUseCase
 
 @Singleton
 class GetTimerStatusUseCaseFake @Inject constructor() : GetTimerStatusUseCase {
 
-    private var currentTimerStatus = MutableStateFlow(
-        TimerStatus(
+    private var currentTimerState = MutableStateFlow(
+        TimerState(
             mode = TimerMode.IDLE,
             elapsedDuration = Duration.ZERO
         )
     )
 
-    override fun execute() = currentTimerStatus
+    override fun execute() = currentTimerState
 
-    suspend fun update(timerStatus: TimerStatus) {
-        currentTimerStatus.emit(timerStatus)
+    suspend fun update(timerState: TimerState) {
+        currentTimerState.emit(timerState)
     }
 }
