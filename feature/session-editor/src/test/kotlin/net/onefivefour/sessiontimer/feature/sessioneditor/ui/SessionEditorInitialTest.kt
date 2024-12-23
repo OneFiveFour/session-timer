@@ -24,7 +24,6 @@ class SessionEditorInitialTest {
 
             onNodeWithText(initialMessage)
                 .assertIsDisplayed()
-
         }
     }
 
@@ -33,5 +32,4 @@ class SessionEditorInitialTest {
             SessionEditorInitial(initialMessage)
         }
     }
-
 }

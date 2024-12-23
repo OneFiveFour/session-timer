@@ -7,7 +7,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
@@ -37,7 +36,7 @@ internal class SessionTimerImplTest {
             delay(6000)
 
             // THEN
-            val status = sut.getStatus().first()
+            val status = sut.state.first()
             assertThat(status.mode).isEqualTo(TimerMode.FINISHED)
             assertThat(status.elapsedDuration >= totalDuration).isTrue()
         }
@@ -57,7 +56,7 @@ internal class SessionTimerImplTest {
             advanceUntilIdle()
 
             // THEN
-            val status = sut.getStatus().first()
+            val status = sut.state.first()
             assertThat(status.mode).isEqualTo(TimerMode.PAUSED)
             assertThat(status.elapsedDuration.inWholeSeconds).isEqualTo(2)
         }
@@ -75,7 +74,7 @@ internal class SessionTimerImplTest {
             sut.reset()
 
             // THEN
-            val status = sut.getStatus().first()
+            val status = sut.state.first()
             assertThat(status.mode).isEqualTo(TimerMode.IDLE)
             assertThat(status.elapsedDuration).isEqualTo(0.seconds)
         }
@@ -93,7 +92,7 @@ internal class SessionTimerImplTest {
             delay(3000)
 
             // THEN
-            val status1 = sut.getStatus().first()
+            val status1 = sut.state.first()
             assertThat(status1.mode).isEqualTo(TimerMode.RUNNING)
             assertThat(status1.elapsedDuration > Duration.ZERO).isTrue()
 
@@ -101,7 +100,7 @@ internal class SessionTimerImplTest {
             delay(3000)
 
             // THEN
-            val status2 = sut.getStatus().first()
+            val status2 = sut.state.first()
             assertThat(TimerMode.FINISHED).isEqualTo(status2.mode)
             assertThat(status2.elapsedDuration >= totalDuration)
         }

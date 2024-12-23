@@ -1,16 +1,16 @@
 package net.onefivefour.sessiontimer.feature.sessionplayer.domain
 
 import androidx.compose.ui.graphics.Color
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.time.Duration
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlin.time.Duration
 import net.onefivefour.sessiontimer.core.common.domain.model.PlayMode
 import net.onefivefour.sessiontimer.core.common.domain.model.Session
 import net.onefivefour.sessiontimer.core.common.domain.model.TaskGroup
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiSession
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 internal class SessionCompiler @Inject constructor() {
@@ -20,7 +20,6 @@ internal class SessionCompiler @Inject constructor() {
     private var compiledSession: UiSession? = null
 
     suspend fun compile(session: Session): UiSession = mutex.withLock {
-
         compiledSession?.let {
             return it
         }
@@ -47,14 +46,17 @@ internal class SessionCompiler @Inject constructor() {
     private fun compileTaskList(taskGroup: TaskGroup): List<UiTask> {
         val selectedTasks = when (taskGroup.playMode) {
             PlayMode.SEQUENCE -> taskGroup.tasks
-            PlayMode.RANDOM_SINGLE_TASK -> taskGroup.tasks
-                .shuffled()
-                .take(1)
-            PlayMode.RANDOM_N_TASKS -> taskGroup.tasks
-                .shuffled()
-                .take(taskGroup.numberOfRandomTasks)
-            PlayMode.RANDOM_ALL_TASKS -> taskGroup.tasks
-                .shuffled()
+            PlayMode.RANDOM_SINGLE_TASK ->
+                taskGroup.tasks
+                    .shuffled()
+                    .take(1)
+            PlayMode.RANDOM_N_TASKS ->
+                taskGroup.tasks
+                    .shuffled()
+                    .take(taskGroup.numberOfRandomTasks)
+            PlayMode.RANDOM_ALL_TASKS ->
+                taskGroup.tasks
+                    .shuffled()
         }
 
         return selectedTasks.map { task ->

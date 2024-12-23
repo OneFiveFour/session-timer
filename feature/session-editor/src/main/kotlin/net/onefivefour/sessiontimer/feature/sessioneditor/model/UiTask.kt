@@ -7,4 +7,3 @@ internal data class UiTask(
     val title: String,
     val duration: Duration
 )
-

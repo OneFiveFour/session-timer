@@ -9,12 +9,10 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 
 internal fun Modifier.addSessionControls(): Modifier = this.drawBehind {
-
     val cornerRadiusPx = 16.dp.toPx()
     val blurRadius = 20.dp.toPx()
     val rectPadding = 6.dp.toPx()

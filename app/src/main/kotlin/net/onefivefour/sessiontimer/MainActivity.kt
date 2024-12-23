@@ -21,9 +21,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SessionTimerTheme {
-                Box(Modifier
-                    .safeDrawingPadding()
-                    .padding(top = 16.dp, bottom = 42.dp)
+                Box(
+                    Modifier
+                        .safeDrawingPadding()
+                        .padding(top = 16.dp, bottom = 42.dp)
                 ) {
                     AppNavGraph()
                 }

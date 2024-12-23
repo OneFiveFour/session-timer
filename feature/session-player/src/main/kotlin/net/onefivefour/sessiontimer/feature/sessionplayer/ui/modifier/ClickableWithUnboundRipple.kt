@@ -8,9 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 
 @Composable
-internal fun Modifier.clickableWithUnboundRipple(
-    onClick: () -> Unit
-): Modifier = this.clickable(
+internal fun Modifier.clickableWithUnboundRipple(onClick: () -> Unit): Modifier = this.clickable(
     interactionSource = remember { MutableInteractionSource() },
     indication = ripple(bounded = false)
 ) {

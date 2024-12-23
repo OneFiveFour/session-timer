@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTimerState
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
+import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTimerState
 
 @Composable
 internal fun TaskProgressArc(
@@ -16,20 +16,22 @@ internal fun TaskProgressArc(
     startAngle: Float,
     endAngle: Float
 ) {
-
     fun calculateTaskProgress(task: UiTask, uiTimerState: UiTimerState): Float {
         return when (uiTimerState) {
             is UiTimerState.Finished -> 1f
             is UiTimerState.Initial -> 0f
-            is UiTimerState.Active -> when {
-                task == uiTimerState.currentTask ->
-                    (uiTimerState.elapsedTaskDuration / task.taskDuration).toFloat().coerceIn(0f, 1f)
-
-                uiTimerState.tasks.indexOf(task) < uiTimerState.tasks.indexOf(uiTimerState.currentTask) ->
-                    1f
-
-                else ->
-                    0f
+            is UiTimerState.Active -> {
+                val isCurrentTask = task == uiTimerState.currentTask
+                val taskIndex = uiTimerState.tasks.indexOf(task)
+                val currentTaskIndex = uiTimerState.tasks.indexOf(uiTimerState.currentTask)
+                when {
+                    isCurrentTask ->
+                        (uiTimerState.elapsedTaskDuration / task.taskDuration)
+                            .toFloat()
+                            .coerceIn(0f, 1f)
+                    taskIndex < currentTaskIndex -> 1f
+                    else -> 0f
+                }
             }
         }
     }

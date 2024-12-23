@@ -29,7 +29,7 @@ class AndroidTestPlugin : Plugin<Project> {
                 "testImplementation"(libs.libRobolectric)
                 "testImplementation"(libs.libComposeTestJUnit)
 
-                "debugImplementation"(libs.libComposeTestManifest)
+                "testImplementation"(libs.libComposeTestManifest)
             }
         }
     }

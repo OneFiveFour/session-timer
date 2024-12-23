@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import net.onefivefour.sessiontimer.core.theme.SessionTimerTheme
 import net.onefivefour.sessiontimer.feature.sessionplayer.ui.modifier.arc
 
-
 @Composable
 fun CircluarProgressNeon(
     modifier: Modifier = Modifier,
@@ -66,7 +65,6 @@ private fun Modifier.glow(
     progress: Float,
     startAngle: Float
 ): Modifier = this.drawWithCache {
-
     val normalizedStartAngle = -90f + startAngle
     val arcDegrees = progress * 360f
     val bounds = RectF(0f, 0f, size.width, size.height)
@@ -75,7 +73,7 @@ private fun Modifier.glow(
         asFrameworkPaint().also {
             it.isAntiAlias = true
             it.color = color.toArgb()
-            it.strokeWidth =  width.toPx()
+            it.strokeWidth = width.toPx()
             it.style = android.graphics.Paint.Style.STROKE
             it.strokeJoin = android.graphics.Paint.Join.ROUND
             it.strokeCap = android.graphics.Paint.Cap.ROUND
@@ -97,7 +95,7 @@ private fun Modifier.glow(
     )
 
     onDrawBehind {
-        //draw with the help of native canvas blurred and sweep-gradient  glowing ark
+        // draw with the help of native canvas blurred and sweep-gradient  glowing ark
         drawIntoCanvas { canvas ->
             canvas.nativeCanvas.drawArc(
                 glowBounds,
@@ -109,7 +107,6 @@ private fun Modifier.glow(
         }
     }
 }
-
 
 @Preview
 @Composable

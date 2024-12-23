@@ -6,6 +6,8 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -15,10 +17,9 @@ import net.onefivefour.sessiontimer.core.common.domain.model.getTotalDuration
 import net.onefivefour.sessiontimer.core.test.SavedStateHandleRule
 import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
-import net.onefivefour.sessiontimer.core.timer.api.model.TimerState
-import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_FINISHED
 import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_IDLE
 import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_RUNNING
+import net.onefivefour.sessiontimer.core.timer.test.model.fakeTimerStatusFinished
 import net.onefivefour.sessiontimer.core.usecases.api.session.GetSessionUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.InitSessionTimerUseCase
 import net.onefivefour.sessiontimer.core.usecases.api.timer.PauseTimerUseCase
@@ -31,8 +32,6 @@ import net.onefivefour.sessiontimer.feature.sessionplayer.domain.SessionCompiler
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTimerState
 import org.junit.Rule
 import org.junit.Test
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SessionTimerViewModelTest {
@@ -86,7 +85,7 @@ internal class SessionTimerViewModelTest {
             advanceUntilIdle()
 
             // THEN
-            sut.timerState.test {
+            sut.uiTimerState.test {
                 assertThat(awaitItem()).isInstanceOf(UiTimerState.Initial::class.java)
                 cancelAndIgnoreRemainingEvents()
             }
@@ -110,7 +109,7 @@ internal class SessionTimerViewModelTest {
             advanceUntilIdle()
 
             // THEN
-            sut.timerState.test {
+            sut.uiTimerState.test {
                 val firstState = awaitItem()
                 assertThat(firstState).isInstanceOf(UiTimerState.Active::class.java)
                 cancelAndIgnoreRemainingEvents()
@@ -131,7 +130,7 @@ internal class SessionTimerViewModelTest {
             advanceUntilIdle()
 
             // THEN
-            sut.timerState.test {
+            sut.uiTimerState.test {
                 val firstState = awaitItem()
                 assertThat(firstState).isInstanceOf(UiTimerState.Finished::class.java)
                 cancelAndIgnoreRemainingEvents()
@@ -367,8 +366,9 @@ internal class SessionTimerViewModelTest {
             // GIVEN
             coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
             val sut = sut()
+            val totalDuration = FAKE_SESSION.getTotalDuration()
             getTimerStatusUseCase.update(
-                FAKE_TIMER_STATUS_FINISHED(totalDuration = FAKE_SESSION.getTotalDuration())
+                fakeTimerStatusFinished(totalDuration = totalDuration)
             )
             advanceUntilIdle()
 
@@ -377,7 +377,8 @@ internal class SessionTimerViewModelTest {
             advanceUntilIdle()
 
             // THEN
-            val expectedDuration = FAKE_SESSION.getTotalDuration() - FAKE_SESSION.taskGroups.last().tasks.last().duration
+            val lastTaskDuration = FAKE_SESSION.taskGroups.last().tasks.last().duration
+            val expectedDuration = totalDuration - lastTaskDuration
             coVerify(exactly = 1) { seekTimerUseCase.execute(expectedDuration) }
         }
 

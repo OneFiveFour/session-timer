@@ -3,25 +3,15 @@ package net.onefivefour.sessiontimer.feature.sessionplayer
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.mockk
-import kotlin.time.Duration
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import net.onefivefour.sessiontimer.core.common.domain.model.FAKE_SESSION
-import net.onefivefour.sessiontimer.core.common.domain.model.getTotalDuration
 import net.onefivefour.sessiontimer.core.test.SavedStateHandleRule
 import net.onefivefour.sessiontimer.core.test.StandardTestDispatcherRule
-import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
-import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_IDLE
-import net.onefivefour.sessiontimer.core.timer.test.model.FAKE_TIMER_STATUS_RUNNING
 import net.onefivefour.sessiontimer.core.usecases.api.session.GetSessionUseCase
-import net.onefivefour.sessiontimer.core.usecases.api.timer.PauseTimerUseCase
-import net.onefivefour.sessiontimer.core.usecases.api.timer.ResetTimerUseCase
-import net.onefivefour.sessiontimer.core.usecases.api.timer.StartTimerUseCase
-import net.onefivefour.sessiontimer.core.usecases.timer.test.GetTimerStatusUseCaseFake
 import net.onefivefour.sessiontimer.feature.sessionplayer.api.SessionPlayerRoute
 import net.onefivefour.sessiontimer.feature.sessionplayer.domain.SessionCompiler
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
@@ -88,22 +78,21 @@ internal class SessionScreenViewModelTest {
         }
 
     @Test
-    fun `GIVEN a normal session WHEN sut is initialized THEN the uiState is Ready`() =
-        runTest {
-            // GIVEN
-            coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
+    fun `GIVEN a normal session WHEN sut is initialized THEN the uiState is Ready`() = runTest {
+        // GIVEN
+        coEvery { getSessionUseCase.execute(any()) } returns flowOf(FAKE_SESSION)
 
-            // WHEN
-            val sut = sut()
-            advanceUntilIdle()
+        // WHEN
+        val sut = sut()
+        advanceUntilIdle()
 
-            // THEN
-            sut.uiState.test {
-                val firstState = awaitItem()
-                assertThat(firstState).isInstanceOf(UiState.Ready::class.java)
-                cancelAndIgnoreRemainingEvents()
-            }
+        // THEN
+        sut.uiState.test {
+            val firstState = awaitItem()
+            assertThat(firstState).isInstanceOf(UiState.Ready::class.java)
+            cancelAndIgnoreRemainingEvents()
         }
+    }
 
     @Test
     fun `GIVEN a normal session WHEN the timer has finished THEN the uiState is Finished`() =

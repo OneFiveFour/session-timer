@@ -24,7 +24,7 @@ internal class GetTimerStateUseCaseTest {
     fun `GIVEN a new timerStates WHEN executing the UseCase THEN it is calling getStatus on the sessionTimer`() =
         runTest {
             // GIVEN
-            coEvery { sessionTimer.getStatus() } returns flowOf(
+            coEvery { sessionTimer.state } returns flowOf(
                 TimerState()
             )
 
@@ -36,6 +36,6 @@ internal class GetTimerStateUseCaseTest {
             }
 
             // THEN
-            verify { sessionTimer.getStatus() }
+            verify { sessionTimer.state }
         }
 }

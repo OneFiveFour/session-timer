@@ -7,6 +7,7 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlin.time.Duration
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -21,7 +22,6 @@ import net.onefivefour.sessiontimer.core.usecases.api.taskgroup.UpdateTaskGroupU
 import net.onefivefour.sessiontimer.feature.taskgroupeditor.api.TaskGroupEditorRoute
 import org.junit.Rule
 import org.junit.Test
-import kotlin.time.Duration
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class TaskGroupEditorViewModelTest {

@@ -1,17 +1,10 @@
 package net.onefivefour.sessiontimer.core.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -48,7 +41,7 @@ private val lightScheme = lightColorScheme(
     surfaceContainerLow = surfaceContainerLowLight,
     surfaceContainer = surfaceContainerLight,
     surfaceContainerHigh = surfaceContainerHighLight,
-    surfaceContainerHighest = surfaceContainerHighestLight,
+    surfaceContainerHighest = surfaceContainerHighestLight
 )
 
 private val darkScheme = darkColorScheme(
@@ -86,14 +79,11 @@ private val darkScheme = darkColorScheme(
     surfaceContainerLow = surfaceContainerLowDark,
     surfaceContainer = surfaceContainerDark,
     surfaceContainerHigh = surfaceContainerHighDark,
-    surfaceContainerHighest = surfaceContainerHighestDark,
+    surfaceContainerHighest = surfaceContainerHighestDark
 )
 
 @Composable
-fun SessionTimerTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
-) {
+fun SessionTimerTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colorScheme = when {
         darkTheme -> darkScheme
         else -> lightScheme

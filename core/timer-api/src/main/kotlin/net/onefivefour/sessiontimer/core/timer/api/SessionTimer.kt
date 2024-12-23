@@ -5,10 +5,10 @@ import kotlinx.coroutines.flow.Flow
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerState
 
 interface SessionTimer {
+    val state: Flow<TimerState>
     fun init(totalDuration: Duration)
     fun start()
     fun pause()
     fun reset()
-    fun getStatus(): Flow<TimerState>
     fun seekTo(seekTo: Duration)
 }

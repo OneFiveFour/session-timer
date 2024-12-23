@@ -13,6 +13,6 @@ internal class GetTimerStatusUseCaseImpl @Inject constructor(
 ) : GetTimerStatusUseCase {
 
     override fun execute(): Flow<TimerState> {
-        return sessionTimer.getStatus()
+        return sessionTimer.state
     }
 }

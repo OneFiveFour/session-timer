@@ -148,12 +148,12 @@ kover {
                     "*Hilt_*",
                     "*_HiltModules*",
                     "*BuildConfig",
-                    "*_Factory",
+                    "*_Factory"
                 )
                 packages(
                     "hilt_aggregated_deps",
                     "dagger.hilt.internal.aggregatedroot.codegen",
-                    "*.di",
+                    "*.di"
                 )
             }
         }

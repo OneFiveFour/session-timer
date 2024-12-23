@@ -25,17 +25,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlin.time.Duration.Companion.seconds
 import net.onefivefour.sessiontimer.core.theme.SessionTimerTheme
 import net.onefivefour.sessiontimer.feature.sessionplayer.SessionTimerViewModel
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiState
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
-import kotlin.time.Duration.Companion.seconds
 
 @Composable
 internal fun SessionPlayerReady(uiState: UiState.Ready) {
-
     val timerViewModel: SessionTimerViewModel = hiltViewModel()
-    val timerState by timerViewModel.timerState.collectAsStateWithLifecycle()
+    val timerState by timerViewModel.uiTimerState.collectAsStateWithLifecycle()
 
     DisposableEffect(Unit) {
         onDispose {
@@ -46,7 +45,7 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
     Column(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
-    )  {
+    ) {
         Text(
             text = uiState.sessionTitle,
             color = MaterialTheme.colorScheme.onBackground,
@@ -61,7 +60,6 @@ internal fun SessionPlayerReady(uiState: UiState.Ready) {
                 .aspectRatio(1f)
                 .padding(24.dp)
         ) {
-
             // grey background
             Box(
                 modifier = Modifier

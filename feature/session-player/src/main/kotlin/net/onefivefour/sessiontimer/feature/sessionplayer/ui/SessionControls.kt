@@ -51,7 +51,7 @@ internal fun SessionControls(
 
     val playButtonAction = when {
         isRunning -> onPauseSession
-        else ->  when {
+        else -> when {
             state is UiTimerState.Finished -> onResetSession
             else -> onStartSession
         }
@@ -89,7 +89,6 @@ internal fun SessionControls(
         )
     }
 }
-
 
 @Preview
 @Composable

@@ -24,7 +24,7 @@ kover {
             excludes {
                 classes(
                     "net.onefivefour.sessiontimer.core.database.*Queries*",
-                    "net.onefivefour.sessiontimer.core.database.database.*",
+                    "net.onefivefour.sessiontimer.core.database.database.*"
                 )
             }
         }

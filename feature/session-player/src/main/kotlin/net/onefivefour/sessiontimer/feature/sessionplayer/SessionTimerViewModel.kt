@@ -5,9 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -32,7 +33,6 @@ import net.onefivefour.sessiontimer.feature.sessionplayer.domain.SessionCompiler
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiSession
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTask
 import net.onefivefour.sessiontimer.feature.sessionplayer.model.UiTimerState
-import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 internal class SessionTimerViewModel @Inject constructor(
@@ -52,8 +52,8 @@ internal class SessionTimerViewModel @Inject constructor(
     private val _uiSessionFlow = MutableStateFlow<UiSession?>(null)
     private val uiSessionFlow = _uiSessionFlow.asStateFlow()
 
-    private var _uiTimerState = MutableStateFlow<UiTimerState>(UiTimerState.Initial())
-    val timerState = _uiTimerState.asStateFlow()
+    private val _uiTimerState = MutableStateFlow<UiTimerState>(UiTimerState.Initial())
+    val uiTimerState = _uiTimerState.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -85,11 +85,7 @@ internal class SessionTimerViewModel @Inject constructor(
         }.launchIn(scope)
     }
 
-    private fun computeTimerState(
-        uiSession: UiSession,
-        timerState: TimerState
-    ): UiTimerState {
-
+    private fun computeTimerState(uiSession: UiSession, timerState: TimerState): UiTimerState {
         if (uiSession.taskList.isEmpty()) {
             return UiTimerState.Initial()
         }
@@ -123,10 +119,7 @@ internal class SessionTimerViewModel @Inject constructor(
         )
     }
 
-    private fun findCurrentTask(
-        elapsedDuration: Duration,
-        tasks: List<UiTask>
-    ): UiTask? {
+    private fun findCurrentTask(elapsedDuration: Duration, tasks: List<UiTask>): UiTask? {
         var accumulatedDuration = Duration.ZERO
         return tasks.firstOrNull { task ->
             accumulatedDuration += task.taskDuration
@@ -154,17 +147,17 @@ internal class SessionTimerViewModel @Inject constructor(
 
         val seekTo = when (activeState.currentTask) {
             null -> activeState.tasks.firstOrNull()?.taskDuration ?: return
-            else -> activeState.tasks
-                .takeWhile { it != activeState.currentTask }
-                .fold(Duration.ZERO) { acc, task -> acc + task.taskDuration }
-                .plus(activeState.currentTask.taskDuration)
+            else ->
+                activeState.tasks
+                    .takeWhile { it != activeState.currentTask }
+                    .fold(Duration.ZERO) { acc, task -> acc + task.taskDuration }
+                    .plus(activeState.currentTask.taskDuration)
         }
 
         seekTimer.execute(seekTo)
     }
 
     fun onPreviousTask() {
-
         val state = _uiTimerState.value
         if (state is UiTimerState.Finished) {
             val session = _uiSessionFlow.value ?: return
@@ -172,13 +165,11 @@ internal class SessionTimerViewModel @Inject constructor(
             seekTimer.execute(session.totalDuration - lastTaskDuration)
         }
 
-
         if (state !is UiTimerState.Active) return
 
         val seekTo = when (state.currentTask) {
             null -> Duration.ZERO
             else -> {
-
                 val previousTasks = state.tasks
                     .takeWhile { it.id != state.currentTask.id }
 

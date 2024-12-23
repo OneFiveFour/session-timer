@@ -14,7 +14,7 @@ val FAKE_TIMER_STATUS_IDLE = TimerState(
     elapsedDuration = Duration.ZERO
 )
 
-fun FAKE_TIMER_STATUS_FINISHED(totalDuration: Duration) = TimerState(
+fun fakeTimerStatusFinished(totalDuration: Duration) = TimerState(
     TimerMode.FINISHED,
     elapsedDuration = totalDuration
 )

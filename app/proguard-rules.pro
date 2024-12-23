@@ -33,3 +33,37 @@
 -keep class * {
     @org.junit.Test *;
 }
+
+# JNA-related rules
+-dontwarn com.sun.jna.**
+-keep class com.sun.jna.** { *; }
+
+# Windows-specific JNA rules
+-dontwarn com.sun.jna.platform.win32.**
+-keep class com.sun.jna.platform.win32.** { *; }
+
+# ByteBuddy rules
+-dontwarn net.bytebuddy.**
+-keep class net.bytebuddy.** { *; }
+
+# Java Instrumentation rules
+-dontwarn java.lang.instrument.**
+-keep class java.lang.instrument.** { *; }
+
+# FindBugs annotations
+-dontwarn edu.umd.cs.findbugs.annotations.**
+-keep class edu.umd.cs.findbugs.annotations.** { *; }
+
+# SLF4J logging
+-dontwarn org.slf4j.**
+-keep class org.slf4j.** { *; }
+
+# MockK rules
+-dontwarn io.mockk.**
+-keep class io.mockk.** { *; }
+
+# Keep any classes using specific annotations
+-keep @edu.umd.cs.findbugs.annotations.SuppressFBWarnings class * { *; }
+-keep class * {
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings *;
+}

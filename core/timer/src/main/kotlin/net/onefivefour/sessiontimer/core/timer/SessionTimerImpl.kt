@@ -1,13 +1,15 @@
 package net.onefivefour.sessiontimer.core.timer
 
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -15,10 +17,6 @@ import net.onefivefour.sessiontimer.core.di.DefaultDispatcher
 import net.onefivefour.sessiontimer.core.timer.api.SessionTimer
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerMode
 import net.onefivefour.sessiontimer.core.timer.api.model.TimerState
-import javax.inject.Inject
-import javax.inject.Singleton
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
 
 @Singleton
 internal class SessionTimerImpl @Inject constructor(
@@ -29,6 +27,8 @@ internal class SessionTimerImpl @Inject constructor(
     private val timerScope = CoroutineScope(dispatcher)
 
     private var _state = MutableStateFlow(TimerState())
+    override val state = _state.asStateFlow()
+
     private var timerJob: Job? = null
 
     override fun init(totalDuration: Duration) {
@@ -48,7 +48,6 @@ internal class SessionTimerImpl @Inject constructor(
                     }
                 }
             }
-
     }
 
     override fun pause() {
@@ -87,7 +86,7 @@ internal class SessionTimerImpl @Inject constructor(
                     }
 
                     state.mode == TimerMode.FINISHED &&
-                            newElapsed < currentTotalDuration -> TimerMode.PAUSED
+                        newElapsed < currentTotalDuration -> TimerMode.PAUSED
 
                     else -> state.mode
                 }
@@ -96,8 +95,6 @@ internal class SessionTimerImpl @Inject constructor(
     }
 
     private fun updateTimerStatus() = updateProgress(Duration.ZERO)
-
-    override fun getStatus() = _state
 
     private fun cancelTimer() {
         timerJob?.cancel()
