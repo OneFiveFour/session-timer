@@ -31,7 +31,8 @@ internal class SessionTimerImplTest {
 
             // WHEN
             val sut = sut()
-            sut.start(totalDuration)
+            sut.init(totalDuration)
+            sut.start()
             delay(6000)
 
             // THEN
@@ -45,7 +46,8 @@ internal class SessionTimerImplTest {
         runTest {
             // GIVEN
             val sut = sut()
-            sut.start(10.seconds)
+            sut.init(10.seconds)
+            sut.start()
 
             // WHEN
             delay(2_100)
@@ -64,7 +66,8 @@ internal class SessionTimerImplTest {
         runTest {
             // GIVEN
             val sut = sut()
-            sut.start(10.seconds)
+            sut.init(10.seconds)
+            sut.start()
 
             // WHEN
             delay(5000)
@@ -82,7 +85,8 @@ internal class SessionTimerImplTest {
             // GIVEN
             val totalDuration = 5.seconds
             val sut = sut()
-            sut.start(totalDuration)
+            sut.init(totalDuration)
+            sut.start()
 
             // WHEN
             delay(3000)

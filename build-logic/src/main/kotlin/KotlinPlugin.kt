@@ -8,7 +8,7 @@ class KotlinPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.tasks.withType(KotlinCompile::class.java).configureEach {
             compilerOptions {
-                jvmTarget.set(JvmTarget.JVM_17)
+                jvmTarget.set(JvmTarget.JVM_21)
                 languageVersion.set(KotlinVersion.KOTLIN_1_9)
                 apiVersion.set(KotlinVersion.KOTLIN_1_9)
             }

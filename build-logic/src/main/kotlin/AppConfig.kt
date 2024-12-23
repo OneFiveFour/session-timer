@@ -4,5 +4,5 @@ object AppConfig {
     const val applicationId = "net.onefivefour.sessiontimer"
     const val targetSdk = 35
     const val versionCode = 1
-    const val versionName = "1.0.0"
+    const val versionName = "0.0.1"
 }

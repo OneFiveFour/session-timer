@@ -15,14 +15,12 @@ internal class StartTimerUseCaseTest {
     )
 
     @Test
-    fun `GIVEN a duration WHEN executing the UseCase with it THEN it is calling start on the sessionTimer`() {
-        // GIVEN
-        val totalDuration = Duration.ZERO
-
+    fun `WHEN executing the UseCase with it THEN it is calling start on the sessionTimer`() {
         // WHEN
-        sut().execute(totalDuration)
+        val sut = sut()
+        sut.execute()
 
         // THEN
-        verify { sessionTimer.start(totalDuration) }
+        verify { sessionTimer.start() }
     }
 }
