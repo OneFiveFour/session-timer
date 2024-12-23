@@ -19,3 +19,17 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Keep JUnit-related classes
+-dontwarn org.junit.**
+-dontwarn org.apiguardian.**
+-dontwarn junit.**
+
+# Keep Test classes
+-keep class * extends junit.framework.TestCase
+-keep class * extends androidx.test.ext.junit.runners.AndroidJUnit4
+
+# Keep all test classes
+-keep class * {
+    @org.junit.Test *;
+}
