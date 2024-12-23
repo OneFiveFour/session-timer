@@ -16,7 +16,7 @@ internal class SessionExtTest {
         val result = session.getTotalDuration()
 
         // THEN
-        assertThat(result).isEqualTo(20.seconds)
+        assertThat(result).isEqualTo(60.seconds)
     }
 
     @Test
