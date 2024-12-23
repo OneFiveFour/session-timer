@@ -40,12 +40,15 @@ internal class SessionTimerImpl @Inject constructor(
         if (timerJob?.isActive == true) return
 
         _state.update { it.copy(mode = TimerMode.RUNNING) }
-        timerJob = timerScope.launch {
-            while (isActive) {
-                delay(frameRate)
-                updateProgress(frameRate)
+            .also {
+                timerJob = timerScope.launch {
+                    while (isActive) {
+                        delay(frameRate)
+                        updateProgress(frameRate)
+                    }
+                }
             }
-        }
+
     }
 
     override fun pause() {
@@ -94,11 +97,7 @@ internal class SessionTimerImpl @Inject constructor(
 
     private fun updateTimerStatus() = updateProgress(Duration.ZERO)
 
-    override fun getStatus() = _state.stateIn(
-        scope = timerScope,
-        started = SharingStarted.Eagerly,
-        initialValue = TimerState()
-    )
+    override fun getStatus() = _state
 
     private fun cancelTimer() {
         timerJob?.cancel()
