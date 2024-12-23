@@ -14,7 +14,8 @@ plugins {
 
 val signingProperties = Properties()
 val signingFile = file("keystore/sessiontimer.properties")
-if (signingFile.exists()) {
+val hasSigningConfig = signingFile.exists()
+if (hasSigningConfig) {
     signingProperties.load(signingFile.inputStream())
 }
 
@@ -32,14 +33,16 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    signingConfigs {
-        create("signing") {
-            enableV3Signing = true
-            enableV4Signing = true
-            storeFile = file(signingProperties.getProperty("signing.storeFilePath"))
-            storePassword = signingProperties.getProperty("signing.storePassword")
-            keyAlias = signingProperties.getProperty("signing.keyAlias")
-            keyPassword = signingProperties.getProperty("signing.keyPassword")
+    if (hasSigningConfig) {
+        signingConfigs {
+            create("signing") {
+                enableV3Signing = true
+                enableV4Signing = true
+                storeFile = file(signingProperties.getProperty("signing.storeFilePath"))
+                storePassword = signingProperties.getProperty("signing.storePassword")
+                keyAlias = signingProperties.getProperty("signing.keyAlias")
+                keyPassword = signingProperties.getProperty("signing.keyPassword")
+            }
         }
     }
 
@@ -48,7 +51,9 @@ android {
             isDebuggable = true
         }
         release {
-            signingConfig = signingConfigs.getByName("signing")
+            if (hasSigningConfig) {
+                signingConfig = signingConfigs.getByName("signing")
+            }
             isDebuggable = false
             isMinifyEnabled = true
             isShrinkResources = true
