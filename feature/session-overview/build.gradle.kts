@@ -3,7 +3,6 @@ plugins {
     id("st.android.compose")
     id("st.android.hilt")
     id("st.ktlint")
-    id("st.kotlin.test")
     id("st.android.test")
 }
 

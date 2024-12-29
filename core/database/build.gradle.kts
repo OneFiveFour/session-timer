@@ -18,19 +18,6 @@ sqldelight {
     }
 }
 
-kover {
-    reports {
-        filters {
-            excludes {
-                classes(
-                    "net.onefivefour.sessiontimer.core.database.*Queries*",
-                    "net.onefivefour.sessiontimer.core.database.database.*"
-                )
-            }
-        }
-    }
-}
-
 dependencies {
 
     implementation(project(":core:common"))

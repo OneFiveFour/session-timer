@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.kover)
     id("com.android.application")
     id("st.kotlin")
     id("st.ktlint")
@@ -134,28 +133,4 @@ dependencies {
 
     // Navigation
     implementation(libs.bundles.navigation)
-}
-
-kover {
-    reports {
-        filters {
-            excludes {
-                annotatedBy("Generated")
-                classes(
-                    "net.onefivefour.sessiontimer.MainApplication",
-                    "net.onefivefour.sessiontimer.MainActivity",
-                    "*ComposableSingletons*",
-                    "*Hilt_*",
-                    "*_HiltModules*",
-                    "*BuildConfig",
-                    "*_Factory"
-                )
-                packages(
-                    "hilt_aggregated_deps",
-                    "dagger.hilt.internal.aggregatedroot.codegen",
-                    "*.di"
-                )
-            }
-        }
-    }
 }
